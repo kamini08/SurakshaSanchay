@@ -59,21 +59,21 @@ const options: ApexOptions = {
     fontWeight: 500,
     fontSize: "14px",
 
-    markers: {
-      radius: 99,
-    },
+    // markers: {
+    //   radius: 99,
+    // },
   },
   fill: {
     opacity: 1,
   },
 };
 
-interface ChartTwoState {
-  series: {
-    name: string;
-    data: number[];
-  }[];
-}
+// interface ChartTwoState {
+//   series: {
+//     name: string;
+//     data: number[];
+//   }[];
+// }
 
 const ChartTwo: React.FC = () => {
   const series = [
