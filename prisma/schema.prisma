@@ -19,24 +19,27 @@ datasource db {
 
 enum UserRole {
   ADMIN
+  INCHARGE
   USER
 }
 
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  password      String?
-  number String?
-  role          String?
-  accounts      Account[]
- isTwoFactorEnabled Boolean @default(true)
- twoFactorConfirmation TwoFactorConfirmation?
- 
+  id                     String                 @id @default(cuid())
+  name                   String?
+  email                  String?                @unique
+  emailVerified          DateTime?
+  image                  String?
+  password               String?
+  role                   UserRole
+  accounts               Account[]
+  isTwoFactorEnabled     Boolean                @default(false)
+  twoFactorConfirmation  TwoFactorConfirmation?
+  govId                  String?                // Government ID (optional)
+  location               String?                // Location (optional)
+  phone                  String?                // Phone number (optional)
 }
+
 model Account {
   id                 String  @id @default(cuid())
   userId             String  
