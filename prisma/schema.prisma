@@ -1,0 +1,182 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Category {
+  COMMUNICATION_DEVICES
+  COMPUTER_AND_IT_EQUIPMENT
+  NETWORKING_EQUIPMENT
+  SURVEILLANCE_AND_TRACKING
+  VEHICLE_AND_ACCESSORIES
+  PROTECTIVE_GEAR
+  FIREARMS
+  FORENSIC
+  MEDICAL_FIRST_AID
+  OFFICE_SUPPLIES
+}
+
+enum UserRole {
+  ADMIN
+  USER
+  INCHARGE
+}
+
+model User {
+  id        String   @id @default(cuid())
+  govId     String   @unique
+  name      String
+  email     String   @unique
+  password  String
+  role      UserRole @default(USER)
+  phoneNumber String?
+  location  String?
+
+  inventoryItems InventoryItem[]
+}
+
+model InventoryItem {
+  id                  String     @id @default(cuid())
+  itemId              String     @unique
+  category            Category
+  name                String
+  description         String?
+  quantity            Int        @default(1)
+  location            String?
+  condition           String     @default("new")
+  acquisitionDate     DateTime?
+  expiryDate          DateTime?
+  price               Float?
+  supplier            String?
+  assignedTo          String?
+  lastInspectionDate  DateTime?
+  maintenanceSchedule String?
+
+  userId              String?
+  user                User?      @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  communicationDevice CommunicationDevice?
+  computerAndITEquipment ComputerAndITEquipment?
+  networkingEquipment NetworkingEquipment?
+  surveillanceAndTracking SurveillanceAndTracking?
+  vehicleAndAccessories VehicleAndAccessories?
+  protectiveGear ProtectiveGear?
+  firearm Firearm?
+  forensicEquipment ForensicEquipment?
+  medicalFirstAid MedicalFirstAid?
+  officeSupply OfficeSupply?
+}
+
+model CommunicationDevice {
+  id              String   @id @default(cuid())
+  inventoryItemId String   @unique
+  frequencyRange  String?
+  batteryType     String?
+  connectivity    String?
+
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Cascade)
+}
+
+model ComputerAndITEquipment {
+  id              String   @id @default(cuid())
+  inventoryItemId String   @unique
+  processor       String?
+  RAM             String?
+  storage         String?
+  OS              String?
+
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Cascade)
+}
+
+model NetworkingEquipment {
+  id              String   @id @default(cuid())
+  inventoryItemId String   @unique
+  bandwidth       String?
+  ports           String?
+  protocols       String?
+
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Cascade)
+}
+
+model SurveillanceAndTracking {
+  id              String   @id @default(cuid())
+  inventoryItemId String   @unique
+  cameraResolution String?
+  nightVision     Boolean  @default(false)
+  GPSAccuracy     String?
+
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Cascade)
+}
+
+model VehicleAndAccessories {
+  id              String   @id @default(cuid())
+  inventoryItemId String   @unique
+  vehicleType     String?
+  makeAndModel    String?
+  licensePlate    String?
+  engineCapacity  String?
+  accessories     String[]
+
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Cascade)
+}
+
+model ProtectiveGear {
+  id              String   @id @default(cuid())
+  inventoryItemId String   @unique
+  protectionLevel String?
+  size            String?
+  material        String?
+
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Cascade)
+}
+
+model Firearm {
+  id              String   @id @default(cuid())
+  inventoryItemId String   @unique
+  caliber         String?
+  ammoType        String?
+  serialNumber    String?
+  licenseDetails  String?
+
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Cascade)
+}
+
+model ForensicEquipment {
+  id              String   @id @default(cuid())
+  inventoryItemId String   @unique
+  usageType       String?
+  sensitivity     String?
+  storageRequirements String?
+
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Cascade)
+}
+
+model MedicalFirstAid {
+  id              String   @id @default(cuid())
+  inventoryItemId String   @unique
+  expirationDate  DateTime?
+  dosage          String?
+  storageConditions String?
+
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Cascade)
+}
+
+model OfficeSupply {
+  id              String   @id @default(cuid())
+  inventoryItemId String   @unique
+  itemType        String?
+  dimensions      String?
+  material        String?
+
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Cascade)
+}
