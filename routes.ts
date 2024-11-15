@@ -6,7 +6,7 @@
   export const publicRoutes = ["/login", "/about"];
 */
 
-export const publicRoutes = ["/", "/auth/new-verification"];
+export const publicRoutes = ["/", "/auth/new-verification","/api/inventory","/api/maintenance/request"];
 
 /*
   Define your private routes here. These routes will require authentication.
@@ -16,6 +16,8 @@ export const publicRoutes = ["/", "/auth/new-verification"];
   export const authRoutes = ["/dashboard", "/profile"];
 */
 export const authRoutes = [
+"/api/maintenance/request",
+ "/inventory",
   "/auth/login",
   "/auth/register",
   "/auth/error",
@@ -30,7 +32,7 @@ export const authRoutes = [
 
   export const apiAuthPrefix = "/api/auth";
 */
-export const apiAuthPrefix = "/api/auth";
+export const apiAuthPrefix = "/api";
 
 /*
   Define your default login redirect path here. This is the path that users will be redirected to after logging in.
