@@ -54,7 +54,7 @@ export const {
       }
 
       if (token.role && session.user) {
-        session.user.role = token.role;
+        session.user.role = token.role as "user" | "admin" | "incharge";
       }
       if (token.number && session.user) {
         session.user.number = token.number.toString();
@@ -70,7 +70,7 @@ export const {
       if (!existingUser) return token;
 
       token.role = existingUser.role;
-      token.number = existingUser.number;
+      // token.number = existingUser.number;
 
       return token;
     },

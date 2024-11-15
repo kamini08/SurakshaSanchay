@@ -18,3 +18,12 @@ export const getUserById = async (id: string) => {
     return null;
   }
 };
+
+export const getUserByGovId = async (govId: string) => {
+  try {
+    const user = await db.user.findUnique({ where: { govId } });
+    return user;
+  } catch {
+    return null;
+  }
+};

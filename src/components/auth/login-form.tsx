@@ -70,7 +70,6 @@ export const LoginForm = () => {
       headerLabel="Welcome back"
       backButtonLabel="Don't have an account"
       backButtonHref="/auth/register"
-      showSocial
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -98,6 +97,24 @@ export const LoginForm = () => {
               <>
                 <FormField
                   control={form.control}
+                  name="govId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Government Id</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          disabled={isPending}
+                          placeholder="123123123123"
+                          type="text"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
                   name="email"
                   render={({ field }) => (
                     <FormItem>
@@ -106,7 +123,7 @@ export const LoginForm = () => {
                         <Input
                           {...field}
                           disabled={isPending}
-                          placeholder="abcd.18@example.com"
+                          placeholder="email@example.com"
                           type="email"
                         />
                       </FormControl>

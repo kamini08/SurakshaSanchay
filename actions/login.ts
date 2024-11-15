@@ -24,12 +24,15 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     return { error: "Invalid Fields" };
   }
 
-  const { email, password, code } = validatedFields.data;
+  const { govId, email, password, code } = validatedFields.data;
 
   const existingUser = await getUserByEmail(email);
 
   if (!existingUser || !existingUser.email || !existingUser.password) {
     return { error: "Email does not exist!" };
+  }
+  if (govId !== existingUser.govId) {
+    return { error: "Government Id does not match!" };
   }
 
   if (!existingUser.emailVerified) {
@@ -97,6 +100,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   }
   try {
     await signIn("credentials", {
+      govId,
       email,
       password,
       redirectTo: DEFAULT_LOGIN_REDIRECT,
