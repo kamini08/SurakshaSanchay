@@ -47,6 +47,9 @@ model User {
   location               String?                // Location (optional)
   phone                  String?                // Phone number (optional)
    inventoryItems InventoryItem[]
+   maintenanceRequests    MaintenanceRequest[]
+   notifications      Notification[] @relation("UserNotifications")
+  inchargeNotifications Notification[] @relation("InchargeNotifications")
 
 }
 
@@ -56,6 +59,7 @@ model Account {
   type               String
   provider           String
   providerAccountId  String 
+
   refresh_token      String? @db.Text
   access_token       String? @db.Text
   expires_at         Int?
@@ -107,7 +111,7 @@ model InventoryItem {
   id                  String     @id @default(cuid())
   itemId              String     @unique
   category            Category
-  name                String
+  type                String
   description         String?
   quantity            Int        @default(1)
   location            String?
@@ -117,8 +121,12 @@ model InventoryItem {
   price               Float?
   supplier            String?
   assignedTo          String?
+  returnDate          String?
   lastInspectionDate  DateTime?
   maintenanceSchedule String?
+  maintenanceCharge   Float?
+  issuedTo            String?
+
 
   userId              String?
   user                User?      @relation(fields: [userId], references: [id], onDelete: SetNull)
@@ -133,7 +141,36 @@ model InventoryItem {
   forensicEquipment ForensicEquipment?
   medicalFirstAid MedicalFirstAid?
   officeSupply OfficeSupply?
+
+  maintenanceRequests    MaintenanceRequest[]
+
 }
+
+model MaintenanceRequest {
+  id                 String           @id @default(cuid())
+  itemId             String           // Foreign key to InventoryItem
+  item               InventoryItem    @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  userId             String           // Foreign key to User
+  user               User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  technicianId       String?          // Technician field (optional)
+  status             MaintenanceStatus @default(PENDING)
+  requestDate        DateTime         @default(now())
+  approvalDate       DateTime?
+  completionDate     DateTime?
+  issueDescription   String
+  resolutionDetails  String?
+  discardReason      String?
+}
+
+
+enum MaintenanceStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  COMPLETED
+  DISCARDED
+}
+
 
 model CommunicationDevice {
   id              String   @id @default(cuid())
@@ -237,4 +274,16 @@ model OfficeSupply {
   material        String?
 
   inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Cascade)
+}
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String   // User ID (User who created the maintenance request)
+  inchargeId String  // Incharge ID (User who will be notified)
+  message   String   // Notification message
+  read      Boolean  @default(false) // Whether the notification has been read
+  createdAt DateTime @default(now()) // Timestamp of when the notification was created
+
+  // Add relation names to avoid ambiguity
+  user      User     @relation("UserNotifications", fields: [userId], references: [id])
+  incharge  User     @relation("InchargeNotifications", fields: [inchargeId], references: [id])
 }
