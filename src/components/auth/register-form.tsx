@@ -34,6 +34,8 @@ export const RegisterForm = () => {
       name: "",
       number: "",
       role: "",
+      govId: "",
+      location: "",
     },
   });
 
@@ -54,11 +56,10 @@ export const RegisterForm = () => {
       headerLabel="Create an account"
       backButtonLabel="Already have an account"
       backButtonHref="/auth/login"
-      showSocial
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className=" space-y-4 ">
+          <div className="space-y-4">
             <FormField
               control={form.control}
               name="name"
@@ -90,35 +91,56 @@ export const RegisterForm = () => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="number"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Phone Number</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      disabled={isPending}
-                      placeholder="9878987690"
-                      type="number"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="flex flex-row gap-5">
+              <FormField
+                control={form.control}
+                name="number"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Phone Number</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        disabled={isPending}
+                        placeholder="9878987690"
+                        type="number"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="location"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Location</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        disabled={isPending}
+                        placeholder="Area Name"
+                        type="text"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
             <FormField
               control={form.control}
               name="role"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Occupation</FormLabel>
+                  <FormLabel>Designation</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       disabled={isPending}
-                      placeholder="Farmer | Buyer"
+                      placeholder="Admin | Incharge | User"
                       type="text"
                     />
                   </FormControl>
@@ -126,6 +148,25 @@ export const RegisterForm = () => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="govId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Government ID</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      placeholder="Gov ID "
+                      type="text"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="password"

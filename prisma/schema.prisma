@@ -33,13 +33,13 @@ enum UserRole {
 
 model User {
   id                     String                 @id @default(cuid())
-  govId                  String?  
+  govId                  String?  @unique 
   name                   String?
   email                  String?                @unique
   emailVerified          DateTime?
   image                  String?
   password               String?
-  role                   UserRole
+  role                   String? 
   accounts               Account[]
   isTwoFactorEnabled     Boolean                @default(false)
   twoFactorConfirmation  TwoFactorConfirmation?

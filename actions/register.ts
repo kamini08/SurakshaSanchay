@@ -7,38 +7,50 @@ import { RegisterSchema } from "../schemas";
 import { getUserByEmail } from "../data/user";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "../src/lib/mail";
-import { use } from "react";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
+  // Validate input fields
   const validatedFields = RegisterSchema.safeParse(values);
-
   if (!validatedFields.success) {
-    return { error: "Invalid Fields" };
+    return { error: "Invalid fields provided." };
   }
 
-  const { email, password, name, number, role } = validatedFields.data;
+  const { email, password, name, number, role, govId, location } =
+    validatedFields.data;
 
+  // Define acceptable roles and validate the provided role
   if (
-    role.toLocaleLowerCase() !== "farmer" &&
-    role.toLocaleLowerCase() !== "buyer"
+    role.toLocaleLowerCase() !== "admin" &&
+    role.toLocaleLowerCase() !== "user" &&
+    role.toLocaleLowerCase() !== "incharge"
   ) {
     return { error: "Role should be entered properly" };
   }
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const caseRole = role.toLowerCase();
 
+  // Check if email already exists
   const existingUser = await getUserByEmail(email);
-
   if (existingUser) {
-    return { error: "Email already exists" };
+    return { error: "Email already exists." };
   }
 
+  // Hash the password and create the user
+  const hashedPassword = await bcrypt.hash(password, 10);
   await db.user.create({
-    data: { email, password: hashedPassword, name, number, role },
+    data: {
+      email,
+      password: hashedPassword,
+      name,
+      phone: number,
+      role: caseRole, // Use normalized role
+      govId,
+      location,
+    },
   });
 
+  // Generate a verification token and send verification email
   const verificationToken = await generateVerificationToken(email);
-
-  await sendVerificationEmail(verificationToken.email, verificationToken.token);
+  await sendVerificationEmail(email, verificationToken.token);
 
   return { success: "Confirmation email sent!" };
 };
