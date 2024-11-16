@@ -1,41 +1,32 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
+export async function POST(req: NextRequest) {
+  const { message, userId, inchargeId } = await req.json();
 
-type Data = {
-  message?: string;
-  error?: string;
-  notification?: any;
-};
+  if (!message || !userId || !inchargeId) {
+    return NextResponse.json(
+      { error: 'All fields are required: message, userId, inchargeId' },
+      { status: 400 }
+    );
+  }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
-  if (req.method === 'POST') {
-    const { message, userId, inchargeId } = req.body;
+  try {
+    const notification = await prisma.notification.create({
+      data: {
+        message,
+        userId,
+        inchargeId,
+      },
+    });
 
-    if (!message || !userId || !inchargeId) {
-      return res.status(400).json({ error: 'All fields are required: message, userId, inchargeId' });
-    }
-
-    try {
-      const notification = await prisma.notification.create({
-        data: {
-          message,
-          userId,
-          inchargeId,
-        },
-      });
-
-      return res.status(201).json({ message: 'Notification created successfully', notification });
-    } catch (error) {
-      console.error('Error creating notification:', error);
-      return res.status(500).json({ error: 'Something went wrong' });
-    }
-  } else {
-    res.setHeader('Allow', ['POST']);
-    res.status(405).json({ error: `Method ${req.method} not allowed` });
+    return NextResponse.json({
+      message: 'Notification created successfully',
+      notification,
+    });
+  } catch (error) {
+    console.error('Error creating notification:', error);
+    return NextResponse.json({ error: 'Something went wrong' }, { status: 500 });
   }
 }
