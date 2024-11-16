@@ -40,7 +40,7 @@ const defaultData: Package[] = [
     expiryDate: "Default",
     price: 0.0,
     supplier: "Default",
-    assignedTo: "Default",
+    //assignedTo: "Default",
     returnDate: "Default",
     lastInspectionDate: "Default",
     maintenanceSchedule: "Default",
@@ -60,7 +60,7 @@ const defaultData: Package[] = [
     expiryDate: "2024-01-13",
     price: 1500.0,
     supplier: "TechCorp",
-    assignedTo: "Jane Smith",
+    //assignedTo: "Jane Smith",
     returnDate: "2023-12-01",
     lastInspectionDate: "2023-11-01",
     maintenanceSchedule: "Monthly",
@@ -165,7 +165,7 @@ const  viewInventory = () => {
                 <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">Expiry Date</th>
                 <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">Price</th>
                 <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">Supplier</th>
-                <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">Assigned to</th>
+                {/* <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">Assigned to</th> */}
                 <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">Return Date</th>
                 <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">Last Inspection Date</th>
                 <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">Maintenance Schedule</th>
@@ -321,7 +321,7 @@ const  viewInventory = () => {
                       item.supplier
                     )}
                   </td>
-                  <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
+                  {/* <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                     {editMode === index ? (
                       <input
                         type="text"
@@ -333,7 +333,7 @@ const  viewInventory = () => {
                     ) : (
                       item.assignedTo
                     )}
-                  </td>
+                  </td> */}
                   <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                     {editMode === index ? (
                       <input
