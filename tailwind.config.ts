@@ -3,12 +3,13 @@ import defaultTheme from "tailwindcss/defaultTheme";
 const colors = require("tailwindcss/colors");
 
 const config: Config = {
+  darkMode: ["class"],
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  darkMode: "class",
+  prefix: "",
   theme: {
     fontFamily: {
       satoshi: ["Satoshi", "sans-serif"],
@@ -18,6 +19,13 @@ const config: Config = {
       xsm: "425px",
       "3xl": "2000px",
       ...defaultTheme.screens,
+    },
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
     },
     extend: {
       colors: {
@@ -342,6 +350,8 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 };
 export default config;
+
+
