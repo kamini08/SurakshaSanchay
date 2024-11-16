@@ -70,7 +70,7 @@ const defaultData: Package[] = [
   },
 ];
 
-const  viewInventory = () => {
+const  ViewInventory = () => {
   const [packageData, setPackageData] = useState<Package[]>(defaultData);
   const [loading, setLoading] = useState(true);
   const [editMode, setEditMode] = useState<number | null>(null); // Track the row being edited by index
@@ -471,4 +471,4 @@ const  viewInventory = () => {
   );
 };
 
-export default viewInventory;
+export default ViewInventory;
