@@ -1,37 +1,33 @@
-import { PrismaClient } from "@prisma/client";
-import { NextApiRequest, NextApiResponse } from "next";
-const prisma=new PrismaClient;
+import { PrismaClient } from '@prisma/client';
+import { NextRequest, NextResponse } from 'next/server';
 
-export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse<any>
-  ) {
-    if (req.method === 'GET') {
-      const { userId, inchargeId } = req.query;
-  
-      if (!userId && !inchargeId) {
-        return res.status(400).json({ error: 'Either userId or inchargeId is required' });
-      }
-  
-      try {
-        const notifications = await prisma.notification.findMany({
-          where: {
-            OR: [
-              { userId: userId as string },
-              { inchargeId: inchargeId as string },
-            ],
-          },
-          orderBy: { createdAt: 'desc' },
-        });
-  
-        return res.status(200).json({ notifications });
-      } catch (error) {
-        console.error('Error fetching notifications:', error);
-        return res.status(500).json({ error: 'Something went wrong' });
-      }
-    } else {
-      res.setHeader('Allow', ['GET']);
-      res.status(405).json({ error: `Method ${req.method} not allowed` });
-    }
+const prisma = new PrismaClient();
+
+export async function GET(req: NextRequest) {
+  const userId = req.nextUrl.searchParams.get('userId');
+const inchargeId = req.nextUrl.searchParams.get('inchargeId');
+
+  if (!userId && !inchargeId) {
+    return NextResponse.json(
+      { error: 'Either userId or inchargeId is required' },
+      { status: 400 }
+    );
   }
-  
+
+  try {
+    const notifications = await prisma.notification.findMany({
+      where: {
+        OR: [
+          { userId: userId as string },
+          { inchargeId: inchargeId as string },
+        ],
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return NextResponse.json({ notifications });
+  } catch (error) {
+    console.error('Error fetching notifications:', error);
+    return NextResponse.json({ error: 'Something went wrong' }, { status: 500 });
+  }
+}
