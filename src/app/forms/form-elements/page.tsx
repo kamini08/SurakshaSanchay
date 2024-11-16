@@ -1,17 +1,17 @@
-// import React from "react";
-// import FormElements from "@/components/FormElements";
+import React from "react";
+import FormElements from "@/components/FormElements";
 
-// import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
 
 
-// const FormElementsPage = () => {
-//   return (
-//     <DefaultLayout>
-//       <FormElements />
+const FormElementsPage = () => {
+  return (
+    <DefaultLayout>
+      <FormElements />
       
-//     </DefaultLayout>
-//   );
-// };
+    </DefaultLayout>
+  );
+};
 
-// export default FormElementsPage;
+export default FormElementsPage;
