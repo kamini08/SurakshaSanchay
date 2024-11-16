@@ -149,7 +149,7 @@ model InventoryItem {
 model MaintenanceRequest {
   id                 String           @id @default(cuid())
   itemId             String           // Foreign key to InventoryItem
-  item               InventoryItem    @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  item               InventoryItem    @relation(fields: [itemId], references: [itemId], onDelete: Cascade)
   userId             String           // Foreign key to User
   user               User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   technicianId       String?          // Technician field (optional)
