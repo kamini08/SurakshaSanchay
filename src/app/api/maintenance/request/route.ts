@@ -1,67 +1,101 @@
+import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 type EnumMaintenanceStatusFieldUpdateOperationsInput = 'COMPLETED' | 'DISCARDED';
-// Submit Maintenance Request
-async function submitRequest(userId: any, itemId: any, issueDescription: any) {
+
+export async function POST(request:any) {
   try {
-    return await prisma.maintenanceRequest.create({
+    const { userId, itemId, issueDescription } = await request.json();
+
+    // Validate input
+    if (!userId || !itemId || !issueDescription) {
+      return NextResponse.json(
+        { success: false, message: 'userId, itemId, and issueDescription are required.' },
+        { status: 400 }
+      );
+    }
+
+    // Check if the related InventoryItem exists
+    const existingItem = await prisma.inventoryItem.findUnique({
+      where: { itemId },
+    });
+
+    if (!existingItem) {
+      return NextResponse.json(
+        { success: false, message: `InventoryItem with itemId '${itemId}' does not exist.` },
+        { status: 404 }
+      );
+    }
+
+    // Create the maintenance request and link it to the existing InventoryItem
+    const newRequest = await prisma.maintenanceRequest.create({
       data: {
-        userId,
-        itemId,
         issueDescription,
+        user: {
+          connect: { id: userId }, // Connect to the existing User
+        },
+        item: {
+          connect: { itemId }, // Connect to the existing InventoryItem
+        },
       },
     });
+
+    return NextResponse.json({ success: true, data: newRequest }, { status: 201 });
   } catch (error) {
-    console.error("Error in submitRequest:", error);
+    console.error('Error in POST /maintenance/request:', error);
+    return NextResponse.json({ success: false, message: 'Internal server error' }, { status: 500 });
   }
 }
 
-// Approve Request & Assign Technician
-async function approveRequest(requestId: any, technicianId: any) {
+// Get all maintenance requests (GET)
+export async function GET() {
   try {
-    return await prisma.maintenanceRequest.update({
-      where: { id: requestId },
-      data: {
-        status: 'APPROVED',
-        technicianId, // Make sure technicianId exists in the schema
-        approvalDate: new Date(),
-      },
-    });
+    const requests = await prisma.maintenanceRequest.findMany();
+    return NextResponse.json({ success: true, data: requests }, { status: 200 });
   } catch (error) {
-    console.error("Error in approveRequest:", error);
+    console.error('Error in GET /maintenance/request:', error);
+    return NextResponse.json({ success: false, message: 'Internal server error' }, { status: 500 });
   }
 }
 
-// Reject Request
-async function rejectRequest(requestId: any, discardReason: any) {
+
+// Update a maintenance request (PUT)
+export async function PUT(request: Request) {
   try {
-    return await prisma.maintenanceRequest.update({
-      where: { id: requestId },
-      data: {
-        status: 'REJECTED',
-        discardReason,
-      },
-    });
+    const { action, requestId, technicianId, resolutionDetails, isRepaired, discardReason } = await request.json();
+    let updatedRequest;
+
+    switch (action) {
+      case 'approve':
+        updatedRequest = await prisma.maintenanceRequest.update({
+          where: { itemId: requestId },
+          data: { status: 'APPROVED', technicianId, approvalDate: new Date() },
+        });
+        break;
+      case 'reject':
+        updatedRequest = await prisma.maintenanceRequest.update({
+          where: { itemId: requestId },
+          data: { status: 'REJECTED', discardReason },
+        });
+        break;
+      case 'complete':
+        const status: EnumMaintenanceStatusFieldUpdateOperationsInput = isRepaired ? 'COMPLETED' : 'DISCARDED';
+        const updateData = isRepaired
+          ? { status, resolutionDetails, completionDate: new Date() }
+          : { status, resolutionDetails, discardReason: 'Irreparable', completionDate: new Date() };
+
+        updatedRequest = await prisma.maintenanceRequest.update({
+          where: { itemId: requestId },
+          data: updateData,
+        });
+        break;
+      default:
+        return NextResponse.json({ success: false, message: 'Invalid action type' }, { status: 400 });
+    }
+    return NextResponse.json({ success: true, data: updatedRequest }, { status: 200 });
   } catch (error) {
-    console.error("Error in rejectRequest:", error);
+    console.error('Error in PUT /maintenance/request:', error);
+    return NextResponse.json({ success: false, message: 'Internal server error' }, { status: 500 });
   }
 }
-
-// Complete Maintenance Request (Repair or Replacement)
-async function completeRequest(requestId: any, resolutionDetails: any, isRepaired: any) {
-  try {
-    const status = isRepaired ? 'COMPLETED' : 'DISCARDED';
-    const updateData = isRepaired
-      ? { status:'COMPLETED' as EnumMaintenanceStatusFieldUpdateOperationsInput, resolutionDetails, completionDate: new Date() }
-      : { status:'DISCARDED' as EnumMaintenanceStatusFieldUpdateOperationsInput, resolutionDetails, discardReason: 'Irreparable', completionDate: new Date() };
-
-    return await prisma.maintenanceRequest.update({
-      where: { id: requestId },
-      data: updateData,
-    });
-  } catch (error) {
-    console.error("Error in completeRequest:", error);
-  }
-}
-          
