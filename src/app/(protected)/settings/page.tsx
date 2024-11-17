@@ -12,7 +12,7 @@ const SettingsPage = async () => {
   const session = await auth();
 
   return (
-    <div>
+    <div className="text-center">
       {JSON.stringify(session?.user)}
 
       <form

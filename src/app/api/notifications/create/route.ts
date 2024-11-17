@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
         inchargeId,
       },
     });
-
+    
     return NextResponse.json({
       message: 'Notification created successfully',
       notification,

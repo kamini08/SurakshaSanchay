@@ -4,13 +4,43 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 type EnumMaintenanceStatusFieldUpdateOperationsInput = 'COMPLETED' | 'DISCARDED';
 
-// Submit Maintenance Request (POST)
-export async function POST(request: Request) {
+export async function POST(request:any) {
   try {
     const { userId, itemId, issueDescription } = await request.json();
-    const newRequest = await prisma.maintenanceRequest.create({
-      data: { userId, itemId, issueDescription },
+
+    // Validate input
+    if (!userId || !itemId || !issueDescription) {
+      return NextResponse.json(
+        { success: false, message: 'userId, itemId, and issueDescription are required.' },
+        { status: 400 }
+      );
+    }
+
+    // Check if the related InventoryItem exists
+    const existingItem = await prisma.inventoryItem.findUnique({
+      where: { itemId },
     });
+
+    if (!existingItem) {
+      return NextResponse.json(
+        { success: false, message: `InventoryItem with itemId '${itemId}' does not exist.` },
+        { status: 404 }
+      );
+    }
+
+    // Create the maintenance request and link it to the existing InventoryItem
+    const newRequest = await prisma.maintenanceRequest.create({
+      data: {
+        issueDescription,
+        user: {
+          connect: { id: userId }, // Connect to the existing User
+        },
+        item: {
+          connect: { itemId }, // Connect to the existing InventoryItem
+        },
+      },
+    });
+
     return NextResponse.json({ success: true, data: newRequest }, { status: 201 });
   } catch (error) {
     console.error('Error in POST /maintenance/request:', error);
@@ -39,13 +69,13 @@ export async function PUT(request: Request) {
     switch (action) {
       case 'approve':
         updatedRequest = await prisma.maintenanceRequest.update({
-          where: { id: requestId },
+          where: { itemId: requestId },
           data: { status: 'APPROVED', technicianId, approvalDate: new Date() },
         });
         break;
       case 'reject':
         updatedRequest = await prisma.maintenanceRequest.update({
-          where: { id: requestId },
+          where: { itemId: requestId },
           data: { status: 'REJECTED', discardReason },
         });
         break;
@@ -56,7 +86,7 @@ export async function PUT(request: Request) {
           : { status, resolutionDetails, discardReason: 'Irreparable', completionDate: new Date() };
 
         updatedRequest = await prisma.maintenanceRequest.update({
-          where: { id: requestId },
+          where: { itemId: requestId },
           data: updateData,
         });
         break;
