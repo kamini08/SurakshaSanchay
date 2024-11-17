@@ -210,7 +210,7 @@ export async function PUT(req:Request) {
         });
       
         if (!user || user.role !== 'admin') {
-          return { success: false, message: 'Permission denied: Only admins can update inventory items.' };
+          return NextResponse.json({ success: false, message: 'Permission denied: Only admins can update inventory items.' });
         }
         
     if (!itemId || !fieldsToUpdate) {
