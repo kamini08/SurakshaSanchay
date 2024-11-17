@@ -70,7 +70,7 @@ export const {
       if (!existingUser) return token;
 
       token.role = existingUser.role;
-      // token.number = existingUser.number;
+      token.number = existingUser.phone;
 
       return token;
     },

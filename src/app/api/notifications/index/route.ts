@@ -15,16 +15,17 @@ const inchargeId = req.nextUrl.searchParams.get('inchargeId');
   }
 
   try {
+    const whereCondition = {
+      OR: [
+        ...(userId ? [{ userId }] : []), // Include only if userId is provided
+        ...(inchargeId ? [{ inchargeId }] : []), // Include only if inchargeId is provided
+      ],
+    };
+
     const notifications = await prisma.notification.findMany({
-      where: {
-        OR: [
-          { userId: userId as string },
-          { inchargeId: inchargeId as string },
-        ],
-      },
+      where: whereCondition,
       orderBy: { createdAt: 'desc' },
     });
-
     return NextResponse.json({ notifications });
   } catch (error) {
     console.error('Error fetching notifications:', error);
