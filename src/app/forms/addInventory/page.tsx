@@ -1,268 +1,18 @@
-// "use client";
-// import React from "react";
-// import DefaultLayout from "@/components/Layouts/DefaultLayout";
-// import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-// import DatePickerOne from "@/components/FormElements/DatePicker/DatePickerOne";
-// import DatePickerTwo from "@/components/FormElements/DatePicker/DatePickerTwo";
-// import MultiSelect from "@/components/FormElements/MultiSelect";
-
-// const AddInventory = () => {
-//   return (
-//     <DefaultLayout>
-//       <Breadcrumb pageName="ADD INVENTORY ITEMS" />
-
-//       <div className="container mx-auto px-6">
-//         {/* <h1 className="text-2xl font-bold mb-4">Add Inventory Item</h1> */}
-
-//         <form className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-//           {/* Item ID */}
-//           <div className="flex flex-col">
-//             <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-//               Item ID
-//             </label>
-//             <input
-//               type="text"
-//               name="itemId"
-//               placeholder="Enter Item ID"
-//               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-//             />
-//           </div>
-
-//           {/* Category */}
-//           <div className="flex flex-col">
-//             <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-//               Category
-//             </label>
-//             <MultiSelect
-//               id="category"
-//               options={[
-//                 "communicationDevice",
-//                 "computerAndITEquipment",
-//                 "networkingEquipment",
-//                 "surveillanceAndTracking",
-//                 "vehicleAndAccessories",
-//                 "protectiveGear",
-//                 "firearm",
-//                 "forensicEquipment",
-//                 "medicalFirstAid",
-//                 "officeSupply"
-//               ]}
-//             />
-//           </div>
-
-//           {/* Type */}
-//           <div className="flex flex-col">
-//             <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-//               Type
-//             </label>
-//             <input
-//               type="text"
-//               name="type"
-//               placeholder="Enter Type"
-//               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-//             />
-//           </div>
-
-//           {/* Description */}
-//           <div className="flex flex-col md:col-span-2 lg:col-span-3">
-//             <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-//               Description
-//             </label>
-//             <textarea
-//               name="description"
-//               placeholder="Enter Description"
-//               rows={4}
-//               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-//             ></textarea>
-//           </div>
-
-//           {/* Quantity */}
-//           <div className="flex flex-col">
-//             <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-//               Quantity
-//             </label>
-//             <input
-//               type="number"
-//               name="quantity"
-//               min="1"
-//               placeholder="Enter Quantity"
-//               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-//             />
-//           </div>
-
-//           {/* Location */}
-//           <div className="flex flex-col">
-//             <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-//               Location
-//             </label>
-//             <input
-//               type="text"
-//               name="location"
-//               placeholder="Enter Location"
-//               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-//             />
-//           </div>
-
-//           {/* Condition */}
-//           <div className="flex flex-col">
-//             <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-//               Condition
-//             </label>
-//             <input
-//               type="text"
-//               name="condition"
-//               placeholder="Enter Condition"
-//               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-//             />
-//           </div>
-
-//           {/* Acquisition Date */}
-//           <div className="flex flex-col">
-//             <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-//               Acquisition Date
-//             </label>
-//             <DatePickerOne />
-//           </div>
-
-//           {/* Expiry Date */}
-//           <div className="flex flex-col">
-//             <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-//               Expiry Date
-//             </label>
-//             <DatePickerTwo />
-//           </div>
-
-//           {/* Price */}
-//           <div className="flex flex-col">
-//             <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-//               Price
-//             </label>
-//             <input
-//               type="number"
-//               name="price"
-//               placeholder="Enter Price"
-//               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-//             />
-//           </div>
-
-//           {/* Supplier */}
-//           <div className="flex flex-col">
-//             <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-//               Supplier
-//             </label>
-//             <input
-//               type="text"
-//               name="supplier"
-//               placeholder="Enter Supplier"
-//               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-//             />
-//           </div>
-
-//           {/* Assigned To */}
-//           <div className="flex flex-col">
-//             <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-//               Assigned To
-//             </label>
-//             <input
-//               type="text"
-//               name="assignedTo"
-//               placeholder="Enter Assignee"
-//               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-//             />
-//           </div>
-
-//           {/* Return Date */}
-//           <div className="flex flex-col">
-//             <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-//               Return Date
-//             </label>
-//             <input
-//               type="date"
-//               name="returnDate"
-//               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-//             />
-//           </div>
-
-//           {/* Last Inspection Date */}
-//           <div className="flex flex-col">
-//             <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-//               Last Inspection Date
-//             </label>
-//             <input
-//               type="date"
-//               name="lastInspectionDate"
-//               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-//             />
-//           </div>
-
-//           {/* Maintenance Schedule */}
-//           <div className="flex flex-col">
-//             <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-//               Maintenance Schedule
-//             </label>
-//             <input
-//               type="text"
-//               name="maintenanceSchedule"
-//               placeholder="Enter Maintenance Schedule"
-//               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-//             />
-//           </div>
-
-//           {/* Maintenance Charge */}
-//           <div className="flex flex-col">
-//             <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-//               Maintenance Charge
-//             </label>
-//             <input
-//               type="number"
-//               name="maintenanceCharge"
-//               placeholder="Enter Maintenance Charge"
-//               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-//             />
-//           </div>
-
-//           {/* Issued To */}
-//           <div className="flex flex-col">
-//             <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-//               Issued To
-//             </label>
-//             <input
-//               type="text"
-//               name="issuedTo"
-//               placeholder="Enter Issued To"
-//               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-//             />
-//           </div>
-//           <div className="flex flex-col">
-//             <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-//               User ID
-//             </label>
-//             <input
-//               type="text"
-//               name="userId"
-//               placeholder="Enter User Id"
-//               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-//             />
-//           </div>
-//         </form>
-//       </div>
-//     </DefaultLayout>
-//   );
-// };
-
-// export default AddInventory;
 "use client";
 
-import { useState,ChangeEvent, FormEvent } from "react";
+import { useState,ChangeEvent, FormEvent, useEffect } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import MultiSelect from "@/components/FormElements/MultiSelect";
+import { nullable } from "zod";
+
 
 const AddInventory = () => {
+   
   // State for Inventory Form
-  const [inventoryFormData, setInventoryFormData] = useState({
+  const [itemData, setItemData] = useState({
     itemId: "",
-    category: [] as string[],
+    category: "",
     type: "",
     description: "",
     quantity: 1,
@@ -280,36 +30,59 @@ const AddInventory = () => {
     userId: "",
   });
 
+  const [categorySpecificData, setCategorySpecificData] = useState({
+    frequencyRange: '',
+    batteryType: '',
+    connectivity: '',
+    processor: '',
+    RAM: '',
+    storage: '',
+    OS: '',
+  });
+
+ 
   // Handle field changes for Inventory
   const handleInventoryChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setInventoryFormData((prev) => ({ ...prev, [name]: value }));
+    setItemData((prev) => ({ ...prev, [name]: value }));
   };
 
   // Handle multi-select change for categories
-  const handleCategoryChange = (selectedCategories: string[]) => {
-    setInventoryFormData((prev) => ({ ...prev, category: selectedCategories }));
+  const handleCategoryChange = (selectedCategory: string) => {
+    setItemData((prev) => ({ ...prev, category: selectedCategory }));
   };
+
+  // Debugging: Log the payload
+  console.log("Submitting form with data:", {
+    itemData,
+    categorySpecificData,
+  });
 
   // Submit Inventory Form
   const handleInventorySubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const updatedItemData = Object.fromEntries(
+      Object.entries(itemData).map(([key, value]) => [key, value || null])
+    );
+    
+    // const updatedItemData = { ...itemData};
     try {
       const response = await fetch("/api/inventory", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(inventoryFormData),
+        body: JSON.stringify({itemData:updatedItemData, categorySpecificData}),
       });
 
       if (response.ok) {
         alert("Inventory added successfully!");
-        setInventoryFormData({
+        setItemData({
           itemId: "",
-          category: [],
+          category: "",
           type: "",
           description: "",
           quantity: 1,
@@ -354,7 +127,7 @@ const AddInventory = () => {
                   type="text"
                   name="itemId"
                   placeholder="Enter Item ID"
-                  value={inventoryFormData.itemId}
+                  value={itemData.itemId}
                   onChange={handleInventoryChange}
                   required
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
@@ -366,23 +139,25 @@ const AddInventory = () => {
                 <label className="mb-3 block text-sm font-medium text-black dark:text-white">
                   Category <span className="text-meta-1">*</span>
                 </label>
-                <MultiSelect
-                  id="category"
-                  options={[
-                    "communicationDevice",
-                    "computerAndITEquipment",
-                    "networkingEquipment",
-                    "surveillanceAndTracking",
-                    "vehicleAndAccessories",
-                    "protectiveGear",
-                    "firearm",
-                    "forensicEquipment",
-                    "medicalFirstAid",
-                    "officeSupply",
-                  ]}
-                  selectedOptions={inventoryFormData.category}
-                  onChange={handleCategoryChange}
-                />
+                <select
+  name="category"
+  value={itemData.category}
+  onChange={(e) => handleCategoryChange(e.target.value)}
+  required
+  className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
+>
+  <option value="">Select Category</option>
+  <option value="communicationDevice">Communication Device</option>
+  <option value="COMPUTER_AND_IT_EQUIPMENT">Computer and IT Equipment</option>
+  <option value="networkingEquipment">Networking Equipment</option>
+  <option value="surveillanceAndTracking">Surveillance and Tracking</option>
+  <option value="vehicleAndAccessories">Vehicle and Accessories</option>
+  <option value="protectiveGear">Protective Gear</option>
+  <option value="firearm">Firearm</option>
+  <option value="forensicEquipment">Forensic Equipment</option>
+  <option value="medicalFirstAid">Medical First Aid</option>
+  <option value="officeSupply">Office Supply</option>
+</select>
               </div>
 
               {/* Type */}
@@ -394,7 +169,7 @@ const AddInventory = () => {
                   type="text"
                   name="type"
                   placeholder="Enter Type"
-                  value={inventoryFormData.type}
+                  value={itemData.type}
                   onChange={handleInventoryChange}
                   required
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
@@ -409,7 +184,7 @@ const AddInventory = () => {
                 <textarea
                   name="description"
                   placeholder="Enter Description"
-                  value={inventoryFormData.description}
+                  value={itemData.description}
                   onChange={handleInventoryChange}
                   required
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
@@ -424,7 +199,7 @@ const AddInventory = () => {
                 <input
                   type="number"
                   name="quantity"
-                  value={inventoryFormData.quantity}
+                  value={itemData.quantity}
                   onChange={handleInventoryChange}
                   required
                   min="1"
@@ -441,7 +216,7 @@ const AddInventory = () => {
                   type="text"
                   name="location"
                   placeholder="Enter Location"
-                  value={inventoryFormData.location}
+                  value={itemData.location}
                   onChange={handleInventoryChange}
                   required
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
@@ -457,7 +232,7 @@ const AddInventory = () => {
                   type="text"
                   name="condition"
                   placeholder="Enter Condition"
-                  value={inventoryFormData.condition}
+                  value={itemData.condition}
                   onChange={handleInventoryChange}
                   required
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
@@ -472,9 +247,8 @@ const AddInventory = () => {
                 <input
                   type="date"
                   name="acquisitionDate"
-                  value={inventoryFormData.acquisitionDate}
+                  value={itemData.acquisitionDate}
                   onChange={handleInventoryChange}
-                  required
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                 />
               </div>
@@ -486,7 +260,7 @@ const AddInventory = () => {
                 <input
                   type="date"
                   name="expiryDate"
-                  value={inventoryFormData.expiryDate}
+                  value={itemData.expiryDate}
                   onChange={handleInventoryChange}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                 />
@@ -501,7 +275,7 @@ const AddInventory = () => {
                   type="number"
                   name="price"
                   placeholder="Enter Price"
-                  value={inventoryFormData.price}
+                  value={itemData.price}
                   onChange={handleInventoryChange}
                   required
                   min="0"
@@ -519,7 +293,7 @@ const AddInventory = () => {
                   type="text"
                   name="supplier"
                   placeholder="Enter Supplier"
-                  value={inventoryFormData.supplier}
+                  value={itemData.supplier}
                   onChange={handleInventoryChange}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                 />
@@ -533,7 +307,7 @@ const AddInventory = () => {
                 <input
                   type="date"
                   name="returnDate"
-                  value={inventoryFormData.returnDate}
+                  value={itemData.returnDate}
                   onChange={handleInventoryChange}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                 />
@@ -547,7 +321,7 @@ const AddInventory = () => {
                 <input
                   type="date"
                   name="lastInspectionDate"
-                  value={inventoryFormData.lastInspectionDate}
+                  value={itemData.lastInspectionDate}
                   onChange={handleInventoryChange}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                 />
@@ -562,7 +336,7 @@ const AddInventory = () => {
                   type="text"
                   name="maintenanceSchedule"
                   placeholder="Enter Maintenance Schedule"
-                  value={inventoryFormData.maintenanceSchedule}
+                  value={itemData.maintenanceSchedule}
                   onChange={handleInventoryChange}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                 />
@@ -577,7 +351,7 @@ const AddInventory = () => {
                   type="number"
                   name="maintenanceCharge"
                   placeholder="Enter Maintenance Charge"
-                  value={inventoryFormData.maintenanceCharge}
+                  value={itemData.maintenanceCharge}
                   onChange={handleInventoryChange}
                   min="0"
                   step="0.01"
@@ -594,7 +368,7 @@ const AddInventory = () => {
                   type="text"
                   name="issuedTo"
                   placeholder="Enter Name of Person or Unit"
-                  value={inventoryFormData.issuedTo}
+                  value={itemData.issuedTo}
                   onChange={handleInventoryChange}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                 />
@@ -609,7 +383,7 @@ const AddInventory = () => {
                   type="text"
                   name="userId"
                   placeholder="Enter User ID"
-                  value={inventoryFormData.userId}
+                  value={itemData.userId}
                   onChange={handleInventoryChange}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                 />
