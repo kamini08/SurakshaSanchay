@@ -171,7 +171,7 @@ const menuGroups = [
         route: "#",
         children: [
           { label: "Issue Item to User", route: "/forms/issueInventoryItem" },
-          { label: "Record Item Return", route: "/ui/buttons" },
+          { label: "Record Item Return", route: "/forms/recordItemReturn" },
         ],
       },
       {
@@ -264,7 +264,7 @@ const menuGroups = [
 
         ),
         label: "Notifications",
-        route: "/tables",
+        route: "/forms/notification",
       },
       {
         icon: (
@@ -299,7 +299,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Settings",
-        route: "/settings",
+        route: "/settings1",
       },
       {
         icon: (
@@ -333,8 +333,8 @@ const menuGroups = [
             </defs>
           </svg>
         ),
-        label: "Chart",
-        route: "/chart",
+        label: "Budget Forecast",
+        route: "/tables",
       },
      
       {

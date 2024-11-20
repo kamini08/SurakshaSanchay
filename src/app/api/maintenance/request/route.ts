@@ -69,13 +69,13 @@ export async function PUT(request: Request) {
     switch (action) {
       case 'approve':
         updatedRequest = await prisma.maintenanceRequest.update({
-          where: { itemId: requestId },
+          where: { id: requestId },
           data: { status: 'APPROVED', technicianId, approvalDate: new Date() },
         });
         break;
       case 'reject':
         updatedRequest = await prisma.maintenanceRequest.update({
-          where: { itemId: requestId },
+          where: { id: requestId },
           data: { status: 'REJECTED', discardReason },
         });
         break;
@@ -86,7 +86,7 @@ export async function PUT(request: Request) {
           : { status, resolutionDetails, discardReason: 'Irreparable', completionDate: new Date() };
 
         updatedRequest = await prisma.maintenanceRequest.update({
-          where: { itemId: requestId },
+          where: { id: requestId },
           data: updateData,
         });
         break;
