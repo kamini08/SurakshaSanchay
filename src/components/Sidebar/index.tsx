@@ -11,6 +11,7 @@ import useLocalStorage from "@/hooks/useLocalStorage";
 interface SidebarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (arg: boolean) => void;
+  // setSidebarOpen:React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const menuGroups = [
