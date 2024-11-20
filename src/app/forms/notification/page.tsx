@@ -1,5 +1,7 @@
 'use client';
 import { useState } from "react";
+import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
 interface Notification {
   sender: string;
@@ -46,12 +48,14 @@ const NotificationTable = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h1 className="text-2xl font-bold mb-4">Notifications</h1>
+    <DefaultLayout>
+      <Breadcrumb pageName="NOTIFICATIONS" />
+      <div className="bg-white rounded-lg shadow-md p-6 border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+      
 
       {/* Toolbar */}
-      <div className="flex justify-between items-center mb-4">
-        <div className="flex space-x-2">
+      <div className="flex justify-between items-center mb-4 border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+        <div className="flex space-x-2 border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <button
             onClick={handleDelete}
             className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
@@ -75,7 +79,7 @@ const NotificationTable = () => {
       </div>
 
       {/* Notification Table */}
-      <table className="w-full border-collapse">
+      <table className="w-full border-collapse border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <thead>
           <tr className="bg-gray-100">
             <th className="p-3 text-left">
@@ -124,12 +128,13 @@ const NotificationTable = () => {
 
       {/* Footer */}
       <div className="mt-4">
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-500 border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           Showing {filteredNotifications.length} of {notifications.length}{" "}
           notifications
         </p>
       </div>
     </div>
+    </DefaultLayout>
   );
 };
 
