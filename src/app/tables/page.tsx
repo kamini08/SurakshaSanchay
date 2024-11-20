@@ -21,7 +21,6 @@ interface ItemReturnFormData {
   penalty: number | null;
   notes: string | null;
   returnMethod: string;
- 
 }
 
 const ItemReturnForm = () => {
@@ -42,21 +41,21 @@ const ItemReturnForm = () => {
     penalty: null,
     notes: null,
     returnMethod: "In-Person", // Default method
-  
   });
 
   // Handle field changes
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
+
     setItemReturnFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value, // Update the form state with the input value
     }));
   };
 
-  // Submit the form
+  // Submit the form and POST data to the backend
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -71,6 +70,7 @@ const ItemReturnForm = () => {
 
       if (response.ok) {
         alert("Item return submitted successfully!");
+        // Reset form data after successful submission
         setItemReturnFormData({
           returnId: "",
           userId: "",
@@ -87,7 +87,6 @@ const ItemReturnForm = () => {
           penalty: null,
           notes: null,
           returnMethod: "In-Person",
-          
         });
       } else {
         const errorData = await response.json();
@@ -108,7 +107,7 @@ const ItemReturnForm = () => {
           <form onSubmit={handleSubmit}>
             <div className="p-6.5 grid grid-cols-1 gap-6 sm:grid-cols-2">
               {/* Form Fields */}
-              {[ 
+              {[
                 { name: "returnId", label: "Return ID", type: "text", required: true },
                 { name: "userId", label: "User ID", type: "text", required: true },
                 { name: "userName", label: "User Name", type: "text", required: true },
@@ -123,7 +122,6 @@ const ItemReturnForm = () => {
                 { name: "penalty", label: "Penalty (if applicable)", type: "number" },
                 { name: "notes", label: "Additional Notes", type: "textarea" },
                 { name: "returnMethod", label: "Return Method", type: "dropdown", options: ["In-Person", "Courier"], required: true },
-               
               ].map(({ name, label, type, options = [], required }) => (
                 <div key={name}>
                   <label className="mb-3 block text-sm font-medium text-black dark:text-white">
