@@ -101,7 +101,7 @@ const handleCategoryFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 };
 const handleInventorySubmit = async (e: FormEvent<HTMLFormElement>) => {
   e.preventDefault();
-
+  console.log(itemData);
   try {
     const response = await fetch("/api/inventory", {
       method: "POST",
