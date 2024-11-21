@@ -10,6 +10,8 @@ export const metadata: Metadata = {
 };
 const SettingsPage = async () => {
   const session = await auth();
+  const user = session?.user.id;
+  console.log(user);
 
   return (
     <div className="text-center">
