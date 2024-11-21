@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import { auth } from '../../../../auth';
+// import { db } from '@/lib/db';
 
 const prisma = new PrismaClient();
 
@@ -119,28 +120,35 @@ switch (itemData.category) {
 export async function POST(req: Request) {
   try {
     const session = await auth(); // Fetch session server-side
-  const userId = session?.user.id || null;
+    const userId = session?.user.id || null;
+    // const userId="cm3kg2lk50000mbsh62xi263w";
     const body = await req.json();
-    console.log("details of body are",body);
-    const { itemData,categorySpecificData } = body;
 
-    if (!itemData ||!categorySpecificData) {
+    if (!body || !body.itemData || !body.categorySpecificData) {
       return NextResponse.json(
-        { success: false, message: 'userId,categorySpecificData and itemData are required.' },
+        { success: false, message: "itemData and categorySpecificData are required." },
         { status: 400 }
       );
     }
-    if (userId !== null) {
-    const response = await addInventoryItem(userId, itemData,categorySpecificData);
 
-    if (!(response instanceof NextResponse)) {
-    if (response.success) {
+    if (!userId) {
+      return NextResponse.json(
+        { success: false, message: "Authentication failed. User ID is missing." },
+        { status: 401 }
+      );
+    }
+
+    const { itemData, categorySpecificData } = body;
+
+    const response = await addInventoryItem(userId, itemData, categorySpecificData);
+
+    if ((response as any).success) {
       return NextResponse.json(response, { status: 201 });
     } else {
       return NextResponse.json(response, { status: 400 });
     }
-  }
-  } }catch (error: any) {
+  } catch (error: any) {
+    // Handle any unexpected errors
     return NextResponse.json(
       { success: false, message: `Internal server error: ${error.message}` },
       { status: 500 }
