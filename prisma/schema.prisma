@@ -8,7 +8,7 @@ datasource db {
   directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
-enum Category {
+ enum Category {
   COMMUNICATION_DEVICES
   COMPUTER_AND_IT_EQUIPMENT
   NETWORKING_EQUIPMENT
@@ -106,8 +106,7 @@ model TwoFactorConfirmation {
 }
 
 model InventoryItem {
-  id                  String    @id @default(cuid())
-  itemId              String    @unique
+  itemId              String     @id
   category            Category
   type                String
   description         String?
@@ -118,7 +117,6 @@ model InventoryItem {
   expiryDate          DateTime?
   price               Float?
   supplier            String?
-  assignedTo          String?
   returnDate          String?
   lastInspectionDate  DateTime?
   maintenanceSchedule String?
@@ -128,9 +126,9 @@ model InventoryItem {
   userId String?
   user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
 
-  communicationDevice     CommunicationDevice?
-  computerAndITEquipment  ComputerAndITEquipment?
-  networkingEquipment     NetworkingEquipment?
+  communicationDevice CommunicationDevice?  
+  computerAndITEquipment ComputerAndITEquipment?
+  networkingEquipment NetworkingEquipment?
   surveillanceAndTracking SurveillanceAndTracking?
   vehicleAndAccessories   VehicleAndAccessories?
   protectiveGear          ProtectiveGear?
@@ -167,19 +165,19 @@ enum IssuanceStatus {
 }
 
 model MaintenanceRequest {
-  id                String            @id @default(cuid())
-  itemId            String // Foreign key to InventoryItem
-  item              InventoryItem     @relation(fields: [itemId], references: [id], onDelete: Cascade)
-  userId            String // Foreign key to User
-  user              User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  technicianId      String? // Technician field (optional)
-  status            MaintenanceStatus @default(PENDING)
-  requestDate       DateTime          @default(now())
-  approvalDate      DateTime?
-  completionDate    DateTime?
-  issueDescription  String
-  resolutionDetails String?
-  discardReason     String?
+  id                 String           @id @default(cuid())
+  itemId             String          @unique // Foreign key to InventoryItem
+  item               InventoryItem    @relation(fields: [itemId], references: [itemId], onDelete: Cascade)
+  userId             String           // Foreign key to User
+  user               User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  technicianId       String?          // Technician field (optional)
+  status             MaintenanceStatus @default(PENDING)
+  requestDate        DateTime         @default(now())
+  approvalDate       DateTime?
+  completionDate     DateTime?
+  issueDescription   String
+  resolutionDetails  String?
+  discardReason      String?
 }
 
 enum MaintenanceStatus {
@@ -197,9 +195,8 @@ model CommunicationDevice {
   batteryType     String?
   connectivity    String?
 
-  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Cascade)
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
-
 model ComputerAndITEquipment {
   id              String  @id @default(cuid())
   inventoryItemId String  @unique
@@ -208,7 +205,7 @@ model ComputerAndITEquipment {
   storage         String?
   OS              String?
 
-  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Cascade)
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model NetworkingEquipment {
@@ -218,7 +215,7 @@ model NetworkingEquipment {
   ports           String?
   protocols       String?
 
-  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Cascade)
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model SurveillanceAndTracking {
@@ -228,7 +225,7 @@ model SurveillanceAndTracking {
   nightVision      Boolean @default(false)
   GPSAccuracy      String?
 
-  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Cascade)
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model VehicleAndAccessories {
@@ -240,7 +237,7 @@ model VehicleAndAccessories {
   engineCapacity  String?
   accessories     String[]
 
-  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Cascade)
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model ProtectiveGear {
@@ -250,7 +247,7 @@ model ProtectiveGear {
   size            String?
   material        String?
 
-  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Cascade)
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model Firearm {
@@ -261,7 +258,7 @@ model Firearm {
   serialNumber    String?
   licenseDetails  String?
 
-  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Cascade)
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model ForensicEquipment {
@@ -271,7 +268,7 @@ model ForensicEquipment {
   sensitivity         String?
   storageRequirements String?
 
-  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Cascade)
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model MedicalFirstAid {
@@ -281,7 +278,7 @@ model MedicalFirstAid {
   dosage            String?
   storageConditions String?
 
-  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Cascade)
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model OfficeSupply {
@@ -291,7 +288,7 @@ model OfficeSupply {
   dimensions      String?
   material        String?
 
-  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Cascade)
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model Notification {

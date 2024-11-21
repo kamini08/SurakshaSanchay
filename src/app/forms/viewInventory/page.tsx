@@ -81,7 +81,9 @@ const  ViewInventory = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/packageData");
+        const response = await fetch("/api/inventory",{
+          method: "GET",
+        });
         if (response.ok) {
           const data = await response.json();
           if (data && data.length > 0) {
@@ -109,11 +111,33 @@ const  ViewInventory = () => {
   };
 
   // Save the edited row data
-  const handleSaveClick = (index: number): void => {
+  const handleSaveClick = async(index: number): Promise<void> => {
     const updatedData = [...packageData];
     updatedData[index] = editedRow as Package;
     setPackageData(updatedData);
     setEditMode(null);
+
+    try {
+      const response = await fetch('/api/inventory', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          itemId: packageData[index].itemId, // Send the id of the item to be updated
+          fieldsToUpdate: editedRow,  // Send the edited details
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to update inventory');
+      }
+  
+      const updatedInventory = await response.json();
+      console.log('Inventory updated:', updatedInventory);
+    } catch (error) {
+      console.error('Error saving edited data:', error);
+    }
   };
 
   // Delete a row from the table
@@ -121,14 +145,39 @@ const  ViewInventory = () => {
     setRowToDelete(index);
     setIsModalOpen(true); 
   };
+  // Confirm the deletion and delete from the backend
+const handleConfirmDelete = async (): Promise<void> => {
+  if (rowToDelete !== null) {
+    const itemId = packageData[rowToDelete].itemId; // Get the item id to delete
 
-  const handleConfirmDelete = (): void => {
-    if (rowToDelete !== null) {
+    // Delete the item from the database via the API
+    try {
+      const response = await fetch('/api/inventory', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ itemId: itemId }), // Send the id of the item to delete
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete inventory');
+      }
+
+      const deletedInventory = await response.json();
+      console.log('Deleted inventory item:', deletedInventory);
+
+      // Update the frontend after deletion
       const updatedData = packageData.filter((_, i) => i !== rowToDelete);
       setPackageData(updatedData);
+    } catch (error) {
+      console.error('Error deleting inventory:', error);
     }
-    setIsModalOpen(false); 
-  };
+  }
+
+  setIsModalOpen(false); // Close the modal after deletion
+};
+
 
   const handleCancelDelete = (): void => {
     setIsModalOpen(false); 
