@@ -13,6 +13,7 @@ async function submitRequest(userId: any, itemId: any, issueDescription: any) {
       },
     });
   } catch (error) {
+    
     console.error("Error in submitRequest:", error);
   }
 }
