@@ -33,7 +33,7 @@ export async function POST(request:any) {
       data: {
         issueDescription,
         user: {
-          connect: { id: userId }, // Connect to the existing User
+          connect: { govId: userId }, // Connect to the existing User
         },
         item: {
           connect: { itemId }, // Connect to the existing InventoryItem
@@ -51,7 +51,12 @@ export async function POST(request:any) {
 // Get all maintenance requests (GET)
 export async function GET() {
   try {
-    const requests = await prisma.maintenanceRequest.findMany();
+    const requests = await prisma.maintenanceRequest.findMany({
+      include: {
+        user: { select: { govId: true, name: true } },
+        item: { select: {  category: true, type: true } },
+      },
+    });
     return NextResponse.json({ success: true, data: requests }, { status: 200 });
   } catch (error) {
     console.error('Error in GET /maintenance/request:', error);
@@ -63,7 +68,7 @@ export async function GET() {
 // Update a maintenance request (PUT)
 export async function PUT(request: Request) {
   try {
-    const { action, requestId, technicianId, resolutionDetails, isRepaired, discardReason } = await request.json();
+    const { action, requestId, technicianId, resolutionDetails, discardReason } = await request.json();
     let updatedRequest;
 
     switch (action) {
@@ -79,17 +84,18 @@ export async function PUT(request: Request) {
           data: { status: 'REJECTED', discardReason },
         });
         break;
-      case 'complete':
-        const status: EnumMaintenanceStatusFieldUpdateOperationsInput = isRepaired ? 'COMPLETED' : 'DISCARDED';
-        const updateData = isRepaired
-          ? { status, resolutionDetails, completionDate: new Date() }
-          : { status, resolutionDetails, discardReason: 'Irreparable', completionDate: new Date() };
-
-        updatedRequest = await prisma.maintenanceRequest.update({
-          where: { id: requestId },
-          data: updateData,
-        });
-        break;
+        case 'complete':
+          updatedRequest=await prisma.maintenanceRequest.update({
+where: { id: requestId },
+data: { status: 'COMPLETED', resolutionDetails, completionDate: new Date() },
+          });
+          break;
+          case 'discard':
+         updatedRequest=await prisma.maintenanceRequest.update({
+           where:{id:requestId},
+           data:{status:'DISCARDED',discardReason:discardReason,completionDate:new Date()}
+         });
+         break;
       default:
         return NextResponse.json({ success: false, message: 'Invalid action type' }, { status: 400 });
     }

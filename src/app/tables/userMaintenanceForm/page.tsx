@@ -43,7 +43,7 @@ const RequestMaitenanceManagement = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch("/api/requests", {
+      const response = await fetch("/api/maintenance/request", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
