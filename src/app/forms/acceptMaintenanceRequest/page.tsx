@@ -24,7 +24,8 @@ const RequestMaintenanceManagement = () => {
     item: {
       category: "Electronics",
       type: "IT Equipment"
-    }
+    },
+    maintenanceCharge: 500
   };
 
   const [requestData, setRequestData] = useState(initialRequestData);
@@ -33,7 +34,6 @@ const RequestMaintenanceManagement = () => {
   const [showDiscardForm, setShowDiscardForm] = useState(false);
   const [showCompletionForm, setShowCompletionForm] = useState(false);
   const [selectedRequestId, setSelectedRequestId] = useState<string>("");
-
   interface ItemRecord {
     id: string;
     itemId: string;
@@ -45,7 +45,7 @@ const RequestMaintenanceManagement = () => {
     item: {
       category: string;
       type: string;
-    }
+    },
     issueDescription: string;
     requestDate: string;
     status: string;
@@ -54,10 +54,13 @@ const RequestMaintenanceManagement = () => {
     completionDate?: string;
     technicianId?: string;
     discardReason?: string;
+    maintenanceCharge?: GLfloat;
   }
 
   const [previousRequests, setPreviousRequests] = useState<ItemRecord[]>([]);
   const [loading, setLoading] = useState(true);
+  const [newCondition, setNewCondition] = useState('');
+
 
   useEffect(() => {
     const fetchPreviousRequests = async () => {
@@ -66,8 +69,6 @@ const RequestMaintenanceManagement = () => {
         const response = await fetch('/api/maintenance/request');
         if (response.ok) {
           const result = await response.json();
-          console.log("API Response:", result); // Debugging
-  
           if (result.success && Array.isArray(result.data)) {
             const sortedRequests = result.data.sort((a: { requestDate: string | number | Date; }, b: { requestDate: string | number | Date; }) => {
               // Assuming there is a `createdAt` field or a relevant field to sort by
@@ -89,10 +90,38 @@ const RequestMaintenanceManagement = () => {
         setLoading(false);
       }
     };
-  
+
     fetchPreviousRequests();
   }, []);
-  
+
+  const updateItemCondition = async (itemId: string, newCondition: string) => {
+    try {
+      const response = await fetch('/api/maintenance/updateInventory', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          itemId,
+          newCondition,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to update item condition');
+      }
+
+      const updatedItem = await response.json();
+      console.log('Updated Item:', updatedItem);
+
+      alert(`Condition for item ${itemId} updated to ${newCondition}`);
+      return updatedItem; // Optionally return updated data
+    } catch (error: any) {
+      console.error('Error updating item condition:', error.message);
+      alert(`Error: ${error.message}`);
+    }
+  };
 
 
   const updateRequestStatus = async (
@@ -101,9 +130,9 @@ const RequestMaintenanceManagement = () => {
     technicianId: string,
     resolutionDetails: string,
     discardReason: string,
+    maintenanceCharge:number
   ) => {
     try {
-      console.log(id,action,technicianId,resolutionDetails,discardReason);
       const response = await fetch('/api/maintenance/request', {
         method: 'PUT',
         headers: {
@@ -113,18 +142,18 @@ const RequestMaintenanceManagement = () => {
           action, // Maps to the backend's action field
           requestId: id, // Backend expects `requestId` for identification
           technicianId,
-        resolutionDetails,
-      discardReason }),
+          resolutionDetails,
+          discardReason,
+          maintenanceCharge
+        }),
       });
-  
+
       if (!response.ok) {
         const errorResponse = await response.json();
         throw new Error(errorResponse.message || `Failed to update status`);
       }
-  
+
       const updatedRequest = await response.json();
-      console.log('Updated Request:', updatedRequest);
-  
       // Update the frontend state
       setPreviousRequests((prevRequests) =>
         prevRequests.map((request) =>
@@ -133,15 +162,15 @@ const RequestMaintenanceManagement = () => {
             : request
         )
       );
-  
+
       alert(`Request status updated successfully to ${updatedRequest.data.status}`);
     } catch (error: any) {
       console.error('Error updating request:', error);
       alert(`Error updating status: ${error.message}`);
     }
   };
-  
-  
+
+
   const handleApprove = (id: string) => {
     setShowApprovalForm(true);
     setShowRejectionForm(false);
@@ -154,31 +183,73 @@ const RequestMaintenanceManagement = () => {
     setSelectedRequestId(id);
   };
 
-  const handleApprovalSubmit = (e: React.FormEvent) => {
+  const handleApprovalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const selectedRequest = previousRequests.find(
+      (request) => request.id === selectedRequestId
+    );
+
+    if (!selectedRequest) {
+      console.error('Error: No request found for the selected ID.');
+      alert('Failed to find the request. Please try again.');
+      return;
+    }
+
+    const selectedItemId = selectedRequest.itemId; // Capture `itemId`
+
+    if (!selectedItemId) {
+      console.error('Error: No itemId found for the selected request.');
+      alert('Failed to find the itemId. Please try again.');
+      return;
+    }
+
+    // Update the state with the selected request's status and capture `itemId`
     setPreviousRequests((prevRequests) =>
-      prevRequests.map((request) =>
-        request.id === selectedRequestId
-          ? {
+      prevRequests.map((request) => {
+        if (request.id === selectedRequestId) {
+          return {
             ...request,
             status: 'APPROVED',
-            resolutionDetails: requestData.resolutionDescription,
             technicianId: requestData.technicianId,
-          }
-          : request
-      )
+          };
+        }
+        return request;
+      })
     );
+
+    if (!selectedItemId) {
+      console.error('Error: No itemId found for the selected request.');
+      alert('Failed to find the itemId. Please try again.');
+      return;
+    }
+
     alert('Approval submitted!');
-    updateRequestStatus(selectedRequestId, 'approve',requestData.technicianId,"","");
-    setShowApprovalForm(false);
+
+    try {
+      // Update the request status
+      await updateRequestStatus(selectedRequestId, 'approve', requestData.technicianId, '', '',0);
+
+      // Update the item condition
+      const conditionToSet = 'Under Maintenance';
+      setNewCondition(conditionToSet); // Set the condition state
+
+      // Call the `updateItemCondition` function with the correct values
+      await updateItemCondition(selectedItemId, conditionToSet);
+    } catch (error) {
+      console.error('Error in approval process:', error);
+    } finally {
+      setShowApprovalForm(false); // Close the approval form
+    }
   };
 
   const handleRejectionSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     setPreviousRequests((prevRequests) =>
       prevRequests.filter((request) => request.id !== selectedRequestId)
     );
-    updateRequestStatus(selectedRequestId, 'reject',"","",requestData.discardReason);
+    updateRequestStatus(selectedRequestId, 'reject', "", "", requestData.discardReason,0);
     alert('Rejection submitted!');
     setShowRejectionForm(false);
   };
@@ -196,36 +267,117 @@ const RequestMaintenanceManagement = () => {
     setShowDiscardForm(false);
     setSelectedRequestId(id);
   };
-  const handleCompletionSubmit = (e: React.FormEvent) => {
+  const handleCompletionSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const selectedRequest = previousRequests.find(
+      (request) => request.id === selectedRequestId
+    );
+
+    if (!selectedRequest) {
+      console.error('Error: No request found for the selected ID.');
+      alert('Failed to find the request. Please try again.');
+      return;
+    }
+
+    const selectedItemId = selectedRequest.itemId; // Capture `itemId`
+
+    if (!selectedItemId) {
+      console.error('Error: No itemId found for the selected request.');
+      alert('Failed to find the itemId. Please try again.');
+      return;
+    }
     setPreviousRequests((prevRequests) =>
-      prevRequests.map((request) =>
-        request.id === selectedRequestId
-          ? { ...request, status: 'COMPLETED', completionDate: new Date().toLocaleString() }
-          : request
+      prevRequests.map((request) => {
+        if (request.id === selectedRequestId) {
+          return {
+            ...request,
+            status: 'COMPLETED',
+            completionDate: new Date().toLocaleString(),
+          };
+        }
+        return request;
+      }
       )
     );
+    if (!selectedItemId) {
+      console.error('Error: No itemId found for the selected request.');
+      alert('Failed to find the itemId. Please try again.');
+      return;
+    }
     alert('Item maintenance completed');
-    updateRequestStatus(selectedRequestId, 'complete',"",requestData.resolutionDescription,"");
-    setShowDiscardForm(false);
+    try {
+      // Update the request status
+      await updateRequestStatus(selectedRequestId, 'complete', '', requestData.resolutionDescription, '', requestData.maintenanceCharge);
+
+      // Update the item condition
+      const conditionToSet = 'Repaired';
+      setNewCondition(conditionToSet); // Set the condition state
+
+      // Call the `updateItemCondition` function with the correct values
+      await updateItemCondition(selectedItemId, conditionToSet);
+    } catch (error) {
+      console.error('Error in completion process:', error);
+    } finally {
+      setShowCompletionForm(false); // Close the approval form
+    }
   };
 
-  const handleDiscard = (id: string) => { 
+  const handleDiscard = (id: string) => {
     setShowCompletionForm(false);
     setShowDiscardForm(true);
     setSelectedRequestId(id);
-    };
-  const handleDiscardSubmit = (e: React.FormEvent) => {
+  };
+  const handleDiscardSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const selectedRequest = previousRequests.find(
+      (request) => request.id === selectedRequestId
+    );
+
+    if (!selectedRequest) {
+      console.error('Error: No request found for the selected ID.');
+      alert('Failed to find the request. Please try again.');
+      return;
+    }
+
+    const selectedItemId = selectedRequest.itemId; // Capture `itemId`
+
+    if (!selectedItemId) {
+      console.error('Error: No itemId found for the selected request.');
+      alert('Failed to find the itemId. Please try again.');
+      return;
+    }
     setPreviousRequests((prevRequests) =>
-      prevRequests.map((request) =>
-        request.id === selectedRequestId
-          ? { ...request, status: 'DISCARDED', completionDate: new Date().toLocaleString() }
-          : request  ) 
-         );
-    updateRequestStatus(selectedRequestId, 'discard',"","",requestData.discardReason);
-    alert('Item is marked as discarded.');
-    setShowDiscardForm(false);
+      prevRequests.map((request) => {
+        if (request.id === selectedRequestId) {
+          return {
+            ...request,
+            status: 'DISCARDED',
+            completionDate: new Date().toLocaleString(),
+          };
+        }
+        return request;
+      })
+    );
+    if (!selectedItemId) {
+      console.error('Error: No itemId found for the selected request.');
+      alert('Failed to find the itemId. Please try again.');
+      return;
+    }
+    try {
+      // Update the request status
+      await updateRequestStatus(selectedRequestId, 'discard', '', '', requestData.discardReason, requestData.maintenanceCharge);
+
+      // Update the item condition
+      const conditionToSet = 'Discarded';
+      setNewCondition(conditionToSet); // Set the condition state
+
+      // Call the `updateItemCondition` function with the correct values
+      await updateItemCondition(selectedItemId, conditionToSet);
+    } catch (error) {
+      console.error('Error in approval process:', error);
+    } finally {
+      setShowDiscardForm(false); // Close the approval form
+    }
   };
 
 
@@ -332,19 +484,19 @@ const RequestMaintenanceManagement = () => {
                           )}
                           {item.status === 'APPROVED' && (
                             <>
-                            <button
-                              className="bg-blue-500 text-white px-4 py-2 rounded"
-                              onClick={() => handleCompleted(item.id)}
-                            >
-                              Complete
-                            </button>
-                             <button
-                             className="mr-2 bg-gray-500 text-white px-4 py-2 rounded"
-                             onClick={() => handleDiscard(item.id)}
-                           >
-                             Discard
-                           </button>
-                           </>
+                              <button
+                                className="bg-blue-500 text-white px-4 py-2 rounded"
+                                onClick={() => handleCompleted(item.id)}
+                              >
+                                Complete
+                              </button>
+                              <button
+                                className="mr-2 bg-gray-500 text-white px-4 py-2 rounded"
+                                onClick={() => handleDiscard(item.id)}
+                              >
+                                Discard
+                              </button>
+                            </>
                           )}
                         </td>
                       </tr>
@@ -356,7 +508,7 @@ const RequestMaintenanceManagement = () => {
           </div>
         </div>
 
-      
+
 
         {/* Approval Form */}
         {showApprovalForm && selectedRequestId && (
@@ -391,7 +543,7 @@ const RequestMaintenanceManagement = () => {
                     />
                   </div>
 
-                 
+
 
                   <div className="sm:col-span-2 flex justify-end">
                     <button
@@ -459,7 +611,7 @@ const RequestMaintenanceManagement = () => {
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <form onSubmit={handleCompletionSubmit}>
                 <div className="p-6.5 grid grid-cols-1 gap-6 sm:grid-cols-2">
-                   {/* Resolution Details */}
+                  {/* Resolution Details */}
                   <div className="col-span-2">
                     <label className="mb-3 block text-sm font-medium text-black dark:text-white">
                       Resolution Details
@@ -471,7 +623,7 @@ const RequestMaintenanceManagement = () => {
                     ></textarea>
                   </div>
 
-                  {/* Reject Date */}
+                  {/* Completion Date
                   <div>
                     <label className="mb-3 block text-sm font-medium text-black dark:text-white">
                       Completion Date <span className="text-meta-1">*</span>
@@ -480,6 +632,22 @@ const RequestMaintenanceManagement = () => {
                       type="text"
                       defaultValue={new Date().toLocaleString()}
                       disabled
+                      className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
+                    />
+                  </div> */}
+
+                  <div>
+                    <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+                      Maintenance Charge
+                    </label>
+                    <input
+                      type="number"
+                      name="maintenanceCharge"
+                      placeholder="Enter Maintenance Charge"
+                      value={requestData.maintenanceCharge}
+                      onChange={(e) => setRequestData({ ...requestData, maintenanceCharge: parseFloat(e.target.value) })}
+                      min="0"
+                      step="0.01"
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                     />
                   </div>
@@ -498,8 +666,8 @@ const RequestMaintenanceManagement = () => {
           </section>
         )}
 
-{/* discard form */}
-{showDiscardForm && selectedRequestId && (
+        {/* discard form */}
+        {showDiscardForm && selectedRequestId && (
           <section>
             <h1 className="font-medium text-black dark:text-white mt-10">Reject Maintenance Request for Request ID: {selectedRequestId}</h1>
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -518,7 +686,7 @@ const RequestMaintenanceManagement = () => {
                     ></textarea>
                   </div>
 
-                  {/* Reject Date */}
+                  {/* Reject Date
                   <div>
                     <label className="mb-3 block text-sm font-medium text-black dark:text-white">
                       Discard Date <span className="text-meta-1">*</span>
@@ -527,6 +695,22 @@ const RequestMaintenanceManagement = () => {
                       type="text"
                       defaultValue={new Date().toLocaleString()}
                       disabled
+                      className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
+                    />
+                  </div> */}
+
+                  <div>
+                    <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+                      Maintenance Charge
+                    </label>
+                    <input
+                      type="number"
+                      name="maintenanceCharge"
+                      placeholder="Enter Maintenance Charge"
+                      value={requestData.maintenanceCharge}
+                      onChange={(e) => setRequestData({ ...requestData, maintenanceCharge: parseFloat(e.target.value) })}
+                      min="0"
+                      step="0.01"
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                     />
                   </div>
@@ -544,7 +728,7 @@ const RequestMaintenanceManagement = () => {
             </div>
           </section>
         )}
-    
+
       </section>
     </DefaultLayout>
   );

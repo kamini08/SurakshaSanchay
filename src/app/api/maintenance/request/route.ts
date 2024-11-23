@@ -68,7 +68,7 @@ export async function GET() {
 // Update a maintenance request (PUT)
 export async function PUT(request: Request) {
   try {
-    const { action, requestId, technicianId, resolutionDetails, discardReason } = await request.json();
+    const { action, requestId, technicianId, resolutionDetails, discardReason,maintenanceCharge } = await request.json();
     let updatedRequest;
 
     switch (action) {
@@ -87,13 +87,13 @@ export async function PUT(request: Request) {
         case 'complete':
           updatedRequest=await prisma.maintenanceRequest.update({
 where: { id: requestId },
-data: { status: 'COMPLETED', resolutionDetails, completionDate: new Date() },
+data: { status: 'COMPLETED', resolutionDetails, completionDate: new Date() ,maintenanceCharge },
           });
           break;
           case 'discard':
          updatedRequest=await prisma.maintenanceRequest.update({
            where:{id:requestId},
-           data:{status:'DISCARDED',discardReason:discardReason,completionDate:new Date()}
+           data:{status:'DISCARDED',discardReason:discardReason,completionDate:new Date(),maintenanceCharge}
          });
          break;
       default:

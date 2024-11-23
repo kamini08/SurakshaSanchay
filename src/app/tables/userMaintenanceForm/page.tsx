@@ -18,8 +18,10 @@ const RequestMaitenanceManagement = () => {
   interface ItemRecord {
     requestId: string;
     itemId: string;
-    category: string;
-    type: string;
+    item: {
+      category: string;
+      type: string;
+    },
     userId: string;
     userName: string;
     issueDescription: string;
@@ -32,6 +34,29 @@ const RequestMaitenanceManagement = () => {
   const [previousRequests, setPreviousRequests] = useState<ItemRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchPreviousRequests = async () => {
+      setLoading(true);
+  
+      // Replace with the actual user ID (e.g., from authentication context or props)  
+      try {
+        const response = await fetch('/api/maintenance/userRequest');
+        if (response.ok) {
+          const data = await response.json();
+          setPreviousRequests(data || []);
+        } else {
+          console.error("Failed to load previous requests.");
+        }
+      } catch (error) {
+        console.error("Error fetching previous requests:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchPreviousRequests();
+  }, []);
 
   // Handle form input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -77,7 +102,7 @@ const RequestMaitenanceManagement = () => {
     const fetchPreviousRequests = async () => {
       setLoading(true);
       try {
-        const response = await fetch("/api/requestData");
+        const response = await fetch("/api/maintenance/userRequest");
         if (response.ok) {
           const data = await response.json();
           setPreviousRequests(data || []);
@@ -109,9 +134,9 @@ const RequestMaitenanceManagement = () => {
               <table className="w-full table-auto">
                 <thead>
                   <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                    <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white xl:pl-11">Request Id</th>
+                    {/* <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white xl:pl-11">Request Id</th> */}
                     <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white">Item ID</th>
-                    {/* <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white">Category</th> */}
+                    <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white">Category</th>
                     <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">Type</th>
                     <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">Request Date</th>
                     <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white">Status</th>
@@ -130,11 +155,11 @@ const RequestMaitenanceManagement = () => {
                   ) : (
                     previousRequests.map((item, index) => (
                       <tr key={index}>
-                        <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">{item.requestId}</td>
+                        {/* <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">{item.requestId}</td> */}
                         {/* <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">{item.userName}</td> */}
                         <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">{item.itemId}</td>
-                        <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">{item.category}</td>
-                        <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">{item.type}</td>
+                        <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">{item.item.category}</td>
+                        <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">{item.item.type}</td>
                         <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">{new Date(item.requestDate).toLocaleString()}</td>
                         <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">{item.status}</td>
                         <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">{item.issueDescription || "N/A"}</td>
