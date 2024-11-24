@@ -7,7 +7,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  directUrl = env("DATABASE_URL_UNPOOLED")
+  directUrl=env("DATABASE_URL_UNPOOLED")
 }
 
  enum Category {
@@ -119,7 +119,6 @@ model InventoryItem {
   expiryDate          DateTime?
   price               Float?
   supplier            String?
-  assignedTo          String?
   returnDate          String?
   lastInspectionDate  DateTime?
   maintenanceSchedule String?
@@ -147,7 +146,7 @@ model InventoryItem {
 
 model MaintenanceRequest {
   id                 String           @id @default(cuid())
-  itemId             String          @unique // Foreign key to InventoryItem
+  itemId             String           // Foreign key to InventoryItem
   item               InventoryItem    @relation(fields: [itemId], references: [itemId], onDelete: Cascade)
   userId             String           // Foreign key to User
   user               User             @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -159,6 +158,7 @@ model MaintenanceRequest {
   issueDescription   String
   resolutionDetails  String?
   discardReason      String?
+  maintenanceCharge   Float?
 }
 
 

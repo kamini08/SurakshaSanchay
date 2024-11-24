@@ -16,7 +16,7 @@ interface SidebarProps {
 
 const menuGroups = [
   {
-    name: "INVENTORY INCHARGE DASHBOARD",
+    name: "USER DASHBOARD",
     menuItems: [
       {
         icon: (
