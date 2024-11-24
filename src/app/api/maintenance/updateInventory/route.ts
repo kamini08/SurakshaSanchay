@@ -18,7 +18,7 @@ export async function PATCH(request: Request) {
 
     // Update the inventory item
     const updatedItem = await prisma.inventoryItem.update({
-      where: { itemId },
+      where: {itemId:itemId },
       data: {
         condition: newCondition,
         lastInspectionDate:new Date(),

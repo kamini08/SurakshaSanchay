@@ -209,18 +209,18 @@
 // };
 
 // export default DropdownMessage;
-import DropdownNotification from "./DropdownNotification";
-import DropdownUser from "./DropdownUser";
-import DarkModeSwitcher from "./DarkModeSwitcher";
+// import DropdownNotification from "./DropdownNotification";
+// import DropdownUser from "./DropdownUser";
+// import DarkModeSwitcher from "./DarkModeSwitcher";
 
-const Header = () => {
-  return (
-    <div className="flex items-center gap-3"> {/* Adjusted gap for better spacing */}
-      <DarkModeSwitcher />
-      <DropdownNotification />
-      <DropdownUser />
-    </div>
-  );
-};
+// const Header = () => {
+//   return (
+//     <div className="flex items-center gap-3"> {/* Adjusted gap for better spacing */}
+//       {/* <DarkModeSwitcher />
+//       <DropdownNotification />
+//       <DropdownUser /> */}
+//     </div>
+//   );
+// };
 
-export default Header;
+// export default Header;
