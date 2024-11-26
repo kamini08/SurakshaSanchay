@@ -87,13 +87,13 @@ export async function PUT(request: Request) {
         case 'complete':
           updatedRequest=await prisma.maintenanceRequest.update({
 where: { id: requestId },
-data: { status: 'COMPLETED', resolutionDetails, completionDate: new Date() ,maintenanceCharge },
+data: { status: 'COMPLETED', resolutionDetails, completionDate: new Date(), maintenanceCharge},
           });
           break;
           case 'discard':
          updatedRequest=await prisma.maintenanceRequest.update({
            where:{id:requestId},
-           data:{status:'DISCARDED',discardReason:discardReason,completionDate:new Date(),maintenanceCharge}
+           data:{status:'DISCARDED',discardReason:discardReason,completionDate:new Date(), maintenanceCharge}
          });
          break;
       default:
