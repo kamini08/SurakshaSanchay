@@ -30,3 +30,13 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
     html: `<p>Click <a href="${resetLink}">here</a> to reset password</p>`,
   });
 };
+
+
+export const sendingEmail = async (email: string, message: string) => {
+  await resend.emails.send({
+    from: "mail@khetideals.shop",
+    to: email,
+    subject: "inventory update",
+    html: `<p>${message}</p>`,
+  });
+};

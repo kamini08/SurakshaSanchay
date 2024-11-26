@@ -1,30 +1,26 @@
 import { PrismaClient } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
+import { auth } from '../../../../../auth';
 
 const prisma = new PrismaClient();
 
 export async function GET(req: NextRequest) {
-  const userId = req.nextUrl.searchParams.get('userId');
-const inchargeId = req.nextUrl.searchParams.get('inchargeId');
+  const session = await auth(); // Fetch session server-side
+  const inchargeId = session?.user.id;
 
-  if (!userId && !inchargeId) {
+  if (!inchargeId) {
     return NextResponse.json(
-      { error: 'Either userId or inchargeId is required' },
+      { error: 'inchargeId is required' },
       { status: 400 }
     );
   }
 
   try {
-    const whereCondition = {
-      OR: [
-        ...(userId ? [{ userId }] : []), // Include only if userId is provided
-        ...(inchargeId ? [{ inchargeId }] : []), // Include only if inchargeId is provided
-      ],
-    };
-
+  
     const notifications = await prisma.notification.findMany({
-      where: whereCondition,
+      where: {inchargeId},
       orderBy: { createdAt: 'desc' },
+      include: { user: true },
     });
     return NextResponse.json({ notifications });
   } catch (error) {

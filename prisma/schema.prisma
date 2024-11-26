@@ -7,7 +7,6 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  directUrl=env("DATABASE_URL_UNPOOLED")
 }
 
  enum Category {
@@ -44,7 +43,7 @@ model User {
   isTwoFactorEnabled     Boolean                @default(false)
   twoFactorConfirmation  TwoFactorConfirmation?
                 // Government ID (optional)
-  location               String?                // Location (optional)
+  location               String                // Location
   phone                  String?                // Phone number (optional)
    inventoryItems InventoryItem[]
    maintenanceRequests    MaintenanceRequest[]
@@ -124,7 +123,7 @@ model InventoryItem {
   maintenanceSchedule String?
   maintenanceCharge   Float?
   issuedTo            String?
-
+  issueDate           DateTime?
 
   userId              String?
   user                User?      @relation(fields: [userId], references: [id], onDelete: SetNull)

@@ -3,10 +3,10 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
 
-export async function PATCH(req: NextRequest) {
-  const { notificationId } = await req.json(); // Use `await req.json()` to parse the request body.
+export async function PATCH(req: {params: any}) {
+  const { id } = req.params; // Use `await req.json()` to parse the request body.
 
-  if (!notificationId) {
+  if (!id) {
     return NextResponse.json(
       { error: 'Notification ID is required' },
       { status: 400 }
@@ -15,7 +15,7 @@ export async function PATCH(req: NextRequest) {
 
   try {
     const notification = await prisma.notification.update({
-      where: { id: notificationId },
+      where: { id },
       data: { read: true },
     });
 
