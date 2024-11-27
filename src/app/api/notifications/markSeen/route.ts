@@ -3,8 +3,8 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
 
-export async function PATCH(req: {params: any}) {
-  const { id } = req.params; // Use `await req.json()` to parse the request body.
+export async function PATCH(request: NextRequest) {
+  const id = request.nextUrl.pathname.split('/').slice(-2)[0]; // Assumes route is /api/notifications/:id/markSeen
 
   if (!id) {
     return NextResponse.json(
