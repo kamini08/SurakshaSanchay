@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import { auth } from '../../../../../auth';
 
 const prisma = new PrismaClient();
 export async function POST(req: NextRequest) {
-  const { message, userId, inchargeId } = await req.json();
+  const { userId, inchargeId, message } = await req.json();
 
   if (!message || !userId || !inchargeId) {
     return NextResponse.json(

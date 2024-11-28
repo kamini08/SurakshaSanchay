@@ -1,10 +1,13 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import { auth } from '../../../../../auth';
+import { sendingEmail } from '@/lib/mail';
 
 const prisma = new PrismaClient();
 type EnumMaintenanceStatusFieldUpdateOperationsInput = 'COMPLETED' | 'DISCARDED';
 
 export async function POST(request:any) {
+ 
   try {
     const { userId, itemId, issueDescription } = await request.json();
 
@@ -15,9 +18,24 @@ export async function POST(request:any) {
         { status: 400 }
       );
     }
+   
+// Get user's location
+const user = await prisma.user.findFirst({
+  where: { govId: userId },
+  select: { id:true,location: true,name:true },
+});
 
+if (!user || !user.location) {
+  console.error(`User with id '${userId}' not found or location is missing.`);
+  return NextResponse.json(
+    { success: false, message: `User with id '${userId}' not found or location is missing.` },
+    { status: 404 }
+  );
+}
+
+const userLocation = user.location;
     // Check if the related InventoryItem exists
-    const existingItem = await prisma.inventoryItem.findUnique({
+    const existingItem = await prisma.inventoryItem.findFirst({
       where: { itemId },
     });
 
@@ -33,13 +51,39 @@ export async function POST(request:any) {
       data: {
         issueDescription,
         user: {
-          connect: { id: userId }, // Connect to the existing User
+          connect: { govId: userId }, // Connect to the existing User
         },
         item: {
           connect: { itemId }, // Connect to the existing InventoryItem
         },
       },
     });
+     // Find the incharge based on the location
+     const incharge = await prisma.user.findFirst({
+      where: { role: 'incharge', location:userLocation,},
+      select: { email:true,id:true},
+    });
+
+    if (!incharge) {
+      return NextResponse.json(
+        { success: false, message: `No incharge found for location '${userLocation}'.` },
+        { status: 404 }
+      );
+    }
+
+    // Create a notification for the incharge
+   const bhoomi =  await prisma.notification.create({
+      data: {
+        userId:user.id,
+        inchargeId: incharge.id,
+        message: `New maintenance request created by ${user.name} having govId ${userId}. `,
+      },
+    });
+   await sendingEmail(incharge.email as string,bhoomi.message)
+
+
+
+
 
     return NextResponse.json({ success: true, data: newRequest }, { status: 201 });
   } catch (error) {
@@ -51,7 +95,12 @@ export async function POST(request:any) {
 // Get all maintenance requests (GET)
 export async function GET() {
   try {
-    const requests = await prisma.maintenanceRequest.findMany();
+    const requests = await prisma.maintenanceRequest.findMany({
+      include: {
+        user: { select: { govId: true, name: true } },
+        item: { select: {  category: true, type: true } },
+      },
+    });
     return NextResponse.json({ success: true, data: requests }, { status: 200 });
   } catch (error) {
     console.error('Error in GET /maintenance/request:', error);
@@ -63,7 +112,7 @@ export async function GET() {
 // Update a maintenance request (PUT)
 export async function PUT(request: Request) {
   try {
-    const { action, requestId, technicianId, resolutionDetails, isRepaired, discardReason } = await request.json();
+    const { action, requestId, technicianId, resolutionDetails, discardReason,maintenanceCharge } = await request.json();
     let updatedRequest;
 
     switch (action) {
@@ -79,17 +128,18 @@ export async function PUT(request: Request) {
           data: { status: 'REJECTED', discardReason },
         });
         break;
-      case 'complete':
-        const status: EnumMaintenanceStatusFieldUpdateOperationsInput = isRepaired ? 'COMPLETED' : 'DISCARDED';
-        const updateData = isRepaired
-          ? { status, resolutionDetails, completionDate: new Date() }
-          : { status, resolutionDetails, discardReason: 'Irreparable', completionDate: new Date() };
-
-        updatedRequest = await prisma.maintenanceRequest.update({
-          where: { id: requestId },
-          data: updateData,
-        });
-        break;
+        case 'complete':
+          updatedRequest=await prisma.maintenanceRequest.update({
+where: { id: requestId },
+data: { status: 'COMPLETED', resolutionDetails, completionDate: new Date(), maintenanceCharge},
+          });
+          break;
+          case 'discard':
+         updatedRequest=await prisma.maintenanceRequest.update({
+           where:{id:requestId},
+           data:{status:'DISCARDED',discardReason:discardReason,completionDate:new Date(), maintenanceCharge}
+         });
+         break;
       default:
         return NextResponse.json({ success: false, message: 'Invalid action type' }, { status: 400 });
     }

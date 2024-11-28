@@ -1,5 +1,7 @@
 // import { auth, signOut } from "../../../../auth";
 import ECommerce from "@/components/Dashboard/E-commerce";
+import { auth, signOut } from "../../../../auth";
+import Dashboard from "@/components/Dashboard/page";
 
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
@@ -22,7 +24,7 @@ const SettingsPage = async () => {
         <button type="submit">Sign Out</button>
       </form> */}
       <DefaultLayout>
-        <ECommerce />
+        <Dashboard />
       </DefaultLayout>
     </div>
   );
