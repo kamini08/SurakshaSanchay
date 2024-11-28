@@ -127,7 +127,7 @@ model InventoryItem {
 
 
   userId              String?
-  user                User?      @relation(fields: [userId], references: [id], onDelete: SetNull)
+  user                User?      @relation(fields: [userId], references: [govId], onDelete: SetNull)
 
   communicationDevice CommunicationDevice?  
   computerAndITEquipment ComputerAndITEquipment?

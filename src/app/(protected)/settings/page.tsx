@@ -1,17 +1,16 @@
-import { auth, signOut } from "../../../../auth";
+// import { auth, signOut } from "../../../../auth";
 import ECommerce from "@/components/Dashboard/E-commerce";
 
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
-
 const SettingsPage = async () => {
-  const session = await auth();
-  const user = session?.user.id;
-  console.log(user);
+  // const session = await auth();
+  // const user = session?.user.id;
+  // console.log(user);
 
   return (
     <div className="text-center">
-      {JSON.stringify(session?.user)}
+      {/* {JSON.stringify(session?.user)}
 
       <form
         action={async () => {
@@ -21,7 +20,7 @@ const SettingsPage = async () => {
         }}
       >
         <button type="submit">Sign Out</button>
-      </form>
+      </form> */}
       <DefaultLayout>
         <ECommerce />
       </DefaultLayout>
