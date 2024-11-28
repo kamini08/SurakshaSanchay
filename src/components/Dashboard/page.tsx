@@ -1,13 +1,20 @@
 "use client";
 import dynamic from "next/dynamic";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CardDataStats from "../CardDataStats";
 import LineChart from "@/components/charts/ChartTwo";
 import PieChart from "@/components/charts/ChartOne";
 import Modal from "react-modal";
 
-function MonthlyReport() {
+interface Package {
+  category: string;
+  status: string;
+}
+
+const MonthlyReport = () => {
   const [modalTitle, setModalTitle] = useState<string | null>(null);
+  const [packageData, setPackageData] = useState<Package[]>([]); // State to hold package data
+  const [loading, setLoading] = useState(true);
 
   const openModal = (title: string) => {
     setModalTitle(title);
@@ -30,19 +37,60 @@ function MonthlyReport() {
     "Medical"
   ];
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/inventory", {
+          method: "GET",
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setPackageData(data);
+        }
+      } catch (error) {
+        console.error("Error fetching data:" + error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Function to count items by category
+  const countItemsByCategory = (category?: string) => {
+    const counts: { [key: string]: number } = {};
+
+    packageData.forEach(item => {
+      counts[item.category] = (counts[item.category] || 0) + 1;
+    });
+
+    if (category) {
+      // Return an object with the count for the specific category
+      return { [category]: counts[category] || 0 };
+    }
+
+    return counts; // Return all counts
+  };
+
+  const categoryCounts = countItemsByCategory(); // Get counts for all categories
+  const series = Object.values(categoryCounts); // Get the counts as an array
+  const labels = Object.keys(categoryCounts); // Get the category names as labels
+
   return (
     <>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
-        {cardTitles.map((title, index) => (
-          <CardDataStats
-            key={index}
-            title={title}
-            total={`${(index + 1) * 100}`} // Correctly calculate total values
-            rate={`${(index + 1) * 0.5}%`} // Example rate values
-            levelUp
-            onClick={() => openModal(title)} // This should now work
-          />
-        ))}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-5 lg:gap-4">
+        {cardTitles.map((title, index) => {
+          const statusCounts = countItemsByCategory(title); // Now this returns an object
+          return (
+            <CardDataStats
+              key={index}
+              title={title}
+              statusCounts={statusCounts}
+              onClick={() => openModal(title)}
+            />
+          );
+        })}
       </div>
 
       <Modal
@@ -66,13 +114,13 @@ function MonthlyReport() {
       </Modal>
 
       <div className="flex space-x-5">
-        <div className="min-w-150 bg border border-stroke bg-white px-7.5 py-6 shadow-default dark:border-strokedark dark:bg-boxdark mt-10">
-          <LineChart />
-        </div>
-        <div className="min-w-150 bg border border-stroke bg-white px-7.5 py-6 shadow-default dark:border-strokedark dark:bg-boxdark mt-10">
-          <PieChart />
-        </div>
-      </div>
+    <div className="min-w-150 bg border border-stroke bg-white px-7.5 py-6 shadow-default dark:border-strokedark dark:bg-boxdark mt-10">
+        <LineChart />
+    </div>
+    <div className="min-w-150 bg border border-stroke bg-white px-7.5 py-6 shadow-default dark:border-strokedark dark:bg-boxdark mt-10">
+        <PieChart  /> {/* Pass series and labels to PieChart */}
+    </div>
+</div>
     </>
   );
 }
