@@ -6,7 +6,16 @@ export async function GET(
   { params }: { params: { stationId: string } },
 ) {
   try {
+    // Await params before using its properties
     const { stationId } = params;
+
+    // Ensure stationId is valid
+    if (!stationId) {
+      return NextResponse.json(
+        { success: false, message: "Station ID is required" },
+        { status: 400 },
+      );
+    }
 
     try {
       // Fetch data from the addInventory table
@@ -26,12 +35,23 @@ export async function GET(
         },
       });
 
-      // Return the data as a JSON response
+      // Check if inventoryData is null or empty
+      if (!inventoryData || inventoryData.length === 0) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "No inventory data found for this station",
+          },
+          { status: 404 },
+        );
+      }
+
+      console.log("Fetched inventory data:", inventoryData); // Debug log
       return NextResponse.json(inventoryData);
     } catch (error) {
-      console.error("Error fetching inventory data: ", error);
+      console.log("Error fetching inventory data: ", error);
       return NextResponse.json(
-        { error: "Failed to fetch inventory data" },
+        { success: false, message: "Failed to fetch inventory data" },
         { status: 500 },
       );
     }
