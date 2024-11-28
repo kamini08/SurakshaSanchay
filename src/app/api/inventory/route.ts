@@ -1,31 +1,11 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import { auth } from '../../../../auth';
+import { db } from '@/lib/db';
 // import { db } from '@/lib/db';
 
 const prisma = new PrismaClient();
 
-
-// Function to update an inventory item (only for admins)
-// async function updateInventoryItem(userId: string, itemId: string, itemData: any) {
-//   const user = await prisma.user.findUnique({
-//     where: { id: userId },
-//     select: { role: true },
-//   });
-
-//   if (!user || user.role !== 'admin') {
-//     return { success: false, message: 'Permission denied: Only admins can update inventory items.' };
-//   }
-
-//   const updatedItem = await prisma.inventoryItem.update({
-//     where: { itemId: itemId },
-//     data: itemData,
-//   });
-
-//   return { success: true, message: 'Inventory item updated successfully.', data: updatedItem };
-// }
-
-// Function to delete an inventory item (only for admins)
 async function deleteInventoryItem(userId: string, itemId: string) {
   const user = await prisma.user.findUnique({
     where: {id: userId },
@@ -156,34 +136,6 @@ export async function POST(req: Request) {
   }
 }
 
-// // PUT handler (for updating inventory item)
-// export async function PUT(req: Request) {
-//   try {
-
-//     const body = await req.json();
-//     const { userId, itemId, itemData } = body;
-
-//     if (!userId || !itemId || !itemData) {
-//       return NextResponse.json(
-//         { success: false, message: 'userId, itemId, and itemData are required.' },
-//         { status: 400 }
-//       );
-//     }
-
-//     const response = await updateInventoryItem(userId, itemId, itemData);
-    
-//     if (response.success) {
-//       return NextResponse.json(response, { status: 200 });
-//     } else {
-//       return NextResponse.json(response, { status: 400 });
-//     }
-//   } catch (error: any) {
-//     return NextResponse.json(
-//       { success: false, message: `Internal server error: ${error.message}` },
-//       { status: 500 }
-//     );
-//   }
-// }
 
 // DELETE handler (for deleting inventory item)
 export async function DELETE(req: Request) {
@@ -209,6 +161,7 @@ export async function DELETE(req: Request) {
   } catch (error: any) {
     return NextResponse.json(
       { success: false, message: `Internal server error: ${error.message}` },
+   
       { status: 500 }
     );
   }
@@ -274,7 +227,7 @@ export async function PUT(req:Request) {
 export async function GET() {
   try {
     // Fetch data from the addInventory table
-    const inventoryData = await prisma.inventoryItem.findMany();
+    const inventoryData = await db.inventoryItem.findMany();
     
     // Return the data as a JSON response
     return NextResponse.json(inventoryData);
