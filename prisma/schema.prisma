@@ -281,6 +281,7 @@ model Notification {
   createdAt DateTime @default(now()) // Timestamp of when the notification was created
 
   // Add relation names to avoid ambiguity
+  
   user      User     @relation("UserNotifications", fields: [userId], references: [id])
   incharge  User     @relation("InchargeNotifications", fields: [inchargeId], references: [id])
 }
