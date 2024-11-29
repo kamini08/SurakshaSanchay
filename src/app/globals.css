@@ -70,5 +70,7 @@ body,
   }
   body {
     @apply bg-background text-foreground;
+
+    font-family: "Poppins", Arial, sans-serif;
   }
 }

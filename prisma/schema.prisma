@@ -1,15 +1,14 @@
-
-
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["windows"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
 }
 
- enum Category {
+enum Category {
   COMMUNICATION_DEVICES
   COMPUTER_AND_IT_EQUIPMENT
   NETWORKING_EQUIPMENT
@@ -22,98 +21,98 @@ datasource db {
   OFFICE_SUPPLIES
 }
 
-
 enum UserRole {
   ADMIN
   INCHARGE
   USER
 }
 
-
 model User {
-  id                     String                 @id @default(cuid())
-  govId                  String?  @unique 
-  name                   String?
-  email                  String?                @unique
-  emailVerified          DateTime?
-  image                  String?
-  password               String?
-  role                   String? 
-  accounts               Account[]
-  isTwoFactorEnabled     Boolean                @default(false)
-  twoFactorConfirmation  TwoFactorConfirmation?
-                // Government ID (optional)
-  location               String                // Location
-  phone                  String?                // Phone number (optional)
-   inventoryItems InventoryItem[]
-   maintenanceRequests    MaintenanceRequest[]
-   notifications      Notification[] @relation("UserNotifications")
-  inchargeNotifications Notification[] @relation("InchargeNotifications")
+  id                    String                 @id @default(cuid())
+  govId                 String                 @unique
+  name                  String
+  email                 String                 @unique
+  emailVerified         DateTime?
+  image                 String?
+  password              String
+  role                  String
+  accounts              Account[]
+  isTwoFactorEnabled    Boolean                @default(false)
+  twoFactorConfirmation TwoFactorConfirmation?
+  // Government ID (optional)
+  location              String // Location
+  phone                 String? // Phone number (optional)
+  inventoryItems        InventoryItem[]
+  maintenanceRequests   MaintenanceRequest[]
+  notifications         Notification[]         @relation("UserNotifications")
+  inchargeNotifications Notification[]         @relation("InchargeNotifications")
 
+  IssuanceRequest IssuanceRequest[]
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String  
-  type               String
-  provider           String
-  providerAccountId  String 
+  id                String @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
 
-  refresh_token      String? @db.Text
-  access_token       String? @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String? @db.Text
-  session_state      String?
- 
+  refresh_token String? @db.Text
+  access_token  String? @db.Text
+  expires_at    Int?
+  token_type    String?
+  scope         String?
+  id_token      String? @db.Text
+  session_state String?
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@unique([provider, providerAccountId])
- 
 }
 
 model VerificationToken {
-  id        String  @id @default(cuid())
-  email     String
-  token     String @unique
-  expires   DateTime
-  
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
   @@unique([email, token])
 }
+
 model PasswordResetToken {
-  id        String  @id @default(cuid())
-  email     String
-  token     String @unique
-  expires   DateTime
-  
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
   @@unique([email, token])
 }
+
 model TwoFactorToken {
-  id        String  @id @default(cuid())
-  email     String
-  token     String @unique
-  expires   DateTime
-  
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
   @@unique([email, token])
 }
 
 model TwoFactorConfirmation {
-  id        String  @id @default(cuid())
-  userId     String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@unique([userId])
 }
 
 model InventoryItem {
-  itemId              String     @id
+  itemId              String    @id
   category            Category
   type                String
   description         String?
-  quantity            Int        @default(1)
+  quantity            Int       @default(1)
   location            String?
-  condition           String     @default("new")
+  condition           String    @default("new")
   acquisitionDate     DateTime?
   expiryDate          DateTime?
   price               Float?
@@ -123,43 +122,72 @@ model InventoryItem {
   maintenanceSchedule String?
   maintenanceCharge   Float?
   issuedTo            String?
-  issueDate           DateTime?
 
-  userId              String?
-  user                User?      @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
 
-  communicationDevice CommunicationDevice?  
-  computerAndITEquipment ComputerAndITEquipment?
-  networkingEquipment NetworkingEquipment?
+  communicationDevice     CommunicationDevice?
+  computerAndITEquipment  ComputerAndITEquipment?
+  networkingEquipment     NetworkingEquipment?
   surveillanceAndTracking SurveillanceAndTracking?
-  vehicleAndAccessories VehicleAndAccessories?
-  protectiveGear ProtectiveGear?
-  firearm Firearm?
-  forensicEquipment ForensicEquipment?
-  medicalFirstAid MedicalFirstAid?
-  officeSupply OfficeSupply?
+  vehicleAndAccessories   VehicleAndAccessories?
+  protectiveGear          ProtectiveGear?
+  firearm                 Firearm?
+  forensicEquipment       ForensicEquipment?
+  medicalFirstAid         MedicalFirstAid?
+  officeSupply            OfficeSupply?
 
-  maintenanceRequests    MaintenanceRequest[]
+  maintenanceRequests MaintenanceRequest[]
 
+  IssuanceRequest IssuanceRequest[]
+}
+
+model IssuanceRequest {
+  id                    String         @id @default(cuid()) // Unique identified
+  quantity              Int
+  expectedDeliveryDate  DateTime
+  purpose               String
+  expectedUsageDuration String
+  approvalNeededBy      DateTime
+  priorityLevel         String
+  createdAt             DateTime       @default(now()) // Automatically set creation time
+  updatedAt             DateTime       @updatedAt // Automatically update timestamp
+  itemId                String?
+  inventoryItem         InventoryItem?  @relation(fields: [itemId], references: [itemId])
+  userId                String?
+  user                  User?           @relation(fields: [userId], references: [id])
+  inchargeId            String?
+  isDamaged             Boolean?       @default(false)
+  status                IssuanceStatus @default(PENDING)
+  approvalDate          DateTime?
+  completionDate        DateTime?
+  issueDescription      String
+  resolutionDetails     String?
+  discardReason         String?
+}
+
+enum IssuanceStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
 
 model MaintenanceRequest {
-  id                 String           @id @default(cuid())
-  itemId             String           // Foreign key to InventoryItem
-  item               InventoryItem    @relation(fields: [itemId], references: [itemId], onDelete: Cascade)
-  userId             String           // Foreign key to User
-  user               User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  technicianId       String?          // Technician field (optional)
-  status             MaintenanceStatus @default(PENDING)
-  requestDate        DateTime         @default(now())
-  approvalDate       DateTime?
-  completionDate     DateTime?
-  issueDescription   String
-  resolutionDetails  String?
-  discardReason      String?
-  maintenanceCharge   Float?
+  id                String            @id @default(cuid())
+  itemId            String // Foreign key to InventoryItem
+  item              InventoryItem     @relation(fields: [itemId], references: [itemId], onDelete: Cascade)
+  userId            String // Foreign key to User
+  user              User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  technicianId      String? // Technician field (optional)
+  status            MaintenanceStatus @default(PENDING)
+  requestDate       DateTime          @default(now())
+  approvalDate      DateTime?
+  completionDate    DateTime?
+  issueDescription  String
+  resolutionDetails String?
+  discardReason     String?
+  maintenanceCharge Float?
 }
-
 
 enum MaintenanceStatus {
   PENDING
@@ -169,45 +197,45 @@ enum MaintenanceStatus {
   DISCARDED
 }
 
-
 model CommunicationDevice {
-  id              String   @id @default(cuid())
-  inventoryItemId String   @unique
+  id              String  @id @default(cuid())
+  inventoryItemId String  @unique
   frequencyRange  String?
   batteryType     String?
   connectivity    String?
 
-  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
+  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
+
 model ComputerAndITEquipment {
-  id              String   @id @default(cuid())
-  inventoryItemId String   @unique
+  id              String  @id @default(cuid())
+  inventoryItemId String  @unique
   processor       String?
   RAM             String?
   storage         String?
   OS              String?
 
-  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
+  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model NetworkingEquipment {
-  id              String   @id @default(cuid())
-  inventoryItemId String   @unique
+  id              String  @id @default(cuid())
+  inventoryItemId String  @unique
   bandwidth       String?
   ports           String?
   protocols       String?
 
-  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
+  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model SurveillanceAndTracking {
-  id              String   @id @default(cuid())
-  inventoryItemId String   @unique
+  id               String  @id @default(cuid())
+  inventoryItemId  String  @unique
   cameraResolution String?
-  nightVision     Boolean  @default(false)
-  GPSAccuracy     String?
+  nightVision      Boolean @default(false)
+  GPSAccuracy      String?
 
-  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
+  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model VehicleAndAccessories {
@@ -219,68 +247,69 @@ model VehicleAndAccessories {
   engineCapacity  String?
   accessories     String[]
 
-  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
+  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model ProtectiveGear {
-  id              String   @id @default(cuid())
-  inventoryItemId String   @unique
+  id              String  @id @default(cuid())
+  inventoryItemId String  @unique
   protectionLevel String?
   size            String?
   material        String?
 
-  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
+  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model Firearm {
-  id              String   @id @default(cuid())
-  inventoryItemId String   @unique
+  id              String  @id @default(cuid())
+  inventoryItemId String  @unique
   caliber         String?
   ammoType        String?
   serialNumber    String?
   licenseDetails  String?
 
-  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
+  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model ForensicEquipment {
-  id              String   @id @default(cuid())
-  inventoryItemId String   @unique
-  usageType       String?
-  sensitivity     String?
+  id                  String  @id @default(cuid())
+  inventoryItemId     String  @unique
+  usageType           String?
+  sensitivity         String?
   storageRequirements String?
 
-  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
+  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model MedicalFirstAid {
-  id              String   @id @default(cuid())
-  inventoryItemId String   @unique
-  expirationDate  DateTime?
-  dosage          String?
+  id                String    @id @default(cuid())
+  inventoryItemId   String    @unique
+  expirationDate    DateTime?
+  dosage            String?
   storageConditions String?
 
-  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
+  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model OfficeSupply {
-  id              String   @id @default(cuid())
-  inventoryItemId String   @unique
+  id              String  @id @default(cuid())
+  inventoryItemId String  @unique
   itemType        String?
   dimensions      String?
   material        String?
 
-  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
+  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
+
 model Notification {
-  id        String   @id @default(cuid())
-  userId    String   // User ID (User who created the maintenance request)
-  inchargeId String  // Incharge ID (User who will be notified)
-  message   String   // Notification message
-  read      Boolean  @default(false) // Whether the notification has been read
-  createdAt DateTime @default(now()) // Timestamp of when the notification was created
+  id         String   @id @default(cuid())
+  userId     String // User ID (User who created the maintenance request)
+  inchargeId String // Incharge ID (User who will be notified)
+  message    String // Notification message
+  read       Boolean  @default(false) // Whether the notification has been read
+  createdAt  DateTime @default(now()) // Timestamp of when the notification was created
 
   // Add relation names to avoid ambiguity
-  user      User     @relation("UserNotifications", fields: [userId], references: [id])
-  incharge  User     @relation("InchargeNotifications", fields: [inchargeId], references: [id])
+  user     User @relation("UserNotifications", fields: [userId], references: [id])
+  incharge User @relation("InchargeNotifications", fields: [inchargeId], references: [id])
 }
