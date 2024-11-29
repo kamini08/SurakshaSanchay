@@ -1,14 +1,14 @@
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["windows"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-  directUrl=env("DATABASE_URL_UNPOOLED")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
 }
 
- enum Category {
+enum Category {
   COMMUNICATION_DEVICES
   COMPUTER_AND_IT_EQUIPMENT
   NETWORKING_EQUIPMENT
@@ -29,18 +29,18 @@ enum UserRole {
 
 model User {
   id                    String                 @id @default(cuid())
-  govId                 String?                @unique
-  name                  String?
-  email                 String?                @unique
+  govId                 String                 @unique
+  name                  String
+  email                 String                 @unique
   emailVerified         DateTime?
   image                 String?
-  password              String?
-  role                  String?
+  password              String
+  role                  String
   accounts              Account[]
   isTwoFactorEnabled    Boolean                @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
   // Government ID (optional)
-  location              String? // Location (optional)
+  location              String // Location
   phone                 String? // Phone number (optional)
   inventoryItems        InventoryItem[]
   maintenanceRequests   MaintenanceRequest[]
@@ -106,7 +106,7 @@ model TwoFactorConfirmation {
 }
 
 model InventoryItem {
-  itemId              String     @id
+  itemId              String    @id
   category            Category
   type                String
   description         String?
@@ -126,9 +126,9 @@ model InventoryItem {
   userId String?
   user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
 
-  communicationDevice CommunicationDevice?  
-  computerAndITEquipment ComputerAndITEquipment?
-  networkingEquipment NetworkingEquipment?
+  communicationDevice     CommunicationDevice?
+  computerAndITEquipment  ComputerAndITEquipment?
+  networkingEquipment     NetworkingEquipment?
   surveillanceAndTracking SurveillanceAndTracking?
   vehicleAndAccessories   VehicleAndAccessories?
   protectiveGear          ProtectiveGear?
@@ -143,19 +143,27 @@ model InventoryItem {
 }
 
 model IssuanceRequest {
-  id                String          @id @default(cuid())
-  inventoryItem     InventoryItem[]
-  userId            String
-  user              User            @relation(fields: [userId], references: [id])
-  inchargeId        String
-  isDamaged         Boolean?        @default(false)
-  status            IssuanceStatus  @default(PENDING)
-  requestDate       DateTime        @default(now())
-  approvalDate      DateTime?
-  completionDate    DateTime?
-  issueDescription  String
-  resolutionDetails String?
-  discardReason     String?
+  id                    String         @id @default(cuid()) // Unique identified
+  quantity              Int
+  expectedDeliveryDate  DateTime
+  purpose               String
+  expectedUsageDuration String
+  approvalNeededBy      DateTime
+  priorityLevel         String
+  createdAt             DateTime       @default(now()) // Automatically set creation time
+  updatedAt             DateTime       @updatedAt // Automatically update timestamp
+  itemId                String?
+  inventoryItem         InventoryItem?  @relation(fields: [itemId], references: [itemId])
+  userId                String?
+  user                  User?           @relation(fields: [userId], references: [id])
+  inchargeId            String?
+  isDamaged             Boolean?       @default(false)
+  status                IssuanceStatus @default(PENDING)
+  approvalDate          DateTime?
+  completionDate        DateTime?
+  issueDescription      String
+  resolutionDetails     String?
+  discardReason         String?
 }
 
 enum IssuanceStatus {
@@ -165,20 +173,20 @@ enum IssuanceStatus {
 }
 
 model MaintenanceRequest {
-  id                 String           @id @default(cuid())
-  itemId             String           // Foreign key to InventoryItem
-  item               InventoryItem    @relation(fields: [itemId], references: [itemId], onDelete: Cascade)
-  userId             String           // Foreign key to User
-  user               User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  technicianId       String?          // Technician field (optional)
-  status             MaintenanceStatus @default(PENDING)
-  requestDate        DateTime         @default(now())
-  approvalDate       DateTime?
-  completionDate     DateTime?
-  issueDescription   String
-  resolutionDetails  String?
-  discardReason      String?
-  maintenanceCharge   Float?
+  id                String            @id @default(cuid())
+  itemId            String // Foreign key to InventoryItem
+  item              InventoryItem     @relation(fields: [itemId], references: [itemId], onDelete: Cascade)
+  userId            String // Foreign key to User
+  user              User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  technicianId      String? // Technician field (optional)
+  status            MaintenanceStatus @default(PENDING)
+  requestDate       DateTime          @default(now())
+  approvalDate      DateTime?
+  completionDate    DateTime?
+  issueDescription  String
+  resolutionDetails String?
+  discardReason     String?
+  maintenanceCharge Float?
 }
 
 enum MaintenanceStatus {
@@ -196,8 +204,9 @@ model CommunicationDevice {
   batteryType     String?
   connectivity    String?
 
-  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
+  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
+
 model ComputerAndITEquipment {
   id              String  @id @default(cuid())
   inventoryItemId String  @unique
@@ -206,7 +215,7 @@ model ComputerAndITEquipment {
   storage         String?
   OS              String?
 
-  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
+  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model NetworkingEquipment {
@@ -216,7 +225,7 @@ model NetworkingEquipment {
   ports           String?
   protocols       String?
 
-  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
+  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model SurveillanceAndTracking {
@@ -226,7 +235,7 @@ model SurveillanceAndTracking {
   nightVision      Boolean @default(false)
   GPSAccuracy      String?
 
-  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
+  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model VehicleAndAccessories {
@@ -238,7 +247,7 @@ model VehicleAndAccessories {
   engineCapacity  String?
   accessories     String[]
 
-  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
+  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model ProtectiveGear {
@@ -248,7 +257,7 @@ model ProtectiveGear {
   size            String?
   material        String?
 
-  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
+  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model Firearm {
@@ -259,7 +268,7 @@ model Firearm {
   serialNumber    String?
   licenseDetails  String?
 
-  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
+  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model ForensicEquipment {
@@ -269,7 +278,7 @@ model ForensicEquipment {
   sensitivity         String?
   storageRequirements String?
 
-  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
+  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model MedicalFirstAid {
@@ -279,7 +288,7 @@ model MedicalFirstAid {
   dosage            String?
   storageConditions String?
 
-  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
+  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model OfficeSupply {
@@ -289,7 +298,7 @@ model OfficeSupply {
   dimensions      String?
   material        String?
 
-  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
+  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [itemId], onDelete: Cascade)
 }
 
 model Notification {

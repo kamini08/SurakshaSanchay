@@ -207,8 +207,8 @@ const menuGroups = [
         label: "Requests",
         route: "#",
         children: [
-          { label: "New Item Request", route: "/forms/newItemRequest" },
-          { label: "Maintenance Request", route: "/forms/maintenanceForm" },
+          { label: "New Item Request", route: "/tables/issueItemForm" },
+          { label: "Maintenance Request", route: "/tables/userMaintenanceForm" },
           { label: "Discard Item Request", route: "/forms/discardForm" },
         ],
       },

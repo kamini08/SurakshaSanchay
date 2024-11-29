@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { IssuanceRequest, PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
@@ -6,25 +6,66 @@ const prisma = new PrismaClient();
 export async function POST(req: Request) {
   try {
     const body = await req.json(); // Parse request body
-    const { userId, issueDescription, inventoryItem, inchargeId } = body;
+    const {
+      userId,
+      description,
+      item,
+      location,
+      quantity,
+      expectedDeliveryDate,
+      purpose,
+      expectedUsageDuration,
+      approvalNeededBy,
+      priorityLevel,
+    } = body;
 
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: { role: true },
     });
 
+    const incharge = await prisma.user.findFirst({
+      where: { AND: [{ location }, { role: "INCHARGE" }] },
+    });
+
+    const inventoryItem = await prisma.inventoryItem.findFirst({
+      where: {
+        AND: [
+          { type: item },
+          {
+            userId: null,
+          },
+        ],
+      },
+    });
+
     if (!user) {
       return NextResponse.json({ message: "User not found!" }, { status: 404 });
     }
 
+    if (!incharge) {
+      return NextResponse.json(
+        { message: "Incharge not found!" },
+        { status: 404 },
+      );
+    }
+    
     const request = await prisma.issuanceRequest.create({
       data: {
         userId,
-        inventoryItem,
-        inchargeId,
-        issueDescription,
+        itemId: inventoryItem?.itemId || "",
+        inchargeId: incharge?.govId,
+        issueDescription: description,
+        quantity,
+        expectedDeliveryDate: new Date(expectedDeliveryDate),
+        purpose,
+        expectedUsageDuration,
+        approvalNeededBy: new Date(approvalNeededBy),
+        priorityLevel,
+        isDamaged: false,
         status: "PENDING",
       },
+      
     });
 
     return NextResponse.json(request, { status: 201 });
