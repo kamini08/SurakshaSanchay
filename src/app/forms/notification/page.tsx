@@ -1,24 +1,35 @@
 'use client';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import router, { useRouter } from "next/router";
 
 interface Notification {
-  sender: string;
-  subject: string;
-  date: string;
+  userId: string;
+  message: string;
+  createdAt: string;
 }
 
 const NotificationTable = () => {
   const [notifications, setNotifications] = useState<Notification[]>([
-    { sender: "Musharof Chowdhury", subject: "Some note & Lorem Ipsum available.", date: "17 Oct, 2024" },
-    { sender: "Naimur Rahman", subject: "Lorem Ipsum alteration in some form.", date: "25 Nov, 2024" },
-    { sender: "Juhan Ahamed", subject: "Lorem Ipsum available in some form.", date: "25 Nov, 2024" },
-    { sender: "Mahbub Hasan", subject: "Lorem Ipsum alteration available.", date: "19 Dec, 2024" },
-    { sender: "Shafiq Hammad", subject: "Lorem Ipsum available in some form.", date: "20 Dec, 2024" },
+ 
   ]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedNotifications, setSelectedNotifications] = useState<number[]>([]);
+  // const router = useRouter();
+  
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await fetch("/api/notifications/index");
+        const data = await response.json();
+        setNotifications(data.notifications);
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+      }
+    };
+    fetchNotifications();
+  }, []);
 
   const handleDelete = () => {
     setNotifications((prev) =>
@@ -35,8 +46,8 @@ const NotificationTable = () => {
 
   const filteredNotifications = notifications.filter(
     (notification) =>
-      notification.sender.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      notification.subject.toLowerCase().includes(searchQuery.toLowerCase())
+      notification.userId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      notification.message.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const handleCheckboxChange = (index: number) => {
@@ -44,6 +55,14 @@ const NotificationTable = () => {
       setSelectedNotifications((prev) => prev.filter((i) => i !== index));
     } else {
       setSelectedNotifications((prev) => [...prev, index]);
+    }
+  };
+  const markAsReadAndRedirect = async (id: string) => {
+    try {
+      await fetch(`/api/notifications/${id}`, { method: "PATCH" });
+      router.push(`/notifications/${id}`);
+    } catch (error) {
+      console.error("Error marking notification as read:", error);
     }
   };
 
@@ -118,9 +137,9 @@ const NotificationTable = () => {
                   onChange={() => handleCheckboxChange(index)}
                 />
               </td>
-              <td className="p-3">{notification.sender}</td>
-              <td className="p-3">{notification.subject}</td>
-              <td className="p-3">{notification.date}</td>
+              <td className="p-3">{notification.userId}</td>
+              <td className="p-3">{notification.message}</td>
+              <td className="p-3">{notification.createdAt}</td>
             </tr>
           ))}
         </tbody>

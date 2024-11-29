@@ -1,10 +1,13 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import { auth } from '../../../../../auth';
+import { sendingEmail } from '@/lib/mail';
 
 const prisma = new PrismaClient();
 type EnumMaintenanceStatusFieldUpdateOperationsInput = 'COMPLETED' | 'DISCARDED';
 
 export async function POST(request:any) {
+ 
   try {
     const { userId, itemId, issueDescription } = await request.json();
 
@@ -15,9 +18,24 @@ export async function POST(request:any) {
         { status: 400 }
       );
     }
+   
+// Get user's location
+const user = await prisma.user.findFirst({
+  where: { govId: userId },
+  select: { id:true,location: true,name:true },
+});
 
+if (!user || !user.location) {
+  console.error(`User with id '${userId}' not found or location is missing.`);
+  return NextResponse.json(
+    { success: false, message: `User with id '${userId}' not found or location is missing.` },
+    { status: 404 }
+  );
+}
+
+const userLocation = user.location;
     // Check if the related InventoryItem exists
-    const existingItem = await prisma.inventoryItem.findUnique({
+    const existingItem = await prisma.inventoryItem.findFirst({
       where: { itemId },
     });
 
@@ -40,6 +58,32 @@ export async function POST(request:any) {
         },
       },
     });
+     // Find the incharge based on the location
+     const incharge = await prisma.user.findFirst({
+      where: { role: 'incharge', location:userLocation,},
+      select: { email:true,id:true},
+    });
+
+    if (!incharge) {
+      return NextResponse.json(
+        { success: false, message: `No incharge found for location '${userLocation}'.` },
+        { status: 404 }
+      );
+    }
+
+    // Create a notification for the incharge
+   const bhoomi =  await prisma.notification.create({
+      data: {
+        userId:user.id,
+        inchargeId: incharge.id,
+        message: `New maintenance request created by ${user.name} having govId ${userId}. `,
+      },
+    });
+   await sendingEmail(incharge.email as string,bhoomi.message)
+
+
+
+
 
     return NextResponse.json({ success: true, data: newRequest }, { status: 201 });
   } catch (error) {
