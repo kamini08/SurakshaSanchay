@@ -21,8 +21,10 @@ export async function POST(req: Request) {
 
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: { role: true },
     });
+    if (!user) {
+      return NextResponse.json({ message: "User not found!" }, { status: 404 });
+    }
 
     const incharge = await prisma.user.findFirst({
       where: { AND: [{ location }, { role: "INCHARGE" }] },
@@ -39,9 +41,7 @@ export async function POST(req: Request) {
       },
     });
 
-    if (!user) {
-      return NextResponse.json({ message: "User not found!" }, { status: 404 });
-    }
+    
 
     if (!incharge) {
       return NextResponse.json(
@@ -54,6 +54,7 @@ export async function POST(req: Request) {
       data: {
         userId,
         itemId: inventoryItem?.itemId || "",
+        inventoryItem: item,
         inchargeId: incharge?.govId,
         issueDescription: description,
         quantity,
