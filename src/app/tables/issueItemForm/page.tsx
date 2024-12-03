@@ -7,12 +7,11 @@ import DefaultLayout from "@/components/Layouts/DefaultLayout";
 // Define the structure of form data
 interface ItemRequestFormData {
   item: string;
+  userId: string;
   category: string;
   quantity: number;
-  condition: string;
   description: string;
   technicalSpecifications: string;
-  brandPreference: string;
   location: string;
   expectedDeliveryDate: string;
   purpose: string;
@@ -27,12 +26,11 @@ const NewItemRequest = () => {
   // State for the form
   const [itemRequestFormData, setItemRequestFormData] = useState<ItemRequestFormData>({
     item: "",
+    userId: "",
     category: "",
     quantity: 1,
-    condition: "new",
     description: "",
     technicalSpecifications: "",
-    brandPreference: "",
     location: "",
     expectedDeliveryDate: "",
     purpose: "",
@@ -59,7 +57,7 @@ const NewItemRequest = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("/api/item-requests", {
+      const response = await fetch("/api/inventory/issuance/user/request", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -71,12 +69,11 @@ const NewItemRequest = () => {
         alert("Item request submitted successfully!");
         setItemRequestFormData({
           item: "",
+          userId: "",
           category: "",
           quantity: 1,
-          condition: "new",
           description: "",
           technicalSpecifications: "",
-          brandPreference: "",
           location: "",
           expectedDeliveryDate: "",
           purpose: "",
@@ -107,6 +104,7 @@ const NewItemRequest = () => {
               {/* Standard Fields */}
               {[
                 { name: "item", label: "Item Name/Type", type: "text", required: true },
+                { name: "userId", label: "User Id", type: "text", required: true },
                 {
                   name: "category",
                   label: "Category",
@@ -135,7 +133,7 @@ const NewItemRequest = () => {
                 },
                 { name: "description", label: "Description", type: "textarea" },
                 { name: "technicalSpecifications", label: "Technical Specifications", type: "textarea" },
-                { name: "brandPreference", label: "Model/Brand Preference", type: "text" },
+                
                 { name: "location", label: "Location", type: "text", required: true },
                 { name: "expectedDeliveryDate", label: "Expected Delivery Date", type: "date", required: true },
                 { name: "purpose", label: "Purpose/Use Case", type: "textarea", required: true },

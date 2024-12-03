@@ -12,7 +12,7 @@ interface ItemRequestFormData {
   condition: string;
   description: string;
   technicalSpecifications: string;
-  brandPreference: string;
+ 
   location: string;
   expectedDeliveryDate: string;
   purpose: string;
@@ -32,7 +32,6 @@ const NewItemRequest = () => {
     condition: "new",
     description: "",
     technicalSpecifications: "",
-    brandPreference: "",
     location: "",
     expectedDeliveryDate: "",
     purpose: "",
@@ -76,7 +75,6 @@ const NewItemRequest = () => {
           condition: "new",
           description: "",
           technicalSpecifications: "",
-          brandPreference: "",
           location: "",
           expectedDeliveryDate: "",
           purpose: "",
@@ -135,7 +133,7 @@ const NewItemRequest = () => {
                 },
                 { name: "description", label: "Description", type: "textarea" },
                 { name: "technicalSpecifications", label: "Technical Specifications", type: "textarea" },
-                { name: "brandPreference", label: "Model/Brand Preference", type: "text" },
+                
                 { name: "location", label: "Location", type: "text", required: true },
                 { name: "expectedDeliveryDate", label: "Expected Delivery Date", type: "date", required: true },
                 { name: "purpose", label: "Purpose/Use Case", type: "textarea", required: true },
