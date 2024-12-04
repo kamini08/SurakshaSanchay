@@ -42,7 +42,10 @@ export async function POST(req: Request) {
     });
 
     if (!user || user.role !== 'INCHARGE') {
-      return { success: false, message: 'Permission denied!' };
+      return NextResponse.json(
+        { success: false, message: 'Permission denied!' },
+        { status: 403 }
+      );
     }
     const request = await prisma.issuanceRequest.create({
       data: {
