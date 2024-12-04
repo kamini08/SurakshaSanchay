@@ -20,16 +20,17 @@ export async function POST(req: Request) {
     } = body;
 
     const user = await prisma.user.findUnique({
-      where: { id: userId },
+      where: { govId: userId },
     });
+
     if (!user) {
       return NextResponse.json({ message: "User not found!" }, { status: 404 });
     }
-
+    console.log(location);
     const incharge = await prisma.user.findFirst({
       where: { AND: [{ location }, { role: "INCHARGE" }] },
     });
-
+    console.log(incharge);
     const inventoryItem = await prisma.inventoryItem.findFirst({
       where: {
         AND: [
