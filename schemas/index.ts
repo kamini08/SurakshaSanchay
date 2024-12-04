@@ -11,7 +11,7 @@ export const ResetSchema = z.object({
   }),
 });
 export const LoginSchema = z.object({
-  govId: z.string().min(1, {
+  govId: z.string().min(12, {
     message: "Government ID is required",
   }),
   email: z.string().email({
@@ -43,7 +43,7 @@ export const RegisterSchema = z.object({
   role: z.string({
     message: "Invalid role",
   }),
-  govId: z.string().min(1, {
+  govId: z.string().min(12, {
     message: "Government ID is required",
   }),
   location: z.string().min(1, {

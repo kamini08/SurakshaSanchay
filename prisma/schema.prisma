@@ -123,8 +123,8 @@ model InventoryItem {
   maintenanceCharge   Float?
   issuedTo            String?
 
-  userId String?
-  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId              String?
+  user                User?      @relation(fields: [userId], references: [govId], onDelete: SetNull)
 
   communicationDevice     CommunicationDevice?
   computerAndITEquipment  ComputerAndITEquipment?
@@ -138,6 +138,8 @@ model InventoryItem {
   officeSupply            OfficeSupply?
 
   maintenanceRequests MaintenanceRequest[]
+
+  locationHistories   ItemLocationHistory[]
 
   IssuanceRequest IssuanceRequest[]
 }
@@ -313,3 +315,16 @@ model Notification {
   user     User @relation("UserNotifications", fields: [userId], references: [id])
   incharge User @relation("InchargeNotifications", fields: [inchargeId], references: [id])
 }
+model ItemLocationHistory {
+  id             String   @id @default(cuid())
+  itemId         String   // Foreign key to InventoryItem
+  govId          String   // govId of the person to whom the item is assigned
+  assignedDate   DateTime @default(now()) // Date and time of assignment
+  location       String   // Location where the item is assigned
+  description    String?  // Optional description for the transfer
+
+  inventoryItem  InventoryItem @relation(fields: [itemId], references: [itemId], onDelete: Cascade)
+
+  @@index([itemId, assignedDate]) // Optional index for faster queries
+}
+
