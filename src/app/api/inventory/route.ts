@@ -94,7 +94,7 @@ export async function POST(request: Request) {
                     ? "VEHICLE_AND_ACCESSORIES"
                     : data.itemData.category === "protectiveGear"
                       ? "PROTECTIVE_GEAR"
-                      : data.itemData.category === "forensic"
+                      : data.itemData.category === "firearms"
                         ? "FIREARMS"
                         : data.itemData.category === "forensic"
                           ? "FORENSIC"

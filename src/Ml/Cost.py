@@ -36,7 +36,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Load and process the dataset
-df = pd.read_csv("C:\\Users\\Lenovo\\Desktop\\SIH_SurakshaSanchay\\src\\Ml\\hardware_inventory_realistic_prices.csv")
+df = pd.read_csv("C:\\Users\\PRAJWAL KP\\OneDrive\\Desktop\\suraksah\\src\\Ml\\hardware_inventory_realistic_prices.csv")
 
 X = df[["Category", "Quantity", "Condition", "Maintenance_Charge", "Average_Maintenance_Cost", "Item_Age", "Return_Duration"]]
 y = df["Price"]
