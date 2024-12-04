@@ -8,9 +8,8 @@ const prisma = new PrismaClient();
 //   params: { id: string };}
 
 
-export async function GET(req: Request,
-  { params }: {params : {id:string}} ) {
-  const { id } = await params;
+export async function GET(req: Request) {
+  const id  = await req.url.split('/').pop();
 
   if (!id) {
     return NextResponse.json(
@@ -38,7 +37,7 @@ export async function GET(req: Request,
     )
 }
 return NextResponse.json(item, { status: 200 });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error fetching item:', error);
     return NextResponse.json(
       { success: false , message: 'Internal server error'},
