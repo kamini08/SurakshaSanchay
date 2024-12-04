@@ -1,8 +1,7 @@
-'use client';
+'use client'; // Required for client-side React components
 import React, { useState, useRef } from 'react';
-import QRCode from 'react-qr-code'; // Import QR code generator
-import 'tailwindcss/tailwind.css';
-import html2canvas from 'html2canvas'; // To convert the QR code to an image
+import QRCode from 'react-qr-code';
+import html2canvas from 'html2canvas';
 
 const GenerateQR: React.FC = () => {
   const [itemId, setItemId] = useState('');
@@ -15,7 +14,6 @@ const GenerateQR: React.FC = () => {
     }
   };
 
-  // Function to download the QR code as an image
   const downloadQRCode = async () => {
     if (qrCodeRef.current) {
       const canvas = await html2canvas(qrCodeRef.current);
@@ -42,7 +40,6 @@ const GenerateQR: React.FC = () => {
       >
         Generate QR Code
       </button>
-
       {showQRCode && (
         <div className="mt-6">
           <h2 className="text-xl mb-2">QR Code for Item ID: {itemId}</h2>
