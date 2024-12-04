@@ -27,11 +27,7 @@ export default function DefaultLayout({
       }
 
       const { role } = await response.json();
-<<<<<<< HEAD
       // console.log("User Role:", role);
-=======
-      console.log("User Role:", role);
->>>>>>> cec2cfaed8a38bec51801467b1336e44073661f4
       setRole(role);
     } catch (error) {
       console.error("Error fetching user role:", error);
@@ -51,16 +47,12 @@ export default function DefaultLayout({
             setSidebarOpen={setSidebarOpen}
           />
         );
-<<<<<<< HEAD
-
-=======
         break;
       case "incharge":
         return (
           <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         );
         break;
->>>>>>> cec2cfaed8a38bec51801467b1336e44073661f4
       case "user":
         return (
           <UserSidebar
@@ -68,10 +60,7 @@ export default function DefaultLayout({
             setSidebarOpen={setSidebarOpen}
           />
         );
-<<<<<<< HEAD
-=======
         break;
->>>>>>> cec2cfaed8a38bec51801467b1336e44073661f4
       default:
         return (
           <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
