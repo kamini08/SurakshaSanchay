@@ -1,12 +1,10 @@
-import { PrismaClient } from '@prisma/client';
-import { NextResponse } from 'next/server';
+import { PrismaClient } from "@prisma/client";
+import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
-    
-  
     const body = await req.json(); // Parse request body
     const {
       userId,
@@ -26,9 +24,9 @@ export async function POST(req: Request) {
       select: { role: true },
     });
 
-   const admin = await prisma.user.findFirst({
-    where: { role: 'admin' },
-   })
+    const admin = await prisma.user.findFirst({
+      where: { role: "admin" },
+    });
 
     const inventoryItem = await prisma.inventoryItem.findFirst({
       where: {
@@ -41,11 +39,11 @@ export async function POST(req: Request) {
       },
     });
 
-    if (!user || user.role !== 'INCHARGE') {
-      return NextResponse.json({
-        message: 'Permission denied!',
-        success: false,
-      })
+    if (!user || user.role !== "INCHARGE") {
+      return NextResponse.json(
+        { success: false, message: "Permission denied!" },
+        { status: 403 },
+      );
     }
     const request = await prisma.issuanceRequest.create({
       data: {
@@ -65,11 +63,11 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(request, { status: 201 });
-
   } catch (error) {
-
-    console.error('Error creating request:', error);
-    return NextResponse.json({ error: 'Failed to create request' }, { status: 500 });
-
+    console.error("Error creating request:", error);
+    return NextResponse.json(
+      { error: "Failed to create request" },
+      { status: 500 },
+    );
   }
 }

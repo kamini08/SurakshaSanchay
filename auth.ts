@@ -35,7 +35,7 @@ export const {
 
       if (existingUser.isTwoFactorEnabled) {
         const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(
-          existingUser.id
+          existingUser.id,
         );
 
         if (!twoFactorConfirmation) return false;
@@ -56,6 +56,7 @@ export const {
       if (token.role && session.user) {
         session.user.role = token.role as "user" | "admin" | "incharge";
       }
+
       if (token.number && session.user) {
         session.user.number = token.number.toString();
       }

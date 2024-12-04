@@ -1,153 +1,342 @@
-import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-import { auth } from '../../../../auth';
-import { db } from '@/lib/db';
+import { NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
+import { auth } from "../../../../auth";
+import { db } from "@/lib/db";
 // import { db } from '@/lib/db';
 
 const prisma = new PrismaClient();
 
+// Function to delete an inventory item (only for admins)
 async function deleteInventoryItem(userId: string, itemId: string) {
-  const user = await prisma.user.findUnique({
-    where: {id: userId },
-    select: { role: true },
-  });
-
-  if (!user || user.role !== 'admin') {
-    return { success: false, message: 'Permission denied: Only admins can delete inventory items.' };
-  }
-
-
-  await prisma.inventoryItem.delete({
-    where: { itemId: itemId },
-  });
-
-  return { success: true, message: 'Inventory item deleted successfully.' };
-}
-
-// Function to add an inventory item (only for admins)
-async function addInventoryItem(userId: string, itemData: any,categorySpecificData: any) {
   const user = await prisma.user.findUnique({
     where: { id: userId },
     select: { role: true },
   });
 
-  if (!user || user.role !== 'admin') {
-    return { success: false, message: 'Permission denied: Only admins can add inventory items.' };
+  if (!user || user.role !== "admin") {
+    return {
+      success: false,
+      message: "Permission denied: Only admins can delete inventory items.",
+    };
   }
 
- 
- // Create the inventory item
- const newItem = await prisma.inventoryItem.create({
-  data: {
-    itemId: itemData.itemId,
-    category: itemData.category, 
-    type: itemData.type || null,
-    description: itemData.description || null,
-    quantity: itemData.quantity || 1,
-    location: itemData.location || null,
-    condition: itemData.condition || 'new',
-    acquisitionDate: itemData.acquisitionDate ? new Date(itemData.acquisitionDate) : null,
-    expiryDate: itemData.expiryDate ? new Date(itemData.expiryDate) : null,
-    price: itemData.price || null,
-    supplier: itemData.supplier || null,
-    returnDate: itemData.returnDate || null,
-    lastInspectionDate: itemData.lastInspectionDate
-      ? new Date(itemData.lastInspectionDate)
-      : null,
-    maintenanceSchedule: itemData.maintenanceSchedule || null,
-    maintenanceCharge: itemData.maintenanceCharge || null,
-    issuedTo: itemData.issuedTo || null,
-    userId: userId || null,
-  },
-});
+  await prisma.inventoryItem.delete({
+    where: { itemId: itemId },
+  });
 
-console.log("hello");
-
-// Insert into category-specific table
-let categoryResponse;
-switch (itemData.category) {
-  case 'COMMUNICATION_DEVICES':
-    categoryResponse = await prisma.communicationDevice.create({
-      data: {
-        inventoryItemId: newItem.itemId,
-        frequencyRange: categorySpecificData.frequencyRange || null,
-        batteryType: categorySpecificData.batteryType || null,
-        connectivity: categorySpecificData.connectivity || null,
-      },
-    });
-    break;
-
-  case 'COMPUTER_AND_IT_EQUIPMENT':
-    categoryResponse = await prisma.computerAndITEquipment.create({
-      data: {
-        inventoryItemId: newItem.itemId,
-        processor: categorySpecificData.processor || null,
-        RAM: categorySpecificData.ram || null,
-        storage: categorySpecificData.storage || null,
-        OS: categorySpecificData.os || null,
-      },
-    });
-    break;
-    default:
-      return NextResponse.json(
-        { success: false, message: 'Invalid category or unsupported category.' },
-        { status: 400 }
-      );
-  }
-  return { success: true, message: 'Inventory item added successfully.', data: newItem };
+  return { success: true, message: "Inventory item deleted successfully." };
 }
-// POST handler
-export async function POST(req: Request) {
+
+// Function to add an inventory item (only for admins)
+
+export async function POST(request: Request) {
   try {
-    const session = await auth(); // Fetch session server-side
-    const userId = session?.user.id || null;
-    // const userId="cm3kg2lk50000mbsh62xi263w";
-    const body = await req.json();
+    const session = await auth();
+    const role = session?.user?.role;
 
-    if (!body || !body.itemData || !body.categorySpecificData) {
+    // Ensure the user has admin privileges
+    if (role !== "admin") {
       return NextResponse.json(
-        { success: false, message: "itemData and categorySpecificData are required." },
-        { status: 400 }
+        {
+          success: false,
+          message: "Permission denied: Only admins can add inventory items.",
+        },
+        { status: 403 },
       );
     }
 
-    if (!userId) {
+    const data = await request.json();
+
+    // Validate required fields
+    if (!data.itemData.itemId || !data.itemData.category) {
       return NextResponse.json(
-        { success: false, message: "Authentication failed. User ID is missing." },
-        { status: 401 }
+        {
+          success: false,
+          message: "Missing required fields: `itemId` or `category`.",
+        },
+        { status: 400 },
       );
     }
 
-    const { itemData, categorySpecificData } = body;
+    // Check if user exists (if userId is provided)
+    if (data.itemData.userId) {
+      const user = await db.user.findUnique({
+        where: {
+          govId: data.itemData.userId,
+        },
+      });
 
-    const response = await addInventoryItem(userId, itemData, categorySpecificData);
-
-    if ((response as any).success) {
-      return NextResponse.json(response, { status: 201 });
-    } else {
-      return NextResponse.json(response, { status: 400 });
+      if (!user) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: `User with ID ${data.itemData.userId} does not exist.`,
+          },
+          { status: 400 },
+        );
+      }
     }
-  } catch (error: any) {
-    // Handle any unexpected errors
+
+    // Create the inventory item
+    const newItem = await db.inventoryItem.create({
+      data: {
+        itemId: data.itemData.itemId,
+        category:
+          data.itemData.category === "communicationDevice"
+            ? "COMMUNICATION_DEVICES"
+            : data.itemData.category === "computerAndItEquipment"
+              ? "COMPUTER_AND_IT_EQUIPMENT"
+              : data.itemData.category === "networkingEquipment"
+                ? "NETWORKING_EQUIPMENT"
+                : data.itemData.category === "surveillanceAndTracking"
+                  ? "SURVEILLANCE_AND_TRACKING"
+                  : data.itemData.category === "vehicleAndAccessories"
+                    ? "VEHICLE_AND_ACCESSORIES"
+                    : data.itemData.category === "protectiveGear"
+                      ? "PROTECTIVE_GEAR"
+                      : data.itemData.category === "firearms"
+                        ? "FIREARMS"
+                        : data.itemData.category === "forensic"
+                          ? "FORENSIC"
+                          : data.itemData.category === "medicalFirstAid"
+                            ? "MEDICAL_FIRST_AID"
+                            : data.itemData.category === "officeSupplies"
+                              ? "OFFICE_SUPPLIES"
+                              : "OFFICE_SUPPLIES",
+        type: data.itemData.type || null,
+        description: data.itemData.description || null,
+        quantity: parseInt(data.itemData.quantity) || 1,
+        location: data.itemData.location || null,
+        condition: data.itemData.condition || "new",
+        acquisitionDate: data.itemData.acquisitionDate
+          ? new Date(data.itemData.acquisitionDate)
+          : null,
+        expiryDate: data.itemData.expiryDate
+          ? new Date(data.itemData.expiryDate)
+          : null,
+        price: parseFloat(data.itemData.price) || null,
+        supplier: data.itemData.supplier || null,
+        returnDate: data.itemData.returnDate || null,
+        lastInspectionDate: data.itemData.lastInspectionDate
+          ? new Date(data.itemData.lastInspectionDate)
+          : null,
+        maintenanceSchedule: data.itemData.maintenanceSchedule || null,
+        maintenanceCharge: parseFloat(data.itemData.maintenanceCharge) || null,
+        issuedTo: data.itemData.issuedTo || null,
+        userId: data.itemData.userId || null,
+      },
+    });
+
+    // Insert into category-specific table based on the category
+    let categoryResponse;
+
+    switch (data.itemData.category) {
+      case "communicationDevice":
+        categoryResponse = await db.communicationDevice.create({
+          data: {
+            inventoryItemId: newItem.itemId, // Use `newItem.id` for foreign key
+            frequencyRange:
+              data.itemData.categoryDetails?.communicationDevice
+                ?.frequencyRange || null,
+            batteryType:
+              data.itemData.categoryDetails?.communicationDevice?.batteryType ||
+              null,
+            connectivity:
+              data.itemData.categoryDetails?.communicationDevice
+                ?.connectivity || null,
+          },
+        });
+        break;
+
+      case "computerAndITEquipment":
+        categoryResponse = await db.computerAndITEquipment.create({
+          data: {
+            inventoryItemId: newItem.itemId, // Use `newItem.id` for foreign key
+            processor:
+              data.itemData.categoryDetails?.computerAndITEquipment.processor ||
+              null,
+            RAM:
+              data.itemData.categoryDetails?.computerAndITEquipment.RAM || null,
+            storage:
+              data.itemData.categoryDetails?.computerAndITEquipment.storage ||
+              null,
+            OS:
+              data.itemData.categoryDetails?.computerAndITEquipment.OS || null,
+          },
+        });
+        break;
+
+      case "networkingEquipment":
+        categoryResponse = await db.networkingEquipment.create({
+          data: {
+            inventoryItemId: newItem.itemId, // Use `newItem.id` for foreign key
+            bandwidth:
+              data.itemData.categoryDetails?.networkingEquipment.bandwidth ||
+              null,
+            ports:
+              data.itemData.categoryDetails?.networkingEquipment.ports || null,
+            protocols:
+              data.itemData.categoryDetails?.networkingEquipment.protocols ||
+              null,
+          },
+        });
+        break;
+      case "surveillanceAndTracking":
+        categoryResponse = await db.surveillanceAndTracking.create({
+          data: {
+            inventoryItemId: newItem.itemId, // Use `newItem.id` for foreign key
+            cameraResolution:
+              data.itemData.categoryDetails?.surveillanceAndTracking
+                .cameraResolution || null,
+            nightVision:
+              data.itemData.categoryDetails?.surveillanceAndTracking
+                .nightVision || null,
+            GPSAccuracy:
+              data.itemData.categoryDetails?.surveillanceAndTracking
+                .GPSAccuracy || null,
+          },
+        });
+        break;
+      case "vehicleAndAccessories":
+        categoryResponse = await db.vehicleAndAccessories.create({
+          data: {
+            inventoryItemId: newItem.itemId, // Use `newItem.id` for foreign key
+            vehicleType:
+              data.itemData.categoryDetails?.vehicleAndAccessories
+                .vehicleType || null,
+            makeAndModel:
+              data.itemData.categoryDetails?.vehicleAndAccessories
+                .makeAndModel || null,
+            licensePlate:
+              data.itemData.categoryDetails?.vehicleAndAccessories
+                .licensePlate || null,
+            engineCapacity:
+              data.itemData.categoryDetails?.vehicleAndAccessories
+                .engineCapacity || null,
+            accessories:
+              data.itemData.categoryDetails?.vehicleAndAccessories
+                .accessories || null,
+          },
+        });
+        break;
+      case "protectiveGear":
+        categoryResponse = await db.protectiveGear.create({
+          data: {
+            inventoryItemId: newItem.itemId, // Use `newItem.id` for foreign key
+            protectionLevel:
+              data.itemData.categoryDetails?.protectiveGear.protectionLevel ||
+              null,
+            size: data.itemData.categoryDetails?.protectiveGear.size || null,
+            material:
+              data.itemData.categoryDetails?.protectiveGear.material || null,
+          },
+        });
+        break;
+      case "firearms":
+        categoryResponse = await db.firearm.create({
+          data: {
+            inventoryItemId: newItem.itemId, // Use `newItem.id` for foreign key
+            caliber: data.itemData.categoryDetails?.firearm.caliber || null,
+            ammoType: data.itemData.categoryDetails?.firearm.ammoType || null,
+            serialNumber:
+              data.itemData.categoryDetails?.firearm.serialNumber || null,
+            licenseDetails:
+              data.itemData.categoryDetails?.firearm.licenseDetails || null,
+          },
+        });
+        break;
+      case "forensic":
+        categoryResponse = await db.forensicEquipment.create({
+          data: {
+            inventoryItemId: newItem.itemId, // Use `newItem.id` for foreign key
+            usageType:
+              data.itemData.categoryDetails?.forensicEquipment.usageType ||
+              null,
+            sensitivity:
+              data.itemData.categoryDetails?.forensicEquipment.sensitivity ||
+              null,
+            storageRequirements:
+              data.itemData.categoryDetails?.forensicEquipment
+                .storageRequirements || null,
+          },
+        });
+        break;
+      case "medicalFirstAid":
+        categoryResponse = await db.medicalFirstAid.create({
+          data: {
+            inventoryItemId: newItem.itemId, // Use `newItem.id` for foreign key
+            expirationDate: data.itemData.categoryDetails?.medicalFirstAid
+              .expirationDate
+              ? new Date(
+                  data.itemData.categoryDetails?.medicalFirstAid.expirationDate,
+                )
+              : null,
+
+            dosage:
+              data.itemData.categoryDetails?.medicalFirstAid.dosage || null,
+            storageConditions:
+              data.itemData.categoryDetails?.medicalFirstAid
+                .storageConditions || null,
+          },
+        });
+        break;
+      case "officeSupplies":
+        categoryResponse = await db.officeSupply.create({
+          data: {
+            inventoryItemId: newItem.itemId, // Use `newItem.id` for foreign key
+            itemType:
+              data.itemData.categoryDetails?.officeSupply.itemType || null,
+            dimensions:
+              data.itemData.categoryDetails?.officeSupply.dimensions || null,
+            material:
+              data.itemData.categoryDetails?.officeSupply.material || null,
+          },
+        });
+        break;
+
+      default:
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Invalid category or unsupported category.",
+          },
+          { status: 400 },
+        );
+    }
+
     return NextResponse.json(
-      { success: false, message: `Internal server error: ${error.message}` },
-      { status: 500 }
+      {
+        success: true,
+        message: "Inventory item added successfully.",
+        data: { newItem, categoryResponse },
+      },
+      { status: 201 },
+    );
+  } catch (error: any) {
+    console.error("Error in POST /api/inventory:", error);
+
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Internal Server Error",
+        error: error.message,
+      },
+      { status: 500 },
     );
   }
 }
 
-
 // DELETE handler (for deleting inventory item)
 export async function DELETE(req: Request) {
   const session = await auth(); // Fetch session server-side
-    const userId = session?.user.id;
+  const userId = session?.user.id;
   try {
     const { itemId } = await req.json();
 
     if (!userId || !itemId) {
       return NextResponse.json(
-        { success: false, message: 'userId and itemId are required.' },
-        { status: 400 }
+        { success: false, message: "userId and itemId are required." },
+        { status: 400 },
       );
     }
 
@@ -161,32 +350,33 @@ export async function DELETE(req: Request) {
   } catch (error: any) {
     return NextResponse.json(
       { success: false, message: `Internal server error: ${error.message}` },
-   
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
-
-export async function PUT(req:Request) {
+export async function PUT(req: Request) {
   try {
     const session = await auth(); // Fetch session server-side
     const userId = session?.user.id;
     const body = await req.json();
     const { itemId, fieldsToUpdate, childUpdates } = body;
     const user = await prisma.user.findUnique({
-          where: { id: userId },
-          select: { role: true },
-        });
-      
-        if (!user || user.role !== 'admin') {
-          return NextResponse.json({ success: false, message: 'Permission denied: Only admins can update inventory items.' });
-        }
-        
+      where: { id: userId },
+      select: { role: true },
+    });
+
+    if (!user || user.role !== "admin") {
+      return NextResponse.json({
+        success: false,
+        message: "Permission denied: Only admins can update inventory items.",
+      });
+    }
+
     if (!itemId || !fieldsToUpdate) {
       return new Response(
-        JSON.stringify({ error: 'itemId and fieldsToUpdate are required' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
+        JSON.stringify({ error: "itemId and fieldsToUpdate are required" }),
+        { status: 400, headers: { "Content-Type": "application/json" } },
       );
     }
 
@@ -209,30 +399,53 @@ export async function PUT(req:Request) {
     });
 
     return new Response(
-      JSON.stringify({ message: 'Item and related data updated successfully', updatedItem }),
-      { status: 200, headers: { 'Content-Type': 'application/json' } }
+      JSON.stringify({
+        message: "Item and related data updated successfully",
+        updatedItem,
+      }),
+      { status: 200, headers: { "Content-Type": "application/json" } },
     );
-  } catch (error:any) {
-    console.error('Error updating inventory item and related data:', error);
+  } catch (error: any) {
+    console.error("Error updating inventory item and related data:", error);
     return new Response(
       JSON.stringify({
-        error: 'Failed to update inventory item and related data',
+        error: "Failed to update inventory item and related data",
         details: error.message,
       }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      { status: 500, headers: { "Content-Type": "application/json" } },
     );
   }
 }
 
 export async function GET() {
   try {
-    // Fetch data from the addInventory table
-    const inventoryData = await db.inventoryItem.findMany();
-    
+    const session = await auth();
+    const role = session?.user.role;
+    const id = session?.user.id;
+    const govIds = await db.user.findFirst({
+      where: { id },
+      select: { govId: true },
+    });
+    console.log(govIds);
+    const govId = govIds?.govId;
+
+    let inventoryData;
+    if (role === "incharge") {
+      inventoryData = await prisma.inventoryItem.findMany({
+        where: { userId: govId },
+      });
+      console.log(inventoryData);
+    } else {
+      inventoryData = await prisma.inventoryItem.findMany();
+    }
+
     // Return the data as a JSON response
     return NextResponse.json(inventoryData);
   } catch (error) {
     console.error("Error fetching inventory data: ", error);
-    return NextResponse.json({ error: 'Failed to fetch inventory data' }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch inventory data" },
+      { status: 500 },
+    );
   }
 }
