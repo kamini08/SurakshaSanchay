@@ -301,7 +301,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Settings",
-        route: "/QrScanner",
+        route: "/generateQR",
       },
       {
         icon: (
@@ -371,7 +371,7 @@ const menuGroups = [
         label: "QR Code",
         route: "#",
         children: [
-          { label: "Generate QR Code", route: "/QrScanner" },
+          { label: "Generate QR Code", route: "/generateQR" },
           { label: "Scan QR Code", route: "/scanQR" }
         ]
       },
