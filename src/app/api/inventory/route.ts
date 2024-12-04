@@ -419,8 +419,25 @@ export async function PUT(req: Request) {
 
 export async function GET() {
   try {
-    // Fetch data from the addInventory table
-    const inventoryData = await prisma.inventoryItem.findMany();
+    const session = await auth();
+    const role = session?.user.role;
+    const id = session?.user.id;
+    const govIds = await db.user.findFirst({
+      where: { id },
+      select: { govId: true },
+    });
+    console.log(govIds);
+    const govId = govIds?.govId;
+
+    let inventoryData;
+    if (role === "incharge") {
+      inventoryData = await prisma.inventoryItem.findMany({
+        where: { userId: govId },
+      });
+      console.log(inventoryData);
+    } else {
+      inventoryData = await prisma.inventoryItem.findMany();
+    }
 
     // Return the data as a JSON response
     return NextResponse.json(inventoryData);

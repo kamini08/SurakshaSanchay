@@ -376,7 +376,7 @@ const ViewInventoryIndividual = () => {
                           className="border p-1"
                         />
                       ) : (
-                        item.acquisitionDate
+                        item.acquisitionDate?.split("T00:00:00.000Z")
                       )}
                     </td>
                     <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
@@ -389,7 +389,7 @@ const ViewInventoryIndividual = () => {
                           className="border p-1"
                         />
                       ) : (
-                        item.expiryDate
+                        item.expiryDate?.split("T00:00:00.000Z")
                       )}
                     </td>
                     <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
