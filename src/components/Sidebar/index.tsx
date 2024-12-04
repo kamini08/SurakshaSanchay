@@ -336,7 +336,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Budget Forecast",
-        route: "/tables",
+        route: "/Ml",
       },
       {
         icon: (

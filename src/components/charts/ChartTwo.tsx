@@ -1,115 +1,101 @@
-// 'use client';
-// import React, { useState } from "react";
-// import ReactApexChart from "react-apexcharts";
-
-// const LineChart: React.FC = () => {
-//     const [state, setState] = useState({
-//         series: [{
-//                 name: "Total items",
-//                 data: [1215, 1461, 1531, 1609, 1696, 1895, 1982, 2245, 2345]
-//             },{
-//                 name: "Items issued",
-//                 data: [910, 1021, 1071, 1176, 1231, 1275, 1300, 1315, 1360]
-//             },{
-//                 name: "Items missing",
-//                 data: [12, 41, 35, 51, 92, 62, 269, 91, 122]
-//             }],
-//             options: {
-//               chart: {
-//                 height: 350,
-//                 type: 'line',
-//                 zoom: {
-//                   enabled: false
-//                 }
-//               },
-//               dataLabels: {
-//                 enabled: false
-//               },
-//               stroke: {
-//                 curve: 'straight'
-//               },
-//               title: {
-//                 text: 'Item Trends by Month',
-//                 align: 'left'
-//               },
-//               grid: {
-//                 row: {
-//                   colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-//                   opacity: 0.5
-//                 },
-//               },
-//               xaxis: {
-//                 categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-//               },},},);
-
-//     return (
-//         <div>
-//             <div id="chart">
-//                 <ReactApexChart options={state.options} series={state.series} type="line" />
-//             </div>
-//             <div id="html-dist"></div>
-//         </div>
-//     );
-// };
-
-// export default LineChart;
 'use client';
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 
-const LineChart: React.FC = () => {
-    const series = [
-        {
-            name: "Total items",
-            data: [1215, 1461, 1531, 1609, 1696, 1895, 1982, 2245, 2345],
-        },
-        {
-            name: "Items issued",
-            data: [910, 1021, 1071, 1176, 1231, 1275, 1300, 1315, 1360],
-        },
-        {
-            name: "Items missing",
-            data: [12, 41, 35, 51, 92, 62, 269, 91, 122],
-        },
+interface DataItem {
+    status: string;
+    total: number;
+}
+
+const BarChart: React.FC = () => {
+    const defaultData: DataItem[] = [
+        { status: "Pending", total: 0 },
+        { status: "In Progress", total: 0 },
+        { status: "Completed", total: 0 },
+        { status: "On Hold", total: 0 },
     ];
+
+    const exampleData: DataItem[] = [
+        { status: "Pending", total: 5 },
+        { status: "In Progress", total: 10 },
+        { status: "Completed", total: 15 },
+        { status: "On Hold", total: 3 },
+    ];
+
+    const [data, setData] = useState<DataItem[]>(defaultData);
+    const [loading, setLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('/api/data'); // Ensure this URL is correct
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const result: DataItem[] = await response.json();
+                setData(result.length > 0 ? result : defaultData); // Use default data if result is empty
+            } catch (err) {
+                // Log the error to the console for debugging
+                console.error("Fetch error:", err);
+                // Set data to example data on error
+                setData(exampleData);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const options: ApexOptions = {
         chart: {
+            type: 'bar',
             height: 350,
-            type: 'line',
-            zoom: {
-                enabled: false,
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                borderRadius: 4, // Use borderRadius for rounded edges
             },
         },
         dataLabels: {
-            enabled: false,
-        },
-        stroke: {
-            curve: 'straight',
-        },
-        title: {
-            text: 'Item Trends by Month',
-            align: 'left',
-        },
-        grid: {
-            row: {
-                colors: ['#f3f3f3', 'transparent'], // alternating row colors
-                opacity: 0.5,
-            },
+            enabled: true,
         },
         xaxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+            categories: data.map(item => item.status), // Extract status for x-axis
+        },
+        yaxis: {
+            title: {
+                text: 'Total Items',
+            },
+        },
+        fill: {
+            colors: ['#008FFB'], // Customize bar color
         },
     };
+
+    const series = [{
+        name: 'Total Items',
+        data: data.map(item => item.total), // Extract total items for y-axis
+    }];
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div>
             <div id="chart">
-                <ReactApexChart options={options} series={series} type="line" height={350} />
+                <ReactApexChart
+                    options={options}
+                    series={series}
+                    type="bar"
+                    height={350}
+                />
             </div>
         </div>
     );
 };
 
-export default LineChart;
+export default BarChart;

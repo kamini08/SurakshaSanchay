@@ -216,7 +216,7 @@ const IssueItemTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/issueData");
+        const response = await fetch("/api/inventory/issuance/incharge/getRequests");
         if (response.ok) {
           const data = await response.json();
           if (data && data.length > 0) {
