@@ -1,14 +1,3 @@
-from flask import Flask
-from flask_cors import CORS  # Make sure to import CORS
-from flask import request, jsonify
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_squared_error
-from sklearn.model_selection import train_test_split
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-
-# Load and process the dataset
 df = pd.read_csv("C:\\Users\\Lenovo\\Desktop\\SIH_SurakshaSanchay\\src\\app\\Ml\\hardware_inventory_realistic_prices.csv")
 
 X = df[["Category", "Quantity", "Condition", "Maintenance_Charge", "Average_Maintenance_Cost", "Item_Age", "Return_Duration"]]
@@ -34,7 +23,3 @@ plt.title("Actual Prices vs Predicted Prices")
 plt.xlabel("Actual Prices")
 plt.ylabel("Predicted Prices")
 plt.show()
-
-# Initialize Flask app and enable CORS
-app = Flask(__name__)
-CORS(app)  # This enables CORS for the entire Flask app
