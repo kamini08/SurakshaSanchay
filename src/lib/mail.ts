@@ -10,7 +10,17 @@ export const sendTwoFactorTokenEmail = async (email: string, token: string) => {
     html: `<p>Your 2FA code: ${token}</p>`,
   });
 };
-export const sendVerificationEmail = async (
+export const sendVerificationEmail = async (email: string, token: string) => {
+  const confirmLink = `http://localhost:3000?token=${token}`;
+
+  await resend.emails.send({
+    from: "mail@khetideals.shop",
+    to: email,
+    subject: "Confirm your email",
+    html: `<p>Click <a href="${confirmLink}">here</a> to confirm email</p>`,
+  });
+};
+export const sendVerificationEmailRegister = async (
   email: string,
   token: string,
   name: string,
