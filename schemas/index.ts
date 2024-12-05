@@ -44,7 +44,7 @@ export const RegisterSchema = z.object({
     message: "Invalid role",
   }),
   govId: z.string().min(12, {
-    message: "Government ID is required",
+    message: "Government ID must be minimum of 12 characters",
   }),
   location: z.string().min(1, {
     message: "Location is required",

@@ -526,8 +526,7 @@ const ViewInventoryIndividual = () => {
                           className="border p-1"
                         />
                       ) : (
-                        <div key={index} style={{ marginBottom: "20px" }}>
-                          {/* <h2>Item {index + 1}</h2> */}
+                        <div key={index}>
                           <pre>
                             {excludeNullValues(item["communicationDevice"])}
                           </pre>
