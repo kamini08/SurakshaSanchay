@@ -41,7 +41,6 @@ const PieChart: React.FC = () => {
                     throw new Error('Network response was not ok');
                 }
                 const temp = await response.json();
-                console.log(temp);
                 const result = temp.data;
 
                 // Map categories to the fetched data or fallback to zero/placeholder
