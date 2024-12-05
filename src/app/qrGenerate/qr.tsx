@@ -25,7 +25,7 @@ const GenerateQR: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen  bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <h1 className="text-3xl font-bold mb-8">Generate QR Code</h1>
       <input
         type="text"
@@ -41,14 +41,14 @@ const GenerateQR: React.FC = () => {
         Generate QR Code
       </button>
       {showQRCode && (
-        <div className="mt-6">
+        <div className="mt-6 flex flex-col items-center justify-center">
           <h2 className="text-xl mb-2">QR Code for Item ID: {itemId}</h2>
           <div ref={qrCodeRef} className="bg-white p-4">
             <QRCode value={itemId} size={200} />
           </div>
           <button
             onClick={downloadQRCode}
-            className="bg-green-500 text-white px-4 py-2 rounded mt-4"
+            className="bg-green-500 text-white px-4 py-2 rounded mt-4 "
           >
             Download QR Code
           </button>

@@ -63,10 +63,16 @@
 
 // export default GenerateQR;
 'use client'; // Required for client-side rendering
-
+import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import React from 'react';
 import GenerateQR from './qr';
 
 export default function Page() {
-  return <GenerateQR />;
+  return (
+    <DefaultLayout>
+      <Breadcrumb pageName="QR CODE GENERATOR" />
+      <GenerateQR />
+    </DefaultLayout>
+  );
 }

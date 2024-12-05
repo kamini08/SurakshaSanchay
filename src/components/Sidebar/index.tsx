@@ -8,6 +8,7 @@ import SidebarItem from "@/components/Sidebar/SidebarItem";
 import ClickOutside from "@/components/ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
 
+
 interface SidebarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (arg: boolean) => void;
@@ -47,7 +48,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Dashboard",
-        route: "/Dashboard",
+        route: "./components/Dashboard",
         // label: "
       },
       // {
