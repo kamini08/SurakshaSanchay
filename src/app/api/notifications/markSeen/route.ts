@@ -4,20 +4,29 @@ import { NextRequest, NextResponse } from 'next/server';
 const prisma = new PrismaClient();
 
 export async function PATCH(request: NextRequest) {
-  const id = request.nextUrl.pathname.split('/').slice(-2)[0]; // Assumes route is /api/notifications/:id/markSeen
-
-  if (!id) {
-    return NextResponse.json(
-      { error: 'Notification ID is required' },
-      { status: 400 }
-    );
-  }
-
   try {
+    // Parse the request body to get the ID
+    const { id,seen } = await request.json();
+
+    if (!id) {
+      return NextResponse.json(
+        { error: 'Notification ID is required' },
+        { status: 400 }
+      );
+    }
+
+    // Update the notification's read status
     const notification = await prisma.notification.update({
       where: { id },
-      data: { read: true },
+      data: { read: seen },
     });
+
+    if (!notification) {
+      return NextResponse.json(
+        { error: 'Notification not found' },
+        { status: 404 }
+      );
+    }
 
     return NextResponse.json({
       message: 'Notification marked as seen',

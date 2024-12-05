@@ -27,7 +27,7 @@ export default function DefaultLayout({
       }
 
       const { role } = await response.json();
-      console.log("User Role:", role);
+      // console.log("User Role:", role);
       setRole(role);
     } catch (error) {
       console.error("Error fetching user role:", error);
