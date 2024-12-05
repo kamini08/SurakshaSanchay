@@ -1,4 +1,4 @@
-import { IssuanceRequest, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
@@ -21,16 +21,13 @@ export async function POST(req: Request) {
 
     const user = await prisma.user.findUnique({
       where: { govId: userId },
+      select: { role: true },
     });
 
-    if (!user) {
-      return NextResponse.json({ message: "User not found!" }, { status: 404 });
-    }
-    console.log(location);
-    const incharge = await prisma.user.findFirst({
-      where: { AND: [{ location }, { role: "INCHARGE" }] },
+    const admin = await prisma.user.findFirst({
+      where: { role: "admin" },
     });
-    console.log(incharge);
+
     const inventoryItem = await prisma.inventoryItem.findFirst({
       where: {
         AND: [
@@ -42,32 +39,27 @@ export async function POST(req: Request) {
       },
     });
 
-    
-
-    if (!incharge) {
+    if (!user || user.role !== "INCHARGE") {
       return NextResponse.json(
-        { message: "Incharge not found!" },
-        { status: 404 },
+        { success: false, message: "Permission denied!" },
+        { status: 403 },
       );
     }
-    
     const request = await prisma.issuanceRequest.create({
       data: {
         userId,
         itemId: inventoryItem?.itemId || "",
-        inventoryItem: item,
-        inchargeId: incharge?.govId,
+        inchargeId: admin?.govId,
         issueDescription: description,
         quantity,
-        expectedDeliveryDate: new Date(expectedDeliveryDate),
+        expectedDeliveryDate,
         purpose,
         expectedUsageDuration,
-        approvalNeededBy: new Date(approvalNeededBy),
+        approvalNeededBy,
         priorityLevel,
         isDamaged: false,
         status: "PENDING",
       },
-      
     });
 
     return NextResponse.json(request, { status: 201 });

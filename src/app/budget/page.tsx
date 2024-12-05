@@ -21,11 +21,13 @@ interface ChartData {
 const PricePredictionChart = () => {
   // Explicitly define data as an array of ChartData
   const [data, setData] = useState<ChartData[]>([]);
+  console.log(data);
 
   useEffect(() => {
     Papa.parse('/hardware_inventory_realistic_prices.csv', {
       download: true,
       header: true, // If your CSV has headers
+     
       complete: (result) => {
         const chartData = (result.data as InventoryData[]).slice(0, 30).map((row) => ({
           actual: parseFloat(row.Price), // Ensure values are parsed as numbers
