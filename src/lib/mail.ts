@@ -11,7 +11,7 @@ export const sendTwoFactorTokenEmail = async (email: string, token: string) => {
   });
 };
 export const sendVerificationEmail = async (email: string, token: string) => {
-  const confirmLink = `http://localhost:3000?token=${token}`;
+  const confirmLink = `https://surakshasanchay.vercel.app/?token=${token}`;
 
   await resend.emails.send({
     from: "mail@khetideals.shop",
@@ -28,7 +28,7 @@ export const sendVerificationEmailRegister = async (
   govId: string,
   location: string,
 ) => {
-  const confirmLink = `http://localhost:3000/auth/new-verification?token=${token}`;
+  const confirmLink = `https://surakshasanchay.vercel.app//auth/new-verification?token=${token}`;
 
   await resend.emails.send({
     from: "mail@khetideals.shop",
@@ -54,7 +54,7 @@ export const sendVerificationEmailRegister = async (
   });
 };
 export const sendPasswordResetEmail = async (email: string, token: string) => {
-  const resetLink = `http://localhost:3000/auth/new-password?token=${token}`;
+  const resetLink = `https://surakshasanchay.vercel.app//auth/new-password?token=${token}`;
 
   await resend.emails.send({
     from: "mail@khetideals.shop",
