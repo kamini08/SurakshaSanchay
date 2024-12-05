@@ -1,7 +1,7 @@
 "use client";
 import dynamic from "next/dynamic";
 import React, { useState, useEffect } from "react";
-import CardDataStats from "../CardDataStats";
+import CardDataStats from "../../components/CardDataStats";
 import LineChart from "@/components/charts/ChartTwo";
 import PieChart from "@/components/charts/ChartOne";
 import Modal from "react-modal";
