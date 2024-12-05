@@ -28,7 +28,7 @@ export async function POST(req: Request) {
       where: { role: "admin" },
     });
 
-    const inventoryItem = await prisma.inventoryItem.findFirst({
+    const inventoryItem = await prisma.inventoryItem.findMany({
       where: {
         AND: [
           { type: item },
@@ -48,7 +48,7 @@ export async function POST(req: Request) {
     const request = await prisma.issuanceRequest.create({
       data: {
         userId,
-        itemId: inventoryItem?.itemId || "",
+        itemId: "",
         inchargeId: admin?.govId,
         issueDescription: description,
         quantity,

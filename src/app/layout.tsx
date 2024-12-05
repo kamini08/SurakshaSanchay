@@ -20,11 +20,14 @@ export default function RootLayout({
     setTimeout(() => setLoading(false), 1000);
   }, []);
 
+
   return (
     <html lang="en">
+     
       <body suppressHydrationWarning={true}>
         <div className="dark:bg-boxdark-2 dark:text-bodydark w-screen min-h-screen overflow-x-auto ">
           {loading ? <Loader /> : children}
+          
         </div>
       </body>
     </html>
