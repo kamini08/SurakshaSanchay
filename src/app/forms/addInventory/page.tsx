@@ -39,13 +39,13 @@ const Modal = ({
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-50">
-      <div className="relative max-h-[90vh] w-full max-w-2xl overflow-auto rounded-lg bg-white p-6 shadow-lg">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-50 p-6">
+      <div className="relative max-h-[90vh] w-full max-w-2xl overflow-auto rounded-lg bg-white p-8 shadow-lg">
         <button
-          className="absolute right-2 top-2 text-gray-600 hover:text-gray-900"
+          className="absolute bottom-10 left-15 rounded bg-green-900 p-1 text-white hover:text-gray-900"
           onClick={onClose}
         >
-          X
+          Submit
         </button>
         <div>{children}</div>
       </div>
@@ -79,12 +79,12 @@ const AddInventory = () => {
   const [categoryType, setCategoryType] = useState<string>(""); // To hold the currently selected category type
 
   const handleInventoryChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
-    setItemData((prev) => ({
-      ...prev,
-      [name]: value, // Dynamically update the field based on the input name
+    setItemData((prevState) => ({
+      ...prevState,
+      [name]: value,
     }));
   };
   const handleCategoryChange = (selectedCategory: string) => {

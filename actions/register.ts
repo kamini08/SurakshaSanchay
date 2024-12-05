@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
 import * as z from "zod";
 import { RegisterSchema } from "../schemas";
-import { getUserByEmail } from "../data/user";
+import { getUserByEmail, getUserByGovId } from "../data/user";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmailRegister } from "../src/lib/mail";
 
@@ -30,8 +30,15 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
   // Check if email already exists
   const existingUser = await getUserByEmail(email);
+  const existingUserGov = await getUserByGovId(govId);
+  // console.log(existingUser);
+  if (!existingUser) {
+  }
   if (existingUser) {
     return { error: "Email already exists." };
+  }
+  if (existingUserGov) {
+    return { error: "Government ID already exists." };
   }
 
   // Hash the password and create the user
