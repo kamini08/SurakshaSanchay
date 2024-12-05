@@ -1,7 +1,7 @@
 // import { auth, signOut } from "../../../../auth";
 
 import { auth, signOut } from "../../../../auth";
-import Dashboard from "@/components/Dashboard/page";
+import Dashboard from "@/app/Dashboard/page";
 
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
