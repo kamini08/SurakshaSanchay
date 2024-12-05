@@ -28,7 +28,7 @@ export async function POST(req: Request) {
     }
     console.log(location);
     const incharge = await prisma.user.findFirst({
-      where: { AND: [{ location }, { role: "INCHARGE" }] },
+      where: { AND: [{ location }, { role: "incharge" }] },
     });
     console.log(incharge);
     const inventoryItem = await prisma.inventoryItem.findFirst({
