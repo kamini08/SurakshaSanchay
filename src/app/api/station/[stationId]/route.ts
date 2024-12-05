@@ -1,13 +1,10 @@
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 
-export async function GET(
-  req: Request,
-  { params }: { params: { stationId: string } },
-) {
+export async function GET(req: Request) {
   try {
     // Await params before using its properties
-    const { stationId } = params;
+    const stationId  = req.url.split("/").pop();
 
     // Ensure stationId is valid
     if (!stationId) {

@@ -105,6 +105,11 @@ model TwoFactorConfirmation {
   @@unique([userId])
 }
 
+enum Avail{
+  AVAILABLE
+  UNAVAILABLE
+}
+
 model InventoryItem {
   itemId              String    @id
   category            Category
@@ -113,6 +118,7 @@ model InventoryItem {
   quantity            Int       @default(1)
   location            String?
   condition           String    @default("new")
+  status               Avail     @default(AVAILABLE)
   acquisitionDate     DateTime?
   expiryDate          DateTime?
   price               Float?
