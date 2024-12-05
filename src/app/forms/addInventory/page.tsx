@@ -460,12 +460,12 @@ const AddInventory = () => {
                   />
                 </div>
 
-                <button
+                {/* <button
                   type="submit"
                   className="rounded bg-blue-500 px-4 py-2 text-white"
                 >
                   Submit
-                </button>
+                </button> */}
               </div>
             </form>
           </div>
@@ -556,12 +556,12 @@ const AddInventory = () => {
                   />
                 </div>
 
-                <button
+                {/* <button
                   type="submit"
                   className="rounded bg-blue-500 px-4 py-2 text-white"
                 >
                   Submit
-                </button>
+                </button> */}
               </div>
             </form>
           </div>
@@ -706,12 +706,12 @@ const AddInventory = () => {
                   />
                 </div>
 
-                <button
+                {/* <button
                   type="submit"
                   className="rounded bg-blue-500 px-4 py-2 text-white"
                 >
                   Submit
-                </button>
+                </button> */}
               </div>
             </form>
           </div>
@@ -799,12 +799,12 @@ const AddInventory = () => {
                   />
                 </div>
 
-                <button
+                {/* <button
                   type="submit"
                   className="rounded bg-blue-500 px-4 py-2 text-white"
                 >
                   Submit
-                </button>
+                </button> */}
               </div>
             </form>
           </div>
@@ -913,12 +913,12 @@ const AddInventory = () => {
                   />
                 </div>
 
-                <button
+                {/* <button
                   type="submit"
                   className="rounded bg-blue-500 px-4 py-2 text-white"
                 >
                   Submit
-                </button>
+                </button> */}
               </div>
             </form>
           </div>
@@ -1011,12 +1011,12 @@ const AddInventory = () => {
                   />
                 </div>
 
-                <button
+                {/* <button
                   type="submit"
                   className="rounded bg-blue-500 px-4 py-2 text-white"
                 >
                   Submit
-                </button>
+                </button> */}
               </div>
             </form>
           </div>
@@ -1108,12 +1108,12 @@ const AddInventory = () => {
                   />
                 </div>
 
-                <button
+                {/* <button
                   type="submit"
                   className="rounded bg-blue-500 px-4 py-2 text-white"
                 >
                   Submit
-                </button>
+                </button> */}
               </div>
             </form>
           </div>
@@ -1203,12 +1203,12 @@ const AddInventory = () => {
                   />
                 </div>
 
-                <button
+                {/* <button
                   type="submit"
                   className="rounded bg-blue-500 px-4 py-2 text-white"
                 >
                   Submit
-                </button>
+                </button> */}
               </div>
             </form>
           </div>

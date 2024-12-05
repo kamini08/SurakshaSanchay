@@ -61,10 +61,6 @@ export default function DefaultLayout({
           />
         );
         break;
-      default:
-        return (
-          <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-        );
     }
   };
 
