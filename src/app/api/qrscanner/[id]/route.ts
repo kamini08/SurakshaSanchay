@@ -2,6 +2,7 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import { db } from '@/lib/db';
+import { auth } from '../../../../../auth';
 
 const prisma = new PrismaClient();
 // interface RouteParams {
@@ -9,8 +10,10 @@ const prisma = new PrismaClient();
 
 
 export async function GET(req: Request) {
-  const id  = await req.url.split('/').pop();
+  const session = await auth();
+const role= session?.user.role;
 
+  const id  = await req.url.split('/').pop();
   if (!id) {
     return NextResponse.json(
       { message: 'Invalid request: ID is required' },
@@ -18,13 +21,11 @@ export async function GET(req: Request) {
     );
   }
 
-  console.log('Extracted ID from URL:', id);
-
   try {
     const item = await db.inventoryItem.findUnique({
       where: { itemId: id },
     });
-
+   console.log(item);
    if(!item){
     return NextResponse.json(
       {
@@ -36,7 +37,7 @@ export async function GET(req: Request) {
       },
     )
 }
-return NextResponse.json(item, { status: 200 });
+return NextResponse.json({item,role}, { status: 200 });
   } catch (error) {
     console.error('Error fetching item:', error);
     return NextResponse.json(
