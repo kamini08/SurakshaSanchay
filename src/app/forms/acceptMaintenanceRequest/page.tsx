@@ -383,7 +383,7 @@ const RequestMaintenanceManagement = () => {
 
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="MAINTENANCE RECORD AND REQUEST" />
+      <Breadcrumb pageName="MAINTENANCE RECORD AND REQUEST ACTION" />
       <section>
         <h1 className="font-medium text-black dark:text-white">
           Previous Maintenance Records
@@ -623,18 +623,7 @@ const RequestMaintenanceManagement = () => {
                     ></textarea>
                   </div>
 
-                  {/* Completion Date
-                  <div>
-                    <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                      Completion Date <span className="text-meta-1">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      defaultValue={new Date().toLocaleString()}
-                      disabled
-                      className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-                    />
-                  </div> */}
+                 
 
                   <div>
                     <label className="mb-3 block text-sm font-medium text-black dark:text-white">
@@ -686,18 +675,6 @@ const RequestMaintenanceManagement = () => {
                     ></textarea>
                   </div>
 
-                  {/* Reject Date
-                  <div>
-                    <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                      Discard Date <span className="text-meta-1">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      defaultValue={new Date().toLocaleString()}
-                      disabled
-                      className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-                    />
-                  </div> */}
 
                   <div>
                     <label className="mb-3 block text-sm font-medium text-black dark:text-white">
