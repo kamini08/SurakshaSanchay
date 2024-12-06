@@ -39,7 +39,7 @@ export async function POST(req: Request) {
       },
     });
 
-    if (!user || user.role !== "INCHARGE") {
+    if (!user || user.role !== "incharge") {
       return NextResponse.json(
         { success: false, message: "Permission denied!" },
         { status: 403 },
@@ -48,6 +48,7 @@ export async function POST(req: Request) {
     const request = await prisma.issuanceRequest.create({
       data: {
         userId,
+        name: item,
         itemId: "",
         inchargeId: admin?.govId,
         issueDescription: description,

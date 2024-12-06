@@ -69,6 +69,7 @@ const keyFindings: Finding[] = [
   },
 ];
 
+
 const AuditReport: React.FC = () => {
   return (
     <div className="policy-compliance-review">

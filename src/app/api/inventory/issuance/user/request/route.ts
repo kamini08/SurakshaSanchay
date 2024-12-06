@@ -38,6 +38,9 @@ export async function POST(req: Request) {
           {
             userId: null,
           },
+          {
+            issuedTo: incharge?.govId,
+          },
         ],
       },
     });
@@ -54,8 +57,8 @@ export async function POST(req: Request) {
     const request = await prisma.issuanceRequest.create({
       data: {
         userId,
+        name: item,
         itemId: inventoryItem?.itemId || "",
-        inventoryItem: item,
         inchargeId: incharge?.govId,
         issueDescription: description,
         quantity,

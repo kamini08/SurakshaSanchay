@@ -1,11 +1,26 @@
 "use client"
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import LocalInventoryReport from "@/components/reports/LocalInventoryReport";
 import AdminInventoryReport from "@/components/reports/AdminInventoryReport";
 import AuditReport from "@/components/reports/AuditReport";
 import SummaryCard from "@/components/reports/SummaryPage";
 import { Box } from "@mui/material";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import fs from 'fs';
+import path from 'path';
+import { PrismaClient } from "@prisma/client";
+import { auth } from "../../../../auth";
+
+// const prisma = new PrismaClient();
+// // async function getModelFields() {
+// //   const result = await prisma.$queryRaw<
+// //     Array<{ column_name: string }>
+// //   >`SELECT column_name FROM information_schema.columns WHERE table_name = 'YourTableName'`;
+
+// //   console.log(result.map(row => row.column_name));
+// // }
+
+// // getModelFields();
 
 
 interface AdminReportData {
@@ -30,7 +45,10 @@ interface AdminReportData {
     };
   }
   
-  const adminReportData: AdminReportData = {
+const ReportsPage: React.FC = () => {
+
+  
+  const [adminData, setAdminData] = useState<AdminReportData>({
     summary: {
       totalInventoryValue: 500000,
       totalItems: 1500,
@@ -50,9 +68,9 @@ interface AdminReportData {
       labels: ["Compliant", "Non-Compliant"],
       values: [90, 10],
     },
-  };
+  });
 
-  const dashboardData = {
+  const [localReportData, setLocalReportData] = useState({
     metrics: [
       { label: "Total Devices", value: 155 },
       { label: "Working Devices", value: 120 },
@@ -82,10 +100,23 @@ interface AdminReportData {
       { itemId: 1, name: "Printer", reason: "Outdated", discardedDate: "2024-10-15" },
       { itemId: 2, name: "Monitor", reason: "Damaged", discardedDate: "2024-11-05" },
     ],
-  };
+  });
   
+  const [user, setUser] = useState<string>("incharge");
+  useEffect(() => {
+    const fetchSession = async () => {
+      try {
+        const session = await auth();
+        if(session?.user) {
+        setUser(session.user.role);
+        }
+      } catch(e) {
+        console.error(e);
+      }
+    }
+    fetchSession();
+  }, []);
   
-const ReportsPage: React.FC = () => {
 
   return (
     <DefaultLayout>
@@ -95,9 +126,9 @@ const ReportsPage: React.FC = () => {
         <SummaryCard title="Damaged Items" value={15} />
         <SummaryCard title="Operational Items" value={175} />
       </Box>
-      {/* <AdminInventoryReport></AdminInventoryReport> */}
-      {/* <LocalInventoryReport data={dashboardData}/> */}
-      <AuditReport></AuditReport>
+      {(user=="admin") ? (<AdminInventoryReport {...adminData}/>) : 
+        (<LocalInventoryReport data={localReportData}/>)
+       }
     </Box>
     </DefaultLayout>
   );

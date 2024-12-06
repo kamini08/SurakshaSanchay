@@ -7,14 +7,15 @@ const prisma = new PrismaClient();
 export async function POST(req: Request) {
   try {
     const body = await req.json(); // Parse request body
-    const { userId, inchargeId, requestId, isApproved, discardReason } = body;
+    const { userId, itemId, inchargeId, requestId, isApproved, discardReason } = body;
 
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: { role: true },
     });
+    
 
-    if (!user || user.role !== "INCHARGE") {
+    if (!user || user.role !== "incharge") {
         return NextResponse.json(
             { error: "Only Incharges can approve requests" },
             { status: 403 }
@@ -29,7 +30,13 @@ export async function POST(req: Request) {
         include: {
           user: true,
         }
-        
+      });
+      const item = await prisma.inventoryItem.update({
+        where: { itemId: itemId },
+        data: {
+          status: "UNAVAILABLE",
+          userId,
+        }
       });
       const bhoomi =  await prisma.notification.create({
         data: {
@@ -37,8 +44,7 @@ export async function POST(req: Request) {
           inchargeId: request.inchargeId || "",
           message: `New maintenance request created by ${request.user?.name} having govId ${userId}. `,
         },
-      });
-      const incharge = await prisma.user.findUnique({
+      });      const incharge = await prisma.user.findUnique({
         where: { id: inchargeId },
       })
      await sendingEmail(incharge?.email as string,bhoomi.message)

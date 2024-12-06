@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Bar, Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from "chart.js";
 
@@ -22,29 +22,31 @@ interface AdminReportData {
   };
 }
 
-const mockAdminReportData: AdminReportData = {
-  summary: {
-    totalInventoryValue: 125000,
-    totalItems: 500,
-    newProcurements: 50,
-    reorderStatus: 20,
-  },
-  inventoryOverview: {
-    categories: ["Weapons", "Vehicles", "Electronics", "Uniforms"],
-    values: [200, 50, 100, 150],
-  },
-  compliance: {
-    labels: ["Compliant", "Non-Compliant"],
-    values: [90, 10],
-  },
-};
+// const [mockAdminReportData, setMockAdminReportData] = useState<AdminReportData>({
+//   summary: {
+//     totalInventoryValue: 0,
+//     totalItems: 0,
+//     newProcurements: 0,
+//     reorderStatus: 0,
+//   },
+//   inventoryOverview: {
+//     categories: ["Weapons", "Vehicles", "Electronics", "Uniforms"],
+//     values: [200, 50, 100, 150],
+//   },
+//   compliance: {
+//     labels: ["Compliant", "Non-Compliant"],
+//     values: [90, 10],
+//   },
+// });
 
-const AdminInventoryReport: React.FC = () => {
-  const adminReportData = mockAdminReportData;
+const AdminInventoryReport: React.FC<AdminReportData> = (adminReportData) => {
+  // const adminReportData = mockAdminReportData;
 
   const downloadReport = () => {
     console.log("Downloading report...");
     // Implement report download logic here
+
+    
   };
 
   return (
