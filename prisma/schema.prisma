@@ -132,6 +132,8 @@ model InventoryItem {
   maintenanceSchedule String?
   maintenanceCharge   Float?
   issuedTo            String?
+  isLost              Boolean   @default(false)
+  temporaryLocation   String?
 
   userId String?
   user   User?   @relation(fields: [userId], references: [govId], onDelete: SetNull)
