@@ -1,68 +1,93 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+import { auth } from "../../../../../auth";
+import { db } from "@/lib/db";
 
 const prisma = new PrismaClient();
 
-export async function POST(req: Request) {
+export async function GET(req: Request) {
   try {
-    const body = await req.json(); // Parse request body
-    const {
-      userId,
-      description,
-      item,
-      location,
-      quantity,
-      expectedDeliveryDate,
-      purpose,
-      expectedUsageDuration,
-      approvalNeededBy,
-      priorityLevel,
-    } = body;
+    const session = await auth();
+    const role = session?.user.role;
+    const userId = session?.user.id;
+
+    if (role !== "admin") {
+      return NextResponse.json({
+        status: 403,
+        body: "Forbidden",
+      });
+    }
 
     const user = await prisma.user.findUnique({
-      where: { govId: userId },
-      select: { role: true },
+      where: { id: userId },
     });
 
-    const admin = await prisma.user.findFirst({
-      where: { role: "admin" },
-    });
-
-    const inventoryItem = await prisma.inventoryItem.findFirst({
+    const totalItems = await prisma.inventoryItem.count({
       where: {
-        AND: [
-          { type: item },
-          {
-            userId: null,
-          },
-        ],
+        AND: [{ location: user?.location }],
+      },
+    });
+    const oneMonthsAgo = new Date();
+    oneMonthsAgo.setMonth(oneMonthsAgo.getMonth() - 2);
+    const newProcurements = await prisma.inventoryItem.findMany({
+      where: {
+        acquisitionDate: {
+          gte: oneMonthsAgo,
+        },
       },
     });
 
-    if (!user || user.role !== "INCHARGE") {
-      return NextResponse.json(
-        { success: false, message: "Permission denied!" },
-        { status: 403 },
-      );
-    }
-    const request = await prisma.issuanceRequest.create({
-      data: {
-        userId,
-        itemId: inventoryItem?.itemId || "",
-        inchargeId: admin?.govId,
-        issueDescription: description,
-        quantity,
-        expectedDeliveryDate,
-        purpose,
-        expectedUsageDuration,
-        approvalNeededBy,
-        priorityLevel,
-        isDamaged: false,
-        status: "PENDING",
+    const groupedData = await prisma.inventoryItem.groupBy({
+      by: ['category'], // Group by category
+      _sum: {
+        price: true, // Sum of quantity, if needed
       },
+      _count: {
+        _all: true, // Count of items in each group
+      }
     });
 
-    return NextResponse.json(request, { status: 201 });
+    const categories = groupedData.map(group => (
+      group.category
+    )
+    )
+
+    const inventoryValues = groupedData.map(group => (
+      group._count._all
+    ))
+  
+    // Calculate total cost for each category
+    const CostValues = groupedData.map(group => (
+       group._sum.price? group._sum.price : 0 //
+    ));
+
+  
+  const report = {
+      summary: {
+        totalInventoryValue: 500000,
+        totalItems: totalItems,
+        newProcurements: newProcurements,
+        reorderStatus: 12,
+
+        complianceStatus: "95%",
+      },
+      inventoryOverview: {
+        categories: categories,
+        values: inventoryValues,
+      
+      },
+      financialSummary: {
+        categories: categories,
+        values: CostValues,
+      },
+      compliance: {
+        labels: ["Compliant", "Non-Compliant"],
+        values: [90, 10],
+      },
+    };
+
+  
+    return NextResponse.json(report, { status: 201 });
   } catch (error) {
     console.error("Error creating request:", error);
     return NextResponse.json(
