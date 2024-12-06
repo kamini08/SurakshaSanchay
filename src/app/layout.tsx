@@ -6,6 +6,7 @@ import "@/css/style.css";
 import React, { useEffect, useState } from "react";
 import Loader from "@/components/common/Loader";
 
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -25,10 +26,12 @@ export default function RootLayout({
     <html lang="en">
      
       <body suppressHydrationWarning={true}>
+     
         <div className="dark:bg-boxdark-2 dark:text-bodydark w-screen min-h-screen overflow-x-auto ">
           {loading ? <Loader /> : children}
           
         </div>
+       
       </body>
     </html>
   );
