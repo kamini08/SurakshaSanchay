@@ -48,6 +48,10 @@ model User {
   inchargeNotifications Notification[]         @relation("InchargeNotifications")
 
   IssuanceRequest IssuanceRequest[]
+
+  Penalty Penalty[]
+
+  Award Award[]
 }
 
 model Account {
@@ -105,7 +109,7 @@ model TwoFactorConfirmation {
   @@unique([userId])
 }
 
-enum Avail{
+enum Avail {
   AVAILABLE
   UNAVAILABLE
 }
@@ -118,7 +122,7 @@ model InventoryItem {
   quantity            Int       @default(1)
   location            String?
   condition           String    @default("new")
-  status               Avail     @default(AVAILABLE)
+  status              Avail     @default(AVAILABLE)
   acquisitionDate     DateTime?
   expiryDate          DateTime?
   price               Float?
@@ -129,8 +133,8 @@ model InventoryItem {
   maintenanceCharge   Float?
   issuedTo            String?
 
-  userId              String?
-  user                User?      @relation(fields: [userId], references: [govId], onDelete: SetNull)
+  userId String?
+  user   User?   @relation(fields: [userId], references: [govId], onDelete: SetNull)
 
   communicationDevice     CommunicationDevice?
   computerAndITEquipment  ComputerAndITEquipment?
@@ -145,7 +149,7 @@ model InventoryItem {
 
   maintenanceRequests MaintenanceRequest[]
 
-  locationHistories   ItemLocationHistory[]
+  locationHistories ItemLocationHistory[]
 
   IssuanceRequest IssuanceRequest[]
 }
@@ -162,7 +166,7 @@ model IssuanceRequest {
   createdAt             DateTime       @default(now()) // Automatically set creation time
   updatedAt             DateTime       @updatedAt // Automatically update timestamp
   itemId                String?
-  inventoryItem         InventoryItem?  @relation(fields: [itemId], references: [itemId])
+  inventoryItem         InventoryItem? @relation(fields: [itemId], references: [itemId])
   userId                String
   user                  User           @relation(fields: [userId], references: [govId])
   inchargeId            String?
@@ -322,15 +326,16 @@ model Notification {
   user     User @relation("UserNotifications", fields: [userId], references: [id])
   incharge User @relation("InchargeNotifications", fields: [inchargeId], references: [id])
 }
-model ItemLocationHistory {
-  id             String   @id @default(cuid())
-  itemId         String   // Foreign key to InventoryItem
-  govId          String   // govId of the person to whom the item is assigned
-  assignedDate   DateTime @default(now()) // Date and time of assignment
-  location       String   // Location where the item is assigned
-  description    String?  // Optional description for the transfer
 
-  inventoryItem  InventoryItem @relation(fields: [itemId], references: [itemId], onDelete: Cascade)
+model ItemLocationHistory {
+  id           String   @id @default(cuid())
+  itemId       String // Foreign key to InventoryItem
+  govId        String // govId of the person to whom the item is assigned
+  assignedDate DateTime @default(now()) // Date and time of assignment
+  location     String // Location where the item is assigned
+  description  String? // Optional description for the transfer
+
+  inventoryItem InventoryItem @relation(fields: [itemId], references: [itemId], onDelete: Cascade)
 
   @@index([itemId, assignedDate]) // Optional index for faster queries
 }
@@ -348,37 +353,66 @@ enum ComplianceStatus {
   NON_COMPLIANT
   PARTIALLY_COMPLIANT
 }
+
 model Policy {
-  id          String   @id @default(cuid())
-  name        PolicyName
-  findings    String
-  impact      String
-  recommendation    String
-  complianceStatus  ComplianceStatus
-  compliancePercentage   Int
+  id                   String           @id @default(cuid())
+  name                 PolicyName
+  findings             String
+  impact               String
+  recommendation       String
+  complianceStatus     ComplianceStatus
+  compliancePercentage Int
 
   AuditReport AuditReport[]
 }
 
 model Stock {
-  id          String   @id @default(cuid())
-  SpecializedEquipment     Int
-  OperationalAssets        Int
-  GovernmentFundedItems    Int
+  id                    String @id @default(cuid())
+  SpecializedEquipment  Int
+  OperationalAssets     Int
+  GovernmentFundedItems Int
 
   AuditReport AuditReport[]
 }
 
 model AuditReport {
-  id          String   @id @default(cuid())
-  auditOfficerName  String
-  auditOfficerId    String
-  location    String
-  startDate    DateTime
-  endDate    DateTime
-  Policies   Policy?  @relation(fields: [Policiesid], references: [id])
-  Policiesid String?
-  StockAccuracy    Stock?  @relation(fields: [StockId], references: [id])
-  StockId    String?
-  url        String?
+  id               String   @id @default(cuid())
+  auditOfficerName String
+  auditOfficerId   String
+  location         String
+  startDate        DateTime
+  endDate          DateTime
+  Policies         Policy?  @relation(fields: [Policiesid], references: [id])
+  Policiesid       String?
+  StockAccuracy    Stock?   @relation(fields: [StockId], references: [id])
+  StockId          String?
+  url              String?
+}
+
+enum PenaltyReason {
+  RETURN_DELAYED
+  ITEM_LOST
+  ITEM_DAMAGED
+}
+
+model Penalty {
+  id                   String        @id @default(cuid())
+  userId               String
+  user                 User          @relation(fields: [userId], references: [govId])
+  reason               PenaltyReason
+  amount               Int
+  NumberOfStarsReduced Int
+  description          String
+  inchargeId           String
+  date                 DateTime
+}
+
+model Award {
+  id                 String   @id @default(cuid())
+  userId             String
+  user               User     @relation(fields: [userId], references: [govId])
+  NumberOfStarsAdded Int
+  description        String
+  inchargeId         String
+  date               DateTime
 }
