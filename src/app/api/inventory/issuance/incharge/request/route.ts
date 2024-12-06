@@ -28,7 +28,7 @@ export async function POST(req: Request) {
       where: { role: "admin" },
     });
 
-    const inventoryItem = await prisma.inventoryItem.findFirst({
+    const inventoryItem = await prisma.inventoryItem.findMany({
       where: {
         AND: [
           { type: item },
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
       },
     });
 
-    if (!user || user.role !== "INCHARGE") {
+    if (!user || user.role !== "incharge") {
       return NextResponse.json(
         { success: false, message: "Permission denied!" },
         { status: 403 },
@@ -48,7 +48,8 @@ export async function POST(req: Request) {
     const request = await prisma.issuanceRequest.create({
       data: {
         userId,
-        itemId: inventoryItem?.itemId || "",
+        name: item,
+        itemId: "",
         inchargeId: admin?.govId,
         issueDescription: description,
         quantity,

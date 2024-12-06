@@ -187,60 +187,40 @@ const MapComponent: React.FC = () => {
   };
 
   return (
-    <div>
-      <div
-        style={{
-          position: "absolute",
-          top: "20px",
-          right: "20px", // Position it on the right
-          zIndex: 1000,
-          backgroundColor: "white", // Adding background to make it stand out
-          borderRadius: "8px", // Rounded corners for a modern look
-          padding: "10px",
-          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", // Adding a shadow for depth
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <input
-          type="text"
-          placeholder="Search for a police station..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          style={{
-            padding: "8px",
-            borderRadius: "5px",
-            border: "1px solid #ddd", // Light border to define the input box
-            width: "250px",
-            marginRight: "10px", // Space between input and button
-            fontSize: "14px", // Slightly larger text for better readability
-          }}
-        />
-        <button
-          onClick={handleSearch}
-          style={{
-            padding: "8px 15px",
-            borderRadius: "5px",
-            backgroundColor: "#007bff", // Bright blue color
-            color: "white",
-            border: "none",
-            fontSize: "14px", // Matching font size with the input
-            cursor: "pointer",
-            transition: "background-color 0.3s", // Smooth transition effect
-          }}
-          // onMouseOver={(e) => (e.target.style.backgroundColor = "#0056b3")}
-          // onMouseOut={(e) => (e.target.style.backgroundColor = "#007bff")}
-        >
-          Search
-        </button>
-      </div>
 
-      <div
-        id="map"
-        style={{ height: "100vh", width: "100%" }}
-        className="flex items-center justify-center"
-      ></div>
+    <div className="relative">
+  {/* Search Bar Container */}
+  <div className="rounded-lg border border-stroke bg-white px-6 py-4 shadow-lg dark:border-strokedark dark:bg-boxdark max-w-4xl mx-auto mb-6">
+    {/* Search Input */}
+    <div className="flex items-center">
+      <input
+        className="w-3/4 rounded-lg border border-stroke bg-white px-4 py-2 shadow-sm text-sm placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-strokedark dark:bg-boxdark dark:text-white dark:placeholder-gray-500"
+        type="text"
+        placeholder="Search for a police station..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
+      {/* Search Button */}
+      <button
+        onClick={handleSearch}
+        className="ml-4 px-6 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow-sm hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:bg-blue-500 dark:hover:bg-blue-600"
+      >
+        Search
+      </button>
     </div>
+  </div>
+
+  {/* Map Container */}
+  <div
+    id="map"
+    className="h-[calc(100vh-4rem)] w-full flex items-center justify-center bg-gray-100 dark:bg-boxdark rounded-lg"
+  >
+    {/* Placeholder for the map */}
+    <p className="text-gray-500 dark:text-gray-300">Map loading...</p>
+  </div>
+</div>
+
+     
   );
 };
 
