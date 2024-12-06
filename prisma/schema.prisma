@@ -148,6 +148,8 @@ model InventoryItem {
   locationHistories   ItemLocationHistory[]
 
   IssuanceRequest IssuanceRequest[]
+
+  itemAssignmentHistories ItemAssignmentHistory[]
 }
 
 model IssuanceRequest {
@@ -338,4 +340,21 @@ model ItemLocationHistory {
 
   @@index([itemId, assignedDate]) // Optional index for faster queries
 }
+
+model ItemAssignmentHistory {
+  id          String   @id @default(uuid())
+  itemId      String
+  assignedTo  Json    // Array of `govId`s of assigned users
+  assignedBy  Json    // Array of `govId`s of assignors
+  assignDates Json    // Array of DateTimes for assignments
+  returnDates Json?   // Array of DateTimes for returns (optional)
+  inchargeIds Json    // Array of `govId`s for incharges
+  
+  itemStatus      Json   // e.g., 'Assigned', 'Returned'
+  reason      Json?  // Optional: reason for the transfer or return
+  
+  // Relationships
+  item        InventoryItem @relation(fields: [itemId], references: [itemId])
+}
+
 

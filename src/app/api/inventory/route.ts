@@ -108,6 +108,7 @@ export async function POST(request: Request) {
         quantity: parseInt(data.itemData.quantity) || 1,
         location: data.itemData.location || null,
         condition: data.itemData.condition || "new",
+
         acquisitionDate: data.itemData.acquisitionDate
           ? new Date(data.itemData.acquisitionDate)
           : null,
