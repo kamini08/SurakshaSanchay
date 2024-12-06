@@ -111,7 +111,7 @@ const menuGroups = [
         children: [
           
           { label: "Add Inventory Item", route: "/adminPages/addInventory" },
-          { label: "Inventory Usage Insight", route: "/adminPages/adminViewInventory" },
+          { label: "View Inventory", route: "/adminPages/adminViewInventory" },
           { label: "Inventory Overview", route: "/adminPages/inventoryOverview" },
         ],
       },
@@ -187,7 +187,7 @@ const menuGroups = [
           { label: "View Pending Request", route: "/admin/pendingRequest" },
           {
             label: "Approved/Denied Request",
-            route: "/forms/approvedDeniedrequest",
+            route: "/adminPages/acceptDenyRequest",
           },
         ],
       },
@@ -348,7 +348,7 @@ const menuGroups = [
         route: "#",
         children: [
         
-          { label: "Register Inventory Incharge", route: "/auth/registerUserIncharge" },
+          { label: "Register Inventory Incharge", route: "/registerUserIncharge" },
         ],
       },
     ],
