@@ -229,6 +229,7 @@ const menuGroups = [
         route: "#",
         children: [
           { label: "View Reports", route: "/forms/form-layout" },
+          { label: "Fill Audit Form", route: "/report/auditForm" },
           { label: "Audit Logs", route: "/forms/form-elements" }
         ]
       },
@@ -399,7 +400,7 @@ const menuGroups = [
         route: "#",
         children: [
         
-          { label: "  Register User", route: "/auth/registerUserIncharge" },
+          { label: "  Register User", route: "/registerUserIncharge" },
         ],
       },
     ],
