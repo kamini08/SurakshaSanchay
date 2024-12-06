@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     if (!user) {
       return NextResponse.json({ message: "User not found!" }, { status: 404 });
     }
-    if (user?.role != "INCHARGE") {
+    if (user?.role != "incharge") {
       return NextResponse.json({
         message: "You are not authorized to make this request",
         status: 401,

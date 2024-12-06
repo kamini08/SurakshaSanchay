@@ -152,6 +152,7 @@ model InventoryItem {
 
 model IssuanceRequest {
   id                    String         @id @default(cuid()) // Unique identified
+  name                  String
   quantity              Int
   expectedDeliveryDate  DateTime
   purpose               String
@@ -162,8 +163,8 @@ model IssuanceRequest {
   updatedAt             DateTime       @updatedAt // Automatically update timestamp
   itemId                String?
   inventoryItem         InventoryItem?  @relation(fields: [itemId], references: [itemId])
-  userId                String?
-  user                  User?           @relation(fields: [userId], references: [id])
+  userId                String
+  user                  User           @relation(fields: [userId], references: [govId])
   inchargeId            String?
   isDamaged             Boolean?       @default(false)
   status                IssuanceStatus @default(PENDING)
@@ -334,3 +335,50 @@ model ItemLocationHistory {
   @@index([itemId, assignedDate]) // Optional index for faster queries
 }
 
+enum PolicyName {
+  STORAGE_POLICY
+  PROCUREMENT_POLICY
+  PURCHASE_POLICY
+  USAGE_AND_DEPLOYMENT_POLICY
+  DISPOSAL_POLICY
+}
+
+enum ComplianceStatus {
+  COMPLIANT
+  NON_COMPLIANT
+  PARTIALLY_COMPLIANT
+}
+model Policy {
+  id          String   @id @default(cuid())
+  name        PolicyName
+  findings    String
+  impact      String
+  recommendation    String
+  complianceStatus  ComplianceStatus
+  compliancePercentage   Int
+
+  AuditReport AuditReport[]
+}
+
+model Stock {
+  id          String   @id @default(cuid())
+  SpecializedEquipment     Int
+  OperationalAssets        Int
+  GovernmentFundedItems    Int
+
+  AuditReport AuditReport[]
+}
+
+model AuditReport {
+  id          String   @id @default(cuid())
+  auditOfficerName  String
+  auditOfficerId    String
+  location    String
+  startDate    DateTime
+  endDate    DateTime
+  Policies   Policy?  @relation(fields: [Policiesid], references: [id])
+  Policiesid String?
+  StockAccuracy    Stock?  @relation(fields: [StockId], references: [id])
+  StockId    String?
+  url        String?
+}
