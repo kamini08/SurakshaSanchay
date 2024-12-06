@@ -1,319 +1,214 @@
+
 "use client";
 
 import { useState, FormEvent, ChangeEvent } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
+// Defining the structure for Policy Data
+interface PolicyData {
+  findings: string;
+  impact: string;
+  recommendation: string;
+  complianceStatus: string;
+  compliancePercentage: string;
+}
+
+// Defining the structure for all policies
+interface Policies {
+  storagePolicy: PolicyData;
+  procurementPolicy: PolicyData;
+  purchasePolicy: PolicyData;
+  usageDeploymentPolicy: PolicyData;
+  disposalPolicy: PolicyData;
+}
+
 const AuditForm = () => {
-  // State for the form data
-  const [formData, setFormData] = useState({
+  // State for main form data
+  const [mainFormData, setMainFormData] = useState({
     auditOfficerName: "",
     auditOfficerId: "",
     location: "",
     startDate: "",
     endDate: "",
-    policyName: "",
-    findings: "",
-    impact: "",
-    recommendation: "",
-    complianceStatus: "",
-    compliancePercentage: "",
-    specializedEquipment: "",
-    operationalAssets: "",
-    governmentFundedItems: "",
-    url: "",
   });
 
-  // Handle input changes
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  // State for policies
+  const [policies, setPolicies] = useState<Policies>({
+    storagePolicy: { findings: "", impact: "", recommendation: "", complianceStatus: "", compliancePercentage: "" },
+    procurementPolicy: { findings: "", impact: "", recommendation: "", complianceStatus: "", compliancePercentage: "" },
+    purchasePolicy: { findings: "", impact: "", recommendation: "", complianceStatus: "", compliancePercentage: "" },
+    usageDeploymentPolicy: { findings: "", impact: "", recommendation: "", complianceStatus: "", compliancePercentage: "" },
+    disposalPolicy: { findings: "", impact: "", recommendation: "", complianceStatus: "", compliancePercentage: "" },
+  });
+
+  // State for stock data
+  const [stockData, setStockData] = useState({
+    stockAccuracy: "",
+    valuationAccuracy: "",
+    compliancePercentage: "",
+  });
+
+  // Handle changes in policy data
+  const handlePolicyChange = (policyName: keyof Policies, field: keyof PolicyData, value: string) => {
+    setPolicies((prev) => ({
+      ...prev,
+      [policyName]: {
+        ...prev[policyName],
+        [field]: value,
+      },
+    }));
   };
 
-  // Submit form to backend
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      const response = await fetch("/api/inventory", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+  // Handle changes in stock data
+  const handleStockChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setStockData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
-      if (response.ok) {
-        alert("Data submitted successfully!");
-        // Reset form
-        setFormData({
-          auditOfficerName: "",
-          auditOfficerId: "",
-          location: "",
-          startDate: "",
-          endDate: "",
-          policyName: "",
-          findings: "",
-          impact: "",
-          recommendation: "",
-          complianceStatus: "",
-          compliancePercentage: "",
-          specializedEquipment: "",
-          operationalAssets: "",
-          governmentFundedItems: "",
-          url: "",
-        });
-      } else {
-        const error = await response.json();
-        alert(`Error: ${error.message}`);
-      }
-    } catch (err) {
-      console.error("Error submitting form:", err);
-      alert("Failed to submit data.");
-    }
+  // Handle form submission
+  const handleSubmitAll = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = {
+      auditDetails: mainFormData,
+      policies,
+      stockValuationAccuracy: stockData,
+    };
+
+    alert(`Submitting all forms: ${JSON.stringify(formData)}`);
   };
 
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Add Inventory" />
-
-      <div className="flex flex-col gap-9 overflow-x-hidden bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-          <form
-            onSubmit={handleSubmit}
-            className="p-6.5 grid grid-cols-1 gap-6 sm:grid-cols-3"
-          >
-
-            {/* Audit Report Fields */}
-            <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
-                Audit Officer Name
-              </label>
+      <Breadcrumb pageName="Audit Form" />
+      <form onSubmit={handleSubmitAll} className="p-6 bg-white dark:bg-boxdark shadow-md rounded-md">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+          {/* Main Audit Details */}
+          <div className="rounded-md border border-stroke bg-white dark:border-strokedark dark:bg-boxdark p-6">
+            <h3 className="text-lg font-medium mb-4 text-black dark:text-white">Audit Details</h3>
+            <div className="mb-4">
+              <label className="block mb-2  text-sm text-black dark:text-white">Audit Officer Name</label>
               <input
                 type="text"
                 name="auditOfficerName"
-                placeholder="Enter audit officer's name"
-                value={formData.auditOfficerName}
-                onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+                value={mainFormData.auditOfficerName}
+                placeholder="Enter the Audit Officer's Name"
+                onChange={(e) => setMainFormData({ ...mainFormData, auditOfficerName: e.target.value })}
+                className="w-full px-4 py-2 border rounded dark:border-strokedark dark:bg-boxdark dark:text-white"
                 required
               />
             </div>
-
-            <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
-                Audit Officer ID
-              </label>
+            <div className="mb-4">
+              <label className="block mb-2 text-sm text-black dark:text-white">Audit Officer ID</label>
               <input
                 type="text"
                 name="auditOfficerId"
-                placeholder="Enter audit officer's ID"
-                value={formData.auditOfficerId}
-                onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+                value={mainFormData.auditOfficerId}
+                placeholder="Enter the Audit Officer's ID"
+                onChange={(e) => setMainFormData({ ...mainFormData, auditOfficerId: e.target.value })}
+                className="w-full px-4 py-2 border rounded dark:border-strokedark dark:bg-boxdark dark:text-white"
                 required
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
-                Start Date
-              </label>
-              <input
-                type="date"
-                name="startDate"
-                placeholder="Enter Start Date "
-                value={formData.startDate}
-                onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
-                End Date
-              </label>
-              <input
-                type="date"
-                name="endDate"
-                placeholder="Enter End Date "
-                value={formData.endDate}
-                onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
-                Location
-              </label>
+            <div className="mb-4">
+              <label className="block mb-2 text-sm text-black dark:text-white">Location</label>
               <input
                 type="text"
                 name="location"
-                placeholder="Enter location"
-                value={formData.location}
-                onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+                value={mainFormData.location}
+                placeholder="Enter the Audit Location"
+                onChange={(e) => setMainFormData({ ...mainFormData, location: e.target.value })}
+                className="w-full px-4 py-2 border rounded dark:border-strokedark dark:bg-boxdark dark:text-white"
                 required
               />
             </div>
-
-            {/* Policy Fields */}
-            <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
-                Policy Name
-              </label>
-              <select
-                name="policyName"
-                value={formData.policyName}
-                onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
-                required
-              >
-                <option value="">Select Policy</option>
-                <option value="STORAGE_POLICY">Storage Policy</option>
-                <option value="PROCUREMENT_POLICY">Procurement Policy</option>
-                <option value="PURCHASE_POLICY">Purchase Policy</option>
-                <option value="USAGE_AND_DEPLOYMENT_POLICY">
-                  Usage and Deployment Policy
-                </option>
-                <option value="DISPOSAL_POLICY">Disposal Policy</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
-                Policy ID
-              </label>
+            <div className="mb-4">
+              <label className="block mb-2 text-sm text-black dark:text-white">Start Date</label>
               <input
-                type="text"
-                name="auditOfficerId"
-                placeholder="Enter audit officer's ID"
-                value={formData.auditOfficerId}
-                onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+                type="date"
+                name="startDate"
+                value={mainFormData.startDate}
+                placeholder="Select the Start Date"
+                onChange={(e) => setMainFormData({ ...mainFormData, startDate: e.target.value })}
+                className="w-full px-4 py-2 border rounded dark:border-strokedark dark:bg-boxdark dark:text-white"
                 required
               />
             </div>
-
-            <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
-                Findings
-              </label>
+            <div className="mb-4">
+              <label className="block mb-2 text-sm text-black dark:text-white">End Date</label>
               <input
-                type="text"
-                name="findings"
-                placeholder="Enter findings of the audit"
-                value={formData.findings}
-                onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+                type="date"
+                name="endDate"
+                value={mainFormData.endDate}
+                placeholder="Select the End Date"
+                onChange={(e) => setMainFormData({ ...mainFormData, endDate: e.target.value })}
+                className="w-full px-4 py-2 border rounded dark:border-strokedark dark:bg-boxdark dark:text-white"
                 required
               />
             </div>
+          </div>
 
-            <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
-                Compliance Status
-              </label>
-              <select
-                name="complianceStatus"
-                value={formData.complianceStatus}
-                onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
-                required
-              >
-                <option value="">Select Status</option>
-                <option value="COMPLIANT">Compliant</option>
-                <option value="NON_COMPLIANT">Non-Compliant</option>
-                <option value="PARTIALLY_COMPLIANT">Partially Compliant</option>
-              </select>
+          {/* Policy Sections */}
+          {Object.entries(policies).map(([policyName, policyFields]) => (
+            <div
+              key={policyName}
+              className="rounded-md border border-stroke bg-white text-black dark:text-white dark:border-strokedark dark:bg-boxdark p-6"
+            >
+              <h3 className="text-lg font-medium mb-4">
+                {policyName.replace(/([A-Z])/g, " $1").replace(/^./, (c) => c.toUpperCase())}
+              </h3>
+              {Object.entries(policyFields).map(([field, value]) => (
+                <div key={field} className="mb-4">
+                  <label className="block mb-2 text-sm text-black dark:text-white">
+                    {field.replace(/([A-Z])/g, " $1").replace(/^\w/, (c) => c.toUpperCase())}
+                  </label>
+                  <input
+                    type={field === "compliancePercentage" ? "number" : "text"}
+                    value={value as number|string}
+                    placeholder={`Enter ${field.replace(/([A-Z])/g, " $1")}`}
+                    onChange={(e) => handlePolicyChange(policyName as keyof Policies, field as keyof PolicyData, e.target.value)}
+                    className="w-full px-4 py-2 border rounded dark:border-strokedark dark:bg-boxdark dark:text-white"
+                  />
+                </div>
+              ))}
             </div>
+          ))}
 
-            {/* Stock Fields */}
-            <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
-                Specialized Equipment
-              </label>
-              <input
-                type="number"
-                name="specializedEquipment"
-                placeholder="Enter count of specialized equipment"
-                value={formData.specializedEquipment}
-                onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
-                Compliance Percentage
-              </label>
-              <input
-                type="number"
-                name="compliancePercentage"
-                placeholder="Enter count of specialized equipment"
-                value={formData.compliancePercentage}
-                onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
-                Operational Assets
-              </label>
-              <input
-                type="number"
-                name="operationalAssets"
-                placeholder="Enter count of operational assets"
-                value={formData.operationalAssets}
-                onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
-                Government Funded Items
-              </label>
-              <input
-                type="number"
-                name="governmentFundedItems"
-                placeholder="Enter count of government-funded items"
-                value={formData.governmentFundedItems}
-                onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
-                URL (Audit Report)
-              </label>
-              <input
-                type="url"
-                name="url"
-                placeholder="Enter URL of the audit report"
-                value={formData.url}
-                onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
-              />
-            </div>
-
-            <div className="col-span-full flex justify-end">
-              <button
-                type="submit"
-                className="rounded bg-primary px-6 py-3 text-white hover:bg-opacity-90"
-              >
-                Submit
-              </button>
-            </div>
-          </form>
+          {/* Stock Valuation Accuracy */}
+          <div className="rounded-md border border-stroke bg-white dark:border-strokedark dark:bg-boxdark p-6">
+            <h3 className="text-lg font-medium mb-4 text-black dark:text-white">Stock Valuation Accuracy</h3>
+            {Object.entries(stockData).map(([field, value]) => (
+              <div key={field} className="mb-4">
+                <label className="block text-sm font-medium text-black dark:text-white mb-2">
+                  {field.replace(/([A-Z])/g, " $1").replace(/^\w/, (c) => c.toUpperCase())}
+                </label>
+                <input
+                  type="number"
+                  name={field}
+                  value={value}
+                  placeholder={`Enter ${field.replace(/([A-Z])/g, " $1")}`}
+                  onChange={handleStockChange}
+                  className="w-full px-4 py-2 border rounded dark:border-strokedark dark:bg-boxdark dark:text-white"
+                  required
+                />
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+        {/* Single Submit Button */}
+        <div className="mt-6 text-right">
+          <button
+            type="submit"
+            className="px-6 py-2 text-white bg-primary rounded-md hover:bg-opacity-90"
+          >
+            Submit All
+          </button>
+        </div>
+      </form>
     </DefaultLayout>
   );
 };

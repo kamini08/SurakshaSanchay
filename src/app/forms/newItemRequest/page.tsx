@@ -99,7 +99,7 @@ const NewItemRequest = () => {
       <Breadcrumb pageName="NEW ITEM REQUEST FORM" />
 
       <div className="flex flex-col gap-9">
-        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+        <div className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white">
           <form onSubmit={handleSubmit}>
             <div className="p-6.5 grid grid-cols-1 gap-6 sm:grid-cols-2">
               {/* Standard Fields */}
