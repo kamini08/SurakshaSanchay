@@ -6,7 +6,7 @@ import PieChart from "./PieChart";
 
 interface Package {
   category: string;
-  total: number; // Adjusted for backend response
+  total: number;
 }
 
 const MonthlyReport = () => {
@@ -51,9 +51,7 @@ const MonthlyReport = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/Dashboard", {
-          method: "GET",
-        });
+        const response = await fetch("/api/Dashboard", { method: "GET" });
         if (response.ok) {
           const data = await response.json();
           setPackageData(data.data);
@@ -72,7 +70,7 @@ const MonthlyReport = () => {
 
   const getCountByCategory = (category: string) => {
     const categoryData = packageData.find((item) => item.category === category);
-    return categoryData ? categoryData.total : 0; // Return count or 0 if not found
+    return categoryData ? categoryData.total : 0;
   };
 
   const categoryCounts = packageData.reduce(
@@ -80,12 +78,13 @@ const MonthlyReport = () => {
     {}
   );
 
-  const series = Object.values(categoryCounts); // Get the counts as an array
-  const labels = Object.keys(categoryCounts); // Get the category names as labels
+  const series = Object.values(categoryCounts);
+  const labels = Object.keys(categoryCounts);
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-5 lg:gap-4">
+      {/* Responsive grid layout for cards */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-6">
         {cardTitles.map((title, index) => {
           const count = getCountByCategory(title);
 
@@ -100,11 +99,12 @@ const MonthlyReport = () => {
         })}
       </div>
 
-      <div className="flex justify-between">
-        <div className="min-w-150 bg border border-stroke bg-white px-7.5 py-6 shadow-default dark:border-strokedark dark:bg-boxdark mt-10">
+      {/* Charts section */}
+      <div className="flex flex-wrap justify-between gap-6 mt-10">
+        <div className="flex-1 min-w-[300px] max-w-[48%] bg border border-stroke bg-white px-7.5 py-6 shadow-default dark:border-strokedark dark:bg-boxdark">
           <BarChart />
         </div>
-        <div className="min-w-150 bg border border-stroke bg-white px-7.5 py-6 shadow-default dark:border-strokedark dark:bg-boxdark mt-10">
+        <div className="flex-1 min-w-[300px] max-w-[48%] bg border border-stroke bg-white px-7.5 py-6 shadow-default dark:border-strokedark dark:bg-boxdark">
           <PieChart />
         </div>
       </div>
