@@ -5,40 +5,42 @@ import AdminSidebar from "@/components/AdminSidebar";
 import UserSidebar from "@/components/UserSidebar";
 import Header from "@/components/Header";
 
-export default function DefaultLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const DefaultLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [role, setRole] = useState<string | null>(null);
-
-  async function fetchUserRole() {
-    try {
-      const response = await fetch("/api/DefaultLayout", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const { role } = await response.json();
-      // console.log("User Role:", role);
-      setRole(role);
-    } catch (error) {
-      console.error("Error fetching user role:", error);
-    }
-  }
+  const [loading, setLoading] = useState(true); // Loading state
 
   useEffect(() => {
+    const fetchUserRole = async () => {
+      try {
+        const response = await fetch("/api/DefaultLayout", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const { role } = await response.json();
+        setRole(role);
+      } catch (error) {
+        console.error("Error fetching user role:", error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching
+      }
+    };
+
     fetchUserRole();
-  }, []);
+  }, [role]); // Empty dependency array to run only once on mount
 
   const renderSidebar = () => {
+    if (loading) {
+      return <div>Loading...</div>; // Show loading state while fetching
+    }
+
     switch (role) {
       case "admin":
         return (
@@ -47,12 +49,10 @@ export default function DefaultLayout({
             setSidebarOpen={setSidebarOpen}
           />
         );
-        break;
       case "incharge":
         return (
           <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         );
-        break;
       case "user":
         return (
           <UserSidebar
@@ -60,35 +60,24 @@ export default function DefaultLayout({
             setSidebarOpen={setSidebarOpen}
           />
         );
-        break;
+      default:
+        return null; // Handle the case where role is null or undefined
     }
   };
 
   return (
-    <>
-      {/* <!-- ===== Page Wrapper Start ===== --> */}
-      <div className="flex">
-        {/* <!-- ===== Sidebar Start ===== --> */}
-        {renderSidebar()}
-        {/* <!-- ===== Sidebar End ===== --> */}
-
-        {/* <!-- ===== Content Area Start ===== --> */}
-        <div className="relative flex flex-1 flex-col lg:ml-72.5">
-          {/* <!-- ===== Header Start ===== --> */}
-          <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-          {/* <!-- ===== Header End ===== --> */}
-
-          {/* <!-- ===== Main Content Start ===== --> */}
-          <main>
-            <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-              {children}
-            </div>
-          </main>
-          {/* <!-- ===== Main Content End ===== --> */}
-        </div>
-        {/* <!-- ===== Content Area End ===== --> */}
+    <div className="flex">
+      {renderSidebar()}
+      <div className="relative flex flex-1 flex-col lg:ml-72.5">
+        <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        {/* <main>
+          <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+            {/* {children} */}
+        {/* </div> */}
+        {/* </main> */}
       </div>
-      {/* <!-- ===== Page Wrapper End ===== --> */}
-    </>
+    </div>
   );
-}
+};
+
+export default DefaultLayout;

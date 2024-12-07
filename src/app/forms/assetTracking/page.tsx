@@ -16,13 +16,14 @@ const AddItemLocationForm = () => {
   });
 
   const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState(""); // New state for message type (success or error)
 
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const response = await fetch("/api/item-location", {
+      const response = await fetch("/api/asset/item-location", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -33,6 +34,7 @@ const AddItemLocationForm = () => {
       const result = await response.json();
       if (response.ok) {
         setMessage("Item location added successfully!");
+        setMessageType("success"); // Set message type to success
         // Reset form after successful submission
         setItemLocationData({
           itemId: "",
@@ -44,39 +46,68 @@ const AddItemLocationForm = () => {
         });
       } else {
         setMessage(`Error: ${result.error}`);
+        setMessageType("error"); // Set message type to error
       }
+
+      // Hide the message after 3 seconds
+      setTimeout(() => {
+        setMessage("");
+      }, 3000);
     } catch (error) {
       setMessage("An error occurred while adding the item location.");
+      setMessageType("error"); // Set message type to error
+
+      // Hide the message after 3 seconds
+      setTimeout(() => {
+        setMessage("");
+      }, 3000);
     }
   };
 
   // Handle input field changes
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
   ) => {
     const { name, value } = e.target;
     setItemLocationData((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
-    <DefaultLayout>
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
       <Breadcrumb pageName="ADD ITEM LOCATION" />
 
       <div className="flex flex-col gap-9">
         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <form onSubmit={handleSubmit}>
-            <div className="p-6.5 grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-6 p-6.5 sm:grid-cols-2">
               {/* Form Fields */}
               {[
-                { name: "itemId", label: "Item ID", type: "text", required: true },
-                { name: "govId", label: "Gov ID", type: "text", required: true },
+                {
+                  name: "itemId",
+                  label: "Item ID",
+                  type: "text",
+                  required: true,
+                },
+                {
+                  name: "govId",
+                  label: "Gov ID",
+                  type: "text",
+                  required: true,
+                },
                 {
                   name: "assignedDate",
                   label: "Assigned Date",
                   type: "datetime-local",
                   required: true,
                 },
-                { name: "location", label: "Location", type: "text", required: true },
+                {
+                  name: "location",
+                  label: "Location",
+                  type: "text",
+                  required: true,
+                },
                 {
                   name: "status",
                   label: "Status",
@@ -99,14 +130,18 @@ const AddItemLocationForm = () => {
                     <textarea
                       name={name}
                       placeholder={`Enter ${label}`}
-                      value={itemLocationData[name as keyof typeof itemLocationData]}
+                      value={
+                        itemLocationData[name as keyof typeof itemLocationData]
+                      }
                       onChange={handleChange}
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                     />
                   ) : type === "dropdown" ? (
                     <select
                       name={name}
-                      value={itemLocationData[name as keyof typeof itemLocationData]}
+                      value={
+                        itemLocationData[name as keyof typeof itemLocationData]
+                      }
                       onChange={handleChange}
                       required={required}
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
@@ -123,7 +158,9 @@ const AddItemLocationForm = () => {
                       type={type}
                       name={name}
                       placeholder={`Enter ${label}`}
-                      value={itemLocationData[name as keyof typeof itemLocationData]}
+                      value={
+                        itemLocationData[name as keyof typeof itemLocationData]
+                      }
                       onChange={handleChange}
                       required={required}
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
@@ -143,10 +180,18 @@ const AddItemLocationForm = () => {
               </div>
             </div>
           </form>
-          {message && <p className="p-6.5 text-center text-meta-1">{message}</p>}
+
+          {/* Message Display */}
+          {message && (
+            <p
+              className={`p-6.5 text-center ${messageType === "success" ? "text-green-500" : "text-red-500"}`}
+            >
+              {message}
+            </p>
+          )}
         </div>
       </div>
-    </DefaultLayout>
+    </div>
   );
 };
 

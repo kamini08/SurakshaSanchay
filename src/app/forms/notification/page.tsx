@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useEffect, useState } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
@@ -14,7 +14,9 @@ interface Notification {
 const NotificationTable = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [selectedNotifications, setSelectedNotifications] = useState<number[]>([]);
+  const [selectedNotifications, setSelectedNotifications] = useState<number[]>(
+    [],
+  );
   const [loading, setLoading] = useState<boolean>(false); // To show a loading indicator
 
   // Fetch notifications initially
@@ -29,7 +31,7 @@ const NotificationTable = () => {
       const response = await fetch("/api/notifications/index");
       if (!response.ok) throw new Error("Failed to fetch notifications");
       const data = await response.json();
-      console.log(data)
+      console.log(data);
       setNotifications(data.notifications);
     } catch (error) {
       console.error("Error fetching notifications:", error);
@@ -75,7 +77,9 @@ const NotificationTable = () => {
 
   // Delete selected notifications
   const handleDelete = async () => {
-    const idsToDelete = selectedNotifications.map((index) => notifications[index].id);
+    const idsToDelete = selectedNotifications.map(
+      (index) => notifications[index].id,
+    );
 
     try {
       const response = await fetch(`/api/notifications/delete`, {
@@ -87,7 +91,7 @@ const NotificationTable = () => {
       if (!response.ok) throw new Error("Failed to delete notifications");
 
       setNotifications((prev) =>
-        prev.filter((_, index) => !selectedNotifications.includes(index))
+        prev.filter((_, index) => !selectedNotifications.includes(index)),
       );
       setSelectedNotifications([]);
     } catch (error) {
@@ -106,34 +110,32 @@ const NotificationTable = () => {
   const filteredNotifications = notifications.filter(
     (notification) =>
       notification.userId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      notification.message.toLowerCase().includes(searchQuery.toLowerCase())
+      notification.message.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   // Handle checkbox selection
   const handleCheckboxChange = (index: number) => {
     setSelectedNotifications((prev) =>
-      prev.includes(index)
-        ? prev.filter((i) => i !== index)
-        : [...prev, index]
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index],
     );
   };
 
   return (
-    <DefaultLayout>
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
       <Breadcrumb pageName="NOTIFICATIONS" />
-      <div className="bg-white rounded-lg shadow-md p-6 border-stroke dark:border-strokedark dark:bg-boxdark">
+      <div className="rounded-lg border-stroke bg-white p-6 shadow-md dark:border-strokedark dark:bg-boxdark">
         {/* Toolbar */}
-        <div className="flex justify-between items-center mb-4">
+        <div className="mb-4 flex items-center justify-between">
           <div className="flex space-x-2">
             <button
               onClick={handleDelete}
-              className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+              className="rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-600"
             >
               Delete
             </button>
             <button
               onClick={handleRefresh}
-              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+              className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
             >
               Refresh
             </button>
@@ -143,7 +145,7 @@ const NotificationTable = () => {
             placeholder="Search for sender or subject..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="border rounded-md px-4 py-2 w-1/2"
+            className="w-1/2 rounded-md border px-4 py-2"
           />
         </div>
 
@@ -157,7 +159,7 @@ const NotificationTable = () => {
                   onChange={(e) => {
                     if (e.target.checked) {
                       setSelectedNotifications(
-                        filteredNotifications.map((_, index) => index)
+                        filteredNotifications.map((_, index) => index),
                       );
                     } else {
                       setSelectedNotifications([]);
@@ -194,7 +196,7 @@ const NotificationTable = () => {
                 <td className="p-3">
                   <button
                     onClick={() => markAsSeenToggle(index)}
-                    className={`px-4 py-2 rounded-md ${
+                    className={`rounded-md px-4 py-2 ${
                       notification.read
                         ? "bg-yellow-500 text-white hover:bg-yellow-600"
                         : "bg-green-500 text-white hover:bg-green-600"
@@ -211,11 +213,12 @@ const NotificationTable = () => {
         {/* Footer */}
         <div className="mt-4">
           <p className="text-sm text-gray-500">
-            Showing {filteredNotifications.length} of {notifications.length} notifications
+            Showing {filteredNotifications.length} of {notifications.length}{" "}
+            notifications
           </p>
         </div>
       </div>
-    </DefaultLayout>
+    </div>
   );
 };
 

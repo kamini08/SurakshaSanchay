@@ -223,7 +223,7 @@ const ViewInventory = () => {
   };
 
   return (
-    <DefaultLayout>
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
       <Breadcrumb pageName="VIEW INVENTORY ITEMS" />
       <div className="rounded-sm border border-stroke bg-white px-5  pb-5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <h1 className="text-2xl text-white">Filter</h1>
@@ -777,7 +777,7 @@ const ViewInventory = () => {
           </div>
         )}
       </div>
-    </DefaultLayout>
+    </div>
   );
 };
 

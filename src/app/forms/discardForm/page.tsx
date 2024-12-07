@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -24,7 +23,7 @@ const DiscardForm = () => {
   //   e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   // ) => {
   //   const { name, value } = e.target;
-  
+
   //   if (e.target instanceof HTMLInputElement && e.target.type === "checkbox") {
   //     setDiscardFormData((prev) => ({
   //       ...prev,
@@ -38,10 +37,12 @@ const DiscardForm = () => {
   //   }
   // };
   const handleDiscardChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
   ) => {
     const target = e.target as HTMLInputElement;
-  
+
     if (target.type === "checkbox") {
       setDiscardFormData((prev) => ({
         ...prev,
@@ -54,7 +55,6 @@ const DiscardForm = () => {
       }));
     }
   };
-  
 
   // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   if (e.target.files) {
@@ -66,7 +66,7 @@ const DiscardForm = () => {
   // };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-  
+
     if (files) {
       setDiscardFormData((prev) => ({
         ...prev,
@@ -80,7 +80,6 @@ const DiscardForm = () => {
       }));
     }
   };
-  
 
   // const handleDiscardSubmit = async (e) => {
   //   e.preventDefault();
@@ -99,7 +98,9 @@ const DiscardForm = () => {
     const formData = new FormData();
     Object.entries(discardFormData).forEach(([key, value]) => {
       if (key === "attachments") {
-        (value as File[]).forEach((file) => formData.append("attachments", file));
+        (value as File[]).forEach((file) =>
+          formData.append("attachments", file),
+        );
       } else {
         formData.append(key, String(value));
       }
@@ -137,7 +138,7 @@ const DiscardForm = () => {
   };
 
   return (
-    <DefaultLayout>
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
       <Breadcrumb pageName="DISCARD ITEM FORM" />
 
       <div className="grid grid-cols-1 gap-9">
@@ -150,7 +151,7 @@ const DiscardForm = () => {
                 </h3>
               </div> */}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 p-6.5">
+              <div className="grid grid-cols-1 gap-5 p-6.5 md:grid-cols-2">
                 {/* Item ID */}
                 <div>
                   <label className="mb-3 block text-sm font-medium text-black dark:text-white">
@@ -196,14 +197,26 @@ const DiscardForm = () => {
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                   >
                     <option value="">Select Category</option>
-                    <option value="communicationDevice">Communication Device</option>
-                    <option value="computerAndITEquipment">Computer and IT Equipment</option>
-                    <option value="networkingEquipment">Networking Equipment</option>
-                    <option value="surveillanceAndTracking">Surveillance and Tracking</option>
-                    <option value="vehicleAndAccessories">Vehicle and Accessories</option>
+                    <option value="communicationDevice">
+                      Communication Device
+                    </option>
+                    <option value="computerAndITEquipment">
+                      Computer and IT Equipment
+                    </option>
+                    <option value="networkingEquipment">
+                      Networking Equipment
+                    </option>
+                    <option value="surveillanceAndTracking">
+                      Surveillance and Tracking
+                    </option>
+                    <option value="vehicleAndAccessories">
+                      Vehicle and Accessories
+                    </option>
                     <option value="protectiveGear">Protective Gear</option>
                     <option value="firearm">Firearm</option>
-                    <option value="forensicEquipment">Forensic Equipment</option>
+                    <option value="forensicEquipment">
+                      Forensic Equipment
+                    </option>
                     <option value="medicalFirstAid">Medical/First Aid</option>
                     <option value="officeSupply">Office Supply</option>
                   </select>
@@ -330,7 +343,6 @@ const DiscardForm = () => {
                 </div>
               </div>
 
-             
               <div className="col-span-full flex justify-end">
                 <button
                   type="submit"
@@ -339,14 +351,12 @@ const DiscardForm = () => {
                   Submit Discard Item Request
                 </button>
               </div>
-             
             </div>
           </form>
         </div>
       </div>
-    </DefaultLayout>
+    </div>
   );
 };
 
 export default DiscardForm;
-

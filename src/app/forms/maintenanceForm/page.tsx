@@ -22,14 +22,17 @@ const RequestManagement = () => {
   });
 
   // Handle field changes for Maintenance Request
-  const handleMaintenanceChange = (  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-
+  const handleMaintenanceChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
+  ) => {
     const { name, value } = e.target;
     setMaintenanceFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   // Submit Maintenance Request Form
-  const handleMaintenanceSubmit = async (e:React.FormEvent) => {
+  const handleMaintenanceSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await fetch("/api/maintenance-requests", {
@@ -67,16 +70,14 @@ const RequestManagement = () => {
   };
 
   return (
-    <DefaultLayout>
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
       <Breadcrumb pageName="MAINTENANCE REQUEST FORM" />
 
       {/* Full-Width Maintenance Request Form */}
       <div className="flex flex-col gap-9">
         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-          
-
           <form onSubmit={handleMaintenanceSubmit}>
-            <div className="p-6.5 grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-6 p-6.5 sm:grid-cols-2">
               {/* Item */}
               <div>
                 <label className="mb-3 block text-sm font-medium text-black dark:text-white">
@@ -176,83 +177,81 @@ const RequestManagement = () => {
                 </select>
               </div>
 
-               {/* Issue Description */}
-               <div className="col-span-1 mb-4.5">
-                  <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                    Issue Description <span className="text-meta-1">*</span>
-                  </label>
-                  <textarea
-                    name="issueDescription"
-                    rows={4}
-                    placeholder="Describe the Issue"
-                    value={maintenanceFormData.issueDescription}
-                    onChange={handleMaintenanceChange}
-                    required
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-                  ></textarea>
-                </div>
+              {/* Issue Description */}
+              <div className="col-span-1 mb-4.5">
+                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+                  Issue Description <span className="text-meta-1">*</span>
+                </label>
+                <textarea
+                  name="issueDescription"
+                  rows={4}
+                  placeholder="Describe the Issue"
+                  value={maintenanceFormData.issueDescription}
+                  onChange={handleMaintenanceChange}
+                  required
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
+                ></textarea>
+              </div>
 
-                <div className="col-span-1 mb-4.5">
-                  <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                    Resolution Description <span className="text-meta-1">*</span>
-                  </label>
-                  <textarea
-                    name="resolutionDetails"
-                    rows={4}
-                    placeholder="Describe the Resolution Details"
-                    value={maintenanceFormData.resolutionDetails}
-                    onChange={handleMaintenanceChange}
-                    required
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-                  ></textarea>
-                </div>
+              <div className="col-span-1 mb-4.5">
+                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+                  Resolution Description <span className="text-meta-1">*</span>
+                </label>
+                <textarea
+                  name="resolutionDetails"
+                  rows={4}
+                  placeholder="Describe the Resolution Details"
+                  value={maintenanceFormData.resolutionDetails}
+                  onChange={handleMaintenanceChange}
+                  required
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
+                ></textarea>
+              </div>
 
-              
-               {/* Request Date */}
-               <div className="mb-4.5">
-                  <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                    Request Date <span className="text-meta-1">*</span>
-                  </label>
-                  <input
-                    type="datetime-local"
-                    name="requestDate"
-                    value={maintenanceFormData.requestDate}
-                    onChange={handleMaintenanceChange}
-                    required
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-                  />
-                </div>
+              {/* Request Date */}
+              <div className="mb-4.5">
+                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+                  Request Date <span className="text-meta-1">*</span>
+                </label>
+                <input
+                  type="datetime-local"
+                  name="requestDate"
+                  value={maintenanceFormData.requestDate}
+                  onChange={handleMaintenanceChange}
+                  required
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
+                />
+              </div>
 
-                <div className="mb-4.5">
-                  <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                    Approval Date <span className="text-meta-1">*</span>
-                  </label>
-                  <input
-                    type="datetime-local"
-                    name="approvalDate"
-                    value={maintenanceFormData.approvalDate}
-                    onChange={handleMaintenanceChange}
-                    required
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-                  />
-                </div>
+              <div className="mb-4.5">
+                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+                  Approval Date <span className="text-meta-1">*</span>
+                </label>
+                <input
+                  type="datetime-local"
+                  name="approvalDate"
+                  value={maintenanceFormData.approvalDate}
+                  onChange={handleMaintenanceChange}
+                  required
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
+                />
+              </div>
 
-                <div className="mb-4.5">
-                  <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                    Completion Date <span className="text-meta-1">*</span>
-                  </label>
-                  <input
-                    type="datetime-local"
-                    name="completionDate"
-                    value={maintenanceFormData.completionDate}
-                    onChange={handleMaintenanceChange}
-                    required
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-                  />
-                </div>
+              <div className="mb-4.5">
+                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+                  Completion Date <span className="text-meta-1">*</span>
+                </label>
+                <input
+                  type="datetime-local"
+                  name="completionDate"
+                  value={maintenanceFormData.completionDate}
+                  onChange={handleMaintenanceChange}
+                  required
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
+                />
+              </div>
 
-                
-                {/* <div className="col-span-1 mb-4.5">
+              {/* <div className="col-span-1 mb-4.5">
                   <label className="mb-3 block text-sm font-medium text-black dark:text-white">
                     Discard Reason <span className="text-meta-1">*</span>
                   </label>
@@ -267,10 +266,6 @@ const RequestManagement = () => {
                   ></textarea>
                 </div> */}
 
-               
-
-       
-
               {/* Submit Button */}
               <div className="col-span-full flex justify-end">
                 <button
@@ -284,10 +279,8 @@ const RequestManagement = () => {
           </form>
         </div>
       </div>
-    </DefaultLayout>
+    </div>
   );
 };
 
 export default RequestManagement;
-
-
