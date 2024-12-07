@@ -368,7 +368,6 @@ model Policy {
   AuditReport AuditReport[]
 }
 
-
 model Stock {
   id                    String @id @default(cuid())
   specializedEquipment  Int
@@ -385,6 +384,7 @@ model AuditReport {
   location         String
   startDate        DateTime
   endDate          DateTime
+  createdAt        DateTime @default(now())
   Policies         Policy[] 
   Policiesid       String[]
   StockAccuracy    Stock?   @relation(fields: [StockId], references: [id])

@@ -21,19 +21,33 @@ export async function GET(req: Request) {
       where: { id: userId },
     });
 
-    const reports = await prisma.user.findMany({
+    const reports = await prisma.auditReport.findFirst({
       where: {
         location: user?.location,
     },
-
+    orderBy: {
+      createdAt: 'desc',
+    },
     include: {
- 
       Policies: true,
-      Stock: true,
-
-      
+      StockAccuracy: true,
     }
   });
+
+  const policies = reports?.Policies.map(policy => {
+   { policy: policy.name; status: policy.complianceStatus; percentage:  policy.compliancePercentage;}
+      
+})
+
+  const percentages = reports?.Policies.map(policy => {
+    policy.compliancePercentage
+       
+ });
+ const keyFinding = reports?.Policies.map(policy => {
+  { category: policy.name; finding: policy.findings; impact: policy.impact;  recommendation: policy.recommendation;}
+     
+})
+
 
     const totalItems = await prisma.inventoryItem.count({
       where: {
@@ -74,30 +88,47 @@ export async function GET(req: Request) {
        group._sum.price? group._sum.price : 0 //
     ));
 
+    const workingItems = await prisma.inventoryItem.count({
+      where: {
+        AND: [
+          { location: user?.location },
+          { NOT: [{ condition: "damaged" }] },
+        ],
+      },
+    });
+    
+    const damagedItems = await prisma.inventoryItem.count({
+      where: {
+        AND: [
+          { location: user?.location },
+          { condition: "damaged" },
+        ],
+      },
+    });
+
+
     const complianceData = {
-      policies: [
-        { policy: "Procurement Policies", status: "Compliant", percentage:  },
-        { policy: "Storage Policies", status: "Partially Compliant", percentage: 70 },
-        { policy: "Usage and Deployment Policies", status: "Compliant", percentage: 85 },
-        { policy: "Disposal Policies", status: "Non-Compliant", percentage: 60 },
-      ],
-      complianceOverview: [90, 70, 85, 60],
+      policies: policies,
+        
+      complianceOverview: percentages,
       labels: ["Procurement", "Storage", "Usage & Deployment", "Disposal", "Purchase"],
     };
     
     const valuationData = {
       categories: ["Specialized Equipment", "Operational Assets", "Government-Funded Items"],
-      accuracy: [95, 80, 88],
+      accuracy: [reports?.StockAccuracy?.specializedEquipment, reports?.StockAccuracy?.operationalAssets, reports?.StockAccuracy?.governmentFundedItems],
     };
     
-    const keyFindings = {
-        category: "Storage Policies",
-        finding: "Improper storage of arms",
-        impact: "Risk of theft or misuse",
-        recommendation: "Upgrade storage facilities and implement stricter access controls",
-      }
+    const keyFindings = keyFinding;
 
-    const report = {complianceData, valuationData, keyFindings}
+    const report = {auditDetails: {
+      auditOfficerName: reports?.auditOfficerName,
+      auditOfficerId: reports?.auditOfficerId,
+      auditStartDate: reports?.startDate,
+      auditEndDate: reports?.endDate,
+      
+
+    }, complianceData, valuationData, keyFindings, totalItems, damagedItems, workingItems};
 
   
     return NextResponse.json(report, { status: 201 });

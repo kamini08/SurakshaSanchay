@@ -4,7 +4,7 @@ import { auth } from "../../../../../../../auth";
 
 const prisma = new PrismaClient();
 
-export async function POST(req: Request) {
+export async function GET(req: Request) {
   try {
     const session = await auth();
     const userId = session?.user.id || "";

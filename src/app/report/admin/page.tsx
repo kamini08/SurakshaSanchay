@@ -119,43 +119,43 @@ const ReportsPage: React.FC = () => {
         console.error(e);
       }
     }
-    // const fetchData = async () => {
-    //   try {
-    //     if(user=="admin") {
-    //     const response = await fetch("/api/reports/mainInventory", {
-    //       method: "GET",
-    //     }); 
-    //     if (!response.ok) throw new Error("Failed to fetch data");
-    //     const result = await response.json();
-    //     setAdminData(result.formData);
-    //     setTotalItems(result.totalItems);
-    //     setDamagedItems(result.damagedItems);
-    //     setWorkingItems(result.workingItems);
+    const fetchData = async () => {
+      try {
+        if(user=="admin") {
+        const response = await fetch("/api/reports/mainInventory", {
+          method: "GET",
+        }); 
+        if (!response.ok) throw new Error("Failed to fetch data");
+        const result = await response.json();
+        setAdminData(result.formData);
+        setTotalItems(result.totalItems);
+        setDamagedItems(result.damagedItems);
+        setWorkingItems(result.workingItems);
       
-  //     } else if(user=="incharge") {
+      } else if(user=="incharge") {
 
-  //       const response = await fetch("/api/reports/localInventory", {
-  //         method: "GET",
-  //       }); 
-  //       if (!response.ok) throw new Error("Failed to fetch data");
-  //       const result = await response.json();
-  //       setLocalReportData(result);
-  // setAdminData(result.formData);
-  //       setTotalItems(result.totalItems);
-  //       setDamagedItems(result.damagedItems);
-  //       setWorkingItems(result.workingItems);
+        const response = await fetch("/api/reports/localInventory", {
+          method: "GET",
+        }); 
+        if (!response.ok) throw new Error("Failed to fetch data");
+        const result = await response.json();
+        setLocalReportData(result);
+  setAdminData(result.formData);
+        setTotalItems(result.totalItems);
+        setDamagedItems(result.damagedItems);
+        setWorkingItems(result.workingItems);
 
-  //     }
-  //     } catch (err: any) {
-  //       alert(
-  //         "Error fetching data: " + err.message
-  //       );
-  //     }
-  //   };
+      }
+      } catch (err: any) {
+        alert(
+          "Error fetching data: " + err.message
+        );
+      }
+    };
 
     
     fetchSession();
-    // fetchData();
+    fetchData();
   }, []);
 
 

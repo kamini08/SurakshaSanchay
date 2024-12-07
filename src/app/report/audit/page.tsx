@@ -6,9 +6,7 @@ import AuditReport from "@/components/reports/AuditReport";
 import SummaryCard from "@/components/reports/SummaryPage";
 import { Box } from "@mui/material";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import fs from 'fs';
-import path from 'path';
-import { PrismaClient } from "@prisma/client";
+import { auth } from "../../../../auth";
 
 
 interface CompliancePolicy {
@@ -29,76 +27,129 @@ interface Finding {
   recommendation: string;
 }
 
-  
-const [complianceData, setComplianceData] = useState<{
-  policies: CompliancePolicy[];
-  complianceOverview: number[];
-  labels: string[];
-}>({
-  policies: [
-    { policy: "Procurement Policies", status: "Compliant", percentage: 90 },
-    { policy: "Storage Policies", status: "Partially Compliant", percentage: 70 },
-    { policy: "Usage and Deployment Policies", status: "Compliant", percentage: 85 },
-    { policy: "Disposal Policies", status: "Non-Compliant", percentage: 60 },
-  ],
-  complianceOverview: [90, 70, 85, 60],
-  labels: ["Procurement", "Storage", "Usage & Deployment", "Disposal"],
-});
 
-const [valuationData, setValuationData] = useState<{
-  categories: string[];
-  accuracy: number[];
-}>({
-  categories: ["Specialized Equipment", "Operational Assets", "Government-Funded Items"],
-  accuracy: [95, 80, 88],
-});
+interface AdminReportData {
+    summary: {
+      totalInventoryValue: number;
+      totalItems: number;
+      newProcurements: number;
+      reorderStatus: number;
+      complianceStatus: string;
+    };
+    inventoryOverview: {
+      categories: string[];
+      values: number[];
+    };
+    financialSummary: {
+      categories: string[];
+      values: number[];
+    };
+    compliance: {
+      labels: string[];
+      values: number[];
+    };
+  }
 
-const [keyFindings, setKeyFindings] = useState<Finding[]>([
-  {
-    category: "Storage Policies",
-    finding: "Improper storage of arms",
-    impact: "Risk of theft or misuse",
-    recommendation: "Upgrade storage facilities and implement stricter access controls",
-  },
-  {
-    category: "Procurement Policies",
-    finding: "Procurement through unapproved vendors",
-    impact: "Violation of government protocols",
-    recommendation: "Restrict procurement to approved vendors and audit regularly",
-  },
-]);
+
 
 const ReportsPage: React.FC = () => {
 
-  const [data, setData] = useState<any>();
+  
+  const [complianceData, setComplianceData] = useState<{
+    policies: CompliancePolicy[];
+    complianceOverview: number[];
+    labels: string[];
+  }>({
+    policies: [
+      { policy: "Procurement Policies", status: "Compliant", percentage: 90 },
+      { policy: "Storage Policies", status: "Partially Compliant", percentage: 70 },
+      { policy: "Usage and Deployment Policies", status: "Compliant", percentage: 85 },
+      { policy: "Disposal Policies", status: "Non-Compliant", percentage: 60 },
+    ],
+    complianceOverview: [90, 70, 85, 60],
+    labels: ["Procurement", "Storage", "Usage & Deployment", "Disposal"],
+  });
+  
+  const [valuationData, setValuationData] = useState<{
+    categories: string[];
+    accuracy: number[];
+  }>({
+    categories: ["Specialized Equipment", "Operational Assets", "Government-Funded Items"],
+    accuracy: [95, 80, 88],
+  });
+  const [user, setUser] = useState("user");
+  const [keyFindings, setKeyFindings] = useState<Finding[]>([
+    {
+      category: "Storage Policies",
+      finding: "Improper storage of arms",
+      impact: "Risk of theft or misuse",
+      recommendation: "Upgrade storage facilities and implement stricter access controls",
+    },
+    {
+      category: "Procurement Policies",
+      finding: "Procurement through unapproved vendors",
+      impact: "Violation of government protocols",
+      recommendation: "Restrict procurement to approved vendors and audit regularly",
+    },
+  ]);
+  const [totalItems, setTotalItems] = useState(0);
+  const [damagedItems, setDamagedItems] = useState(0);
+  const [workingItems, setWorkingItems] = useState(0);
+
+
+  const [data, setData] = useState<any>({
+    complianceData,
+    valuationData,
+    keyFindings,
+    totalItems,
+    damagedItems,
+    workingItems
+  });
 
   useEffect(() => {
-    // Define an asynchronous function to fetch data
+    const fetchSession = async () => {
+      try {
+        const session = await auth();
+        if(session?.user) {
+        setUser(session.user.role);
+        }
+      } catch(e) {
+        console.error(e);
+      }
+    }
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/report/audit", {
+        if(user=="admin") {
+        const response = await fetch("/api/reports/audit", {
           method: "GET",
-        }); // Replace with your API endpoint
+        }); 
         if (!response.ok) throw new Error("Failed to fetch data");
         const result = await response.json();
-        setData({complianceData, valuationData, keyFindings});
+        setData(result);
+        setTotalItems(result.totalItems);
+        setDamagedItems(result.damagedItems);
+        setWorkingItems(result.workingItems);
+      
+      } 
       } catch (err: any) {
         alert(
           "Error fetching data: " + err.message
-        )
+        );
       }
     };
 
+    
+    fetchSession();
     fetchData();
-  }, []); // Empty dependency array ensures this runs only on mount
+  }, []);
 
   return (
     <DefaultLayout>
     <Box sx={{ padding: 4 }}>
       <Box sx={{ display: "flex", gap: 4, flexWrap: "wrap", justifyContent: "center", marginBottom: 4 }}>
-        <SummaryCard title="Total Items" value={200} />
-        <SummaryCard title="Damaged Items" value={15} />
-        <SummaryCard title="Operational Items" value={175} />
+        <SummaryCard title="Total Items" value={totalItems} />
+        <SummaryCard title="Damaged Items" value={damagedItems} />
+        <SummaryCard title="Operational Items" value={workingItems} />
       </Box>
       <AuditReport {...data}></AuditReport>
     </Box>
@@ -107,3 +158,7 @@ const ReportsPage: React.FC = () => {
 };
 
 export default ReportsPage;
+
+function setUser(role: any) {
+  throw new Error("Function not implemented.");
+}

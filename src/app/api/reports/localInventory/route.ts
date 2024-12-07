@@ -34,6 +34,7 @@ export async function GET(req: Request) {
         ],
       },
     });
+    
     const damagedItems = await prisma.inventoryItem.count({
       where: {
         AND: [
