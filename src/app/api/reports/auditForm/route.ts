@@ -1,27 +1,11 @@
 import { AuditReport, Policy, PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+import { auth } from "../../../../../auth";
 
 const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
-
-    const data = {
-        auditOfficerName: "",
-        auditOfficerId: "",
-        location: "",
-        startDate: "",
-        endDate: "",
-        policyName: "",
-        findings: "",
-        impact: "",
-        recommendation: "",
-        complianceStatus: "",
-        compliancePercentage: "",
-        specializedEquipment: "",
-        operationalAssets: "",
-        governmentFundedItems: "",
-      };
     
     const body = await req.json(); // Parse request body
 
@@ -32,16 +16,25 @@ export async function POST(req: Request) {
         stockValuationAccuracy,
     } = body;
 
-    // const user = await prisma.user.findUnique({
-    //   where: { govId: userId },
-    //   select: { role: true },
-    // });
+    const session = await auth();
+    const userId = session?.user.id;
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { role: true },
+    });
 
     const admin = await prisma.user.findFirst({
       where: { role: "admin" },
     });
 
 
+    if (!user || user.role !== "incharge") {
+      return NextResponse.json(
+        { success: false, message: "Permission denied!" },
+        { status: 403 },
+      );
+    }
 
     const Policiesid: any = [];
     const Policies: any = [];
@@ -112,12 +105,7 @@ export async function POST(req: Request) {
 
 
 
-    // if (!user || user.role !== "incharge") {
-    //   return NextResponse.json(
-    //     { success: false, message: "Permission denied!" },
-    //     { status: 403 },
-    //   );
-    // }
+    
     const request = await prisma.auditReport.create({
       data: {
         auditOfficerName: auditDetails.auditOfficerName,
