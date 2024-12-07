@@ -1,5 +1,4 @@
-
-'use client'
+"use client";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import React, { useState } from "react";
@@ -8,34 +7,34 @@ const App: React.FC = () => {
   const [formType, setFormType] = useState<"penalty" | "award" | null>(null);
 
   return (
-    <DefaultLayout>
-<Breadcrumb pageName="AWARD AND PENALTY FORM" />
-    <div className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white min-h-screen  overflow-x-hidden">
-      <div className="max-w-3xl mx-auto p-8">
-        <h1 className="text-2xl font-bold mb-6">Penalty and Award Form</h1>
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
+      <Breadcrumb pageName="AWARD AND PENALTY FORM" />
+      <div className="min-h-screen w-full overflow-x-hidden rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input  dark:text-white">
+        <div className="mx-auto max-w-3xl p-8">
+          <h1 className="mb-6 text-2xl font-bold">Penalty and Award Form</h1>
 
-        {/* Buttons to toggle between forms */}
-        <div className="flex space-x-4 mb-6">
-          <button
-            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300"
-            onClick={() => setFormType("penalty")}
-          >
-            Log Penalty
-          </button>
-          <button
-            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300"
-            onClick={() => setFormType("award")}
-          >
-            Log Award
-          </button>
+          {/* Buttons to toggle between forms */}
+          <div className="mb-6 flex space-x-4">
+            <button
+              className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300"
+              onClick={() => setFormType("penalty")}
+            >
+              Log Penalty
+            </button>
+            <button
+              className="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300"
+              onClick={() => setFormType("award")}
+            >
+              Log Award
+            </button>
+          </div>
+
+          {/* Conditional Rendering of Forms */}
+          {formType === "penalty" && <PenaltyForm />}
+          {formType === "award" && <AwardForm />}
         </div>
-
-        {/* Conditional Rendering of Forms */}
-        {formType === "penalty" && <PenaltyForm />}
-        {formType === "award" && <AwardForm />}
       </div>
     </div>
-    </DefaultLayout>
   );
 };
 
@@ -47,14 +46,12 @@ const PenaltyForm: React.FC = () => {
   };
 
   return (
-   
-
     <form onSubmit={handleSubmit}>
-      <h2 className="text-xl font-semibold mb-4">Penalty Details</h2>
+      <h2 className="mb-4 text-xl font-semibold">Penalty Details</h2>
 
       {/* User ID */}
       <div className="mb-4">
-        <label htmlFor="userId" className="block mb-2">
+        <label htmlFor="userId" className="mb-2 block">
           User ID
         </label>
         <input
@@ -67,7 +64,7 @@ const PenaltyForm: React.FC = () => {
 
       {/* User Name */}
       <div className="mb-4">
-        <label htmlFor="userName" className="block mb-2">
+        <label htmlFor="userName" className="mb-2 block">
           User Name
         </label>
         <input
@@ -80,7 +77,7 @@ const PenaltyForm: React.FC = () => {
 
       {/* Penalty Reason */}
       <div className="mb-4">
-        <label htmlFor="penaltyReason" className="block mb-2">
+        <label htmlFor="penaltyReason" className="mb-2 block">
           Penalty Reason
         </label>
         <select
@@ -95,7 +92,7 @@ const PenaltyForm: React.FC = () => {
 
       {/* Penalty Amount */}
       <div className="mb-4">
-        <label htmlFor="penaltyAmount" className="block mb-2">
+        <label htmlFor="penaltyAmount" className="mb-2 block">
           Penalty Amount
         </label>
         <input
@@ -108,7 +105,7 @@ const PenaltyForm: React.FC = () => {
 
       {/* Stars Reduced */}
       <div className="mb-4">
-        <label htmlFor="starsReduced" className="block mb-2">
+        <label htmlFor="starsReduced" className="mb-2 block">
           Number of Stars Reduced
         </label>
         <input
@@ -121,7 +118,7 @@ const PenaltyForm: React.FC = () => {
 
       {/* Description */}
       <div className="mb-4">
-        <label htmlFor="penaltyDescription" className="block mb-2">
+        <label htmlFor="penaltyDescription" className="mb-2 block">
           Description
         </label>
         <textarea
@@ -133,7 +130,7 @@ const PenaltyForm: React.FC = () => {
 
       {/* Incharge ID */}
       <div className="mb-4">
-        <label htmlFor="inchargeId" className="block mb-2">
+        <label htmlFor="inchargeId" className="mb-2 block">
           Incharge ID
         </label>
         <input
@@ -146,7 +143,7 @@ const PenaltyForm: React.FC = () => {
 
       {/* Date */}
       <div className="mb-4">
-        <label htmlFor="date" className="block mb-2">
+        <label htmlFor="date" className="mb-2 block">
           Date
         </label>
         <input
@@ -159,32 +156,28 @@ const PenaltyForm: React.FC = () => {
       {/* Submit Button */}
       <button
         type="submit"
-        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
       >
         Submit Penalty
       </button>
     </form>
-  
   );
 };
 
 // Award Form Component
 const AwardForm: React.FC = () => {
- 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     console.log("Award form submitted!");
   };
 
   return (
-    
-    
     <form onSubmit={handleSubmit}>
-      <h2 className="text-xl font-semibold mb-4">Award Details</h2>
+      <h2 className="mb-4 text-xl font-semibold">Award Details</h2>
 
       {/* User ID */}
       <div className="mb-4">
-        <label htmlFor="userId" className="block mb-2">
+        <label htmlFor="userId" className="mb-2 block">
           User ID
         </label>
         <input
@@ -197,7 +190,7 @@ const AwardForm: React.FC = () => {
 
       {/* Stars Added */}
       <div className="mb-4">
-        <label htmlFor="starsAdded" className="block mb-2">
+        <label htmlFor="starsAdded" className="mb-2 block">
           Number of Stars Added
         </label>
         <input
@@ -210,7 +203,7 @@ const AwardForm: React.FC = () => {
 
       {/* Description */}
       <div className="mb-4">
-        <label htmlFor="awardDescription" className="block mb-2">
+        <label htmlFor="awardDescription" className="mb-2 block">
           Description
         </label>
         <textarea
@@ -222,7 +215,7 @@ const AwardForm: React.FC = () => {
 
       {/* Incharge ID */}
       <div className="mb-4">
-        <label htmlFor="inchargeId" className="block mb-2">
+        <label htmlFor="inchargeId" className="mb-2 block">
           Incharge ID
         </label>
         <input
@@ -235,7 +228,7 @@ const AwardForm: React.FC = () => {
 
       {/* Date */}
       <div className="mb-4">
-        <label htmlFor="date" className="block mb-2">
+        <label htmlFor="date" className="mb-2 block">
           Date
         </label>
         <input
@@ -248,15 +241,12 @@ const AwardForm: React.FC = () => {
       {/* Submit Button */}
       <button
         type="submit"
-        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
       >
         Submit Award
       </button>
     </form>
-  
-  
   );
 };
 
 export default App;
-
