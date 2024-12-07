@@ -47,7 +47,10 @@ interface AdminReportData {
   
 const ReportsPage: React.FC = () => {
 
-  
+  const [totalItems, setTotalItems] = useState(0);
+  const [damagedItems, setDamagedItems] = useState(0);
+  const [workingItems, setWorkingItems] = useState(0);
+
   const [adminData, setAdminData] = useState<AdminReportData>({
     summary: {
       totalInventoryValue: 500000,
@@ -103,6 +106,8 @@ const ReportsPage: React.FC = () => {
   });
   
   const [user, setUser] = useState<string>("incharge");
+
+
   useEffect(() => {
     const fetchSession = async () => {
       try {
@@ -114,17 +119,53 @@ const ReportsPage: React.FC = () => {
         console.error(e);
       }
     }
+    // const fetchData = async () => {
+    //   try {
+    //     if(user=="admin") {
+    //     const response = await fetch("/api/reports/mainInventory", {
+    //       method: "GET",
+    //     }); 
+    //     if (!response.ok) throw new Error("Failed to fetch data");
+    //     const result = await response.json();
+    //     setAdminData(result.formData);
+    //     setTotalItems(result.totalItems);
+    //     setDamagedItems(result.damagedItems);
+    //     setWorkingItems(result.workingItems);
+      
+  //     } else if(user=="incharge") {
+
+  //       const response = await fetch("/api/reports/localInventory", {
+  //         method: "GET",
+  //       }); 
+  //       if (!response.ok) throw new Error("Failed to fetch data");
+  //       const result = await response.json();
+  //       setLocalReportData(result);
+  // setAdminData(result.formData);
+  //       setTotalItems(result.totalItems);
+  //       setDamagedItems(result.damagedItems);
+  //       setWorkingItems(result.workingItems);
+
+  //     }
+  //     } catch (err: any) {
+  //       alert(
+  //         "Error fetching data: " + err.message
+  //       );
+  //     }
+  //   };
+
+    
     fetchSession();
+    // fetchData();
   }, []);
-  
+
 
   return (
     <DefaultLayout>
     <Box sx={{ padding: 4 }}>
       <Box sx={{ display: "flex", gap: 4, flexWrap: "wrap", justifyContent: "center", marginBottom: 4 }}>
-        <SummaryCard title="Total Items" value={200} />
-        <SummaryCard title="Damaged Items" value={15} />
-        <SummaryCard title="Operational Items" value={175} />
+        <SummaryCard title="Total Items" value={totalItems} />
+        <SummaryCard title="Damaged Items" value={damagedItems} />
+        <SummaryCard title="Operational Items" value={workingItems} />
       </Box>
       {(user=="admin") ? (<AdminInventoryReport {...adminData}/>) : 
         (<LocalInventoryReport data={localReportData}/>)

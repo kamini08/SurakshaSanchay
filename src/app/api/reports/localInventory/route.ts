@@ -23,90 +23,137 @@ export async function GET(req: Request) {
 
     const totalItems = await prisma.inventoryItem.count({
       where: {
-        AND: [{ location: user?.location }],
+        location: user?.location,
+      },
+    });
+    const workingItems = await prisma.inventoryItem.count({
+      where: {
+        AND: [
+          { location: user?.location },
+          { NOT: [{ condition: "damaged" }] },
+        ],
+      },
+    });
+    const damagedItems = await prisma.inventoryItem.count({
+      where: {
+        AND: [
+          { location: user?.location },
+          { condition: "damaged" },
+        ],
+      },
+    });
+    const discardedItems = await prisma.inventoryItem.count({
+      where: {
+        AND: [
+          { location: user?.location },
+          { condition: "discarded" },
+        ],
+      },
+    });
+    const lostItems = await prisma.inventoryItem.count({
+      where: {
+        AND: [
+          { location: user?.location },
+          { isLost: true },
+        ],
       },
     });
 
-    
 
     const groupedData = await prisma.inventoryItem.groupBy({
-      by: ['category'], // Group by category
+      by: ["category"], // Group by category
       _sum: {
         price: true, // Sum of quantity, if needed
       },
       _count: {
         _all: true, // Count of items in each group
-      }
+      },
     });
 
-    const categories = groupedData.map(group => (
-      group.category
-    )
-    )
+    const categories = groupedData.map((group) => {
+      category: group.category;
+      count: group._count._all;
 
-    const inventoryValues = groupedData.map(group => (
-      group._count._all
-    ))
+  });
+
   
-    // Calculate total cost for each category
-    const CostValues = groupedData.map(group => (
-       group._sum.price? group._sum.price : 0 //
-    ));
 
-  const report = {
-    metrics: [
-      { label: "Total Devices", value: totalItems },
-      { label: "Working Devices", value: 120 },
-      { label: "Under Repair", value: 15 },
-      { label: "Out of Order", value: 5 },
-    ],
-      inventoryOverview: {
-        categories: categories,
-        values: inventoryValues,
+
+  const maintenanceData = await prisma.maintenanceRequest.findMany(
+    {
       
+      select: {
+        itemId: true,
+        issueDescription: true,
+        item: true,
+        approvalDate: true,
+
+      }
+    }
+  )
+
+  const maintenanceValues: { itemId: string; issue: string; startDate: Date | null; }[] = [];
+  maintenanceData.forEach(item => {
+    const itemValue = {
+      itemId: item.itemId,
+      issue: item.issueDescription,
+      startDate: item.approvalDate
+
+    }
+    maintenanceValues.push(itemValue);
+    
+  })
+  const discardData = await prisma.maintenanceRequest.findMany(
+    {
+      where: {
+          status: "DISCARDED",
       },
-      financialSummary: {
-        categories: categories,
-        values: CostValues,
+      select: {
+        itemId: true,
+        discardReason: true,
+        completionDate: true,
+
+      }
+    }
+  )
+
+  const discardValues: { itemId: string; reason: string | null; discardedDate: Date | null; }[] = [];
+  discardData.forEach(item => {
+    const itemValue = {
+      itemId: item.itemId,
+      reason: item.discardReason,
+      discardedDate: item.completionDate
+
+    }
+    discardValues.push(itemValue);
+    
+  })
+
+    // Calculate total cost for each category
+    const CostValues = groupedData.map(
+      (group) => (group._sum.price ? group._sum.price : 0), //
+    );
+
+    const data = {
+      metrics: [
+        { label: "Total Devices", value: totalItems },
+        { label: "Working Devices", value: workingItems },
+        { label: "Under Repair", value: damagedItems },
+        { label: "Out of Order", value: discardedItems },
+        { label: "Lost", value: lostItems },
+      ],
+
+      inventoryOverview: categories,
+      maintenanceStatus: {
+        working: workingItems,
+        underRepair: damagedItems,
+        outOfOrder: discardedItems,
       },
-      compliance: {
-        labels: ["Compliant", "Non-Compliant"],
-        values: [90, 10],
-      },
+      inventoryReport: categories,
+      maintenanceReport: maintenanceValues,
+      discardedItems: discardValues,
     };
 
-   const data = {
-      metrics: [
-        { label: "Total Devices", value: 155 },
-        { label: "Working Devices", value: 120 },
-        { label: "Under Repair", value: 15 },
-        { label: "Out of Order", value: 5 },
-      ],
-      inventoryOverview: [
-        { category: "Desktops", count: 50 },
-        { category: "Smartphones", count: 40 },
-        { category: "Tablets", count: 10 },
-      ],
-      maintenanceStatus: {
-        working: 86,
-        underRepair: 11,
-        outOfOrder: 3,
-      },
-      inventoryReport: [
-        { itemId: 1, name: "Desktop", category: "Computers", currentStock: 50 },
-        { itemId: 2, name: "Smartphone", category: "Mobiles", currentStock: 40 },
-        { itemId: 3, name: "Tablet", category: "Tablets", currentStock: 10 },
-      ],
-      maintenanceReport: [
-        { itemId: 1, name: "Desktop", issue: "Hardware Failure", startDate: "2024-11-20" },
-        { itemId: 2, name: "Smartphone", issue: "Screen Damage", startDate: "2024-11-22" },
-      ],
-      discardedItems: [
-        { itemId: 1, name: "Printer", reason: "Outdated", discardedDate: "2024-10-15" },
-        { itemId: 2, name: "Monitor", reason: "Damaged", discardedDate: "2024-11-05" },
-      ],
-    }
-  
     return NextResponse.json(data, { status: 201 });
   } catch (error) {
     console.error("Error creating request:", error);

@@ -45,7 +45,26 @@ const AdminInventoryReport: React.FC<AdminReportData> = (adminReportData) => {
   const downloadReport = () => {
     console.log("Downloading report...");
     // Implement report download logic here
+    // const headers = [
+    //   ["Inventory Report"],
+    //   ["Category", "Current Stock"],
+    //   ...data.inventoryReport.map((row) => [row.category, row.currentStock]),
+    //   [],
+    //   ["Maintenance Report"],
+    //   ["Item ID", "Issue", "Start Date"],
+    //   ...data.maintenanceReport.map((row) => [row.itemId,  row.issue, row.startDate]),
+    //   [],
+    //   ["Discarded Items"],
+    //   ["Item ID", "Reason", "Discarded Date"],
+    //   ...data.discardedItems.map((row) => [row.itemId, row.reason, row.discardedDate]),
+    // ];
 
+    // const csvContent = headers.map((row) => row.join(",")).join("\n");
+    // const blob = new Blob([csvContent], { type: "text/csv" });
+    // const link = document.createElement("a");
+    // link.href = URL.createObjectURL(blob);
+    // link.download = `Full_Report.csv`;
+    // link.click();
     
   };
 
@@ -73,10 +92,10 @@ const AdminInventoryReport: React.FC<AdminReportData> = (adminReportData) => {
           <h3>New Procurements</h3>
           <p>{adminReportData.summary.newProcurements}</p>
         </div>
-        <div className="metric-card">
+        {/* <div className="metric-card">
           <h3>Reorder Status</h3>
           <p>{adminReportData.summary.reorderStatus} Items</p>
-        </div>
+        </div> */}
       </div>
 
       {/* Main Layout */}

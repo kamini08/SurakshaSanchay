@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { ComplianceStatus, Prisma, PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { auth } from "../../../../../auth";
 
@@ -21,6 +21,20 @@ export async function GET(req: Request) {
       where: { id: userId },
     });
 
+    const reports = await prisma.user.findMany({
+      where: {
+        location: user?.location,
+    },
+
+    include: {
+ 
+      Policies: true,
+      Stock: true,
+
+      
+    }
+  });
+
     const totalItems = await prisma.inventoryItem.count({
       where: {
         AND: [{ location: user?.location }],
@@ -37,12 +51,12 @@ export async function GET(req: Request) {
     });
 
     const groupedData = await prisma.inventoryItem.groupBy({
-      by: ['category'], // Group by category
+      by: ['category'],
       _sum: {
-        price: true, // Sum of quantity, if needed
+        price: true, 
       },
       _count: {
-        _all: true, // Count of items in each group
+        _all: true,
       }
     });
 
@@ -60,29 +74,30 @@ export async function GET(req: Request) {
        group._sum.price? group._sum.price : 0 //
     ));
 
-  const report = {
-      summary: {
-        totalInventoryValue: 500000,
-        totalItems: totalItems,
-        newProcurements: newProcurements,
-        reorderStatus: 12,
-
-        complianceStatus: "95%",
-      },
-      inventoryOverview: {
-        categories: categories,
-        values: inventoryValues,
-      
-      },
-      financialSummary: {
-        categories: categories,
-        values: CostValues,
-      },
-      compliance: {
-        labels: ["Compliant", "Non-Compliant"],
-        values: [90, 10],
-      },
+    const complianceData = {
+      policies: [
+        { policy: "Procurement Policies", status: "Compliant", percentage:  },
+        { policy: "Storage Policies", status: "Partially Compliant", percentage: 70 },
+        { policy: "Usage and Deployment Policies", status: "Compliant", percentage: 85 },
+        { policy: "Disposal Policies", status: "Non-Compliant", percentage: 60 },
+      ],
+      complianceOverview: [90, 70, 85, 60],
+      labels: ["Procurement", "Storage", "Usage & Deployment", "Disposal", "Purchase"],
     };
+    
+    const valuationData = {
+      categories: ["Specialized Equipment", "Operational Assets", "Government-Funded Items"],
+      accuracy: [95, 80, 88],
+    };
+    
+    const keyFindings = {
+        category: "Storage Policies",
+        finding: "Improper storage of arms",
+        impact: "Risk of theft or misuse",
+        recommendation: "Upgrade storage facilities and implement stricter access controls",
+      }
+
+    const report = {complianceData, valuationData, keyFindings}
 
   
     return NextResponse.json(report, { status: 201 });
