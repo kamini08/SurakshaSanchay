@@ -1220,7 +1220,7 @@ const AddInventory = () => {
   };
 
   return (
-    <DefaultLayout>
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
       <Breadcrumb pageName="ADD INVENTORY FORM" />
 
       {/* Full-Width Inventory Form */}
@@ -1578,7 +1578,7 @@ const AddInventory = () => {
           </form>
         </div>
       </div>
-    </DefaultLayout>
+    </div>
   );
 };
 

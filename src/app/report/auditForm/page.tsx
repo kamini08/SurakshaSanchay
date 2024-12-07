@@ -26,7 +26,7 @@ const AuditForm = () => {
 
   // Handle input changes
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -75,19 +75,18 @@ const AuditForm = () => {
   };
 
   return (
-    <DefaultLayout>
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
       <Breadcrumb pageName="Add Inventory" />
 
       <div className="flex flex-col gap-9 overflow-x-hidden bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <form
             onSubmit={handleSubmit}
-            className="p-6.5 grid grid-cols-1 gap-6 sm:grid-cols-3"
+            className="grid grid-cols-1 gap-6 p-6.5 sm:grid-cols-3"
           >
-
             {/* Audit Report Fields */}
             <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
+              <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                 Audit Officer Name
               </label>
               <input
@@ -96,13 +95,13 @@ const AuditForm = () => {
                 placeholder="Enter audit officer's name"
                 value={formData.auditOfficerName}
                 onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+                className="w-full rounded border-[1.5px] bg-white px-5 py-3 shadow-default dark:border-strokedark dark:bg-boxdark"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
+              <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                 Audit Officer ID
               </label>
               <input
@@ -111,12 +110,12 @@ const AuditForm = () => {
                 placeholder="Enter audit officer's ID"
                 value={formData.auditOfficerId}
                 onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+                className="w-full rounded border-[1.5px] bg-white px-5 py-3 shadow-default dark:border-strokedark dark:bg-boxdark"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
+              <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                 Start Date
               </label>
               <input
@@ -125,12 +124,12 @@ const AuditForm = () => {
                 placeholder="Enter Start Date "
                 value={formData.startDate}
                 onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+                className="w-full rounded border-[1.5px] bg-white px-5 py-3 shadow-default dark:border-strokedark dark:bg-boxdark"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
+              <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                 End Date
               </label>
               <input
@@ -139,13 +138,13 @@ const AuditForm = () => {
                 placeholder="Enter End Date "
                 value={formData.endDate}
                 onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+                className="w-full rounded border-[1.5px] bg-white px-5 py-3 shadow-default dark:border-strokedark dark:bg-boxdark"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
+              <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                 Location
               </label>
               <input
@@ -154,21 +153,21 @@ const AuditForm = () => {
                 placeholder="Enter location"
                 value={formData.location}
                 onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+                className="w-full rounded border-[1.5px] bg-white px-5 py-3 shadow-default dark:border-strokedark dark:bg-boxdark"
                 required
               />
             </div>
 
             {/* Policy Fields */}
             <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
+              <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                 Policy Name
               </label>
               <select
                 name="policyName"
                 value={formData.policyName}
                 onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+                className="w-full rounded border-[1.5px] bg-white px-5 py-3 shadow-default dark:border-strokedark dark:bg-boxdark"
                 required
               >
                 <option value="">Select Policy</option>
@@ -182,7 +181,7 @@ const AuditForm = () => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
+              <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                 Policy ID
               </label>
               <input
@@ -191,13 +190,13 @@ const AuditForm = () => {
                 placeholder="Enter audit officer's ID"
                 value={formData.auditOfficerId}
                 onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+                className="w-full rounded border-[1.5px] bg-white px-5 py-3 shadow-default dark:border-strokedark dark:bg-boxdark"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
+              <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                 Findings
               </label>
               <input
@@ -206,20 +205,20 @@ const AuditForm = () => {
                 placeholder="Enter findings of the audit"
                 value={formData.findings}
                 onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+                className="w-full rounded border-[1.5px] bg-white px-5 py-3 shadow-default dark:border-strokedark dark:bg-boxdark"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
+              <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                 Compliance Status
               </label>
               <select
                 name="complianceStatus"
                 value={formData.complianceStatus}
                 onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+                className="w-full rounded border-[1.5px] bg-white px-5 py-3 shadow-default dark:border-strokedark dark:bg-boxdark"
                 required
               >
                 <option value="">Select Status</option>
@@ -231,7 +230,7 @@ const AuditForm = () => {
 
             {/* Stock Fields */}
             <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
+              <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                 Specialized Equipment
               </label>
               <input
@@ -240,12 +239,12 @@ const AuditForm = () => {
                 placeholder="Enter count of specialized equipment"
                 value={formData.specializedEquipment}
                 onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+                className="w-full rounded border-[1.5px] bg-white px-5 py-3 shadow-default dark:border-strokedark dark:bg-boxdark"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
+              <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                 Compliance Percentage
               </label>
               <input
@@ -254,13 +253,13 @@ const AuditForm = () => {
                 placeholder="Enter count of specialized equipment"
                 value={formData.compliancePercentage}
                 onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+                className="w-full rounded border-[1.5px] bg-white px-5 py-3 shadow-default dark:border-strokedark dark:bg-boxdark"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
+              <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                 Operational Assets
               </label>
               <input
@@ -269,13 +268,13 @@ const AuditForm = () => {
                 placeholder="Enter count of operational assets"
                 value={formData.operationalAssets}
                 onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+                className="w-full rounded border-[1.5px] bg-white px-5 py-3 shadow-default dark:border-strokedark dark:bg-boxdark"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
+              <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                 Government Funded Items
               </label>
               <input
@@ -284,13 +283,13 @@ const AuditForm = () => {
                 placeholder="Enter count of government-funded items"
                 value={formData.governmentFundedItems}
                 onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+                className="w-full rounded border-[1.5px] bg-white px-5 py-3 shadow-default dark:border-strokedark dark:bg-boxdark"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-black dark:text-white mb-2">
+              <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                 URL (Audit Report)
               </label>
               <input
@@ -299,7 +298,7 @@ const AuditForm = () => {
                 placeholder="Enter URL of the audit report"
                 value={formData.url}
                 onChange={handleChange}
-                className="w-full rounded border-[1.5px] px-5 py-3 bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+                className="w-full rounded border-[1.5px] bg-white px-5 py-3 shadow-default dark:border-strokedark dark:bg-boxdark"
               />
             </div>
 
@@ -314,7 +313,7 @@ const AuditForm = () => {
           </form>
         </div>
       </div>
-    </DefaultLayout>
+    </div>
   );
 };
 

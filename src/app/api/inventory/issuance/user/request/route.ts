@@ -30,6 +30,12 @@ export async function POST(req: Request) {
     const incharge = await prisma.user.findFirst({
       where: { AND: [{ location }, { role: "incharge" }] },
     });
+    if (!incharge) {
+      return NextResponse.json(
+        { message: "Incharge not found!" },
+        { status: 404 },
+      );
+    }
     console.log(incharge);
     const inventoryItem = await prisma.inventoryItem.findFirst({
       where: {
@@ -44,22 +50,14 @@ export async function POST(req: Request) {
         ],
       },
     });
+    console.log(inventoryItem);
 
-    
-
-    if (!incharge) {
-      return NextResponse.json(
-        { message: "Incharge not found!" },
-        { status: 404 },
-      );
-    }
-    
     const request = await prisma.issuanceRequest.create({
       data: {
         userId,
         name: item,
         itemId: inventoryItem?.itemId || "",
-        inchargeId: incharge?.govId,
+        inchargeId: incharge?.govId || "",
         issueDescription: description,
         quantity,
         expectedDeliveryDate: new Date(expectedDeliveryDate),
@@ -70,11 +68,10 @@ export async function POST(req: Request) {
         isDamaged: false,
         status: "PENDING",
       },
-      
     });
 
     return NextResponse.json(request, { status: 201 });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error creating request:", error);
     return NextResponse.json(
       { error: "Failed to create request" },

@@ -75,7 +75,7 @@ const AddItemLocationForm = () => {
   };
 
   return (
-    <DefaultLayout>
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
       <Breadcrumb pageName="ADD ITEM LOCATION" />
 
       <div className="flex flex-col gap-9">
@@ -191,7 +191,7 @@ const AddItemLocationForm = () => {
           )}
         </div>
       </div>
-    </DefaultLayout>
+    </div>
   );
 };
 

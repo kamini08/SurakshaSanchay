@@ -52,6 +52,8 @@ model User {
   Penalty Penalty[]
 
   Award Award[]
+
+  ReturnRequest ReturnRequest[]
 }
 
 model Account {
@@ -156,6 +158,8 @@ model InventoryItem {
   IssuanceRequest IssuanceRequest[]
 
   itemAssignmentHistories ItemAssignmentHistory[]
+
+  ReturnRequest ReturnRequest[]
 }
 
 model IssuanceRequest {
@@ -440,4 +444,20 @@ model Award {
   description        String
   inchargeId         String
   date               DateTime
+}
+model ReturnRequest {
+  id                 String   @id @default(cuid())
+  userId             String
+  equipmentName String
+  name  String
+  user               User     @relation(fields: [userId], references: [govId])
+  itemId             String
+  item               InventoryItem @relation(fields: [itemId], references: [itemId])
+  notes            String
+  isLost Boolean @default(false)
+  returnDate DateTime
+  inchargeId         String
+  date               DateTime
+  isDamaged Boolean @default(false)
+  returnStatus String @default("Not Completed")
 }

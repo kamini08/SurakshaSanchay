@@ -62,7 +62,7 @@ const CreateItemAssignment = () => {
   };
 
   return (
-    <DefaultLayout>
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
       <div>
         <h2>Create Item Assignment</h2>
         <form onSubmit={handleSubmit}>
@@ -159,7 +159,7 @@ const CreateItemAssignment = () => {
         {error && <p style={{ color: "red" }}>{error}</p>}
         {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
       </div>
-    </DefaultLayout>
+    </div>
   );
 };
 

@@ -3,6 +3,8 @@
 import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { FormError } from "@/components/form-error";
+import { FormSuccess } from "@/components/form-success";
 
 const policeStations = [
   { name: "TT Nagar Police Station", lat: 23.23725, long: 77.39984 },
@@ -76,6 +78,8 @@ const Modal = ({
 };
 const AddInventory = () => {
   // State for Inventory Form
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
   const [itemData, setItemData] = useState<itemData>({
     itemId: "",
     category: "",
@@ -109,6 +113,18 @@ const AddInventory = () => {
       [name]: value,
     }));
   };
+  useEffect(() => {
+    // Set a timer to clear messages after 3 seconds
+    if (error || success) {
+      const timer = setTimeout(() => {
+        setError("");
+        setSuccess("");
+      }, 3000);
+
+      // Cleanup function to clear the timer if the component unmounts
+      return () => clearTimeout(timer);
+    }
+  }, [error, success]);
 
   const handleCategoryChange = (selectedCategory: string) => {
     setItemData((prev) => ({
@@ -131,6 +147,8 @@ const AddInventory = () => {
   };
   const handleInventorySubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError("");
+    setSuccess("");
     console.log(itemData);
     try {
       const response = await fetch("/api/inventory", {
@@ -142,7 +160,7 @@ const AddInventory = () => {
       });
 
       if (response.ok) {
-        alert("Inventory added successfully!");
+        setSuccess("Inventory added successfully!");
 
         // Reset the form after successful submission
         setItemData({
@@ -167,11 +185,11 @@ const AddInventory = () => {
         });
       } else {
         const errorData = await response.json();
-        alert(`Error: ${errorData.message}`);
+        setError(`Error: ${errorData.message}`);
       }
     } catch (error) {
       console.error("Error submitting inventory form:", error);
-      alert("Failed to submit the inventory.");
+      setError("Failed to submit the inventory.");
     }
   };
   const renderCategoryForm = () => {
@@ -1243,7 +1261,7 @@ const AddInventory = () => {
   };
 
   return (
-    <DefaultLayout>
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
       <Breadcrumb pageName="ADD INVENTORY FORM" />
 
       {/* Full-Width Inventory Form */}
@@ -1410,7 +1428,7 @@ const AddInventory = () => {
               </div>
 
               {/* Location */}
-              <div className="custom-select-container relative">
+              {/* <div className="custom-select-container relative">
                 <label className="mb-3 block text-sm font-medium text-black dark:text-white">
                   Location <span className="text-meta-1">*</span>
                 </label>
@@ -1430,22 +1448,28 @@ const AddInventory = () => {
                     </option>
                   ))}
                 </select>
-              </div>
+              </div> */}
 
               {/* Condition */}
               <div>
                 <label className="mb-3 block text-sm font-medium text-black dark:text-white">
                   Condition <span className="text-meta-1">*</span>
                 </label>
-                <input
-                  type="text"
+                <select
                   name="condition"
-                  placeholder="Enter Condition"
                   value={itemData.condition}
                   onChange={handleInventoryChange}
                   required
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-                />
+                >
+                  <option value="" disabled>
+                    Select Condition
+                  </option>
+                  <option value="new">New</option>
+                  <option value="used">Used</option>
+                  <option value="refurbished">Refurbished</option>
+                  {/* Add more options as needed */}
+                </select>
               </div>
 
               {/* Acquisition Date */}
@@ -1552,7 +1576,7 @@ const AddInventory = () => {
               </div>
 
               {/* Maintenance Charge */}
-              <div>
+              {/* <div>
                 <label className="mb-3 block text-sm font-medium text-black dark:text-white">
                   Maintenance Charge
                 </label>
@@ -1566,10 +1590,10 @@ const AddInventory = () => {
                   step="0.01"
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                 />
-              </div>
+              </div> */}
 
               {/* Issued To */}
-              <div>
+              {/* <div>
                 <label className="mb-3 block text-sm font-medium text-black dark:text-white">
                   Issued To
                 </label>
@@ -1581,10 +1605,10 @@ const AddInventory = () => {
                   onChange={handleInventoryChange}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                 />
-              </div>
+              </div> */}
 
               {/* User ID */}
-              <div>
+              {/* <div>
                 <label className="mb-3 block text-sm font-medium text-black dark:text-white">
                   User ID
                 </label>
@@ -1596,13 +1620,17 @@ const AddInventory = () => {
                   onChange={handleInventoryChange}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                 />
-              </div>
+              </div> */}
             </div>
 
-            <div className="col-span-full flex justify-end">
+            <div className="col-span-full flex justify-center">
+              <div className="justify-left mb-3 mr-10 flex w-auto items-center ">
+                <FormError message={error} />
+                <FormSuccess message={success} />
+              </div>
               <button
                 type="submit"
-                className="w-half mb-4 mr-4 rounded bg-primary p-3 font-medium text-white hover:bg-opacity-90"
+                className="w-half mb-4 mr-4 justify-end rounded bg-primary p-3 font-medium text-white hover:bg-opacity-90"
               >
                 Add Inventory Item
               </button>
@@ -1610,7 +1638,7 @@ const AddInventory = () => {
           </form>
         </div>
       </div>
-    </DefaultLayout>
+    </div>
   );
 };
 
