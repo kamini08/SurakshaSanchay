@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import checkAndSendNotifications from '@/lib/utils/notificationLogic';
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
     await checkAndSendNotifications();
     return NextResponse.json({ message: 'Notifications sent successfully' });
