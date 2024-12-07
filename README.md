@@ -70,14 +70,14 @@ SurakshaSanchay is a comprehensive hardware inventory management system designed
 ## Installation and Setup
 
 ### Prerequisites
-1. **Node.js** - Ensure Node.js is installed.
-2. **Database** - Use MongoDB for data storage.
+1. **Next.js** - Ensure Nextjs.js is installed.
+2. **Database** - Use Postgresql and prisma(ORM) for data storage.
 3. **Package Manager** - Use `npm` or `yarn` to install dependencies.
 
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone https://github.com/RITVIKKAMASETTY/SurakshaSanchay.git
+   git clone https://github.com/BhoomiAgrawal12/SurakshaSanchay
 
 ### Navigate to the project directory:
 cd SurakshaSanchay
@@ -87,7 +87,12 @@ npm install
 ### Create a .env file in the root directory.
 ### Add the following variables:
 DATABASE_URL=your_database_url
-NEXTAUTH_SECRET=your_secret_key
+AUTH_SECRET=your_secret_key
+GOOGLE_CLIENT_ID=your_client_id
+GOOGLE_CLIENT_SECRET=your_client_secret
+DOMAIN=your_website_url
+RESEND_API_KEY=your_email_resend_key
+
 ### Start the development server:
 npm run dev
 ### API Endpoints
@@ -116,13 +121,12 @@ Data Visualization: ApexCharts
 
 ### Backend
 
-Framework: Node.js
-Database: MongoDB
+Database: Postgresql with Prisma
 Authentication: NextAuth.js
 
 ### Deployment
 
-Platform: Vercel or AWS
+Platform: Vercel
 Storage: AWS S3 for file uploads
 
 ### How to Contribute

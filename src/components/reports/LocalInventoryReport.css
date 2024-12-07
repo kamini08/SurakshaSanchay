@@ -268,4 +268,71 @@
       width: 100%;
     }
   }
+    @media (max-width: 480px) {
   
+      /* Dashboard container */
+      .dashboard {
+        padding: 10px;
+      }
+  
+      /* Header adjustments */
+      .dashboard .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+  
+      .dashboard .header h1 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+  
+      .dashboard .header .button-group {
+        width: 100%;
+        justify-content: flex-start;
+      }
+  
+      .dashboard .download-button {
+        font-size: 0.85rem;
+        padding: 8px 12px;
+      }
+  
+      /* Metrics section */
+      .dashboard .metrics {
+        flex-direction: column;
+        gap: 10px;
+      }
+  
+      .dashboard .metric-card {
+        width: 100%;
+        padding: 15px;
+      }
+  
+      /* Main layout */
+      .dashboard .main-layout {
+        flex-direction: column;
+        gap: 15px;
+      }
+  
+      .dashboard .left-section,
+      .dashboard .right-section {
+        width: 100%;
+      }
+  
+      /* Report Table adjustments */
+      .dashboard .report-table {
+        font-size: 0.8rem;
+        padding: 10px;
+        overflow-x: auto;
+      }
+  
+      .dashboard .report-table th,
+      .dashboard .report-table td {
+        padding: 8px;
+      }
+  
+      /* Charts */
+      .dashboard .chart canvas {
+        max-height: 150px;
+      }
+    }
