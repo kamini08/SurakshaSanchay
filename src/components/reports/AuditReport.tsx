@@ -13,29 +13,7 @@ import "./AuditReport.css";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
 
-interface CompliancePolicy {
-  policy: string;
-  status: string;
-  percentage: number;
-}
-
-interface ValuationCategory {
-  category: string;
-  accuracy: number;
-}
-
-interface Finding {
-  category: string;
-  finding: string;
-  impact: string;
-  recommendation: string;
-}
-
-const complianceData: {
-  policies: CompliancePolicy[];
-  complianceOverview: number[];
-  labels: string[];
-} = {
+const complianceData = {
   policies: [
     { policy: "Procurement Policies", status: "Compliant", percentage: 90 },
     { policy: "Storage Policies", status: "Partially Compliant", percentage: 70 },
@@ -46,15 +24,12 @@ const complianceData: {
   labels: ["Procurement", "Storage", "Usage & Deployment", "Disposal"],
 };
 
-const valuationData: {
-  categories: string[];
-  accuracy: number[];
-} = {
+const valuationData = {
   categories: ["Specialized Equipment", "Operational Assets", "Government-Funded Items"],
   accuracy: [95, 80, 88],
 };
 
-const keyFindings: Finding[] = [
+const keyFindings = [
   {
     category: "Storage Policies",
     finding: "Improper storage of arms",
@@ -69,7 +44,6 @@ const keyFindings: Finding[] = [
   },
 ];
 
-
 const AuditReport: React.FC = () => {
   return (
     <div className="policy-compliance-review">
@@ -81,7 +55,6 @@ const AuditReport: React.FC = () => {
       <div className="main-layout">
         {/* Left Section */}
         <div className="left-section">
-          {/* Compliance Overview */}
           <ReportTable
             title="Compliance Overview"
             headers={["Policy", "Status", "Compliance Percentage"]}
@@ -89,7 +62,6 @@ const AuditReport: React.FC = () => {
             dataKeys={["policy", "status", "percentage"]}
           />
 
-          {/* Stock Valuation Accuracy */}
           <ReportTable
             title="Stock Valuation Accuracy"
             headers={["Category", "Accuracy Percentage"]}
@@ -103,7 +75,6 @@ const AuditReport: React.FC = () => {
 
         {/* Right Section */}
         <div className="right-section">
-          {/* Policy Compliance Chart */}
           <ChartSection
             title="Policy Compliance Distribution"
             chartType={Pie}
@@ -118,7 +89,6 @@ const AuditReport: React.FC = () => {
             }}
           />
 
-          {/* Stock Valuation Chart */}
           <ChartSection
             title="Stock Valuation Accuracy"
             chartType={Bar}
