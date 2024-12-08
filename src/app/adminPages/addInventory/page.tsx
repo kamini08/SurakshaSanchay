@@ -1533,7 +1533,7 @@ const AddInventory = () => {
               </div>
 
               {/* Return Date */}
-              <div>
+              {/* <div>
                 <label className="mb-3 block text-sm font-medium text-black dark:text-white">
                   Return Date
                 </label>
@@ -1544,7 +1544,7 @@ const AddInventory = () => {
                   onChange={handleInventoryChange}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                 />
-              </div>
+              </div> */}
 
               {/* Last Inspection Date */}
               <div>
