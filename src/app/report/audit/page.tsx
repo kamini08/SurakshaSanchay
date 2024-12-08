@@ -92,9 +92,9 @@ const ReportsPage: React.FC = () => {
       recommendation: "Restrict procurement to approved vendors and audit regularly",
     },
   ]);
-  const [totalItems, setTotalItems] = useState(0);
-  const [damagedItems, setDamagedItems] = useState(0);
-  const [workingItems, setWorkingItems] = useState(0);
+  const [totalItems, setTotalItems] = useState<number>(100);
+  const [damagedItems, setDamagedItems] = useState<number>(100);
+  const [workingItems, setWorkingItems] = useState<number>(100);
 
 
   const [data, setData] = useState<any>({

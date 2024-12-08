@@ -44,11 +44,13 @@ interface AdminReportData {
   };
 }
 
+
+
+const Reports: React.FC = () => {
+
   const [totalItems, setTotalItems] = useState(0);
   const [damagedItems, setDamagedItems] = useState(0);
   const [workingItems, setWorkingItems] = useState(0);
-
-const Reports: React.FC = () => {
   const [adminData, setAdminData] = useState<AdminReportData>({
     summary: {
       totalInventoryValue: 500000,
