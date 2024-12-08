@@ -1,4 +1,4 @@
-import { ComplianceStatus, Prisma, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { auth } from "../../../../../auth";
 
@@ -24,40 +24,48 @@ export async function GET(req: Request) {
     const reports = await prisma.auditReport.findFirst({
       where: {
         location: user?.location,
-    },
-    orderBy: {
-      createdAt: 'desc',
-    },
-    include: {
-      Policies: true,
-      StockAccuracy: true,
-    }
-  });
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        Policies: true,
+        StockAccuracy: true,
+      },
+    });
 
-  const policies = reports?.Policies.map(policy => {
-   { policy: policy.name; status: policy.complianceStatus; percentage:  policy.compliancePercentage;}
-      
-})
+    console.log("report:", reports);
 
-  const percentages = reports?.Policies.map(policy => {
-    policy.compliancePercentage
-       
- });
- const keyFinding = reports?.Policies.map(policy => {
-  { category: policy.name; finding: policy.findings; impact: policy.impact;  recommendation: policy.recommendation;}
-     
-})
+    const policies =
+      reports?.Policies.map((policy) => ({
+        policy: policy.name,
+        status: policy.complianceStatus,
+        percentage: policy.compliancePercentage,
+      })) || [];
 
+    const percentages =
+      reports?.Policies.map((policy) => policy.compliancePercentage) || [];
+
+    const keyFindings =
+      reports?.Policies.map((policy) => ({
+        category: policy.name,
+        finding: policy.findings,
+        impact: policy.impact,
+        recommendation: policy.recommendation,
+      })) || [];
 
     const totalItems = await prisma.inventoryItem.count({
       where: {
-        AND: [{ location: user?.location }],
+        location: user?.location,
       },
     });
+
     const oneMonthsAgo = new Date();
     oneMonthsAgo.setMonth(oneMonthsAgo.getMonth() - 2);
+
     const newProcurements = await prisma.inventoryItem.findMany({
       where: {
+        location: user?.location, // Ensure to filter by location
         acquisitionDate: {
           gte: oneMonthsAgo,
         },
@@ -65,73 +73,76 @@ export async function GET(req: Request) {
     });
 
     const groupedData = await prisma.inventoryItem.groupBy({
-      by: ['category'],
+      by: ["category"],
       _sum: {
-        price: true, 
+        price: true,
       },
       _count: {
         _all: true,
-      }
+      },
     });
 
-    const categories = groupedData.map(group => (
-      group.category
-    )
-    )
-
-    const inventoryValues = groupedData.map(group => (
-      group._count._all
-    ))
-  
-    // Calculate total cost for each category
-    const CostValues = groupedData.map(group => (
-       group._sum.price? group._sum.price : 0 //
-    ));
+    const categories = groupedData.map((group) => group.category);
+    const inventoryValues = groupedData.map((group) => group._count._all);
+    const costValues = groupedData.map((group) =>
+      group._sum.price ? group._sum.price : 0,
+    );
 
     const workingItems = await prisma.inventoryItem.count({
       where: {
-        AND: [
-          { location: user?.location },
-          { NOT: [{ condition: "damaged" }] },
-        ],
+        location: user?.location,
+        NOT: { condition: "damaged" },
       },
     });
-    
+
     const damagedItems = await prisma.inventoryItem.count({
       where: {
-        AND: [
-          { location: user?.location },
-          { condition: "damaged" },
-        ],
+        location: user?.location,
+        condition: "damaged",
       },
     });
 
-
     const complianceData = {
-      policies: policies,
-        
+      policies,
       complianceOverview: percentages,
-      labels: ["Procurement", "Storage", "Usage & Deployment", "Disposal", "Purchase"],
+      labels: [
+        "Procurement",
+        "Storage",
+        "Usage & Deployment",
+        "Disposal",
+        "Purchase",
+      ],
     };
-    
+
     const valuationData = {
-      categories: ["Specialized Equipment", "Operational Assets", "Government-Funded Items"],
-      accuracy: [reports?.StockAccuracy?.specializedEquipment, reports?.StockAccuracy?.operationalAssets, reports?.StockAccuracy?.governmentFundedItems],
+      categories: [
+        "Specialized Equipment",
+        "Operational Assets",
+        "Government-Funded Items",
+      ],
+      accuracy: [
+        reports?.StockAccuracy?.specializedEquipment,
+        reports?.StockAccuracy?.operationalAssets,
+        reports?.StockAccuracy?.governmentFundedItems,
+      ],
     };
-    
-    const keyFindings = keyFinding;
 
-    const report = {auditDetails: {
-      auditOfficerName: reports?.auditOfficerName,
-      auditOfficerId: reports?.auditOfficerId,
-      auditStartDate: reports?.startDate,
-      auditEndDate: reports?.endDate,
-      
+    const report = {
+      auditDetails: {
+        auditOfficerName: reports?.auditOfficerName,
+        auditOfficerId: reports?.auditOfficerId,
+        auditStartDate: reports?.startDate,
+        auditEndDate: reports?.endDate,
+      },
+      complianceData,
+      valuationData,
+      keyFindings,
+      totalItems,
+      damagedItems,
+      workingItems,
+    };
 
-    }, complianceData, valuationData, keyFindings, totalItems, damagedItems, workingItems};
-
-  
-    return NextResponse.json(report, { status: 201 });
+    return NextResponse.json(report, { status: 200 }); // Changed to 200 for GET request
   } catch (error) {
     console.error("Error creating request:", error);
     return NextResponse.json(
