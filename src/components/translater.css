@@ -1,0 +1,42 @@
+ /* start dark google translate theme */
+ div#google_translate_element div.goog-te-gadget-simple {
+    padding-top: 0.5rem;
+     background-color: white;
+     border-color: rgb(0, 0, 0);
+    
+     
+     color:rgb(174 183 192 / var(--tw-text-opacity, 1));    
+     height:100%;
+     width: 100%;
+     overflow-y: hidden;
+     transform: scale(1);
+     text-align: center;
+ }
+ div#google_translate_element div.goog-te-gadget{
+    height:100%;
+    width:100%;
+    transform: scale(1);
+ }
+  div#google_translate_element div.goog-te-gadget-simple img{
+      display:none;
+  }
+ .dark div#google_translate_element div.goog-te-gadget-simple {
+    background-color: rgb(36, 48, 63);
+    border-color: white;
+    color: white;
+    border-radius: 3rem;
+    
+ }
+ .dark div#google_translate_element div.goog-te-gadget span{
+    color:white;
+ }
+  
+ div#google_translate_element div.goog-te-gadget span {
+    font-weight: bold;
+ }
+
+ 
+
+ /* end dark google translate theme */
+
+ /* styling */
