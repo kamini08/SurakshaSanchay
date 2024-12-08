@@ -14,14 +14,22 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { LoginSchema } from "../../../schemas";
-
 import CardWrapper from "./card-wrapper";
 import { Button } from "../ui/button";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
 import { login } from "../../../actions/login";
 import Link from "next/link";
+
+// Updated LoginSchema with validation rules
+const LoginSchema = z.object({
+  email: z.string().email("Please enter a valid email"), // Email validation
+  govId: z
+    .string()
+    .regex(/^\d{12}$/, "Government ID must be exactly 12 digits"), // GovId validation
+  password: z.string().min(6, "Password must be at least 6 characters"), // Password validation
+  code: z.string().optional(), // Optional two-factor code
+});
 
 export const LoginForm = () => {
   const searchParams = useSearchParams();
@@ -39,6 +47,7 @@ export const LoginForm = () => {
     defaultValues: {
       email: "",
       password: "",
+      govId: "",
     },
   });
 
@@ -74,7 +83,7 @@ export const LoginForm = () => {
       >
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className=" space-y-4 ">
+            <div className="space-y-4">
               {showTwoFactor && (
                 <FormField
                   control={form.control}
@@ -101,7 +110,7 @@ export const LoginForm = () => {
                     name="govId"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Government Id</FormLabel>
+                        <FormLabel>Government ID</FormLabel>
                         <FormControl>
                           <Input
                             {...field}
