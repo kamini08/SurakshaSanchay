@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Bar, Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -13,38 +13,40 @@ import "./AuditReport.css";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
 
-const complianceData = {
-  policies: [
-    { policy: "Procurement Policies", status: "Compliant", percentage: 90 },
-    { policy: "Storage Policies", status: "Partially Compliant", percentage: 70 },
-    { policy: "Usage and Deployment Policies", status: "Compliant", percentage: 85 },
-    { policy: "Disposal Policies", status: "Non-Compliant", percentage: 60 },
-  ],
-  complianceOverview: [90, 70, 85, 60],
-  labels: ["Procurement", "Storage", "Usage & Deployment", "Disposal"],
-};
+interface CompliancePolicy {
+  policy: string;
+  status: string;
+  percentage: number;
+}
 
-const valuationData = {
-  categories: ["Specialized Equipment", "Operational Assets", "Government-Funded Items"],
-  accuracy: [95, 80, 88],
-};
+interface ValuationCategory {
+  categories: string[];
+  accuracy: number[];
+}
 
-const keyFindings = [
-  {
-    category: "Storage Policies",
-    finding: "Improper storage of arms",
-    impact: "Risk of theft or misuse",
-    recommendation: "Upgrade storage facilities and implement stricter access controls",
-  },
-  {
-    category: "Procurement Policies",
-    finding: "Procurement through unapproved vendors",
-    impact: "Violation of government protocols",
-    recommendation: "Restrict procurement to approved vendors and audit regularly",
-  },
-];
+interface Finding {
+  category: string;
+  finding: string;
+  impact: string;
+  recommendation: string;
+}
 
-const AuditReport: React.FC = () => {
+interface ComplianceData {
+  policies: CompliancePolicy[];
+  complianceOverview: number[];
+  labels: string[];
+}
+
+
+const AuditReport: React.FC<{
+  complianceData: ComplianceData;
+  valuationData: ValuationCategory;
+  keyFindings: Finding[];
+}> = ({
+  complianceData, valuationData, keyFindings
+}) => {
+
+
   return (
     <div className="policy-compliance-review">
       <div className="header">
