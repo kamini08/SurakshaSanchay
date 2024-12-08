@@ -44,10 +44,7 @@ interface AdminReportData {
   };
 }
 
-
-
 const Reports: React.FC = () => {
-
   const [totalItems, setTotalItems] = useState(0);
   const [damagedItems, setDamagedItems] = useState(0);
   const [workingItems, setWorkingItems] = useState(0);
@@ -127,73 +124,69 @@ const Reports: React.FC = () => {
 
   const [user, setUser] = useState<string>("incharge");
 
-
   useEffect(() => {
     const fetchSession = async () => {
       try {
-        const session = await auth();
-        if (session?.user) {
-          setUser(session.user.role);
-        }
+        const res = await fetch("/api/Role", {
+          method: "GET",
+        });
+        const data = await res.json();
+
+        setUser(data);
+        console.log(data);
       } catch (e) {
         console.error(e);
       }
-    }
+    };
     const fetchData = async () => {
       try {
-        if(user=="admin") {
-        const response = await fetch("/api/reports/mainInventory", {
-          method: "GET",
-        }); 
-        if (!response.ok) throw new Error("Failed to fetch data");
-        const result = await response.json();
-        setAdminData(result.formData);
-        setTotalItems(result.totalItems);
-        setDamagedItems(result.damagedItems);
-        setWorkingItems(result.workingItems);
-      
-      } else if(user=="incharge") {
-
-        const response = await fetch("/api/reports/localInventory", {
-          method: "GET",
-        }); 
-        if (!response.ok) throw new Error("Failed to fetch data");
-        const result = await response.json();
-        setLocalReportData(result);
-  setAdminData(result.formData);
-        setTotalItems(result.totalItems);
-        setDamagedItems(result.damagedItems);
-        setWorkingItems(result.workingItems);
-
-      }
+        if (user == "admin") {
+          const response = await fetch("/api/reports/mainInventory", {
+            method: "GET",
+          });
+          if (!response.ok) throw new Error("Failed to fetch data");
+          const result = await response.json();
+          console.log(result);
+          setAdminData(result.formData);
+          setTotalItems(result.totalItems || 0);
+          setDamagedItems(result.damagedItems || 0);
+          setWorkingItems(result.workingItems || 0);
+        } else if (user == "incharge") {
+          const response = await fetch("/api/reports/localInventory", {
+            method: "GET",
+          });
+          if (!response.ok) throw new Error("Failed to fetch data");
+          const result = await response.json();
+          setLocalReportData(result);
+          setAdminData(result.formData);
+          setTotalItems(result.totalItems);
+          setDamagedItems(result.damagedItems);
+          setWorkingItems(result.workingItems);
+        }
       } catch (err: any) {
-        alert(
-          "Error fetching data: " + err.message
-        );
+        alert("Error fetching data: " + err.message);
       }
     };
 
     fetchSession();
     fetchData();
-    }, [user]);
-
+  }, [user]);
 
   return (
     <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
       <Box
-       
-          sx={{
-            display: "flex",
-            gap: 4,
-            flexWrap: "wrap",
-            justifyContent: "center",
-            marginBottom: 4,
-          }}
-        >
-          <SummaryCard title="Total Items" value={200} />
-          <SummaryCard title="Damaged Items" value={15} />
-          <SummaryCard title="Operational Items" value={175} />
-        
+        sx={{
+          display: "flex",
+          gap: 4,
+          flexWrap: "wrap",
+          justifyContent: "center",
+          marginBottom: 4,
+        }}
+      >
+        <SummaryCard title="Total Items" value={totalItems} />
+        <SummaryCard title="Damaged Items" value={damagedItems} />
+        <SummaryCard title="Operational Items" value={workingItems} />
+
         {user == "admin" ? (
           <AdminInventoryReport {...adminData} />
         ) : (

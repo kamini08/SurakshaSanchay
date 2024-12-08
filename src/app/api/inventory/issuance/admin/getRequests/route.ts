@@ -30,7 +30,7 @@ export async function GET(req: Request) {
       },
     });
 
-    const data = requests.forEach((request) => ({
+    const data = requests.map((request) => ({
       requestId: request.id,
       itemId: request.itemId,
       category: request.inventoryItem?.category,
