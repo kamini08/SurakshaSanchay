@@ -246,29 +246,35 @@ const RequestManagement: React.FC = () => {
           <section className="mt-10">
             <h1 className="font-medium text-black dark:text-white">Deny Request</h1>
             <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleDiscard();
-              }}
-            >
-              <textarea
-                required
-                placeholder="Reason for denying"
-                value={discardReason}
-                onChange={(e) => setDiscardReason(e.target.value)}
-                className="w-full mb-4 px-4 py-2 border rounded"
-              ></textarea>
-              <button type="submit" className="bg-red-500 text-white px-4 py-2 rounded">
-                Submit
-              </button>
-              <button
-                type="button"
-                className="bg-gray-500 text-white px-4 py-2 rounded ml-2"
-                onClick={() => setShowDiscardForm(false)}
-              >
-                Cancel
-              </button>
-            </form>
+  onSubmit={(e) => {
+    e.preventDefault();
+    handleDiscard();
+  }}
+>
+  <textarea
+    required
+    placeholder="Reason for denying (max 100 characters)"
+    value={discardReason}
+    onChange={(e) => setDiscardReason(e.target.value)}
+    maxLength={100} /* Maximum character limit */
+    className="w-full mb-2 px-4 py-2 border rounded"
+  ></textarea>
+  {/* Character Count */}
+  <div className="text-sm text-gray-500 mb-4">
+    {discardReason.length}/100 characters
+  </div>
+  <button type="submit" className="bg-red-500 text-white px-4 py-2 rounded">
+    Submit
+  </button>
+  <button
+    type="button"
+    className="bg-gray-500 text-white px-4 py-2 rounded ml-2"
+    onClick={() => setShowDiscardForm(false)}
+  >
+    Cancel
+  </button>
+</form>
+
           </section>
         )}
       </section>
