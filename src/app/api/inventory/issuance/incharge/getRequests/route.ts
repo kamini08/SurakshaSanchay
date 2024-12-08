@@ -4,7 +4,7 @@ import { auth } from "../../../../../../../auth";
 
 const prisma = new PrismaClient();
 
-export async function POST(req: Request) {
+export async function GET(req: Request) {
   try {
     const session = await auth();
     const userId = session?.user.id || "";
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
       remarks: "",
       assetTag: "",
     }));
-
+    console.log(data);
     return NextResponse.json(requests, { status: 201 });
   } catch (error) {
     console.error("Error finding request:", error);

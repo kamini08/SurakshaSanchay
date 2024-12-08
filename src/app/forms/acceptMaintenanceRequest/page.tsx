@@ -1,31 +1,31 @@
-'use client';
-import React, { useEffect, useState } from 'react';
-import DefaultLayout from '@/components/Layouts/DefaultLayout';
-import Breadcrumb from '@/components/Breadcrumbs/Breadcrumb';
+"use client";
+import React, { useEffect, useState } from "react";
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 
 const RequestMaintenanceManagement = () => {
   const initialRequestData = {
-    id: 'DefaultRequestId',
-    itemId: 'Defaultid',
-    userId: 'DefaultUserId',
-    issueDescription: 'Default issue description',
-    requestDate: '2024-01-01',
-    approvalDate: '',
+    id: "DefaultRequestId",
+    itemId: "Defaultid",
+    userId: "DefaultUserId",
+    issueDescription: "Default issue description",
+    requestDate: "2024-01-01",
+    approvalDate: "",
     // Default date
-    status: 'Pending',
-    resolutionDescription: 'No resolution yet',
-    completionDate: '',
-    technicianId: '',
-    discardReason: '',
+    status: "Pending",
+    resolutionDescription: "No resolution yet",
+    completionDate: "",
+    technicianId: "",
+    discardReason: "",
     user: {
       name: "John Doe",
-      govId: "123456789"
+      govId: "123456789",
     },
     item: {
       category: "Electronics",
-      type: "IT Equipment"
+      type: "IT Equipment",
     },
-    maintenanceCharge: 500
+    maintenanceCharge: 500,
   };
 
   const [requestData, setRequestData] = useState(initialRequestData);
@@ -41,15 +41,15 @@ const RequestMaintenanceManagement = () => {
     user: {
       name: string;
       govId: string;
-    },
+    };
     item: {
       category: string;
       type: string;
-    },
+    };
     issueDescription: string;
     requestDate: string;
     status: string;
-    approvalDate: string,
+    approvalDate: string;
     resolutionDescription?: string;
     completionDate?: string;
     technicianId?: string;
@@ -59,32 +59,46 @@ const RequestMaintenanceManagement = () => {
 
   const [previousRequests, setPreviousRequests] = useState<ItemRecord[]>([]);
   const [loading, setLoading] = useState(true);
-  const [newCondition, setNewCondition] = useState('');
-
+  const [newCondition, setNewCondition] = useState("");
 
   useEffect(() => {
     const fetchPreviousRequests = async () => {
       setLoading(true);
       try {
-        const response = await fetch('/api/maintenance/request');
+        const response = await fetch("/api/maintenance/request");
         if (response.ok) {
           const result = await response.json();
           if (result.success && Array.isArray(result.data)) {
-            const sortedRequests = result.data.sort((a: { requestDate: string | number | Date; }, b: { requestDate: string | number | Date; }) => {
-              // Assuming there is a `createdAt` field or a relevant field to sort by
-              return new Date(b.requestDate).getTime() - new Date(a.requestDate).getTime();
-            });
-            setPreviousRequests(sortedRequests.length === 0 ? [initialRequestData] : sortedRequests);
+            const sortedRequests = result.data.sort(
+              (
+                a: { requestDate: string | number | Date },
+                b: { requestDate: string | number | Date },
+              ) => {
+                // Assuming there is a `createdAt` field or a relevant field to sort by
+                return (
+                  new Date(b.requestDate).getTime() -
+                  new Date(a.requestDate).getTime()
+                );
+              },
+            );
+            setPreviousRequests(
+              sortedRequests.length === 0
+                ? [initialRequestData]
+                : sortedRequests,
+            );
           } else {
-            console.error('Unexpected API response structure:', result);
+            console.error("Unexpected API response structure:", result);
             setPreviousRequests([initialRequestData]);
           }
         } else {
-          console.error('Failed to fetch maintenance requests:', response.statusText);
+          console.error(
+            "Failed to fetch maintenance requests:",
+            response.statusText,
+          );
           setPreviousRequests([initialRequestData]);
         }
       } catch (error) {
-        console.error('Error fetching previous requests:', error);
+        console.error("Error fetching previous requests:", error);
         setPreviousRequests([initialRequestData]);
       } finally {
         setLoading(false);
@@ -96,10 +110,10 @@ const RequestMaintenanceManagement = () => {
 
   const updateItemCondition = async (itemId: string, newCondition: string) => {
     try {
-      const response = await fetch('/api/maintenance/updateInventory', {
-        method: 'PATCH',
+      const response = await fetch("/api/maintenance/updateInventory", {
+        method: "PATCH",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           itemId,
@@ -109,34 +123,33 @@ const RequestMaintenanceManagement = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to update item condition');
+        throw new Error(errorData.error || "Failed to update item condition");
       }
 
       const updatedItem = await response.json();
-      console.log('Updated Item:', updatedItem);
+      console.log("Updated Item:", updatedItem);
 
       alert(`Condition for item ${itemId} updated to ${newCondition}`);
       return updatedItem; // Optionally return updated data
     } catch (error: any) {
-      console.error('Error updating item condition:', error.message);
+      console.error("Error updating item condition:", error.message);
       alert(`Error: ${error.message}`);
     }
   };
 
-
   const updateRequestStatus = async (
     id: string,
-    action: 'approve' | 'reject' | 'complete' | 'discard',
+    action: "approve" | "reject" | "complete" | "discard",
     technicianId: string,
     resolutionDetails: string,
     discardReason: string,
-    maintenanceCharge:number
+    maintenanceCharge: number,
   ) => {
     try {
-      const response = await fetch('/api/maintenance/request', {
-        method: 'PUT',
+      const response = await fetch("/api/maintenance/request", {
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           action, // Maps to the backend's action field
@@ -144,7 +157,7 @@ const RequestMaintenanceManagement = () => {
           technicianId,
           resolutionDetails,
           discardReason,
-          maintenanceCharge
+          maintenanceCharge,
         }),
       });
 
@@ -159,17 +172,18 @@ const RequestMaintenanceManagement = () => {
         prevRequests.map((request) =>
           request.id === id
             ? { ...request, status: updatedRequest.data.status }
-            : request
-        )
+            : request,
+        ),
       );
 
-      alert(`Request status updated successfully to ${updatedRequest.data.status}`);
+      alert(
+        `Request status updated successfully to ${updatedRequest.data.status}`,
+      );
     } catch (error: any) {
-      console.error('Error updating request:', error);
+      console.error("Error updating request:", error);
       alert(`Error updating status: ${error.message}`);
     }
   };
-
 
   const handleApprove = (id: string) => {
     setShowApprovalForm(true);
@@ -187,20 +201,20 @@ const RequestMaintenanceManagement = () => {
     e.preventDefault();
 
     const selectedRequest = previousRequests.find(
-      (request) => request.id === selectedRequestId
+      (request) => request.id === selectedRequestId,
     );
 
     if (!selectedRequest) {
-      console.error('Error: No request found for the selected ID.');
-      alert('Failed to find the request. Please try again.');
+      console.error("Error: No request found for the selected ID.");
+      alert("Failed to find the request. Please try again.");
       return;
     }
 
     const selectedItemId = selectedRequest.itemId; // Capture `itemId`
 
     if (!selectedItemId) {
-      console.error('Error: No itemId found for the selected request.');
-      alert('Failed to find the itemId. Please try again.');
+      console.error("Error: No itemId found for the selected request.");
+      alert("Failed to find the itemId. Please try again.");
       return;
     }
 
@@ -210,34 +224,41 @@ const RequestMaintenanceManagement = () => {
         if (request.id === selectedRequestId) {
           return {
             ...request,
-            status: 'APPROVED',
+            status: "APPROVED",
             technicianId: requestData.technicianId,
           };
         }
         return request;
-      })
+      }),
     );
 
     if (!selectedItemId) {
-      console.error('Error: No itemId found for the selected request.');
-      alert('Failed to find the itemId. Please try again.');
+      console.error("Error: No itemId found for the selected request.");
+      alert("Failed to find the itemId. Please try again.");
       return;
     }
 
-    alert('Approval submitted!');
+    alert("Approval submitted!");
 
     try {
       // Update the request status
-      await updateRequestStatus(selectedRequestId, 'approve', requestData.technicianId, '', '',0);
+      await updateRequestStatus(
+        selectedRequestId,
+        "approve",
+        requestData.technicianId,
+        "",
+        "",
+        0,
+      );
 
       // Update the item condition
-      const conditionToSet = 'Under Maintenance';
+      const conditionToSet = "Under Maintenance";
       setNewCondition(conditionToSet); // Set the condition state
 
       // Call the `updateItemCondition` function with the correct values
       await updateItemCondition(selectedItemId, conditionToSet);
     } catch (error) {
-      console.error('Error in approval process:', error);
+      console.error("Error in approval process:", error);
     } finally {
       setShowApprovalForm(false); // Close the approval form
     }
@@ -247,18 +268,25 @@ const RequestMaintenanceManagement = () => {
     e.preventDefault();
 
     setPreviousRequests((prevRequests) =>
-      prevRequests.filter((request) => request.id !== selectedRequestId)
+      prevRequests.filter((request) => request.id !== selectedRequestId),
     );
-    updateRequestStatus(selectedRequestId, 'reject', "", "", requestData.discardReason,0);
-    alert('Rejection submitted!');
+    updateRequestStatus(
+      selectedRequestId,
+      "reject",
+      "",
+      "",
+      requestData.discardReason,
+      0,
+    );
+    alert("Rejection submitted!");
     setShowRejectionForm(false);
   };
 
   const handleOnWork = (id: string) => {
     setPreviousRequests((prevRequests) =>
       prevRequests.map((request) =>
-        request.id === id ? { ...request, status: 'APPROVED' } : request
-      )
+        request.id === id ? { ...request, status: "APPROVED" } : request,
+      ),
     );
   };
 
@@ -270,20 +298,20 @@ const RequestMaintenanceManagement = () => {
   const handleCompletionSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const selectedRequest = previousRequests.find(
-      (request) => request.id === selectedRequestId
+      (request) => request.id === selectedRequestId,
     );
 
     if (!selectedRequest) {
-      console.error('Error: No request found for the selected ID.');
-      alert('Failed to find the request. Please try again.');
+      console.error("Error: No request found for the selected ID.");
+      alert("Failed to find the request. Please try again.");
       return;
     }
 
     const selectedItemId = selectedRequest.itemId; // Capture `itemId`
 
     if (!selectedItemId) {
-      console.error('Error: No itemId found for the selected request.');
-      alert('Failed to find the itemId. Please try again.');
+      console.error("Error: No itemId found for the selected request.");
+      alert("Failed to find the itemId. Please try again.");
       return;
     }
     setPreviousRequests((prevRequests) =>
@@ -291,32 +319,38 @@ const RequestMaintenanceManagement = () => {
         if (request.id === selectedRequestId) {
           return {
             ...request,
-            status: 'COMPLETED',
+            status: "COMPLETED",
             completionDate: new Date().toLocaleString(),
           };
         }
         return request;
-      }
-      )
+      }),
     );
     if (!selectedItemId) {
-      console.error('Error: No itemId found for the selected request.');
-      alert('Failed to find the itemId. Please try again.');
+      console.error("Error: No itemId found for the selected request.");
+      alert("Failed to find the itemId. Please try again.");
       return;
     }
-    alert('Item maintenance completed');
+    alert("Item maintenance completed");
     try {
       // Update the request status
-      await updateRequestStatus(selectedRequestId, 'complete', '', requestData.resolutionDescription, '', requestData.maintenanceCharge);
+      await updateRequestStatus(
+        selectedRequestId,
+        "complete",
+        "",
+        requestData.resolutionDescription,
+        "",
+        requestData.maintenanceCharge,
+      );
 
       // Update the item condition
-      const conditionToSet = 'Repaired';
+      const conditionToSet = "Repaired";
       setNewCondition(conditionToSet); // Set the condition state
 
       // Call the `updateItemCondition` function with the correct values
       await updateItemCondition(selectedItemId, conditionToSet);
     } catch (error) {
-      console.error('Error in completion process:', error);
+      console.error("Error in completion process:", error);
     } finally {
       setShowCompletionForm(false); // Close the approval form
     }
@@ -330,20 +364,20 @@ const RequestMaintenanceManagement = () => {
   const handleDiscardSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const selectedRequest = previousRequests.find(
-      (request) => request.id === selectedRequestId
+      (request) => request.id === selectedRequestId,
     );
 
     if (!selectedRequest) {
-      console.error('Error: No request found for the selected ID.');
-      alert('Failed to find the request. Please try again.');
+      console.error("Error: No request found for the selected ID.");
+      alert("Failed to find the request. Please try again.");
       return;
     }
 
     const selectedItemId = selectedRequest.itemId; // Capture `itemId`
 
     if (!selectedItemId) {
-      console.error('Error: No itemId found for the selected request.');
-      alert('Failed to find the itemId. Please try again.');
+      console.error("Error: No itemId found for the selected request.");
+      alert("Failed to find the itemId. Please try again.");
       return;
     }
     setPreviousRequests((prevRequests) =>
@@ -351,44 +385,50 @@ const RequestMaintenanceManagement = () => {
         if (request.id === selectedRequestId) {
           return {
             ...request,
-            status: 'DISCARDED',
+            status: "DISCARDED",
             completionDate: new Date().toLocaleString(),
           };
         }
         return request;
-      })
+      }),
     );
     if (!selectedItemId) {
-      console.error('Error: No itemId found for the selected request.');
-      alert('Failed to find the itemId. Please try again.');
+      console.error("Error: No itemId found for the selected request.");
+      alert("Failed to find the itemId. Please try again.");
       return;
     }
     try {
       // Update the request status
-      await updateRequestStatus(selectedRequestId, 'discard', '', '', requestData.discardReason, requestData.maintenanceCharge);
+      await updateRequestStatus(
+        selectedRequestId,
+        "discard",
+        "",
+        "",
+        requestData.discardReason,
+        requestData.maintenanceCharge,
+      );
 
       // Update the item condition
-      const conditionToSet = 'Discarded';
+      const conditionToSet = "Discarded";
       setNewCondition(conditionToSet); // Set the condition state
 
       // Call the `updateItemCondition` function with the correct values
       await updateItemCondition(selectedItemId, conditionToSet);
     } catch (error) {
-      console.error('Error in approval process:', error);
+      console.error("Error in approval process:", error);
     } finally {
       setShowDiscardForm(false); // Close the approval form
     }
   };
 
-
   return (
-    <DefaultLayout>
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
       <Breadcrumb pageName="MAINTENANCE RECORD AND REQUEST ACTION" />
       <section>
         <h1 className="font-medium text-black dark:text-white">
           Previous Maintenance Records
         </h1>
-        <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1 max-w-full overflow-x-auto">
+        <div className="max-w-full overflow-x-auto rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
           <div className="max-w-full overflow-x-auto">
             {loading ? (
               <p>Loading data...</p>
@@ -431,7 +471,7 @@ const RequestMaintenanceManagement = () => {
                 <tbody>
                   {previousRequests.length === 0 ? (
                     <tr>
-                      <td colSpan={7} className="text-center px-4 py-5">
+                      <td colSpan={7} className="px-4 py-5 text-center">
                         No previous records available.
                       </td>
                     </tr>
@@ -466,32 +506,32 @@ const RequestMaintenanceManagement = () => {
                           {item.status}
                         </td>
                         <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-                          {item.status === 'PENDING' && (
+                          {item.status === "PENDING" && (
                             <>
                               <button
-                                className="mr-2 bg-green-500 text-white px-4 py-2 rounded"
+                                className="mr-2 rounded bg-green-500 px-4 py-2 text-white"
                                 onClick={() => handleApprove(item.id)}
                               >
                                 Approve
                               </button>
                               <button
-                                className="bg-red-500 text-white px-4 py-2 rounded"
+                                className="rounded bg-red-500 px-4 py-2 text-white"
                                 onClick={() => handleReject(item.id)}
                               >
                                 Reject
                               </button>
                             </>
                           )}
-                          {item.status === 'APPROVED' && (
+                          {item.status === "APPROVED" && (
                             <>
                               <button
-                                className="bg-blue-500 text-white px-4 py-2 rounded"
+                                className="rounded bg-blue-500 px-4 py-2 text-white"
                                 onClick={() => handleCompleted(item.id)}
                               >
                                 Complete
                               </button>
                               <button
-                                className="mr-2 bg-gray-500 text-white px-4 py-2 rounded"
+                                className="mr-2 rounded bg-gray-500 px-4 py-2 text-white"
                                 onClick={() => handleDiscard(item.id)}
                               >
                                 Discard
@@ -508,15 +548,15 @@ const RequestMaintenanceManagement = () => {
           </div>
         </div>
 
-
-
         {/* Approval Form */}
         {showApprovalForm && selectedRequestId && (
           <section>
-            <h1 className="font-medium text-black dark:text-white mt-10">Approve Maintenance Request for Request ID: {selectedRequestId}</h1>
+            <h1 className="mt-10 font-medium text-black dark:text-white">
+              Approve Maintenance Request for Request ID: {selectedRequestId}
+            </h1>
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <form onSubmit={handleApprovalSubmit}>
-                <div className="p-6.5 grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-6 p-6.5 sm:grid-cols-2">
                   {/* Approval Date */}
                   <div>
                     <label className="mb-3 block text-sm font-medium text-black dark:text-white">
@@ -538,14 +578,17 @@ const RequestMaintenanceManagement = () => {
                     <input
                       type="text"
                       value={requestData.technicianId}
-                      onChange={(e) => setRequestData({ ...requestData, technicianId: e.target.value })}
+                      onChange={(e) =>
+                        setRequestData({
+                          ...requestData,
+                          technicianId: e.target.value,
+                        })
+                      }
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                     />
                   </div>
 
-
-
-                  <div className="sm:col-span-2 flex justify-end">
+                  <div className="flex justify-end sm:col-span-2">
                     <button
                       type="submit"
                       className="w-half rounded bg-primary p-3 font-medium text-gray"
@@ -560,10 +603,12 @@ const RequestMaintenanceManagement = () => {
         )}
         {showRejectionForm && selectedRequestId && (
           <section>
-            <h1 className="font-medium text-black dark:text-white mt-10">Reject Maintenance Request for Request ID: {selectedRequestId}</h1>
+            <h1 className="mt-10 font-medium text-black dark:text-white">
+              Reject Maintenance Request for Request ID: {selectedRequestId}
+            </h1>
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <form onSubmit={handleRejectionSubmit}>
-                <div className="p-6.5 grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-6 p-6.5 sm:grid-cols-2">
                   {/* Reject Reason */}
                   <div className="col-span-2">
                     <label className="mb-3 block text-sm font-medium text-black dark:text-white">
@@ -572,7 +617,12 @@ const RequestMaintenanceManagement = () => {
                     <textarea
                       required
                       value={requestData.discardReason}
-                      onChange={(e) => setRequestData({ ...requestData, discardReason: e.target.value })}
+                      onChange={(e) =>
+                        setRequestData({
+                          ...requestData,
+                          discardReason: e.target.value,
+                        })
+                      }
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                     ></textarea>
                   </div>
@@ -590,7 +640,7 @@ const RequestMaintenanceManagement = () => {
                     />
                   </div>
 
-                  <div className="sm:col-span-2 flex justify-end">
+                  <div className="flex justify-end sm:col-span-2">
                     <button
                       type="submit"
                       className="w-half rounded bg-primary p-3 font-medium text-gray"
@@ -607,10 +657,12 @@ const RequestMaintenanceManagement = () => {
         {/* completion form */}
         {showCompletionForm && selectedRequestId && (
           <section>
-            <h1 className="font-medium text-black dark:text-white mt-10">Reject Maintenance Request for Request ID: {selectedRequestId}</h1>
+            <h1 className="mt-10 font-medium text-black dark:text-white">
+              Reject Maintenance Request for Request ID: {selectedRequestId}
+            </h1>
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <form onSubmit={handleCompletionSubmit}>
-                <div className="p-6.5 grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-6 p-6.5 sm:grid-cols-2">
                   {/* Resolution Details */}
                   <div className="col-span-2">
                     <label className="mb-3 block text-sm font-medium text-black dark:text-white">
@@ -618,12 +670,15 @@ const RequestMaintenanceManagement = () => {
                     </label>
                     <textarea
                       value={requestData.resolutionDescription}
-                      onChange={(e) => setRequestData({ ...requestData, resolutionDescription: e.target.value })}
+                      onChange={(e) =>
+                        setRequestData({
+                          ...requestData,
+                          resolutionDescription: e.target.value,
+                        })
+                      }
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                     ></textarea>
                   </div>
-
-                 
 
                   <div>
                     <label className="mb-3 block text-sm font-medium text-black dark:text-white">
@@ -634,14 +689,19 @@ const RequestMaintenanceManagement = () => {
                       name="maintenanceCharge"
                       placeholder="Enter Maintenance Charge"
                       value={requestData.maintenanceCharge}
-                      onChange={(e) => setRequestData({ ...requestData, maintenanceCharge: parseFloat(e.target.value) })}
+                      onChange={(e) =>
+                        setRequestData({
+                          ...requestData,
+                          maintenanceCharge: parseFloat(e.target.value),
+                        })
+                      }
                       min="0"
                       step="0.01"
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                     />
                   </div>
 
-                  <div className="sm:col-span-2 flex justify-end">
+                  <div className="flex justify-end sm:col-span-2">
                     <button
                       type="submit"
                       className="w-half rounded bg-primary p-3 font-medium text-gray"
@@ -658,10 +718,12 @@ const RequestMaintenanceManagement = () => {
         {/* discard form */}
         {showDiscardForm && selectedRequestId && (
           <section>
-            <h1 className="font-medium text-black dark:text-white mt-10">Reject Maintenance Request for Request ID: {selectedRequestId}</h1>
+            <h1 className="mt-10 font-medium text-black dark:text-white">
+              Reject Maintenance Request for Request ID: {selectedRequestId}
+            </h1>
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <form onSubmit={handleDiscardSubmit}>
-                <div className="p-6.5 grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-6 p-6.5 sm:grid-cols-2">
                   {/* Reject Reason */}
                   <div className="col-span-2">
                     <label className="mb-3 block text-sm font-medium text-black dark:text-white">
@@ -670,11 +732,15 @@ const RequestMaintenanceManagement = () => {
                     <textarea
                       required
                       value={requestData.discardReason}
-                      onChange={(e) => setRequestData({ ...requestData, discardReason: e.target.value })}
+                      onChange={(e) =>
+                        setRequestData({
+                          ...requestData,
+                          discardReason: e.target.value,
+                        })
+                      }
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                     ></textarea>
                   </div>
-
 
                   <div>
                     <label className="mb-3 block text-sm font-medium text-black dark:text-white">
@@ -685,14 +751,19 @@ const RequestMaintenanceManagement = () => {
                       name="maintenanceCharge"
                       placeholder="Enter Maintenance Charge"
                       value={requestData.maintenanceCharge}
-                      onChange={(e) => setRequestData({ ...requestData, maintenanceCharge: parseFloat(e.target.value) })}
+                      onChange={(e) =>
+                        setRequestData({
+                          ...requestData,
+                          maintenanceCharge: parseFloat(e.target.value),
+                        })
+                      }
                       min="0"
                       step="0.01"
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                     />
                   </div>
 
-                  <div className="sm:col-span-2 flex justify-end">
+                  <div className="flex justify-end sm:col-span-2">
                     <button
                       type="submit"
                       className="w-half rounded bg-primary p-3 font-medium text-gray"
@@ -705,11 +776,9 @@ const RequestMaintenanceManagement = () => {
             </div>
           </section>
         )}
-
       </section>
-    </DefaultLayout>
+    </div>
   );
 };
 
 export default RequestMaintenanceManagement;
-

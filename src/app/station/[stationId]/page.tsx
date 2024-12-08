@@ -27,15 +27,15 @@ interface Package {
   user?: string | null;
   status?: string;
   communicationDevice?: any;
-  computerAndItEquipment?: any;
+  computerAndITEquipment?: any;
   networkingEquipment?: any;
   surveillanceAndTracking?: any;
   vehicleAndAccessories?: any;
   protectiveGear?: any;
-  firearms?: any;
+  firearm?: any;
   forensic?: any;
   medicalFirstAid?: any;
-  officeSupplies?: any;
+  officeSupply?: any;
 }
 
 const defaultData: Package[] = [];
@@ -54,18 +54,23 @@ const ViewInventoryIndividual = () => {
   const stationId = params?.stationId
     ? decodeURIComponent(params.stationId as string)
     : null;
+
   const excludeNullValues = (obj: any) => {
-    return JSON.stringify(
-      obj,
-      (key, value) => {
-        // Exclude null values and specific keys
-        if (value === null || key === "id" || key === "inventoryItemId") {
-          return undefined;
-        }
-        return value;
-      },
-      2, // Indentation level for pretty printing
-    );
+    // Check if obj is null or not an object
+    if (obj === null || typeof obj !== "object") {
+      return ""; // Return an empty string or handle it as needed
+    }
+
+    let result = [];
+
+    for (const [key, value] of Object.entries(obj)) {
+      // Exclude null values and specific keys
+      if (value !== null && key !== "id" && key !== "inventoryItemId") {
+        result.push(`${key} = ${value}`);
+      }
+    }
+
+    return result.join(", "); // Join the results with a comma and space
   };
   const renderKeyValuePairs = (data: any) => {
     return (
@@ -93,7 +98,6 @@ const ViewInventoryIndividual = () => {
         if (response.ok) {
           const data = await response.json();
           if (data && data.length > 0) {
-            console.log(data);
             setPackageData(data);
           } else {
             setPackageData(defaultData);
@@ -202,7 +206,7 @@ const ViewInventoryIndividual = () => {
   };
 
   return (
-    <DefaultLayout>
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
       <Breadcrumb pageName="VIEW INVENTORY ITEMS" />
       <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="max-w-full overflow-x-auto">
@@ -225,7 +229,7 @@ const ViewInventoryIndividual = () => {
                   <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
                     Quantity
                   </th>
-                  <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
+                  <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white">
                     Location
                   </th>
                   <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
@@ -262,8 +266,8 @@ const ViewInventoryIndividual = () => {
                   <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
                     User Id
                   </th>
-                  <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
-                    Category detatails
+                  <th className="min-w-[300px] px-4 py-4 font-medium text-black dark:text-white">
+                    Category details
                   </th>
                   <th className="px-4 py-4 font-medium text-black dark:text-white">
                     Actions
@@ -527,30 +531,118 @@ const ViewInventoryIndividual = () => {
                         />
                       ) : (
                         <div key={index}>
-                          <pre>
-                            {excludeNullValues(item["communicationDevice"])}
-                          </pre>
-                          <pre>
-                            {excludeNullValues(item["computerAndItEquipment"])}
-                          </pre>
-                          <pre>
-                            {excludeNullValues(item["networkingEquipment"])}
-                          </pre>
-                          <pre>
-                            {excludeNullValues(item["surveillanceAndTracking"])}
-                          </pre>
-                          <pre>
-                            {excludeNullValues(item["vehicleAndAccessories"])}
-                          </pre>
-                          <pre>{excludeNullValues(item["protectiveGear"])}</pre>
-                          <pre>{excludeNullValues(item["firearms"])}</pre>
-                          <pre>{excludeNullValues(item["forensic"])}</pre>
-
-                          <pre>
-                            {excludeNullValues(item["medicalFirstAid"])}
-                          </pre>
-
-                          <pre>{excludeNullValues(item["officeSupplies"])}</pre>
+                          {item["communicationDevice"] &&
+                            excludeNullValues(item["communicationDevice"]) && (
+                              <div>
+                                {excludeNullValues(item["communicationDevice"])
+                                  .split(",")
+                                  .map((value, idx) => (
+                                    <div key={idx}>{value.trim()}</div>
+                                  ))}
+                              </div>
+                            )}
+                          {item["computerAndITEquipment"] &&
+                            excludeNullValues(
+                              item["computerAndITEquipment"],
+                            ) && (
+                              <div>
+                                {excludeNullValues(
+                                  item["computerAndITEquipment"],
+                                )
+                                  .split(",")
+                                  .map((value, idx) => (
+                                    <div key={idx}>{value.trim()}</div>
+                                  ))}
+                              </div>
+                            )}
+                          {item["networkingEquipment"] &&
+                            excludeNullValues(item["networkingEquipment"]) && (
+                              <div>
+                                {excludeNullValues(item["networkingEquipment"])
+                                  .split(",")
+                                  .map((value, idx) => (
+                                    <div key={idx}>{value.trim()}</div>
+                                  ))}
+                              </div>
+                            )}
+                          {item["surveillanceAndTracking"] &&
+                            excludeNullValues(
+                              item["surveillanceAndTracking"],
+                            ) && (
+                              <div>
+                                {excludeNullValues(
+                                  item["surveillanceAndTracking"],
+                                )
+                                  .split(",")
+                                  .map((value, idx) => (
+                                    <div key={idx}>{value.trim()}</div>
+                                  ))}
+                              </div>
+                            )}
+                          {item["vehicleAndAccessories"] &&
+                            excludeNullValues(
+                              item["vehicleAndAccessories"],
+                            ) && (
+                              <div>
+                                {excludeNullValues(
+                                  item["vehicleAndAccessories"],
+                                )
+                                  .split(",")
+                                  .map((value, idx) => (
+                                    <div key={idx}>{value.trim()}</div>
+                                  ))}
+                              </div>
+                            )}
+                          {item["protectiveGear"] &&
+                            excludeNullValues(item["protectiveGear"]) && (
+                              <div>
+                                {excludeNullValues(item["protectiveGear"])
+                                  .split(",")
+                                  .map((value, idx) => (
+                                    <div key={idx}>{value.trim()}</div>
+                                  ))}
+                              </div>
+                            )}
+                          {item["firearm"] &&
+                            excludeNullValues(item["firearm"]) && (
+                              <div>
+                                {excludeNullValues(item["firearm"])
+                                  .split(",")
+                                  .map((value, idx) => (
+                                    <div key={idx}>{value.trim()}</div>
+                                  ))}
+                              </div>
+                            )}
+                          {item["forensic"] &&
+                            excludeNullValues(item["forensic"]) && (
+                              <div>
+                                {excludeNullValues(item["forensic"])
+                                  .split(",")
+                                  .map((value, idx) => (
+                                    <div key={idx}>{value.trim()}</div>
+                                  ))}
+                              </div>
+                            )}
+                          {item["medicalFirstAid"] &&
+                            excludeNullValues(item["medicalFirstAid"]) && (
+                              <div>
+                                {excludeNullValues(item["medicalFirstAid"])
+                                  .split(",")
+                                  .map((value, idx) => (
+                                    <div key={idx}>{value.trim()}</div>
+                                  ))}
+                              </div>
+                            )}
+                          {item["officeSupply"] &&
+                            excludeNullValues(item["officeSupply"]) && (
+                              <div>
+                                {excludeNullValues(item["officeSupply"])
+                                  .split(",")
+                                  .map((value, idx) => (
+                                    <div key={idx}>{value.trim()}</div>
+                                  ))}
+                              </div>
+                            )}
                         </div>
                       )}
                     </td>
@@ -624,7 +716,7 @@ const ViewInventoryIndividual = () => {
           </div>
         )}
       </div>
-    </DefaultLayout>
+    </div>
   );
 };
 

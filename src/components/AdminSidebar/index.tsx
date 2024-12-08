@@ -47,10 +47,9 @@ const menuGroups = [
           </svg>
         ),
         label: "Dashboard",
-        route: "/Dashboard",
-        
+        route: "/settings",
       },
-      
+
       {
         icon: (
           <svg
@@ -109,10 +108,12 @@ const menuGroups = [
         label: "Manage Inventory ",
         route: "#",
         children: [
-          
           { label: "Add Inventory Item", route: "/adminPages/addInventory" },
           { label: "View Inventory", route: "/adminPages/adminViewInventory" },
-          { label: "Inventory Overview", route: "/adminPages/inventoryOverview" },
+          {
+            label: "Inventory Overview",
+            route: "/adminPages/inventoryOverview",
+          },
         ],
       },
       {
@@ -269,13 +270,22 @@ const menuGroups = [
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M6 2H18C18.553 2 19 2.447 19 3V21C19 21.553 18.553 22 18 22H6C5.447 22 5 21.553 5 21V3C5 2.447 5.447 2 6 2Z"/>
-  <path d="M19 3L12 9.3L5 3"/>
-  <path d="M10 14H14"/>
-  <path d="M10 18H14"/>
-</svg>
-        
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="20"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M6 2H18C18.553 2 19 2.447 19 3V21C19 21.553 18.553 22 18 22H6C5.447 22 5 21.553 5 21V3C5 2.447 5.447 2 6 2Z" />
+              <path d="M19 3L12 9.3L5 3" />
+              <path d="M10 14H14" />
+              <path d="M10 18H14" />
+            </svg>
 
             <defs>
               <clipPath id="clip0_130_9801">
@@ -293,11 +303,10 @@ const menuGroups = [
         route: "#",
         children: [
           { label: "Generate QR Code", route: "/qrGenerate" },
-          { label: "Scan QR Code", route: "/scanQR" }
-        ]
+          { label: "Scan QR Code", route: "/scanQR" },
+        ],
       },
 
-     
       {
         icon: (
           <svg
@@ -369,8 +378,7 @@ const menuGroups = [
         label: "Authentication",
         route: "#",
         children: [
-        
-          { label: "Register Inventory Incharge", route: "/registerUserIncharge" },
+          { label: "Register Inventory Incharge", route: "/register" },
         ],
       },
     ],

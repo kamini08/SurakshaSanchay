@@ -444,4 +444,57 @@
       width: 100%;
     }
   }
+    @media (max-width: 768px) {
+      .left-section div{
+        margin-bottom: 2rem;
+      }
+      .right-section div{
+       
+        margin-bottom: 2rem;
+      }
+      .report-table{
+        padding-left: 0;
+      }
+      .report-table table{
+        transform: scaleX(0.8)
+
+      }
+      .policy-compliance-review{
+        border-radius: 1rem;
+        padding: 5%;
+        margin-bottom: 10rem;
+      }
+      .policy-compliance-review .main-layout {
+        flex-direction: column;
+      }
   
+      .policy-compliance-review .left-section,
+      .policy-compliance-review .right-section {
+        flex: none;
+        width: 100%;
+      }
+  
+      .policy-compliance-review .report-table,
+      .policy-compliance-review .chart {
+        padding: 15px;
+      }
+  
+      .policy-compliance-review .report-table th,
+      .policy-compliance-review .report-table td {
+        font-size: 0.85rem;
+        padding: 8px 10px;
+      }
+  
+      .policy-compliance-review .header h1 {
+        font-size: 1.8rem;
+      }
+  
+      .policy-compliance-review .header p {
+        font-size: 1rem;
+      }
+  
+      .policy-compliance-review .finding-card {
+        font-size: 0.95rem;
+        padding: 15px;
+      }
+    }

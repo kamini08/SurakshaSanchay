@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import LocalInventoryReport from "@/components/reports/LocalInventoryReport";
 import AdminInventoryReport from "@/components/reports/AdminInventoryReport";
@@ -6,35 +6,32 @@ import AuditReport from "@/components/reports/AuditReport";
 import SummaryCard from "@/components/reports/SummaryPage";
 import { Box } from "@mui/material";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 import { PrismaClient } from "@prisma/client";
 
-
-
-
 interface AdminReportData {
-    summary: {
-      totalInventoryValue: number;
-      totalItems: number;
-      newProcurements: number;
-      reorderStatus: number;
-      complianceStatus: string;
-    };
-    inventoryOverview: {
-      categories: string[];
-      values: number[];
-    };
-    financialSummary: {
-      categories: string[];
-      values: number[];
-    };
-    compliance: {
-      labels: string[];
-      values: number[];
-    };
-  }
-  
+  summary: {
+    totalInventoryValue: number;
+    totalItems: number;
+    newProcurements: number;
+    reorderStatus: number;
+    complianceStatus: string;
+  };
+  inventoryOverview: {
+    categories: string[];
+    values: number[];
+  };
+  financialSummary: {
+    categories: string[];
+    values: number[];
+  };
+  compliance: {
+    labels: string[];
+    values: number[];
+  };
+}
+
 //   const [adminReportData, setAdminReportData] = useState<AdminReportData>({
 //     summary: {
 //       totalInventoryValue: 500000,
@@ -88,21 +85,27 @@ interface AdminReportData {
 //       { itemId: 2, name: "Monitor", reason: "Damaged", discardedDate: "2024-11-05" },
 //     ],
 //   });
-  
-  
-const ReportsPage: React.FC = () => {
 
+const ReportsPage: React.FC = () => {
   return (
-    <DefaultLayout>
-    <Box sx={{ padding: 4 }}>
-      <Box sx={{ display: "flex", gap: 4, flexWrap: "wrap", justifyContent: "center", marginBottom: 4 }}>
-        <SummaryCard title="Total Items" value={200} />
-        <SummaryCard title="Damaged Items" value={15} />
-        <SummaryCard title="Operational Items" value={175} />
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
+      <Box sx={{ padding: 4 }}>
+        <Box
+          sx={{
+            display: "flex",
+            gap: 4,
+            flexWrap: "wrap",
+            justifyContent: "center",
+            marginBottom: 4,
+          }}
+        >
+          <SummaryCard title="Total Items" value={200} />
+          <SummaryCard title="Damaged Items" value={15} />
+          <SummaryCard title="Operational Items" value={175} />
+        </Box>
+        <AuditReport></AuditReport>
       </Box>
-      <AuditReport></AuditReport>
-    </Box>
-    </DefaultLayout>
+    </div>
   );
 };
 

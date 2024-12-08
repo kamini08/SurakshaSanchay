@@ -23,9 +23,8 @@ const SettingsPage = async () => {
       >
         <button type="submit">Sign Out</button>
       </form> */}
-      <DefaultLayout>
-        <Dashboard />
-      </DefaultLayout>
+
+      <Dashboard />
     </div>
   );
 };

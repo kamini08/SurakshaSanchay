@@ -1,15 +1,22 @@
-// pages/api/item-location/route.ts
-
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
+import { auth } from "../../../../../auth";
 
 export async function POST(request: Request) {
   try {
+    const session = await auth();
+    const id = session?.user.id;
+    const govIds = await db.user.findFirst({
+      where: { id },
+      select: { govId: true },
+    });
+    const inchId = govIds?.govId; // This is the govId of the logged-in user
     const body = await request.json();
     console.log("Request Body:", body);
 
-    const { itemId, govId, location, description } = body;
+    const { itemId, govId, assignedDate, location, description, status } = body;
 
+    const formattedAssignedDate = new Date(assignedDate).toISOString();
     // Check if the itemId exists in the InventoryItem table
     const itemExists = await db.inventoryItem.findUnique({
       where: { itemId },
@@ -22,12 +29,22 @@ export async function POST(request: Request) {
       );
     }
 
-    // If itemId exists, insert into ItemLocationHistory
+    // Check if the govId matches the logged-in user's inchId
+    if (itemExists.userId !== inchId) {
+      return NextResponse.json(
+        { error: `You do not have permission to assign this item.` },
+        { status: 403 }, // Forbidden status
+      );
+    }
+
+    // If itemId exists and govId matches, insert into ItemLocationHistory
     const newEntry = await db.itemLocationHistory.create({
       data: {
         itemId,
         govId,
+        assignedDate: formattedAssignedDate,
         location,
+        status,
         description,
       },
     });

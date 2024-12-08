@@ -1,4 +1,3 @@
-
 // 'use client';
 // import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 // import DefaultLayout from "@/components/Layouts/DefaultLayout";
@@ -35,7 +34,7 @@
 //   }, []);
 
 //   return (
-//     <DefaultLayout>
+//     <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
 //       <Breadcrumb pageName="ML MODEL PREDICTIONS" />
 //     <div className="flex justify-center items-center min-h-screen bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
 //       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl bg-white shadow-default dark:border-strokedark dark:bg-boxdark text-sm font-medium text-black dark:text-white">
@@ -88,7 +87,7 @@
 //         </ResponsiveContainer>
 //       </div>
 //     </div>
-//     </DefaultLayout>
+//     </div>
 //   );
 // };
 

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, FormEvent, ChangeEvent } from "react";
@@ -35,11 +34,41 @@ const AuditForm = () => {
 
   // State for policies
   const [policies, setPolicies] = useState<Policies>({
-    storagePolicy: { findings: "", impact: "", recommendation: "", complianceStatus: "", compliancePercentage: "" },
-    procurementPolicy: { findings: "", impact: "", recommendation: "", complianceStatus: "", compliancePercentage: "" },
-    purchasePolicy: { findings: "", impact: "", recommendation: "", complianceStatus: "", compliancePercentage: "" },
-    usageDeploymentPolicy: { findings: "", impact: "", recommendation: "", complianceStatus: "", compliancePercentage: "" },
-    disposalPolicy: { findings: "", impact: "", recommendation: "", complianceStatus: "", compliancePercentage: "" },
+    storagePolicy: {
+      findings: "",
+      impact: "",
+      recommendation: "",
+      complianceStatus: "",
+      compliancePercentage: "",
+    },
+    procurementPolicy: {
+      findings: "",
+      impact: "",
+      recommendation: "",
+      complianceStatus: "",
+      compliancePercentage: "",
+    },
+    purchasePolicy: {
+      findings: "",
+      impact: "",
+      recommendation: "",
+      complianceStatus: "",
+      compliancePercentage: "",
+    },
+    usageDeploymentPolicy: {
+      findings: "",
+      impact: "",
+      recommendation: "",
+      complianceStatus: "",
+      compliancePercentage: "",
+    },
+    disposalPolicy: {
+      findings: "",
+      impact: "",
+      recommendation: "",
+      complianceStatus: "",
+      compliancePercentage: "",
+    },
   });
 
   // State for stock data
@@ -50,7 +79,11 @@ const AuditForm = () => {
   });
 
   // Handle changes in policy data
-  const handlePolicyChange = (policyName: keyof Policies, field: keyof PolicyData, value: string) => {
+  const handlePolicyChange = (
+    policyName: keyof Policies,
+    field: keyof PolicyData,
+    value: string,
+  ) => {
     setPolicies((prev) => ({
       ...prev,
       [policyName]: {
@@ -83,70 +116,104 @@ const AuditForm = () => {
   };
 
   return (
-    <DefaultLayout>
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
       <Breadcrumb pageName="Audit Form" />
-      <form onSubmit={handleSubmitAll} className="p-6 bg-white dark:bg-boxdark shadow-md rounded-md">
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+      <form
+        onSubmit={handleSubmitAll}
+        className="rounded-md bg-white p-6 shadow-md dark:bg-boxdark"
+      >
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
           {/* Main Audit Details */}
-          <div className="rounded-md border border-stroke bg-white dark:border-strokedark dark:bg-boxdark p-6">
-            <h3 className="text-lg font-medium mb-4 text-black dark:text-white">Audit Details</h3>
+          <div className="rounded-md border border-stroke bg-white p-6 dark:border-strokedark dark:bg-boxdark">
+            <h3 className="mb-4 text-lg font-medium text-black dark:text-white">
+              Audit Details
+            </h3>
             <div className="mb-4">
-              <label className="block mb-2  text-sm text-black dark:text-white">Audit Officer Name</label>
+              <label className="mb-2 block  text-sm text-black dark:text-white">
+                Audit Officer Name
+              </label>
               <input
                 type="text"
                 name="auditOfficerName"
                 value={mainFormData.auditOfficerName}
                 placeholder="Enter the Audit Officer's Name"
-                onChange={(e) => setMainFormData({ ...mainFormData, auditOfficerName: e.target.value })}
-                className="w-full px-4 py-2 border rounded dark:border-strokedark dark:bg-boxdark dark:text-white"
+                onChange={(e) =>
+                  setMainFormData({
+                    ...mainFormData,
+                    auditOfficerName: e.target.value,
+                  })
+                }
+                className="w-full rounded border px-4 py-2 dark:border-strokedark dark:bg-boxdark dark:text-white"
                 required
               />
             </div>
             <div className="mb-4">
-              <label className="block mb-2 text-sm text-black dark:text-white">Audit Officer ID</label>
+              <label className="mb-2 block text-sm text-black dark:text-white">
+                Audit Officer ID
+              </label>
               <input
                 type="text"
                 name="auditOfficerId"
                 value={mainFormData.auditOfficerId}
                 placeholder="Enter the Audit Officer's ID"
-                onChange={(e) => setMainFormData({ ...mainFormData, auditOfficerId: e.target.value })}
-                className="w-full px-4 py-2 border rounded dark:border-strokedark dark:bg-boxdark dark:text-white"
+                onChange={(e) =>
+                  setMainFormData({
+                    ...mainFormData,
+                    auditOfficerId: e.target.value,
+                  })
+                }
+                className="w-full rounded border px-4 py-2 dark:border-strokedark dark:bg-boxdark dark:text-white"
                 required
               />
             </div>
             <div className="mb-4">
-              <label className="block mb-2 text-sm text-black dark:text-white">Location</label>
+              <label className="mb-2 block text-sm text-black dark:text-white">
+                Location
+              </label>
               <input
                 type="text"
                 name="location"
                 value={mainFormData.location}
                 placeholder="Enter the Audit Location"
-                onChange={(e) => setMainFormData({ ...mainFormData, location: e.target.value })}
-                className="w-full px-4 py-2 border rounded dark:border-strokedark dark:bg-boxdark dark:text-white"
+                onChange={(e) =>
+                  setMainFormData({ ...mainFormData, location: e.target.value })
+                }
+                className="w-full rounded border px-4 py-2 dark:border-strokedark dark:bg-boxdark dark:text-white"
                 required
               />
             </div>
             <div className="mb-4">
-              <label className="block mb-2 text-sm text-black dark:text-white">Start Date</label>
+              <label className="mb-2 block text-sm text-black dark:text-white">
+                Start Date
+              </label>
               <input
                 type="date"
                 name="startDate"
                 value={mainFormData.startDate}
                 placeholder="Select the Start Date"
-                onChange={(e) => setMainFormData({ ...mainFormData, startDate: e.target.value })}
-                className="w-full px-4 py-2 border rounded dark:border-strokedark dark:bg-boxdark dark:text-white"
+                onChange={(e) =>
+                  setMainFormData({
+                    ...mainFormData,
+                    startDate: e.target.value,
+                  })
+                }
+                className="w-full rounded border px-4 py-2 dark:border-strokedark dark:bg-boxdark dark:text-white"
                 required
               />
             </div>
             <div className="mb-4">
-              <label className="block mb-2 text-sm text-black dark:text-white">End Date</label>
+              <label className="mb-2 block text-sm text-black dark:text-white">
+                End Date
+              </label>
               <input
                 type="date"
                 name="endDate"
                 value={mainFormData.endDate}
                 placeholder="Select the End Date"
-                onChange={(e) => setMainFormData({ ...mainFormData, endDate: e.target.value })}
-                className="w-full px-4 py-2 border rounded dark:border-strokedark dark:bg-boxdark dark:text-white"
+                onChange={(e) =>
+                  setMainFormData({ ...mainFormData, endDate: e.target.value })
+                }
+                className="w-full rounded border px-4 py-2 dark:border-strokedark dark:bg-boxdark dark:text-white"
                 required
               />
             </div>
@@ -156,22 +223,32 @@ const AuditForm = () => {
           {Object.entries(policies).map(([policyName, policyFields]) => (
             <div
               key={policyName}
-              className="rounded-md border border-stroke bg-white text-black dark:text-white dark:border-strokedark dark:bg-boxdark p-6"
+              className="rounded-md border border-stroke bg-white p-6 text-black dark:border-strokedark dark:bg-boxdark dark:text-white"
             >
-              <h3 className="text-lg font-medium mb-4">
-                {policyName.replace(/([A-Z])/g, " $1").replace(/^./, (c) => c.toUpperCase())}
+              <h3 className="mb-4 text-lg font-medium">
+                {policyName
+                  .replace(/([A-Z])/g, " $1")
+                  .replace(/^./, (c) => c.toUpperCase())}
               </h3>
               {Object.entries(policyFields).map(([field, value]) => (
                 <div key={field} className="mb-4">
-                  <label className="block mb-2 text-sm text-black dark:text-white">
-                    {field.replace(/([A-Z])/g, " $1").replace(/^\w/, (c) => c.toUpperCase())}
+                  <label className="mb-2 block text-sm text-black dark:text-white">
+                    {field
+                      .replace(/([A-Z])/g, " $1")
+                      .replace(/^\w/, (c) => c.toUpperCase())}
                   </label>
                   <input
                     type={field === "compliancePercentage" ? "number" : "text"}
-                    value={value as number|string}
+                    value={value as number | string}
                     placeholder={`Enter ${field.replace(/([A-Z])/g, " $1")}`}
-                    onChange={(e) => handlePolicyChange(policyName as keyof Policies, field as keyof PolicyData, e.target.value)}
-                    className="w-full px-4 py-2 border rounded dark:border-strokedark dark:bg-boxdark dark:text-white"
+                    onChange={(e) =>
+                      handlePolicyChange(
+                        policyName as keyof Policies,
+                        field as keyof PolicyData,
+                        e.target.value,
+                      )
+                    }
+                    className="w-full rounded border px-4 py-2 dark:border-strokedark dark:bg-boxdark dark:text-white"
                   />
                 </div>
               ))}
@@ -179,12 +256,16 @@ const AuditForm = () => {
           ))}
 
           {/* Stock Valuation Accuracy */}
-          <div className="rounded-md border border-stroke bg-white dark:border-strokedark dark:bg-boxdark p-6">
-            <h3 className="text-lg font-medium mb-4 text-black dark:text-white">Stock Valuation Accuracy</h3>
+          <div className="rounded-md border border-stroke bg-white p-6 dark:border-strokedark dark:bg-boxdark">
+            <h3 className="mb-4 text-lg font-medium text-black dark:text-white">
+              Stock Valuation Accuracy
+            </h3>
             {Object.entries(stockData).map(([field, value]) => (
               <div key={field} className="mb-4">
-                <label className="block text-sm font-medium text-black dark:text-white mb-2">
-                  {field.replace(/([A-Z])/g, " $1").replace(/^\w/, (c) => c.toUpperCase())}
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  {field
+                    .replace(/([A-Z])/g, " $1")
+                    .replace(/^\w/, (c) => c.toUpperCase())}
                 </label>
                 <input
                   type="number"
@@ -192,7 +273,7 @@ const AuditForm = () => {
                   value={value}
                   placeholder={`Enter ${field.replace(/([A-Z])/g, " $1")}`}
                   onChange={handleStockChange}
-                  className="w-full px-4 py-2 border rounded dark:border-strokedark dark:bg-boxdark dark:text-white"
+                  className="w-full rounded border px-4 py-2 dark:border-strokedark dark:bg-boxdark dark:text-white"
                   required
                 />
               </div>
@@ -203,13 +284,13 @@ const AuditForm = () => {
         <div className="mt-6 text-right">
           <button
             type="submit"
-            className="px-6 py-2 text-white bg-primary rounded-md hover:bg-opacity-90"
+            className="rounded-md bg-primary px-6 py-2 text-white hover:bg-opacity-90"
           >
             Submit All
           </button>
         </div>
       </form>
-    </DefaultLayout>
+    </div>
   );
 };
 

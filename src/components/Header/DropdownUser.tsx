@@ -4,6 +4,7 @@ import Image from "next/image";
 import ClickOutside from "@/components/ClickOutside";
 // import { signOut } from "../../../auth";
 import Logout from "../Logout";
+import GoogleTranslate from "../Translater";
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -94,7 +95,9 @@ const DropdownUser = () => {
                 My Profile
               </Link>
             </li>
-           
+            {/* <li>
+              <GoogleTranslate />
+            </li> */}
           </ul>
           <Logout />
         </div>
