@@ -9,8 +9,8 @@ const font = Poppins({
 });
 
 export const metadata = {
-  title: "Home",
-  description: "Landing page",
+  title: "SurakshaSanchay",
+  description: "A centralized system for asset tracking",
 };
 
 export default function Home() {

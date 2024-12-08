@@ -29,7 +29,7 @@ export async function GET(req: Request) {
 export async function PATCH(req: Request) {
   try {
     const body = await req.json();
-    const { id } = body; // Assuming the request body contains the ID of the return request
+    const { id, isLost } = body; // Assuming the request body contains the ID of the return request
     if (!id) {
       return NextResponse.json(
         { error: "Invalid request: ID is required" },
@@ -41,14 +41,14 @@ export async function PATCH(req: Request) {
       where: { itemId: id },
       data: {
         returnStatus: "Completed",
-        // Confirm the return
       },
     });
 
-    const updatedItemInventory = await db.inventoryItem.updateMany({
+    await db.inventoryItem.updateMany({
       where: { itemId: id },
       data: {
-        issuedTo: null,
+        userId: null,
+        isLost: isLost,
       },
     });
 

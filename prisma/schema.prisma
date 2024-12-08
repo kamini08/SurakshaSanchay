@@ -36,6 +36,7 @@ model User {
   image                 String?
   password              String
   role                  String
+  stars                 Int?
   accounts              Account[]
   isTwoFactorEnabled    Boolean                @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
@@ -397,9 +398,9 @@ model Policy {
 
 model Stock {
   id                    String @id @default(cuid())
-  SpecializedEquipment  Int
-  OperationalAssets     Int
-  GovernmentFundedItems Int
+  specializedEquipment  Int
+  operationalAssets     Int
+  governmentFundedItems Int
 
   AuditReport AuditReport[]
 }
@@ -411,8 +412,9 @@ model AuditReport {
   location         String
   startDate        DateTime
   endDate          DateTime
-  Policies         Policy?  @relation(fields: [Policiesid], references: [id])
-  Policiesid       String?
+  createdAt        DateTime @default(now())
+  Policies         Policy[] 
+  Policiesid       String[]
   StockAccuracy    Stock?   @relation(fields: [StockId], references: [id])
   StockId          String?
   url              String?
@@ -430,20 +432,20 @@ model Penalty {
   user                 User          @relation(fields: [userId], references: [govId])
   reason               PenaltyReason
   amount               Int
-  NumberOfStarsReduced Int
+  numberOfStarsReduced Int
   description          String
   inchargeId           String
-  date                 DateTime
+  date                 DateTime @default(now())
 }
 
 model Award {
   id                 String   @id @default(cuid())
   userId             String
   user               User     @relation(fields: [userId], references: [govId])
-  NumberOfStarsAdded Int
+  numberOfStarsAdded Int
   description        String
   inchargeId         String
-  date               DateTime
+  date               DateTime @default(now())
 }
 model ReturnRequest {
   id                 String   @id @default(cuid())

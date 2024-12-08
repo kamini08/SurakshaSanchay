@@ -1,4 +1,5 @@
-import React from "react";
+"use client"
+import React, { useEffect } from "react";
 import { Bar, Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -28,21 +29,21 @@ interface DashboardProps {
 
 
 const Dashboard: React.FC<DashboardProps> = ({ data }) => {
-  
+
 
   const downloadReport = () => {
     const headers = [
       ["Inventory Report"],
-      ["Item ID", "Item Name", "Category", "Current Stock"],
-      ...data.inventoryReport.map((row) => [row.itemId, row.name, row.category, row.currentStock]),
+      ["Category", "Current Stock"],
+      ...data.inventoryReport.map((row) => [row.category, row.currentStock]),
       [],
       ["Maintenance Report"],
-      ["Item ID", "Item Name", "Issue", "Start Date"],
-      ...data.maintenanceReport.map((row) => [row.itemId, row.name, row.issue, row.startDate]),
+      ["Item ID", "Issue", "Start Date"],
+      ...data.maintenanceReport.map((row) => [row.itemId,  row.issue, row.startDate]),
       [],
       ["Discarded Items"],
-      ["Item ID", "Item Name", "Reason", "Discarded Date"],
-      ...data.discardedItems.map((row) => [row.itemId, row.name, row.reason, row.discardedDate]),
+      ["Item ID", "Reason", "Discarded Date"],
+      ...data.discardedItems.map((row) => [row.itemId, row.reason, row.discardedDate]),
     ];
 
     const csvContent = headers.map((row) => row.join(",")).join("\n");
@@ -80,23 +81,23 @@ const Dashboard: React.FC<DashboardProps> = ({ data }) => {
         <div className="left-section">
           <ReportTable
             title="Inventory Report"
-            headers={["Item ID", "Item Name", "Category", "Current Stock"]}
+            headers={["Category", "Current Stock"]}
             data={data.inventoryReport}
-            dataKeys={["itemId", "name", "category", "currentStock"]}
+            dataKeys={["category", "currentStock"]}
           />
 
           <ReportTable
             title="Maintenance Report"
-            headers={["Item ID", "Item Name", "Issue", "Start Date"]}
+            headers={["Item ID", "Issue", "Start Date"]}
             data={data.maintenanceReport}
-            dataKeys={["itemId", "name", "issue", "startDate"]}
+            dataKeys={["itemId", "issue", "startDate"]}
           />
 
           <ReportTable
             title="Discarded Items"
-            headers={["Item ID", "Item Name", "Reason", "Discarded Date"]}
+            headers={["Item ID", "Reason", "Discarded Date"]}
             data={data.discardedItems}
-            dataKeys={["itemId", "name", "reason", "discardedDate"]}
+            dataKeys={["itemId", "reason", "discardedDate"]}
           />
         </div>
 
@@ -105,13 +106,12 @@ const Dashboard: React.FC<DashboardProps> = ({ data }) => {
             title="Inventory Overview"
             chartType={Bar} 
             chartData={{
-            //   labels: data.inventoryOverview.map((item) => item.category),
-            labels: "inventory",
+              labels: data.inventoryOverview.map((item) => item.category),
+            
               datasets: [
                 {
                   label: "Inventory Count",
-                //   data: data.inventoryOverview.map((item) => item.count),
-                data: 49,
+                  data: data.inventoryOverview.map((item) => item.count),
                   backgroundColor: "rgba(75, 192, 192, 0.8)",
                 },
               ],
@@ -126,10 +126,10 @@ const Dashboard: React.FC<DashboardProps> = ({ data }) => {
               datasets: [
                 {
                   data: [
-                    // data.maintenanceStatus.working,
-                    // data.maintenanceStatus.underRepair,
-                    // data.maintenanceStatus.outOfOrder,
-                    5, 8, 9, // dummy data
+                    data.maintenanceStatus.working,
+                    data.maintenanceStatus.underRepair,
+                    data.maintenanceStatus.outOfOrder,
+                   
                   ],
                   backgroundColor: ["#4caf50", "#ff9800", "#f44336"],
                 },

@@ -1,5 +1,4 @@
 import { db } from "@/lib/db";
-import { auth } from "../../../../../auth";
 import { NextResponse } from "next/server";
 
 export async function PUT(req: Request) {
@@ -18,15 +17,17 @@ export async function PUT(req: Request) {
       where: { location: location, role: "incharge" },
       select: { govId: true }
     })
-    const updatedItems: any = [];
 
+   // Update the inventory items
+   const updatedItems = await Promise.all(
     itemIds.map(async (itemId: any) => {
-      const updatedItem = await db.inventoryItem.update({
+      return db.inventoryItem.update({
         where: { itemId: itemId },
         data: { issuedTo: issuedTo?.govId },
+        select: { itemId: true,issuedTo:true }
       });
-      updatedItems.push(updatedItem);
-    });
+    })
+  );
 
 
       return NextResponse.json({

@@ -4,12 +4,11 @@ import { it } from "node:test";
 
 const prisma = new PrismaClient();
 
-export async function POST(req: Request) {
+export async function PUT(req: Request) {
   try {
     const body = await req.json(); // Parse request body
     const { userId, name, quantity, requestId, isApproved, discardReason } =
       body;
-
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: { role: true },

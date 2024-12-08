@@ -112,14 +112,14 @@ const ViewInventoryIndividual = () => {
   }
 
 try {
-      const response = await fetch("/api/transfer/updateIssuedTo", {
+      const response = await fetch("/api/Transfer/updateIssuedTo", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           itemIds: selectedIds,
-         location : transferLocation,     }),
+         location : transferLocation, }),
       });
 
       if (!response.ok) {
