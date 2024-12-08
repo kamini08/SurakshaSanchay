@@ -96,7 +96,8 @@ const ItemReturnTable = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          id: updatedData[0].itemId, // Send the ID of the return request
+          id: updatedData[0].itemId,
+          isLost: updatedData[0].isLost, // Send the ID of the return request
         }),
       });
 

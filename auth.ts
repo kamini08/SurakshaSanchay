@@ -30,7 +30,7 @@ export const {
 
       const existingUser = await getUserById(user.id!);
 
-      // prevent singin without verifying
+      // prevent signin without verifying
       if (!existingUser?.emailVerified) return false;
 
       if (existingUser.isTwoFactorEnabled) {
@@ -61,7 +61,15 @@ export const {
         session.user.number = token.number.toString();
       }
 
-      // console.log(token, session);
+      // Add govId and location to session
+      if (token.govId && session.user) {
+        session.user.govId = token.govId.toString();
+      }
+
+      if (token.location && session.user) {
+        session.user.location = token.location.toString();
+      }
+
       return session;
     },
     async jwt({ token }) {
@@ -72,6 +80,10 @@ export const {
 
       token.role = existingUser.role;
       token.number = existingUser.phone;
+
+      // Add govId and location to token
+      token.govId = existingUser.govId; // Assuming govId is a field in your user model
+      token.location = existingUser.location; // Assuming location is a field in your user model
 
       return token;
     },
