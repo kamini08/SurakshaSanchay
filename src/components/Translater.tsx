@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-
+import "./translater.css";
 declare global {
   interface Window {
     google: any;
@@ -10,20 +10,18 @@ declare global {
 
 const GoogleTranslate: React.FC = () => {
   useEffect(() => {
-    // Define the initialization function
     const googleTranslateElementInit = () => {
-      if (!window.google?.translate) return; // Check if the google translate object exists
+      if (!window.google?.translate) return;
       new window.google.translate.TranslateElement(
         {
-          pageLanguage: "en", // Default language of your website
-          includedLanguages: "en,hi", // Include only English and Hindi
+          pageLanguage: "en", // Default language of the website
+          includedLanguages: "en,hi", // Include English and Hindi
           layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
         },
-        "google_translate_element",
+        "google_translate_element"
       );
     };
 
-    // Check if the script is already loaded or initialized
     if (!window.googleTranslateElementInit) {
       const script = document.createElement("script");
       script.src =
@@ -31,10 +29,8 @@ const GoogleTranslate: React.FC = () => {
       script.async = true;
       document.body.appendChild(script);
 
-      // Set the init function globally
       window.googleTranslateElementInit = googleTranslateElementInit;
     } else {
-      // If script already loaded, just initialize the translate element
       googleTranslateElementInit();
     }
   }, []);
@@ -42,8 +38,18 @@ const GoogleTranslate: React.FC = () => {
   return (
     <div
       id="google_translate_element"
-      style={{ width: "auto", height: "auto" }}
-    ></div>
+      style={{
+        width: "9rem", // Fixed width for the container
+        height: "3rem", // Fixed height for the container
+        
+        position: "relative",
+        backgroundColor: "rgb(36, 48, 63)", // Background color for the parent div
+      }}
+    >
+      
+        {/* Google Translate element will be inserted here */}
+     
+    </div>
   );
 };
 

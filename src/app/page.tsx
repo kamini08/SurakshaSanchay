@@ -16,6 +16,7 @@ export const metadata = {
 export default function Home() {
   return (
     <main className="flex h-[100vh] flex-col items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-400 to-blue-800">
+      <script src="//code.tidio.co/7ghvmky1mcgimuuzffr8cktvubmxwkbp.js" async></script>
       <div className=" space-y-6 text-center ">
         <h1
           className={cn(

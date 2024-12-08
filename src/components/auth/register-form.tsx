@@ -20,14 +20,12 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { RegisterSchema } from "../../../schemas";
 import CardWrapper from "./card-wrapper";
 import { Button } from "../ui/button";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
 
 import { register } from "../../../actions/register";
-
 const policeStations = [
   { name: "TT Nagar Police Station", lat: 23.23725, long: 77.39984 },
   { name: "Kamla Nagar Police Station", lat: 23.21554, long: 77.39552 },
@@ -52,6 +50,25 @@ const policeStations = [
   { name: "Ratibad Police Station", lat: 23.1101, long: 77.3865 },
   { name: "Berasia Police Station", lat: 23.6352, long: 77.4323 },
 ];
+
+
+// Define Zod Schema
+const RegisterSchema = z.object({
+  name: z.string().min(1, "Name is required"), // Name validation
+  email: z.string().email("Please enter a valid email"), // Email validation
+  number: z
+    .string()
+    .regex(/^\d{10}$/, "Phone number must be exactly 10 digits"), // Phone number validation
+  role: z
+    .string()
+    .regex(/^(Admin|Incharge|User)$/i, "Role must be Admin, Incharge, or User"), // Role validation
+  govId: z
+    .string()
+    .regex(/^\d{12}$/, "Government ID must be exactly 12 digits"), // Gov ID validation
+  password: z.string().min(6, "Password must be at least 6 characters"), // Password validation
+  location: z.string().min(1, "Location is required"), // Location validation
+});
+
 export const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -139,7 +156,7 @@ export const RegisterForm = () => {
                           {...field}
                           disabled={isPending}
                           placeholder="9878987690"
-                          type="number"
+                          type="text"
                         />
                       </FormControl>
                       <FormMessage />
@@ -157,52 +174,14 @@ export const RegisterForm = () => {
                           onValueChange={(value) => field.onChange(value)}
                           disabled={isPending}
                         >
-                          <SelectTrigger
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "space-between",
-                              width: "100%",
-                              padding: "0.5rem 1rem",
-                              border: "1px solid #ccc",
-                              borderRadius: "0.375rem",
-                              background: "#fff",
-                              color: "#333",
-                              cursor: "pointer",
-                            }}
-                          >
+                          <SelectTrigger>
                             <SelectValue placeholder="Select a police station" />
                           </SelectTrigger>
-                          <SelectContent
-                            style={{
-                              position: "absolute",
-                              marginTop: "0.25rem",
-                              width: "200px",
-                              backgroundColor: "#fff",
-                              borderRadius: "0.375rem",
-                              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                              maxHeight: "15rem",
-                              overflowY: "auto",
-                              zIndex: 50,
-                            }}
-                          >
+                          <SelectContent>
                             {policeStations.map((station) => (
                               <SelectItem
                                 key={station.name}
                                 value={station.name}
-                                style={{
-                                  padding: "0.5rem 1rem",
-                                  cursor: "pointer",
-                                  color: "#333",
-                                }}
-                                onMouseEnter={(e) =>
-                                  (e.currentTarget.style.backgroundColor =
-                                    "#f0f0f0")
-                                }
-                                onMouseLeave={(e) =>
-                                  (e.currentTarget.style.backgroundColor =
-                                    "#fff")
-                                }
                               >
                                 {station.name}
                               </SelectItem>
@@ -244,7 +223,7 @@ export const RegisterForm = () => {
                       <Input
                         {...field}
                         disabled={isPending}
-                        placeholder="Gov ID "
+                        placeholder="Gov ID"
                         type="text"
                       />
                     </FormControl>
