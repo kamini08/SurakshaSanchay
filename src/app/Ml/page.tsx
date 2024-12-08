@@ -440,22 +440,138 @@
 
 
 
+// 'use client';
+// import React, { useState } from 'react';
+// import axios from 'axios';
+
+// interface PredictionResults {
+//   buy_price: number[];
+//   maintenance_cost: number[];
+//   total_price: number[];
+//   annual_budget: number[];
+// }
+
+// const App: React.FC = () => {
+//   const [results, setResults] = useState<PredictionResults | null>(null);
+//   const [year, setYear] = useState<string>('');
+//   const [category, setCategory] = useState<string>('');
+  
+//   const categories: string[] = [
+//     "Communication Devices", "Computer and IT Equipment", "Firearms",
+//     "Forensic", "Medical First Aid", "Networking Equipment",
+//     "Office Supplies", "Protective Gear", "Surveillance and Tracking",
+//     "Vehicle and Accessories"
+//   ];
+
+//   const fetchResults = () => {
+//     if (!year || !category) {
+//       console.error("Year and category are required.");
+//       return;
+//     }
+
+//     axios.post('http://127.0.0.1:5000/predict', {
+//       Year: parseInt(year, 10),
+//       Category: category
+//     })
+//     .then(response => {
+//       setResults(response.data as PredictionResults);
+//     })
+//     .catch(error => {
+//       console.error("There was an error!", error);
+//     });
+//   };
+
+//   return (
+//     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-6">
+//       <h1 className="text-3xl font-semibold mb-6 text-blue-600">Budget Predictions</h1>
+
+//       {/* Input fields */}
+//       <div className="space-y-4 mb-6">
+//         <div className="flex flex-col">
+//           <label className="text-lg font-medium text-gray-700 mb-2">Year:</label>
+//           <input 
+//             type="number" 
+//             value={year} 
+//             onChange={(e) => setYear(e.target.value)} 
+//             className="px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+//           />
+//         </div>
+        
+//         <div className="flex flex-col">
+//           <label className="text-lg font-medium text-gray-700 mb-2">Category:</label>
+//           <select 
+//             value={category} 
+//             onChange={(e) => setCategory(e.target.value)} 
+//             className="px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+//           >
+//             <option value="" disabled>Select a category</option>
+//             {categories.map(cat => (
+//               <option key={cat} value={cat}>{cat}</option>
+//             ))}
+//           </select>
+//         </div>
+//       </div>
+
+//       {/* Button */}
+//       <button
+//         onClick={fetchResults}
+//         className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out"
+//       >
+//         Get Predictions
+//       </button>
+
+//       {/* Results */}
+//       {results && (
+//         <div className="mt-6 p-6 bg-white shadow-lg rounded-lg w-full max-w-lg">
+//           <h2 className="text-xl font-semibold mb-4 text-gray-800">Prediction Results</h2>
+//           <div className="space-y-2">
+//             <p><strong>Buy Price:</strong> {results.buy_price[0]}</p>
+//             <p><strong>Maintenance Cost:</strong> {results.maintenance_cost[0]}</p>
+//             <p><strong>Total Price:</strong> {results.total_price[0]}</p>
+//             <p><strong>Annual Budget:</strong> {results.annual_budget[0]}</p>
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default App;
 'use client';
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function App() {
-  const [results, setResults] = useState(null);
-  const [year, setYear] = useState('');
-  const [category, setCategory] = useState('');
+interface PredictionResults {
+  buy_price: number[];
+  maintenance_cost: number[];
+  total_price: number[];
+  annual_budget: number[];
+}
+
+const App: React.FC = () => {
+  const [results, setResults] = useState<PredictionResults | null>(null);
+  const [year, setYear] = useState<string>('');
+  const [category, setCategory] = useState<string>('');
+  
+  const categories: string[] = [
+    "Communication Devices", "Computer and IT Equipment", "Firearms",
+    "Forensic", "Medical First Aid", "Networking Equipment",
+    "Office Supplies", "Protective Gear", "Surveillance and Tracking",
+    "Vehicle and Accessories"
+  ];
 
   const fetchResults = () => {
+    if (!year || !category) {
+      console.error("Year and category are required.");
+      return;
+    }
+
     axios.post('http://127.0.0.1:5000/predict', {
-      Year: year,
+      Year: parseInt(year, 10),
       Category: category
     })
     .then(response => {
-      setResults(response.data);
+      setResults(response.data as PredictionResults);
     })
     .catch(error => {
       console.error("There was an error!", error);
@@ -480,12 +596,16 @@ function App() {
         
         <div className="flex flex-col">
           <label className="text-lg font-medium text-gray-700 mb-2">Category:</label>
-          <input 
-            type="text" 
+          <select 
             value={category} 
             onChange={(e) => setCategory(e.target.value)} 
             className="px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          />
+          >
+            <option value="" disabled>Select a category</option>
+            {categories.map(cat => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
+          </select>
         </div>
       </div>
 
@@ -502,15 +622,15 @@ function App() {
         <div className="mt-6 p-6 bg-white shadow-lg rounded-lg w-full max-w-lg">
           <h2 className="text-xl font-semibold mb-4 text-gray-800">Prediction Results</h2>
           <div className="space-y-2">
-            <p><strong>Buy Price:</strong> {results.buy_price}</p>
-            <p><strong>Maintenance Cost:</strong> {results.maintenance_cost}</p>
-            <p><strong>Total Price:</strong> {results.total_price}</p>
-            <p><strong>Annual Budget:</strong> {results.annual_budget}</p>
+            <p><strong>Buy Price:</strong> {results.buy_price[0]}</p>
+            <p><strong>Maintenance Cost:</strong> {results.maintenance_cost[0]}</p>
+            <p><strong>Total Price:</strong> {results.total_price[0]}</p>
+            <p><strong>Annual Budget:</strong> {results.annual_budget[0]}</p>
           </div>
         </div>
       )}
     </div>
   );
-}
+};
 
 export default App;

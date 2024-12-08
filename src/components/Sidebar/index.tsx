@@ -298,9 +298,9 @@ const menuGroups = [
         label: "Reports & Audits",
         route: "#",
         children: [
-          { label: "View Reports", route: "/forms/form-layout" },
+          { label: "View Reports", route: "/report/admin" },
           { label: "Fill Audit Form", route: "/report/auditForm" },
-          { label: "Audit Logs", route: "/forms/form-elements" },
+          { label: "Audit Logs", route: "/report/audit" },
         ],
       },
 
