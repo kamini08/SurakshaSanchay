@@ -7,8 +7,17 @@ import { RegisterSchema } from "../schemas";
 import { getUserByEmail, getUserByGovId } from "../data/user";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmailRegister } from "../src/lib/mail";
+import { auth } from "../auth";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
+  const session = await auth();
+  const sesRole = session?.user.role;
+
+  // Check if the user has permission to register
+  if (sesRole === "user") {
+    return { error: "You can't register, only higher-ups can." };
+  }
+
   // Validate input fields
   const validatedFields = RegisterSchema.safeParse(values);
   if (!validatedFields.success) {
@@ -18,22 +27,26 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const { email, password, name, number, role, govId, location } =
     validatedFields.data;
 
-  // Define acceptable roles and validate the provided role
-  if (
-    role.toLocaleLowerCase() !== "admin" &&
-    role.toLocaleLowerCase() !== "user" &&
-    role.toLocaleLowerCase() !== "incharge"
-  ) {
-    return { error: "Role should be entered properly" };
-  }
-  const caseRole = role.toLowerCase();
+  // Normalize the role to lowercase
+  const normalizedRole = role.toLowerCase();
 
-  // Check if email already exists
-  const existingUser = await getUserByEmail(email);
-  const existingUserGov = await getUserByGovId(govId);
-  // console.log(existingUser);
-  if (!existingUser) {
+  // Check for invalid role
+  const validRoles = ["admin", "user", "incharge"];
+  if (!validRoles.includes(normalizedRole)) {
+    return { error: "Role should be either 'admin', 'user', or 'incharge'." };
   }
+
+  // Prevent incharge from registering as incharge
+  if (sesRole === "incharge" && normalizedRole === "incharge") {
+    return { error: "You can't register an incharge as incharge." };
+  }
+
+  // Check if email or government ID already exists
+  const [existingUser, existingUserGov] = await Promise.all([
+    getUserByEmail(email),
+    getUserByGovId(govId),
+  ]);
+
   if (existingUser) {
     return { error: "Email already exists." };
   }
@@ -49,7 +62,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
       password: hashedPassword,
       name,
       phone: number,
-      role: caseRole, // Use normalized role
+      role: normalizedRole, // Use normalized role
       govId,
       location,
     },

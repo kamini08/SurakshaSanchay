@@ -3,8 +3,6 @@
 import { auth, signOut } from "../../../../auth";
 import Dashboard from "@/app/Dashboard/page";
 
-import DefaultLayout from "@/components/Layouts/DefaultLayout";
-
 const SettingsPage = async () => {
   // const session = await auth();
   // const user = session?.user.id;

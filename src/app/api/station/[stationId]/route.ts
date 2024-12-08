@@ -1,11 +1,20 @@
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
+import { auth } from "../../../../../auth";
 
 export async function GET(req: Request) {
   try {
+    const session = await auth();
+    const role = session?.user.role;
+    if (role !== "admin") {
+      return NextResponse.json({
+        status: 403,
+        body: "Forbidden",
+      });
+    }
     // Await params before using its properties
     const stationId = req.url.split("/").pop()?.replaceAll("%20", " ");
-    console.log(stationId);
+    // console.log(stationId);
     // Ensure stationId is valid
     if (!stationId) {
       return NextResponse.json(
@@ -43,7 +52,7 @@ export async function GET(req: Request) {
         );
       }
 
-      console.log("Fetched inventory data:", inventoryData); // Debug log
+      // console.log("Fetched inventory data:", inventoryData); // Debug log
       return NextResponse.json(inventoryData);
     } catch (error) {
       console.log("Error fetching inventory data: ", error);
