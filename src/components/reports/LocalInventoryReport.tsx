@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect } from "react";
 import { Bar, Pie } from "react-chartjs-2";
 import {
@@ -12,25 +12,48 @@ import {
 } from "chart.js";
 import "./LocalInventoryReport.css";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  ArcElement,
+  Tooltip,
+  Legend,
+);
 
 interface DataProps {
   metrics: { label: string; value: number }[];
   inventoryOverview: { category: string; count: number }[];
-  maintenanceStatus: { working: number; underRepair: number; outOfOrder: number };
-  inventoryReport: { itemId: number; name: string; category: string; currentStock: number }[];
-  maintenanceReport: { itemId: number; name: string; issue: string; startDate: string }[];
-  discardedItems: { itemId: number; name: string; reason: string; discardedDate: string }[];
+  maintenanceStatus: {
+    working: number;
+    underRepair: number;
+    outOfOrder: number;
+  };
+  inventoryReport: {
+    itemId: number;
+    name: string;
+    category: string;
+    currentStock: number;
+  }[];
+  maintenanceReport: {
+    itemId: number;
+    name: string;
+    issue: string;
+    startDate: string;
+  }[];
+  discardedItems: {
+    itemId: number;
+    name: string;
+    reason: string;
+    discardedDate: string;
+  }[];
 }
 
 interface DashboardProps {
   data: DataProps;
 }
 
-
 const Dashboard: React.FC<DashboardProps> = ({ data }) => {
-
-
   const downloadReport = () => {
     const headers = [
       ["Inventory Report"],
@@ -39,11 +62,19 @@ const Dashboard: React.FC<DashboardProps> = ({ data }) => {
       [],
       ["Maintenance Report"],
       ["Item ID", "Issue", "Start Date"],
-      ...data.maintenanceReport.map((row) => [row.itemId,  row.issue, row.startDate]),
+      ...data.maintenanceReport.map((row) => [
+        row.itemId,
+        row.issue,
+        row.startDate,
+      ]),
       [],
       ["Discarded Items"],
       ["Item ID", "Reason", "Discarded Date"],
-      ...data.discardedItems.map((row) => [row.itemId, row.reason, row.discardedDate]),
+      ...data.discardedItems.map((row) => [
+        row.itemId,
+        row.reason,
+        row.discardedDate,
+      ]),
     ];
 
     const csvContent = headers.map((row) => row.join(",")).join("\n");
@@ -59,7 +90,6 @@ const Dashboard: React.FC<DashboardProps> = ({ data }) => {
       <div className="header">
         <h1>Police Station Dashboard</h1>
         <div className="button-group">
-          
           <button className="download-button" onClick={downloadReport}>
             Download Full Report
           </button>
@@ -68,7 +98,7 @@ const Dashboard: React.FC<DashboardProps> = ({ data }) => {
 
       {/* Metrics Section */}
       <div className="metrics">
-        {data.metrics.map((metric, index) => (
+        {data?.metrics?.map((metric, index) => (
           <div className="metric-card" key={index}>
             <h3>{metric.label}</h3>
             <p>{metric.value}</p>
@@ -104,14 +134,14 @@ const Dashboard: React.FC<DashboardProps> = ({ data }) => {
         <div className="right-section">
           <ChartSection
             title="Inventory Overview"
-            chartType={Bar} 
+            chartType={Bar}
             chartData={{
-              labels: data.inventoryOverview.map((item) => item.category),
-            
+              labels: data?.inventoryOverview?.map((item) => item.category),
+
               datasets: [
                 {
                   label: "Inventory Count",
-                  data: data.inventoryOverview.map((item) => item.count),
+                  data: data?.inventoryOverview?.map((item) => item.count),
                   backgroundColor: "rgba(75, 192, 192, 0.8)",
                 },
               ],
@@ -126,10 +156,9 @@ const Dashboard: React.FC<DashboardProps> = ({ data }) => {
               datasets: [
                 {
                   data: [
-                    data.maintenanceStatus.working,
-                    data.maintenanceStatus.underRepair,
-                    data.maintenanceStatus.outOfOrder,
-                   
+                    data.maintenanceStatus?.working,
+                    data.maintenanceStatus?.underRepair,
+                    data.maintenanceStatus?.outOfOrder,
                   ],
                   backgroundColor: ["#4caf50", "#ff9800", "#f44336"],
                 },
@@ -159,7 +188,7 @@ const ReportTable: React.FC<{
         </tr>
       </thead>
       <tbody>
-        {data.map((row, rowIndex) => (
+        {data?.map((row, rowIndex) => (
           <tr key={rowIndex}>
             {dataKeys.map((key, colIndex) => (
               <td key={colIndex}>{row[key]}</td>
