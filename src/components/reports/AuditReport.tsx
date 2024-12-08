@@ -13,7 +13,6 @@ import "./AuditReport.css";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
 
-<<<<<<< HEAD
 interface CompliancePolicy {
   policy: string;
   status: string;
@@ -48,40 +47,6 @@ const AuditReport: React.FC<{
 }) => {
 
 
-=======
-const complianceData = {
-  policies: [
-    { policy: "Procurement Policies", status: "Compliant", percentage: 90 },
-    { policy: "Storage Policies", status: "Partially Compliant", percentage: 70 },
-    { policy: "Usage and Deployment Policies", status: "Compliant", percentage: 85 },
-    { policy: "Disposal Policies", status: "Non-Compliant", percentage: 60 },
-  ],
-  complianceOverview: [90, 70, 85, 60],
-  labels: ["Procurement", "Storage", "Usage & Deployment", "Disposal"],
-};
-
-const valuationData = {
-  categories: ["Specialized Equipment", "Operational Assets", "Government-Funded Items"],
-  accuracy: [95, 80, 88],
-};
-
-const keyFindings = [
-  {
-    category: "Storage Policies",
-    finding: "Improper storage of arms",
-    impact: "Risk of theft or misuse",
-    recommendation: "Upgrade storage facilities and implement stricter access controls",
-  },
-  {
-    category: "Procurement Policies",
-    finding: "Procurement through unapproved vendors",
-    impact: "Violation of government protocols",
-    recommendation: "Restrict procurement to approved vendors and audit regularly",
-  },
-];
-
-const AuditReport: React.FC = () => {
->>>>>>> 36e4f86dda7906b162abd7f3ec1e70abb7cf3ac7
   return (
     <div className="policy-compliance-review">
       <div className="header">
