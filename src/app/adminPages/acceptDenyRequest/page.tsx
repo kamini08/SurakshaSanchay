@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
@@ -39,6 +39,30 @@ const RequestManagement: React.FC = () => {
       priorityLevel: "High",
     },
   ]);
+
+  useEffect(() => {
+    // Fetch requests from the backend
+    const fetchRequests = async () => {
+      try {
+        const response = await fetch(
+          "/api/inventory/issuance/admin/getRequests",
+          {
+            method: "GET",
+          },
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch requests");
+        }
+        const data: Request[] = await response.json();
+        setRequests(data);
+      } catch (err: any) {
+        throw new Error("Failed to fetch requests", err);
+      } finally {
+      }
+    };
+
+    fetchRequests();
+  }, []);
 
   const [approvedRequests, setApprovedRequests] = useState<Request[]>([]);
   const [deniedRequests, setDeniedRequests] = useState<Request[]>([]); // New state to store denied requests
