@@ -24,7 +24,7 @@
     "@tailwindcss/forms": "^0.5.7",
     "@types/leaflet": "^1.9.14",
     "aos": "^2.3.4",
-    "axios": "^1.7.8",
+    "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "chart.js": "^4.4.7",
