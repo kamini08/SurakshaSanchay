@@ -178,8 +178,8 @@ const Reports: React.FC = () => {
 
   return (
     <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
-      <Box sx={{ padding: 4 }}>
-        <Box
+      <Box
+       
           sx={{
             display: "flex",
             gap: 4,
@@ -191,7 +191,7 @@ const Reports: React.FC = () => {
           <SummaryCard title="Total Items" value={200} />
           <SummaryCard title="Damaged Items" value={15} />
           <SummaryCard title="Operational Items" value={175} />
-        </Box>
+        
         {user == "admin" ? (
           <AdminInventoryReport {...adminData} />
         ) : (
