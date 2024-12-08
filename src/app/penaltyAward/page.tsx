@@ -3,6 +3,22 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import React, { useState } from "react";
 
+interface IPenalty {
+  userId: string;
+  reason: string;
+  amount: number;
+  numberOfStarsReduced: number;
+  description: string;
+  inchargeId: string;
+}
+
+interface IAward {
+  userId: string;
+  numberOfStarsAdded: number;
+  description: string;
+  inchargeId: string;
+}
+
 const App: React.FC = () => {
   const [formType, setFormType] = useState<"penalty" | "award" | null>(null);
 
@@ -40,11 +56,53 @@ const App: React.FC = () => {
 
 // Penalty Form Component
 const PenaltyForm: React.FC = () => {
+  const [penalty, setPenalty] = useState<IPenalty>({
+    userId: "",
+    reason: "",
+    amount: 0,
+    numberOfStarsReduced: 0,
+    description: "",
+    inchargeId: "",
+
+  });
 
   
-  const handleSubmit = (event: React.FormEvent) => {
+
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { id, value } = event.target;
+    setPenalty((prevState) => ({
+      ...prevState,
+      [id]: id === "amount" || id === "numberOfStarsReduced" ? Number(value) : value,
+    }));
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    
+
+    const response = await fetch("/api/penalty", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({...penalty, isPenalty: true}),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => {
+        console.error(error);
+        alert("Error logging penalty!");
+      });
+
+    setPenalty({
+      userId: "",
+      reason: "",
+      amount: 0,
+      numberOfStarsReduced: 0,
+      description: "",
+      inchargeId: "",
+    });
     console.log("Penalty form submitted!");
   };
 
@@ -62,6 +120,8 @@ const PenaltyForm: React.FC = () => {
           type="text"
           className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
           placeholder="Enter User ID"
+          value={penalty.userId}
+          onChange={handleChange} 
         />
       </div>
 
@@ -86,10 +146,13 @@ const PenaltyForm: React.FC = () => {
         <select
           id="penaltyReason"
           className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
+          value={penalty.reason}
+          onChange={handleChange}
         >
           <option value="RETURN_DELAYED">Return Delayed</option>
           <option value="ITEM_LOST">Item Lost</option>
           <option value="ITEM_DAMAGED">Item Damaged</option>
+          
         </select>
       </div>
 
@@ -103,6 +166,8 @@ const PenaltyForm: React.FC = () => {
           type="number"
           className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
           placeholder="Enter Penalty Amount"
+          value={penalty.amount}
+          onChange={handleChange}
         />
       </div>
 
@@ -116,6 +181,8 @@ const PenaltyForm: React.FC = () => {
           type="number"
           className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
           placeholder="Enter Stars Reduced"
+          value={penalty.numberOfStarsReduced}
+          onChange={handleChange}
         />
       </div>
 
@@ -128,6 +195,8 @@ const PenaltyForm: React.FC = () => {
           id="penaltyDescription"
           className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
           placeholder="Enter Description"
+          value={penalty.description}
+          onChange={handleChange}
         />
       </div>
 
@@ -141,18 +210,8 @@ const PenaltyForm: React.FC = () => {
           type="text"
           className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
           placeholder="Enter Incharge ID"
-        />
-      </div>
-
-      {/* Date */}
-      <div className="mb-4">
-        <label htmlFor="date" className="mb-2 block">
-          Date
-        </label>
-        <input
-          id="date"
-          type="date"
-          className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
+          value={penalty.inchargeId}
+          onChange={handleChange}
         />
       </div>
 
@@ -169,10 +228,51 @@ const PenaltyForm: React.FC = () => {
 
 // Award Form Component
 const AwardForm: React.FC = () => {
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    console.log("Award form submitted!");
+  const [award, setAward] = useState<IAward>({
+    userId: "",
+    numberOfStarsAdded: 0,
+    description: "",
+    inchargeId: "",
+  });
+
+  
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { id, value } = event.target;
+    setAward((prevState) => ({
+      ...prevState,
+      [id]: id === "amount" || id === "numberOfStarsReduced" ? Number(value) : value,
+    }));
   };
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const response = await fetch("/api/penalty", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({...award, isPenalty: false}),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => {
+        console.error(error);
+        alert("Error logging award!");
+      });
+
+    setAward({
+      userId: "",
+      numberOfStarsAdded: 0,
+      description: "",
+      inchargeId: "",
+    });
+    
+
+  };
+  console.log("Award form submitted!");
+  
 
   return (
     <form onSubmit={handleSubmit}>
@@ -188,6 +288,9 @@ const AwardForm: React.FC = () => {
           type="text"
           className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
           placeholder="Enter User ID"
+          value={award.userId}
+          onChange={handleChange}
+          
         />
       </div>
 
@@ -201,6 +304,8 @@ const AwardForm: React.FC = () => {
           type="number"
           className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
           placeholder="Enter Stars Added"
+          value={award.numberOfStarsAdded}
+          onChange={handleChange}
         />
       </div>
 
@@ -213,6 +318,8 @@ const AwardForm: React.FC = () => {
           id="awardDescription"
           className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
           placeholder="Enter Description"
+          value={award.description}
+          onChange={handleChange}
         />
       </div>
 
@@ -226,18 +333,8 @@ const AwardForm: React.FC = () => {
           type="text"
           className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
           placeholder="Enter Incharge ID"
-        />
-      </div>
-
-      {/* Date */}
-      <div className="mb-4">
-        <label htmlFor="date" className="mb-2 block">
-          Date
-        </label>
-        <input
-          id="date"
-          type="date"
-          className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
+          value={award.inchargeId}
+          onChange={handleChange}
         />
       </div>
 

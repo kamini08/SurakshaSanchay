@@ -36,6 +36,7 @@ model User {
   image                 String?
   password              String
   role                  String
+  stars                 Int?
   accounts              Account[]
   isTwoFactorEnabled    Boolean                @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
@@ -404,18 +405,18 @@ model Penalty {
   user                 User          @relation(fields: [userId], references: [govId])
   reason               PenaltyReason
   amount               Int
-  NumberOfStarsReduced Int
+  numberOfStarsReduced Int
   description          String
   inchargeId           String
-  date                 DateTime
+  date                 DateTime @default(now())
 }
 
 model Award {
   id                 String   @id @default(cuid())
   userId             String
   user               User     @relation(fields: [userId], references: [govId])
-  NumberOfStarsAdded Int
+  numberOfStarsAdded Int
   description        String
   inchargeId         String
-  date               DateTime
+  date               DateTime @default(now())
 }
