@@ -250,7 +250,48 @@ const menuGroups = [
         label: "Notifications",
         route: "/forms/notification",
       },
-     
+      {
+        icon: (
+          <svg
+            className="fill-current"
+            width="18"
+            height="19"
+            viewBox="0 0 18 19"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="20"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M6 2H18C18.553 2 19 2.447 19 3V21C19 21.553 18.553 22 18 22H6C5.447 22 5 21.553 5 21V3C5 2.447 5.447 2 6 2Z" />
+              <path d="M19 3L12 9.3L5 3" />
+              <path d="M10 14H14" />
+              <path d="M10 18H14" />
+            </svg>
+
+            <defs>
+              <clipPath id="clip0_130_9801">
+                <rect
+                  width="18"
+                  height="18"
+                  fill="white"
+                  transform="translate(0 0.052124)"
+                />
+              </clipPath>
+            </defs>
+          </svg>
+        ),
+       
+          label: "Scan QR Code", route: "/scanQR" 
+      },
  
      
     ],

@@ -67,7 +67,6 @@ export async function GET(req: Request) {
 
     const user = await prisma.user.findUnique({
       where: { govId: userId },
-
     });
 
     if (!user) {
