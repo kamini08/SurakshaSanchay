@@ -1,15 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Image from "next/image";
+import { NextResponse } from "next/server";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
-
-  
-
-  // Example profile data, including a `stars` field
   const [profileData, setProfileData] = useState({
     role: "Administrator",
     govId: "123456789",
@@ -21,12 +18,10 @@ const Profile = () => {
     profileImage: "/images/user/user-06.png", // Default profile image
     stars: 3, // Number of filled stars
   });
-
   const [formData, setFormData] = useState({ ...profileData });
   const [profileImage, setProfileImage] = useState(profileData.profileImage);
-
-  // Example fine array
-  const fineArray = [
+  const [loading, setLoading] = useState(false);
+  const [fineArray, setFineArray] = useState([
     {
       amount: 50,
       reason: "Missed Deadline",
@@ -39,7 +34,67 @@ const Profile = () => {
       starsReduced: 1,
       description: "Violation of team meeting protocols.",
     },
-  ];
+  ]);
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch("/api/profile", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            },
+
+        }); // Replace with your API endpoint
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        const result = await response.json();
+        setProfileData(result); // Set the fetched data
+      } catch (err: any) {
+        alert(err.message) // Handle errors
+      } finally {
+        setLoading(false); // End loading state
+      }
+    };
+
+    const fetchFines = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch("/api/fines", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            },
+          });
+          if (!response.ok) {
+            return NextResponse.json({
+              status: 500,
+              error: "Failed to fetch fines",
+
+            });
+          }
+          const result = await response.json();
+          setFineArray(result);
+           // Set the fetched fines
+          } catch (err: any) {
+            alert(err.message) // Handle errors
+            } finally {
+              setLoading(false); // End loading state
+
+            }
+
+    }
+
+    fetchFines();
+    fetchData(); // Call the fetch function
+  }, []);
+
+  
+
+  // Example fine array
+  
 
   const handleEditClick = () => {
     setIsEditing(!isEditing);
@@ -182,7 +237,6 @@ const Profile = () => {
                     id="email"
                     name="email"
                     value={formData.email}
-                    onChange={handleChange}
                     className="w-full rounded border px-4 py-2"
                   />
                 </div>

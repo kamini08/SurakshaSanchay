@@ -1,5 +1,6 @@
 import { IssuanceRequest, PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+import { auth } from "../../../../auth";
 
 const prisma = new PrismaClient();
 
@@ -54,6 +55,36 @@ export async function POST(req: Request) {
     console.error("Error logging penalty:", error);
     return NextResponse.json(
       { error: "Failed to award penalty or rewards" },
+      { status: 500 },
+    );
+  }
+}
+
+export async function GET(req: Request) {
+  try {
+    const session = await auth();
+    const userId: any = session?.user.id;
+
+    const user = await prisma.user.findUnique({
+      where: { govId: userId },
+
+    });
+
+    if (!user) {
+      return NextResponse.json({ message: "User not found!" }, { status: 404 });
+    }
+
+   
+    const data = await prisma.penalty.findMany({
+      where: { userId: user.govId },
+    });
+  
+    
+    return NextResponse.json(data, { status: 201 });
+  } catch (error) {
+    console.error("Error finding fines: ", error);
+    return NextResponse.json(
+      { error: "Failed to find penalties" },
       { status: 500 },
     );
   }
