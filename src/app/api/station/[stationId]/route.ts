@@ -4,8 +4,8 @@ import { NextResponse } from "next/server";
 export async function GET(req: Request) {
   try {
     // Await params before using its properties
-    const stationId  = req.url.split("/").pop();
-
+    const stationId = req.url.split("/").pop()?.replaceAll("%20", " ");
+    console.log(stationId);
     // Ensure stationId is valid
     if (!stationId) {
       return NextResponse.json(
@@ -42,8 +42,6 @@ export async function GET(req: Request) {
           { status: 404 },
         );
       }
-
-      // console.log("Fetched inventory data:", inventoryData); // Debug log
       return NextResponse.json(inventoryData);
     } catch (error) {
       console.log("Error fetching inventory data: ", error);

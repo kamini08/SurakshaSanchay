@@ -73,12 +73,12 @@ const Profile = () => {
   };
 
   return (
-    <DefaultLayout>
-      <div className="mx-auto max-w-4xl">
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
+      <div className="mx-auto max-w-242.5">
         <Breadcrumb pageName="Profile" />
-        <div className="relative overflow-hidden rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark p-6 text-center">
+        <div className="relative overflow-hidden rounded-sm border border-stroke bg-white p-6 text-center shadow-default dark:border-strokedark dark:bg-boxdark">
           {/* Profile Picture with Stars */}
-          <div className="relative mx-auto w-32 h-32 rounded-full border border-stroke overflow-hidden">
+          <div className="relative mx-auto h-32 w-32 overflow-hidden rounded-full border border-stroke">
             <Image
               src={profileImage}
               alt="Profile"
@@ -117,28 +117,44 @@ const Profile = () => {
 
           {/* Display Stars */}
           <div className="mt-4 text-center">
-            <div className="text-yellow-500">{generateStars(profileData.stars)}</div>
+            <div className="text-yellow-500">
+              {generateStars(profileData.stars)}
+            </div>
           </div>
 
           {/* Name and Role */}
           <div className="mt-4">
-            <h2 className="text-xl font-bold dark:text-white">{profileData.name}</h2>
-            <p className="text-gray-500 dark:text-gray-300">{profileData.role}</p>
+            <h2 className="text-xl font-bold dark:text-white">
+              {profileData.name}
+            </h2>
+            <p className="text-gray-500 dark:text-gray-300">
+              {profileData.role}
+            </p>
           </div>
 
           {/* Profile Content */}
           <div className="mt-6">
             {!isEditing ? (
               <div className="space-y-4">
-                <p><strong>Gov ID:</strong> {profileData.govId}</p>
-                <p><strong>Email:</strong> {profileData.email}</p>
-                <p><strong>Location:</strong> {profileData.location}</p>
-                <p><strong>Phone:</strong> {profileData.phone || "Not Provided"}</p>
+                <p>
+                  <strong>Gov ID:</strong> {profileData.govId}
+                </p>
+                <p>
+                  <strong>Email:</strong> {profileData.email}
+                </p>
+                <p>
+                  <strong>Location:</strong> {profileData.location}
+                </p>
+                <p>
+                  <strong>Phone:</strong> {profileData.phone || "Not Provided"}
+                </p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label htmlFor="govId" className="block font-medium">Gov ID</label>
+                  <label htmlFor="govId" className="block font-medium">
+                    Gov ID
+                  </label>
                   <input
                     type="text"
                     id="govId"
@@ -149,7 +165,9 @@ const Profile = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block font-medium">Email</label>
+                  <label htmlFor="email" className="block font-medium">
+                    Email
+                  </label>
                   <input
                     type="email"
                     id="email"
@@ -160,7 +178,9 @@ const Profile = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="location" className="block font-medium">Location</label>
+                  <label htmlFor="location" className="block font-medium">
+                    Location
+                  </label>
                   <input
                     type="text"
                     id="location"
@@ -171,7 +191,9 @@ const Profile = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="phone" className="block font-medium">Phone</label>
+                  <label htmlFor="phone" className="block font-medium">
+                    Phone
+                  </label>
                   <input
                     type="text"
                     id="phone"
@@ -183,7 +205,7 @@ const Profile = () => {
                 </div>
                 <button
                   type="submit"
-                  className="mt-4 px-6 py-2 rounded bg-primary text-white hover:bg-opacity-80"
+                  className="mt-4 rounded bg-primary px-6 py-2 text-white hover:bg-opacity-80"
                 >
                   Save Changes
                 </button>
@@ -194,7 +216,7 @@ const Profile = () => {
           {/* Edit Button in Bottom Right */}
           <button
             onClick={handleEditClick}
-            className="absolute bottom-4 right-4 px-4 py-2 rounded bg-primary text-white hover:bg-opacity-80"
+            className="absolute bottom-4 right-4 rounded bg-primary px-4 py-2 text-white hover:bg-opacity-80"
           >
             {isEditing ? "Cancel" : "Edit"}
           </button>
@@ -202,23 +224,32 @@ const Profile = () => {
 
         {/* Fine Section */}
         {fineArray && fineArray.length > 0 && (
-          <div className="mt-6 p-6 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-            <h3 className="text-lg font-bold mb-4">Fine Details</h3>
+          <div className="mt-6 rounded-sm border border-stroke bg-white p-6 shadow-default dark:border-strokedark dark:bg-boxdark">
+            <h3 className="mb-4 text-lg font-bold">Fine Details</h3>
             {fineArray.map((fine, index) => (
               <div
                 key={index}
-                className="mb-4 p-4 border border-gray-200 rounded dark:border-strokedark"
+                className="mb-4 rounded border border-gray-200 p-4 dark:border-strokedark"
               >
-                <p><strong>Amount:</strong> ${fine.amount}</p>
-                <p><strong>Reason:</strong> {fine.reason}</p>
-                <p><strong>Stars Reduced:</strong> {generateStars(fine.starsReduced)}</p>
-                <p><strong>Description:</strong> {fine.description}</p>
+                <p>
+                  <strong>Amount:</strong> ${fine.amount}
+                </p>
+                <p>
+                  <strong>Reason:</strong> {fine.reason}
+                </p>
+                <p>
+                  <strong>Stars Reduced:</strong>{" "}
+                  {generateStars(fine.starsReduced)}
+                </p>
+                <p>
+                  <strong>Description:</strong> {fine.description}
+                </p>
               </div>
             ))}
           </div>
         )}
       </div>
-    </DefaultLayout>
+    </div>
   );
 };
 

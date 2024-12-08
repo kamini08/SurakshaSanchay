@@ -62,17 +62,17 @@
 // };
 
 // export default GenerateQR;
-'use client'; // Required for client-side rendering
+"use client"; // Required for client-side rendering
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import React from 'react';
-import GenerateQR from './qr';
+import React from "react";
+import GenerateQR from "./qr";
 
 export default function Page() {
   return (
-    <DefaultLayout>
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
       <Breadcrumb pageName="QR CODE GENERATOR" />
       <GenerateQR />
-    </DefaultLayout>
+    </div>
   );
 }

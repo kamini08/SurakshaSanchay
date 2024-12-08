@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import LocalInventoryReport from "@/components/reports/LocalInventoryReport";
 import AdminInventoryReport from "@/components/reports/AdminInventoryReport";
@@ -6,8 +6,8 @@ import AuditReport from "@/components/reports/AuditReport";
 import SummaryCard from "@/components/reports/SummaryPage";
 import { Box } from "@mui/material";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 import { PrismaClient } from "@prisma/client";
 import { auth } from "../../../../auth";
 
@@ -22,32 +22,29 @@ import { auth } from "../../../../auth";
 
 // // getModelFields();
 
-
 interface AdminReportData {
-    summary: {
-      totalInventoryValue: number;
-      totalItems: number;
-      newProcurements: number;
-      reorderStatus: number;
-      complianceStatus: string;
-    };
-    inventoryOverview: {
-      categories: string[];
-      values: number[];
-    };
-    financialSummary: {
-      categories: string[];
-      values: number[];
-    };
-    compliance: {
-      labels: string[];
-      values: number[];
-    };
-  }
-  
-const ReportsPage: React.FC = () => {
+  summary: {
+    totalInventoryValue: number;
+    totalItems: number;
+    newProcurements: number;
+    reorderStatus: number;
+    complianceStatus: string;
+  };
+  inventoryOverview: {
+    categories: string[];
+    values: number[];
+  };
+  financialSummary: {
+    categories: string[];
+    values: number[];
+  };
+  compliance: {
+    labels: string[];
+    values: number[];
+  };
+}
 
-  
+const ReportsPage: React.FC = () => {
   const [adminData, setAdminData] = useState<AdminReportData>({
     summary: {
       totalInventoryValue: 500000,
@@ -93,44 +90,73 @@ const ReportsPage: React.FC = () => {
       { itemId: 3, name: "Tablet", category: "Tablets", currentStock: 10 },
     ],
     maintenanceReport: [
-      { itemId: 1, name: "Desktop", issue: "Hardware Failure", startDate: "2024-11-20" },
-      { itemId: 2, name: "Smartphone", issue: "Screen Damage", startDate: "2024-11-22" },
+      {
+        itemId: 1,
+        name: "Desktop",
+        issue: "Hardware Failure",
+        startDate: "2024-11-20",
+      },
+      {
+        itemId: 2,
+        name: "Smartphone",
+        issue: "Screen Damage",
+        startDate: "2024-11-22",
+      },
     ],
     discardedItems: [
-      { itemId: 1, name: "Printer", reason: "Outdated", discardedDate: "2024-10-15" },
-      { itemId: 2, name: "Monitor", reason: "Damaged", discardedDate: "2024-11-05" },
+      {
+        itemId: 1,
+        name: "Printer",
+        reason: "Outdated",
+        discardedDate: "2024-10-15",
+      },
+      {
+        itemId: 2,
+        name: "Monitor",
+        reason: "Damaged",
+        discardedDate: "2024-11-05",
+      },
     ],
   });
-  
+
   const [user, setUser] = useState<string>("incharge");
   useEffect(() => {
     const fetchSession = async () => {
       try {
         const session = await auth();
-        if(session?.user) {
-        setUser(session.user.role);
+        if (session?.user) {
+          setUser(session.user.role);
         }
-      } catch(e) {
+      } catch (e) {
         console.error(e);
       }
-    }
+    };
     fetchSession();
   }, []);
-  
 
   return (
-    <DefaultLayout>
-    <Box sx={{ padding: 4 }}>
-      <Box sx={{ display: "flex", gap: 4, flexWrap: "wrap", justifyContent: "center", marginBottom: 4 }}>
-        <SummaryCard title="Total Items" value={200} />
-        <SummaryCard title="Damaged Items" value={15} />
-        <SummaryCard title="Operational Items" value={175} />
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
+      <Box sx={{ padding: 4 }}>
+        <Box
+          sx={{
+            display: "flex",
+            gap: 4,
+            flexWrap: "wrap",
+            justifyContent: "center",
+            marginBottom: 4,
+          }}
+        >
+          <SummaryCard title="Total Items" value={200} />
+          <SummaryCard title="Damaged Items" value={15} />
+          <SummaryCard title="Operational Items" value={175} />
+        </Box>
+        {user == "admin" ? (
+          <AdminInventoryReport {...adminData} />
+        ) : (
+          <LocalInventoryReport data={localReportData} />
+        )}
       </Box>
-      {(user=="admin") ? (<AdminInventoryReport {...adminData}/>) : 
-        (<LocalInventoryReport data={localReportData}/>)
-       }
-    </Box>
-    </DefaultLayout>
+    </div>
   );
 };
 

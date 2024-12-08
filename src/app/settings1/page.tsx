@@ -102,7 +102,7 @@ const NewItemRequest = () => {
   };
 
   return (
-    <DefaultLayout>
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
       <Breadcrumb pageName="NEW ITEM REQUEST FORM" />
 
       <div className="flex flex-col gap-9">
@@ -282,7 +282,7 @@ const NewItemRequest = () => {
           </form>
         </div>
       </div>
-    </DefaultLayout>
+    </div>
   );
 };
 

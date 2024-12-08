@@ -1,6 +1,5 @@
-
-'use client';
-import React, { useState } from 'react';
+"use client";
+import React, { useState } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
@@ -25,24 +24,24 @@ interface Request {
 const RequestManagement: React.FC = () => {
   const [requests, setRequests] = useState<Request[]>([
     {
-      id: '1',
-      item: 'Laptop',
-      userId: 'user001',
-      category: 'Electronics',
+      id: "1",
+      item: "Laptop",
+      userId: "user001",
+      category: "Electronics",
       quantity: 2,
-      description: 'High-performance laptop for software development',
-      location: 'Office',
-      purpose: 'Development work',
-      expectedUsageDuration: '3 years',
-      requesterName: 'John Doe',
-      department: 'IT',
-      approvalNeededBy: '2023-12-10',
-      priorityLevel: 'High',
+      description: "High-performance laptop for software development",
+      location: "Office",
+      purpose: "Development work",
+      expectedUsageDuration: "3 years",
+      requesterName: "John Doe",
+      department: "IT",
+      approvalNeededBy: "2023-12-10",
+      priorityLevel: "High",
     },
   ]);
 
   const [approvedRequests, setApprovedRequests] = useState<Request[]>([]);
-  const [deniedRequests, setDeniedRequests] = useState<Request[]>([]);  // New state to store denied requests
+  const [deniedRequests, setDeniedRequests] = useState<Request[]>([]); // New state to store denied requests
   const [showDiscardForm, setShowDiscardForm] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState<Request | null>(null);
   const [discardReason, setDiscardReason] = useState("");
@@ -80,12 +79,14 @@ const RequestManagement: React.FC = () => {
   };
 
   return (
-    <DefaultLayout>
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
       <Breadcrumb pageName="ITEM REQUEST MANAGEMENT" />
       <section>
         {/* Pending Requests */}
-        <h1 className="font-medium text-black dark:text-white">Pending Requests</h1>
-        <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1 max-w-full overflow-x-auto">
+        <h1 className="font-medium text-black dark:text-white">
+          Pending Requests
+        </h1>
+        <div className="max-w-full overflow-x-auto rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
           <table className="w-full table-auto">
             <thead>
               <tr className="bg-gray-2 text-left dark:bg-meta-4">
@@ -104,7 +105,10 @@ const RequestManagement: React.FC = () => {
                   "Priority Level",
                   "Actions",
                 ].map((header, index) => (
-                  <th key={index} className="px-4 py-4 font-medium text-black dark:text-white">
+                  <th
+                    key={index}
+                    className="px-4 py-4 font-medium text-black dark:text-white"
+                  >
                     {header}
                   </th>
                 ))}
@@ -113,7 +117,7 @@ const RequestManagement: React.FC = () => {
             <tbody>
               {requests.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="text-center px-4 py-5">
+                  <td colSpan={6} className="px-4 py-5 text-center">
                     No pending requests.
                   </td>
                 </tr>
@@ -137,13 +141,13 @@ const RequestManagement: React.FC = () => {
                     </td>
                     <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                       <button
-                        className="mr-2 bg-green-500 text-white px-4 py-2 rounded"
+                        className="mr-2 rounded bg-green-500 px-4 py-2 text-white"
                         onClick={() => handleApprove(request.id)}
                       >
                         Approve
                       </button>
                       <button
-                        className="bg-red-500 text-white px-4 py-2 rounded"
+                        className="rounded bg-red-500 px-4 py-2 text-white"
                         onClick={() => handleDenyClick(request.id)}
                       >
                         Deny
@@ -159,13 +163,24 @@ const RequestManagement: React.FC = () => {
         {/* Approved Requests */}
         {approvedRequests.length > 0 && (
           <section>
-            <h1 className="font-medium text-black dark:text-white mt-10">Approved Requests</h1>
-            <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1 max-w-full overflow-x-auto">
+            <h1 className="mt-10 font-medium text-black dark:text-white">
+              Approved Requests
+            </h1>
+            <div className="max-w-full overflow-x-auto rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
               <table className="w-full table-auto">
                 <thead>
                   <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                    {["Item", "Category", "User ID", "Request ID", "Status"].map((header, index) => (
-                      <th key={index} className="px-4 py-4 font-medium text-black dark:text-white">
+                    {[
+                      "Item",
+                      "Category",
+                      "User ID",
+                      "Request ID",
+                      "Status",
+                    ].map((header, index) => (
+                      <th
+                        key={index}
+                        className="px-4 py-4 font-medium text-black dark:text-white"
+                      >
                         {header}
                       </th>
                     ))}
@@ -200,13 +215,25 @@ const RequestManagement: React.FC = () => {
         {/* Denied Requests */}
         {deniedRequests.length > 0 && (
           <section>
-            <h1 className="font-medium text-black dark:text-white mt-10">Denied Requests</h1>
-            <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1 max-w-full overflow-x-auto">
+            <h1 className="mt-10 font-medium text-black dark:text-white">
+              Denied Requests
+            </h1>
+            <div className="max-w-full overflow-x-auto rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
               <table className="w-full table-auto">
                 <thead>
                   <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                    {["Item", "Category", "User ID", "Request ID", "Status", "Reason"].map((header, index) => (
-                      <th key={index} className="px-4 py-4 font-medium text-black dark:text-white">
+                    {[
+                      "Item",
+                      "Category",
+                      "User ID",
+                      "Request ID",
+                      "Status",
+                      "Reason",
+                    ].map((header, index) => (
+                      <th
+                        key={index}
+                        className="px-4 py-4 font-medium text-black dark:text-white"
+                      >
                         {header}
                       </th>
                     ))}
@@ -244,7 +271,9 @@ const RequestManagement: React.FC = () => {
         {/* Deny Form */}
         {showDiscardForm && selectedRequest && (
           <section className="mt-10">
-            <h1 className="font-medium text-black dark:text-white">Deny Request</h1>
+            <h1 className="font-medium text-black dark:text-white">
+              Deny Request
+            </h1>
             <form
   onSubmit={(e) => {
     e.preventDefault();
@@ -278,7 +307,7 @@ const RequestManagement: React.FC = () => {
           </section>
         )}
       </section>
-    </DefaultLayout>
+    </div>
   );
 };
 

@@ -32,21 +32,29 @@ async function deleteInventoryItem(userId: string, itemId: string) {
 export async function POST(request: Request) {
   try {
     const session = await auth();
+    const id = session?.user?.id;
     const role = session?.user?.role;
+    const currLocation = await prisma.user.findUnique({
+      where: { id: id },
+      select: { location: true, govId: true },
+    });
 
     // Ensure the user has admin privileges
-    if (role !== "admin") {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Permission denied: Only admins can add inventory items.",
-        },
-        { status: 403 },
-      );
-    }
+    // if (role !== "admin") {
+    //   return NextResponse.json(
+    //     {
+    //       success: false,
+    //       message: "Permission denied: Only admins can add inventory items.",
+    //     },
+    //     { status: 403 },
+    //   );
+    // }
 
     const data = await request.json();
 
+    if (role === "incharge") {
+      data.itemData.issuedTo = currLocation?.govId;
+    }
     // Validate required fields
     if (!data.itemData.itemId || !data.itemData.category) {
       return NextResponse.json(
@@ -84,7 +92,7 @@ export async function POST(request: Request) {
         category:
           data.itemData.category === "communicationDevice"
             ? "COMMUNICATION_DEVICES"
-            : data.itemData.category === "computerAndItEquipment"
+            : data.itemData.category === "computerAndITEquipment"
               ? "COMPUTER_AND_IT_EQUIPMENT"
               : data.itemData.category === "networkingEquipment"
                 ? "NETWORKING_EQUIPMENT"
@@ -94,20 +102,21 @@ export async function POST(request: Request) {
                     ? "VEHICLE_AND_ACCESSORIES"
                     : data.itemData.category === "protectiveGear"
                       ? "PROTECTIVE_GEAR"
-                      : data.itemData.category === "firearms"
+                      : data.itemData.category === "firearm"
                         ? "FIREARMS"
-                        : data.itemData.category === "forensic"
+                        : data.itemData.category === "forensicEquipment"
                           ? "FORENSIC"
                           : data.itemData.category === "medicalFirstAid"
                             ? "MEDICAL_FIRST_AID"
-                            : data.itemData.category === "officeSupplies"
+                            : data.itemData.category === "officeSupply"
                               ? "OFFICE_SUPPLIES"
                               : "OFFICE_SUPPLIES",
         type: data.itemData.type || null,
         description: data.itemData.description || null,
         quantity: parseInt(data.itemData.quantity) || 1,
-        location: data.itemData.location || null,
+        location: currLocation?.location || null,
         condition: data.itemData.condition || "new",
+
         acquisitionDate: data.itemData.acquisitionDate
           ? new Date(data.itemData.acquisitionDate)
           : null,
@@ -232,7 +241,7 @@ export async function POST(request: Request) {
           },
         });
         break;
-      case "firearms":
+      case "firearm":
         categoryResponse = await db.firearm.create({
           data: {
             inventoryItemId: newItem.itemId, // Use `newItem.id` for foreign key
@@ -245,7 +254,7 @@ export async function POST(request: Request) {
           },
         });
         break;
-      case "forensic":
+      case "forensicEquipment":
         categoryResponse = await db.forensicEquipment.create({
           data: {
             inventoryItemId: newItem.itemId, // Use `newItem.id` for foreign key
@@ -280,7 +289,7 @@ export async function POST(request: Request) {
           },
         });
         break;
-      case "officeSupplies":
+      case "officeSupply":
         categoryResponse = await db.officeSupply.create({
           data: {
             inventoryItemId: newItem.itemId, // Use `newItem.id` for foreign key
@@ -318,7 +327,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         success: false,
-        message: "Internal Server Error",
+        message: "Item Id already exists.",
         error: error.message,
       },
       { status: 500 },

@@ -25,27 +25,30 @@ interface ItemReturnFormData {
 
 const ItemReturnForm = () => {
   // State for the form
-  const [itemReturnFormData, setItemReturnFormData] = useState<ItemReturnFormData>({
-    returnId: "",
-    userId: "",
-    userName: "John Doe", // Replace with dynamic user data if needed
-    equipmentId: "",
-    equipmentName: "",
-    returnDate: "",
-    condition: "good", // Default condition
-    returnLocation: null,
-    issueId: null,
-    reasonForReturn: null,
-    staffId: null,
-    returnConfirmed: false,
-    penalty: null,
-    notes: null,
-    returnMethod: "In-Person", // Default method
-  });
+  const [itemReturnFormData, setItemReturnFormData] =
+    useState<ItemReturnFormData>({
+      returnId: "",
+      userId: "",
+      userName: "", // Replace with dynamic user data if needed
+      equipmentId: "",
+      equipmentName: "",
+      returnDate: "",
+      condition: "good", // Default condition
+      returnLocation: null,
+      issueId: null,
+      reasonForReturn: null,
+      staffId: null,
+      returnConfirmed: false,
+      penalty: null,
+      notes: null,
+      returnMethod: "In-Person", // Default method
+    });
 
   // Handle field changes
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
   ) => {
     const { name, value } = e.target;
 
@@ -60,7 +63,7 @@ const ItemReturnForm = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("/api/item-returns", {
+      const response = await fetch("/api/inventory/return/user", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -74,7 +77,7 @@ const ItemReturnForm = () => {
         setItemReturnFormData({
           returnId: "",
           userId: "",
-          userName: "John Doe", // Reset to default or fetched value
+          userName: "", // Reset to default or fetched value
           equipmentId: "",
           equipmentName: "",
           returnDate: "",
@@ -99,29 +102,49 @@ const ItemReturnForm = () => {
   };
 
   return (
-    <DefaultLayout>
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
       <Breadcrumb pageName="ITEM RETURN FORM" />
 
       <div className="flex flex-col gap-9">
         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <form onSubmit={handleSubmit}>
-            <div className="p-6.5 grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-6 p-6.5 sm:grid-cols-2">
               {/* Form Fields */}
               {[
-                { name: "returnId", label: "Return ID", type: "text", required: true },
-                { name: "userId", label: "User ID", type: "text", required: true },
-                { name: "userName", label: "User Name", type: "text", required: true },
-                { name: "equipmentId", label: "Equipment ID", type: "text", required: true },
-                { name: "equipmentName", label: "Equipment Name", type: "text", required: true },
-                { name: "returnDate", label: "Return Date", type: "date", required: true },
-                { name: "condition", label: "Condition", type: "dropdown", options: ["Good", "Damaged"], required: true },
-                { name: "returnLocation", label: "Return Location", type: "text" },
-                { name: "issueId", label: "Issue ID (if any)", type: "text" },
-                { name: "reasonForReturn", label: "Reason for Return", type: "textarea" },
-                { name: "staffId", label: "Handled by Staff ID", type: "text" },
-                { name: "penalty", label: "Penalty (if applicable)", type: "number" },
+                {
+                  name: "userId",
+                  label: "User ID",
+                  type: "text",
+                  required: true,
+                },
+                {
+                  name: "userName",
+                  label: "User Name",
+                  type: "text",
+                  required: true,
+                },
+                {
+                  name: "equipmentId",
+                  label: "Equipment ID",
+                  type: "text",
+                  required: true,
+                },
+                {
+                  name: "equipmentName",
+                  label: "Equipment Name",
+                  type: "text",
+                  required: true,
+                },
+
+                {
+                  name: "condition",
+                  label: "Condition",
+                  type: "dropdown",
+                  options: ["Good", "Damaged", "Lost"],
+                  required: true,
+                },
+
                 { name: "notes", label: "Additional Notes", type: "textarea" },
-                { name: "returnMethod", label: "Return Method", type: "dropdown", options: ["In-Person", "Courier"], required: true },
               ].map(({ name, label, type, options = [], required }) => (
                 <div key={name}>
                   <label className="mb-3 block text-sm font-medium text-black dark:text-white">
@@ -131,7 +154,11 @@ const ItemReturnForm = () => {
                     <textarea
                       name={name}
                       placeholder={`Enter ${label}`}
-                      value={itemReturnFormData[name as keyof ItemReturnFormData] as string}
+                      value={
+                        itemReturnFormData[
+                          name as keyof ItemReturnFormData
+                        ] as string
+                      }
                       onChange={handleChange}
                       required={required}
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
@@ -139,7 +166,11 @@ const ItemReturnForm = () => {
                   ) : type === "dropdown" ? (
                     <select
                       name={name}
-                      value={itemReturnFormData[name as keyof ItemReturnFormData] as string}
+                      value={
+                        itemReturnFormData[
+                          name as keyof ItemReturnFormData
+                        ] as string
+                      }
                       onChange={handleChange}
                       required={required}
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
@@ -156,7 +187,11 @@ const ItemReturnForm = () => {
                       type={type}
                       name={name}
                       placeholder={`Enter ${label}`}
-                      value={itemReturnFormData[name as keyof ItemReturnFormData] as string}
+                      value={
+                        itemReturnFormData[
+                          name as keyof ItemReturnFormData
+                        ] as string
+                      }
                       onChange={handleChange}
                       required={required}
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
@@ -178,7 +213,7 @@ const ItemReturnForm = () => {
           </form>
         </div>
       </div>
-    </DefaultLayout>
+    </div>
   );
 };
 
