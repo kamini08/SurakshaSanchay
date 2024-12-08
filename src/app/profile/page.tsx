@@ -7,6 +7,8 @@ import Image from "next/image";
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
 
+  
+
   // Example profile data, including a `stars` field
   const [profileData, setProfileData] = useState({
     role: "Administrator",
@@ -60,6 +62,13 @@ const Profile = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setProfileData({ ...formData });
+    const response = fetch("/api/profile", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        },
+        body: JSON.stringify(profileData),
+    })
     setIsEditing(false);
   };
 

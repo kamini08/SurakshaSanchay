@@ -263,11 +263,7 @@ const IssueItemTable = () => {
     const rejectedItem = updatedData[index];
 
     updatedData.splice(index, 1); // Remove the rejected request
-<<<<<<< HEAD
     setIssueData({...updatedData});
-=======
-    setIssueData(updatedData);
->>>>>>> 36e4f86dda7906b162abd7f3ec1e70abb7cf3ac7
     setNotification(
       `Request ${rejectedItem.requestId} has been rejected and removed.`,
     );
