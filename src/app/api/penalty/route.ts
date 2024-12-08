@@ -25,7 +25,7 @@ export async function POST(req: Request) {
           ...data,
         },
       });
-      const numberOfStars = penalty?.numberOfStarsReduced;
+      const numberOfStars = penalty.numberOfStarsReduced;
       const newStars = user?.stars ? user?.stars : 5 - numberOfStars;
       await prisma.user.update({
         where: { govId: userId },
@@ -40,7 +40,7 @@ export async function POST(req: Request) {
           ...data,
         },
       });
-      const numberOfStars = award?.numberOfStarsAdded;
+      const numberOfStars = award.numberOfStarsAdded;
       const newStars = user.stars ? user.stars : 0 + numberOfStars;
       await prisma.user.update({
         where: { govId: userId },
