@@ -388,7 +388,7 @@ try {
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
           <div className="rounded bg-white p-6 shadow-lg">
-            <h3 className="mb-4 text-xl">Enter Transfer Location</h3>
+            <h3 className="mb-4 text-xl text-black ">Enter Transfer Location</h3>
             <div>
             <label className="mb-2 block text-sm font-medium text-black dark:text-white">
               Location (Police Station)
@@ -421,16 +421,16 @@ try {
           </div>
         </div>
       )}{formVisible && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50 text-black">
           <div id="transfer-form" className="rounded bg-white p-6 shadow-lg w-full max-w-3xl">
             <h3 className="mb-4 text-xl font-bold">Transfer Details</h3>
             <p className="mb-2">Location: {transferLocation}</p>
             <table className="w-full table-auto border-collapse border border-gray-300">
               <thead>
                 <tr>
-                  <th className="border border-gray-300 px-4 py-2">Item ID</th>
-                  <th className="border border-gray-300 px-4 py-2">Category</th>
-                  <th className="border border-gray-300 px-4 py-2">Type</th>
+                  <th className="border border-gray-300 px-4 py-2 text-black">Item ID</th>
+                  <th className="border border-gray-300 px-4 py-2 text-black">Category</th>
+                  <th className="border border-gray-300 px-4 py-2 text-black">Type</th>
                 </tr>
               </thead>
               <tbody>
