@@ -52,7 +52,7 @@ const ViewInventoryIndividual = () => {
   const [transferMode, setTransferMode] = useState(false);
   const [selectedItems, setSelectedItems] = useState<{ [id: string | number]: boolean }>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [transferLocation, setTransferLocation] = useState("");
+  const [transferLocation, setTransferLocation] = useState("tt");
 
   const handleTransferClick = () => {
     setTransferMode(true);
@@ -65,20 +65,17 @@ const ViewInventoryIndividual = () => {
     }));
   };
   const handleConfirmTransfer =async () => {
-    console.log("Selected items:", selectedItems);
     const selectedIds = Object.keys(selectedItems).filter((id) => selectedItems[id]);
-    console.log("Selected items for transfer:", selectedIds);
-    console.log("Transfer to location:", transferLocation);
 
 try {
-      const response = await fetch("/api/transfer/updateIssuedTo", {
+      const response = await fetch("/api/Transfer/updateIssuedTo", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           itemIds: selectedIds,
-         location : transferLocation,     }),
+         location : transferLocation, }),
       });
 
       if (!response.ok) {
@@ -475,41 +472,46 @@ try {
         </div>
       )}
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
-          <div className="rounded bg-white p-6 shadow-lg">
-            <h3 className="mb-4 text-xl">Enter Transfer Location</h3>
-            <div>
-            <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-              Location (Police Station)
-            </label>
-            <select>
-              <option value="" disabled>
-                Select a police station
-              </option>
-              {policeStations.map((station) => (
-                <option key={station.name} value={station.name}>
-                  {station.name}
-                </option>
-              ))}
-            </select>
-          </div>
-            <div className="mt-4">
-              <button
-                onClick={handleConfirmTransfer}
-                className="rounded bg-blue-500 p-2 text-white"
-              >
-                Confirm Transfer
-              </button>
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="ml-2 rounded bg-gray-500 p-2 text-white"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+  <div className="fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
+    <div className="rounded bg-white p-6 shadow-lg">
+      <h3 className="mb-4 text-xl">Enter Transfer Location</h3>
+      <div>
+      <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+        Location (Police Station)
+      </label>
+      <select
+        value={transferLocation} // Bind to transferLocation state
+        onChange={(e) => setTransferLocation(e.target.value)} // Update state on change
+        className="w-full p-2 border rounded"
+      >
+        <option value="" disabled>
+          Select a police station
+        </option>
+        {policeStations.map((station) => (
+          <option value={station.name}> {/* Use a unique key if available */}
+            {station.name}
+          </option>
+        ))}
+      </select>
+    </div>
+      <div className="mt-4">
+        <button
+          onClick={handleConfirmTransfer}
+          className="rounded bg-blue-500 p-2 text-white"
+        >
+          Confirm Transfer
+        </button>
+        <button
+          onClick={() => setIsModalOpen(false)}
+          className="ml-2 rounded bg-gray-500 p-2 text-white"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 "use client";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import DefaultLayout from "@/components/Layouts/DefaultLayout";
+
 import React, { useState } from "react";
 
 interface IPenalty {
