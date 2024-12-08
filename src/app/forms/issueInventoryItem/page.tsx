@@ -68,10 +68,8 @@
 //         setLoading(false);
 //       }
 //     };
-
 //     fetchData();
 //   }, []);
-
 //   // Handle Issue button click
 //   const handleIssueClick = (index: number): void => {
 //     const updatedData = [...issueData];
@@ -207,6 +205,7 @@ const defaultData: IssueItem[] = [
   // Additional items can go here...
 ];
 
+
 const IssueItemTable = () => {
   const [issueData, setIssueData] = useState<IssueItem[]>(defaultData);
   const [loading, setLoading] = useState(true);
@@ -235,8 +234,11 @@ const IssueItemTable = () => {
       }
     };
 
+    
     fetchData();
   }, []);
+
+
 
   // Handle Issue button click (Accept Action)
   const handleIssueClick = (index: number): void => {
@@ -261,7 +263,7 @@ const IssueItemTable = () => {
     const rejectedItem = updatedData[index];
 
     updatedData.splice(index, 1); // Remove the rejected request
-    setIssueData(updatedData);
+    setIssueData({...updatedData});
     setNotification(
       `Request ${rejectedItem.requestId} has been rejected and removed.`,
     );

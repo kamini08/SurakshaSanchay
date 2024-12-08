@@ -44,7 +44,13 @@ interface AdminReportData {
   };
 }
 
-const ReportsPage: React.FC = () => {
+
+
+const Reports: React.FC = () => {
+
+  const [totalItems, setTotalItems] = useState(0);
+  const [damagedItems, setDamagedItems] = useState(0);
+  const [workingItems, setWorkingItems] = useState(0);
   const [adminData, setAdminData] = useState<AdminReportData>({
     summary: {
       totalInventoryValue: 500000,
@@ -120,6 +126,8 @@ const ReportsPage: React.FC = () => {
   });
 
   const [user, setUser] = useState<string>("incharge");
+
+
   useEffect(() => {
     const fetchSession = async () => {
       try {
@@ -130,14 +138,50 @@ const ReportsPage: React.FC = () => {
       } catch (e) {
         console.error(e);
       }
+    }
+    const fetchData = async () => {
+      try {
+        if(user=="admin") {
+        const response = await fetch("/api/reports/mainInventory", {
+          method: "GET",
+        }); 
+        if (!response.ok) throw new Error("Failed to fetch data");
+        const result = await response.json();
+        setAdminData(result.formData);
+        setTotalItems(result.totalItems);
+        setDamagedItems(result.damagedItems);
+        setWorkingItems(result.workingItems);
+      
+      } else if(user=="incharge") {
+
+        const response = await fetch("/api/reports/localInventory", {
+          method: "GET",
+        }); 
+        if (!response.ok) throw new Error("Failed to fetch data");
+        const result = await response.json();
+        setLocalReportData(result);
+  setAdminData(result.formData);
+        setTotalItems(result.totalItems);
+        setDamagedItems(result.damagedItems);
+        setWorkingItems(result.workingItems);
+
+      }
+      } catch (err: any) {
+        alert(
+          "Error fetching data: " + err.message
+        );
+      }
     };
+
     fetchSession();
-  }, []);
+    fetchData();
+    }, [user]);
+
 
   return (
     <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
-      <Box sx={{ padding: 4 }}>
-        <Box
+      <Box
+       
           sx={{
             display: "flex",
             gap: 4,
@@ -149,7 +193,7 @@ const ReportsPage: React.FC = () => {
           <SummaryCard title="Total Items" value={200} />
           <SummaryCard title="Damaged Items" value={15} />
           <SummaryCard title="Operational Items" value={175} />
-        </Box>
+        
         {user == "admin" ? (
           <AdminInventoryReport {...adminData} />
         ) : (
@@ -160,4 +204,4 @@ const ReportsPage: React.FC = () => {
   );
 };
 
-export default ReportsPage;
+export default Reports;

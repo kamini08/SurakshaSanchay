@@ -103,7 +103,7 @@ const AuditForm = () => {
   };
 
   // Handle form submission
-  const handleSubmitAll = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmitAll = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = {
@@ -113,6 +113,18 @@ const AuditForm = () => {
     };
 
     alert(`Submitting all forms: ${JSON.stringify(formData)}`);
+    const response = await fetch("/api/report/auditForm", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+    if (response.ok) {
+      alert("Form submitted successfully");
+      } else {
+        alert("Error submitting form");
+        }
   };
 
   return (
