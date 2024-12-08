@@ -44,14 +44,11 @@ interface AdminReportData {
   };
 }
 
-<<<<<<< HEAD
   const [totalItems, setTotalItems] = useState(0);
   const [damagedItems, setDamagedItems] = useState(0);
   const [workingItems, setWorkingItems] = useState(0);
 
-=======
 const ReportsPage: React.FC = () => {
->>>>>>> 36e4f86dda7906b162abd7f3ec1e70abb7cf3ac7
   const [adminData, setAdminData] = useState<AdminReportData>({
     summary: {
       totalInventoryValue: 500000,
@@ -139,7 +136,6 @@ const ReportsPage: React.FC = () => {
       } catch (e) {
         console.error(e);
       }
-<<<<<<< HEAD
     }
     const fetchData = async () => {
       try {
@@ -175,24 +171,10 @@ const ReportsPage: React.FC = () => {
       }
     };
 
-    
-=======
-    };
->>>>>>> 36e4f86dda7906b162abd7f3ec1e70abb7cf3ac7
     fetchSession();
     fetchData();
-  }, []);
-<<<<<<< HEAD
-
-
-  return (
-    <DefaultLayout>
-    <Box sx={{ padding: 4 }}>
-      <Box sx={{ display: "flex", gap: 4, flexWrap: "wrap", justifyContent: "center", marginBottom: 4 }}>
-        <SummaryCard title="Total Items" value={totalItems} />
-        <SummaryCard title="Damaged Items" value={damagedItems} />
-        <SummaryCard title="Operational Items" value={workingItems} />
-=======
+    }, [user]);
+    
 
   return (
     <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
@@ -215,7 +197,6 @@ const ReportsPage: React.FC = () => {
         ) : (
           <LocalInventoryReport data={localReportData} />
         )}
->>>>>>> 36e4f86dda7906b162abd7f3ec1e70abb7cf3ac7
       </Box>
     </div>
   );
