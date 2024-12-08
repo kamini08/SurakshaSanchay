@@ -48,7 +48,7 @@ interface AdminReportData {
   const [damagedItems, setDamagedItems] = useState(0);
   const [workingItems, setWorkingItems] = useState(0);
 
-const ReportsPage: React.FC = () => {
+const Reports: React.FC = () => {
   const [adminData, setAdminData] = useState<AdminReportData>({
     summary: {
       totalInventoryValue: 500000,
@@ -174,7 +174,7 @@ const ReportsPage: React.FC = () => {
     fetchSession();
     fetchData();
     }, [user]);
-    
+
 
   return (
     <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
@@ -202,4 +202,4 @@ const ReportsPage: React.FC = () => {
   );
 };
 
-export default ReportsPage;
+export default Reports;
