@@ -38,43 +38,43 @@ export async function GET(req: Request) {
     });
 
     const groupedData = await prisma.inventoryItem.groupBy({
-      by: ['category'], // Group by category
+      by: ["category"], // Group by category
       _sum: {
         price: true, // Sum of quantity, if needed
       },
       _count: {
         _all: true, // Count of items in each group
-      }
+      },
     });
 
-    const categories = groupedData.map(group => (
-      group.category
-    )
-    )
+    const categories = groupedData.map((group) => group.category);
 
-    const inventoryValues = groupedData.map(group => (
-      group._count._all
-    ))
-  
+    const inventoryValues = groupedData.map((group) => group._count._all);
+
     // Calculate total cost for each category
-    const CostValues = groupedData.map(group => (
-       group._sum.price? group._sum.price : 0 //
-    ));
+    const CostValues = groupedData.map((group) =>
+      group._sum.price ? group._sum.price : 0, //
+    );
 
-  
-  const report = {
+    const totalValue = await prisma.inventoryItem.count({
+      where: {
+        price: {
+          gt: 0,
+        },
+      },
+    });
+
+    const report = {
       summary: {
-        totalInventoryValue: 500000,
+        totalInventoryValue: totalValue,
         totalItems: totalItems,
         newProcurements: newProcurements,
         reorderStatus: 12,
-
         complianceStatus: "95%",
       },
       inventoryOverview: {
         categories: categories,
         values: inventoryValues,
-      
       },
       financialSummary: {
         categories: categories,
@@ -86,7 +86,6 @@ export async function GET(req: Request) {
       },
     };
 
-  
     return NextResponse.json(report, { status: 201 });
   } catch (error) {
     console.error("Error creating request:", error);

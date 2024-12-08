@@ -257,7 +257,7 @@ const menuGroups = [
         route: "#",
         children: [
           { label: "View Monthly Report", route: "/adminPages/monthlyReport" },
-          { label: "Audit Logs", route: "/adminPages/auditTrail" },
+          { label: "Audit Logs", route: "/forms/auditLogs" },
         ],
       },
       {

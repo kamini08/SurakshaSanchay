@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { ComplianceStatus, Prisma, PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { auth } from "../../../../../auth";
 
@@ -21,6 +21,34 @@ export async function GET(req: Request) {
       where: { id: userId },
     });
 
+    const reports = await prisma.auditReport.findFirst({
+      where: {
+        location: user?.location,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+    include: {
+      Policies: true,
+      StockAccuracy: true,
+    }
+  });
+
+  const policies = reports?.Policies.map(policy => {
+   { policy: policy.name; status: policy.complianceStatus; percentage:  policy.compliancePercentage;}
+      
+})
+
+  const percentages = reports?.Policies.map(policy => {
+    policy.compliancePercentage
+       
+ });
+ const keyFinding = reports?.Policies.map(policy => {
+  { category: policy.name; finding: policy.findings; impact: policy.impact;  recommendation: policy.recommendation;}
+     
+})
+
+
     const totalItems = await prisma.inventoryItem.count({
       where: {
         AND: [{ location: user?.location }],
@@ -37,12 +65,12 @@ export async function GET(req: Request) {
     });
 
     const groupedData = await prisma.inventoryItem.groupBy({
-      by: ['category'], // Group by category
+      by: ['category'],
       _sum: {
-        price: true, // Sum of quantity, if needed
+        price: true, 
       },
       _count: {
-        _all: true, // Count of items in each group
+        _all: true,
       }
     });
 
@@ -60,29 +88,47 @@ export async function GET(req: Request) {
        group._sum.price? group._sum.price : 0 //
     ));
 
-  const report = {
-      summary: {
-        totalInventoryValue: 500000,
-        totalItems: totalItems,
-        newProcurements: newProcurements,
-        reorderStatus: 12,
+    const workingItems = await prisma.inventoryItem.count({
+      where: {
+        AND: [
+          { location: user?.location },
+          { NOT: [{ condition: "damaged" }] },
+        ],
+      },
+    });
+    
+    const damagedItems = await prisma.inventoryItem.count({
+      where: {
+        AND: [
+          { location: user?.location },
+          { condition: "damaged" },
+        ],
+      },
+    });
 
-        complianceStatus: "95%",
-      },
-      inventoryOverview: {
-        categories: categories,
-        values: inventoryValues,
-      
-      },
-      financialSummary: {
-        categories: categories,
-        values: CostValues,
-      },
-      compliance: {
-        labels: ["Compliant", "Non-Compliant"],
-        values: [90, 10],
-      },
+
+    const complianceData = {
+      policies: policies,
+        
+      complianceOverview: percentages,
+      labels: ["Procurement", "Storage", "Usage & Deployment", "Disposal", "Purchase"],
     };
+    
+    const valuationData = {
+      categories: ["Specialized Equipment", "Operational Assets", "Government-Funded Items"],
+      accuracy: [reports?.StockAccuracy?.specializedEquipment, reports?.StockAccuracy?.operationalAssets, reports?.StockAccuracy?.governmentFundedItems],
+    };
+    
+    const keyFindings = keyFinding;
+
+    const report = {auditDetails: {
+      auditOfficerName: reports?.auditOfficerName,
+      auditOfficerId: reports?.auditOfficerId,
+      auditStartDate: reports?.startDate,
+      auditEndDate: reports?.endDate,
+      
+
+    }, complianceData, valuationData, keyFindings, totalItems, damagedItems, workingItems};
 
   
     return NextResponse.json(report, { status: 201 });

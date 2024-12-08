@@ -36,16 +36,16 @@ const MonthlyReport = () => {
   ];
 
   const cardImages = [
-    "/images/iconimages/forensics.png",
-    "/images/iconimages/firearms.png",
-    "/images/iconimages/protective.png",
-    "/images/iconimages/vehicles.png",
-    "/images/iconimages/monitoring.png",
-    "/images/iconimages/net-equipment.png",
-    "/images/iconimages/it-equipment.png",
     "/images/iconimages/comm-devices.png",
-    "/images/iconimages/office-supplies.png",
+    "/images/iconimages/it-equipment.png",
+    "/images/iconimages/firearms.png",
+    "/images/iconimages/monitoring.png",
+    "/images/iconimages/vehicles.png",
+    "/images/iconimages/protective.png",
+    "/images/iconimages/net-equipment.png",
+    "/images/iconimages/forensics.png",
     "/images/iconimages/medical.png",
+    "/images/iconimages/office-supplies.png",
   ];
 
   useEffect(() => {
@@ -75,7 +75,7 @@ const MonthlyReport = () => {
 
   const categoryCounts = packageData.reduce(
     (acc, item) => ({ ...acc, [item.category]: item.total }),
-    {}
+    {},
   );
 
   const series = Object.values(categoryCounts);
@@ -84,7 +84,7 @@ const MonthlyReport = () => {
   return (
     <>
       {/* Responsive grid layout for cards */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-6">
+      <div className="grid grid-cols-1 gap-4 gap-y-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {cardTitles.map((title, index) => {
           const count = getCountByCategory(title);
 
@@ -100,11 +100,11 @@ const MonthlyReport = () => {
       </div>
 
       {/* Charts section */}
-      <div className="flex flex-wrap justify-between gap-6 mt-10">
-        <div className="flex-1 min-w-[300px] max-w-[48%] bg border border-stroke bg-white px-7.5 py-6 shadow-default dark:border-strokedark dark:bg-boxdark">
+      <div className="mt-10 flex flex-wrap justify-between gap-6">
+        <div className="bg min-w-[300px] max-w-[48%] flex-1 border border-stroke bg-white px-7.5 py-6 shadow-default dark:border-strokedark dark:bg-boxdark">
           <BarChart />
         </div>
-        <div className="flex-1 min-w-[300px] max-w-[48%] bg border border-stroke bg-white px-7.5 py-6 shadow-default dark:border-strokedark dark:bg-boxdark">
+        <div className="bg min-w-[300px] max-w-[48%] flex-1 border border-stroke bg-white px-7.5 py-6 shadow-default dark:border-strokedark dark:bg-boxdark">
           <PieChart />
         </div>
       </div>
