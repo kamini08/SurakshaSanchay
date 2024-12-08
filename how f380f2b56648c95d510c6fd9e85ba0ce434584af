@@ -1,0 +1,117 @@
+[33mcommit f380f2b56648c95d510c6fd9e85ba0ce434584af[m
+Merge: 816a4a1 9562add
+Author: BhoomiAgrawal12 <167442415+BhoomiAgrawal12@users.noreply.github.com>
+Date:   Sun Dec 8 00:13:01 2024 +0530
+
+    WIP on main: 816a4a1 delete vercel.json
+
+[1mdiff --cc src/app/api/notifications/automatic/route.ts[m
+[1mindex e56a804,e56a804..0000000[m
+[1mdeleted file mode 100644,100644[m
+[1m--- a/src/app/api/notifications/automatic/route.ts[m
+[1m+++ /dev/null[m
+[36m@@@ -1,91 -1,91 +1,0 @@@[m
+[31m--// src/app/api/notifications/route.js[m
+[31m--[m
+[31m--import { Resend } from "resend";[m
+[31m--    import { db } from "@/lib/db";[m
+[31m--[m
+[31m--const resend = new Resend(process.env.RESEND_API_KEY);[m
+[31m--[m
+[31m--const sendEmail = async (to: string, subject: string, text: string) => {[m
+[31m--  try {[m
+[31m--    await resend.emails.send({[m
+[31m--      from: "Your Project <no-reply@yourdomain.com>",[m
+[31m--      to,[m
+[31m--      subject,[m
+[31m--      text,[m
+[31m--    });[m
+[31m--    console.log(`Email sent to ${to}: ${subject}`);[m
+[31m--  } catch (error) {[m
+[31m--    console.error("Error sending email:", error);[m
+[31m--  }[m
+[31m--};[m
+[31m--[m
+[31m--const checkInventoryConditions = async () => {[m
+[31m--  // Fetch items matching conditions from the database[m
+[31m--  const items = await db.inventoryItem.findMany({[m
+[31m--    where: {[m
+[31m--      OR: [[m
+[31m--        { condition: "damaged" },[m
+[31m--        { isLost: true },[m
+[31m--        { expiryDate: { lte: new Date() } },[m
+[31m--        {[m
+[31m--          AND: [[m
+[31m--            { maintenanceSchedule: { not: null } },[m
+[31m--            {[m
+[31m--              maintenanceSchedule: {[m
+[31m--                lte: new Date().toISOString().split("T")[0], // Maintenance due today or earlier[m
+[31m--              },[m
+[31m--            },[m
+[31m--          ],[m
+[31m--        },[m
+[31m--        {[m
+[31m--          AND: [[m
+[31m--            { lastInspectionDate: { not: null } },[m
+[31m--            {[m
+[31m--              lastInspectionDate: {[m
+[31m--                lte: new Date(new Date().setMonth(new Date().getMonth() - 6)), // Older than 6 months[m
+[31m--              },[m
+[31m--            },[m
+[31m--          ],[m
+[31m--        },[m
+[31m--      ],[m
+[31m--    },[m
+[31m--  });[m
+[31m--[m
+[31m--  for (const item of items) {[m
+[31m--    let emailSubject = "";[m
+[31m--    let emailBody = "";[m
+[31m--[m
+[31m--    if (item.condition === "damaged") {[m
+[31m--      emailSubject = `Alert: Damaged Item - ${item.itemId}`;[m
+[31m--      emailBody = `The item ${item.itemId} in category ${item.category} is marked as damaged. Please take necessary action.`;[m
+[31m--    } else if (item.isLost) {[m
+[31m--      emailSubject = `Alert: Lost Item - ${item.itemId}`;[m
+[31m--      emailBody = `The item ${item.itemId} in category ${item.category} is reported as lost. Please investigate.`;[m
+[31m--    } else if (item.expiryDate && new Date(item.expiryDate) <= new Date()) {[m
+[31m--      emailSubject = `Alert: Expired Item - ${item.itemId}`;[m
+[31m--      emailBody = `The item ${item.itemId} in category ${item.category} has expired on ${item.expiryDate}. Please replace it.`;[m
+[31m--    } else if (item.maintenanceSchedule && new Date(item.maintenanceSchedule) <= new Date()) {[m
+[31m--      emailSubject = `Alert: Maintenance Due for Item - ${item.itemId}`;[m
+[31m--      emailBody = `The item ${item.itemId} in category ${item.category} is due for maintenance on ${item.maintenanceSchedule}. Please schedule the maintenance immediately.`;[m
+[31m--    } else if ([m
+[31m--      item.lastInspectionDate &&[m
+[31m--      new Date(item.lastInspectionDate) <= new Date(new Date().setMonth(new Date().getMonth() - 6))[m
+[31m--    ) {[m
+[31m--      emailSubject = `Alert: Inspection Overdue for Item - ${item.itemId}`;[m
+[31m--      emailBody = `The item ${item.itemId} in category ${item.category} has not been inspected in over 6 months. Please conduct an inspection as soon as possible.`;[m
+[31m--    }[m
+[31m--[m
+[31m--    // Send the email[m
+[31m--    await sendEmail("admin@yourdomain.com", emailSubject, emailBody);[m
+[31m--  }[m
+[31m--};[m
+[31m--[m
+[31m--export async function GET(req:Request) {[m
+[31m--  try {[m
+[31m--    await checkInventoryConditions();[m
+[31m--    return new Response("Emails processed successfully", { status: 200 });[m
+[31m--  } catch (error) {[m
+[31m--    console.error("Error processing notifications:", error);[m
+[31m--    return new Response("Error processing notifications", { status: 500 });[m
+[31m--  }[m
+[31m--}[m
+[1mdiff --cc src/app/api/send-email/route.ts[m
+[1mindex 007deeb,007deeb..56fe7c3[m
+[1m--- a/src/app/api/send-email/route.ts[m
+[1m+++ b/src/app/api/send-email/route.ts[m
+[36m@@@ -1,7 -1,7 +1,7 @@@[m
+  import { NextRequest, NextResponse } from 'next/server';[m
+  import checkAndSendNotifications from '@/lib/utils/notificationLogic';[m
+  [m
+[31m--export async function GET(req: NextRequest) {[m
+[32m++export async function POST(req: NextRequest) {[m
+    try {[m
+      await checkAndSendNotifications();[m
+      return NextResponse.json({ message: 'Notifications sent successfully' });[m
