@@ -23,7 +23,11 @@ const App: React.FC = () => {
   const [formType, setFormType] = useState<"penalty" | "award" | null>(null);
 
   return (
+<<<<<<< HEAD
     <DefaultLayout>
+=======
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
+>>>>>>> 36e4f86dda7906b162abd7f3ec1e70abb7cf3ac7
       <Breadcrumb pageName="AWARD AND PENALTY FORM" />
       <div className="min-h-screen w-full overflow-x-hidden rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input  dark:text-white">
         <div className="mx-auto max-w-3xl p-8">
@@ -50,7 +54,11 @@ const App: React.FC = () => {
           {formType === "award" && <AwardForm />}
         </div>
       </div>
+<<<<<<< HEAD
     </DefaultLayout>
+=======
+    </div>
+>>>>>>> 36e4f86dda7906b162abd7f3ec1e70abb7cf3ac7
   );
 };
 
@@ -210,8 +218,23 @@ const PenaltyForm: React.FC = () => {
           type="text"
           className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
           placeholder="Enter Incharge ID"
+<<<<<<< HEAD
           value={penalty.inchargeId}
           onChange={handleChange}
+=======
+        />
+      </div>
+
+      {/* Date */}
+      <div className="mb-4">
+        <label htmlFor="date" className="mb-2 block">
+          Date
+        </label>
+        <input
+          id="date"
+          type="date"
+          className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
+>>>>>>> 36e4f86dda7906b162abd7f3ec1e70abb7cf3ac7
         />
       </div>
 
@@ -228,6 +251,7 @@ const PenaltyForm: React.FC = () => {
 
 // Award Form Component
 const AwardForm: React.FC = () => {
+<<<<<<< HEAD
   const [award, setAward] = useState<IAward>({
     userId: "",
     numberOfStarsAdded: 0,
@@ -244,6 +268,11 @@ const AwardForm: React.FC = () => {
       ...prevState,
       [id]: id === "amount" || id === "numberOfStarsReduced" ? Number(value) : value,
     }));
+=======
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    console.log("Award form submitted!");
+>>>>>>> 36e4f86dda7906b162abd7f3ec1e70abb7cf3ac7
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -333,8 +362,23 @@ const AwardForm: React.FC = () => {
           type="text"
           className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
           placeholder="Enter Incharge ID"
+<<<<<<< HEAD
           value={award.inchargeId}
           onChange={handleChange}
+=======
+        />
+      </div>
+
+      {/* Date */}
+      <div className="mb-4">
+        <label htmlFor="date" className="mb-2 block">
+          Date
+        </label>
+        <input
+          id="date"
+          type="date"
+          className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
+>>>>>>> 36e4f86dda7906b162abd7f3ec1e70abb7cf3ac7
         />
       </div>
 

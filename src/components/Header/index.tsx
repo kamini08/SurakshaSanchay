@@ -4,6 +4,7 @@ import DarkModeSwitcher from "./DarkModeSwitcher";
 import DropdownNotification from "./DropdownNotification";
 import DropdownUser from "./DropdownUser";
 import Image from "next/image";
+import GoogleTranslate from "../Translater";
 
 const Header = (props: {
   sidebarOpen: string | boolean | undefined;
@@ -25,7 +26,7 @@ const Header = (props: {
             <span className="relative block h-5.5 w-5.5 cursor-pointer">
               <span className="du-block absolute right-0 h-full w-full">
                 <span
-                  className={`relative left-0 top-0 my-1 block h-0.5 w-0 rounded-sm bg-black delay-[0] duration-200 ease-in-out dark:bg-white ${
+                  className={`delay-[0] relative left-0 top-0 my-1 block h-0.5 w-0 rounded-sm bg-black duration-200 ease-in-out dark:bg-white ${
                     !props.sidebarOpen && "!w-full delay-300"
                   }`}
                 ></span>
@@ -43,7 +44,7 @@ const Header = (props: {
               <span className="absolute right-0 h-full w-full rotate-45">
                 <span
                   className={`absolute left-2.5 top-0 block h-full w-0.5 rounded-sm bg-black delay-300 duration-200 ease-in-out dark:bg-white ${
-                    !props.sidebarOpen && "!h-0 !delay-[0]"
+                    !props.sidebarOpen && "!delay-[0] !h-0"
                   }`}
                 ></span>
                 <span
@@ -92,8 +93,6 @@ const Header = (props: {
                   />
                 </svg> */}
               </button>
-
-              
             </div>
           </form>
         </div>
@@ -112,16 +111,15 @@ const Header = (props: {
             {/* <DropdownMessage /> */}
             {/* <!-- Chat Notification Area --> */}
           </ul>
+          <GoogleTranslate />
 
           {/* <!-- User Area --> */}
           <DropdownUser />
-          
         </div>
       </div>
     </header>
   );
 };
-
 
 export default Header;
 // import DropdownNotification from "./DropdownNotification";
@@ -135,7 +133,7 @@ export default Header;
 //       <div className="flex items-center">
 //         <h1 className="text-lg font-bold ">SurakshaSanchay</h1>
 //         <div className="flex items-center">
-//         <svg 
+//         <svg
 //     version="1.1"
 //     id="Layer_1"
 //     xmlns="http://www.w3.org/2000/svg"
@@ -143,8 +141,8 @@ export default Header;
 //     x="0px"
 //     y="0px"
 //     viewBox="0 0 122.88 105.69"
-//     style={{ width: '10%', height: '10%' }} 
-//     enableBackground="new 0 0 122.88 105.69" 
+//     style={{ width: '10%', height: '10%' }}
+//     enableBackground="new 0 0 122.88 105.69"
 //   >
 //     <style type="text/css">{`
 //       .st0 {

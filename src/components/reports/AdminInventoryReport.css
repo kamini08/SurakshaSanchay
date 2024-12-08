@@ -313,4 +313,41 @@
       width: 100%;
     }
   }
+    /* Improve table responsiveness */
+    .report-table {
+      overflow-x: auto;
+    }
+  
+    /* Responsive layout for extra small screens */
+    @media (max-width: 480px) {
+      .header h1 {
+        font-size: 1.5rem;
+      }
+  
+      .download-button {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+      }
+  
+      .metric-card {
+        font-size: 0.9rem;
+        padding: 15px;
+      }
+  
+      .chart canvas {
+        max-height: 150px;
+        /* Adjust for smaller screens */
+      }
+    }
+  
+    /* Medium screens */
+    @media (max-width: 1024px) {
+      .main-layout {
+        flex-direction: column;
+      }
+  
+      .metric-card {
+        width: 100%;
+      }
+    }
   

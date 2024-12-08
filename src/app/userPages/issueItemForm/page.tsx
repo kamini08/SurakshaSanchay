@@ -24,26 +24,29 @@ interface ItemRequestFormData {
 
 const NewItemRequest = () => {
   // State for the form
-  const [itemRequestFormData, setItemRequestFormData] = useState<ItemRequestFormData>({
-    item: "",
-    userId: "",
-    category: "",
-    quantity: 1,
-    description: "",
-    technicalSpecifications: "",
-    location: "",
-    expectedDeliveryDate: "",
-    purpose: "",
-    expectedUsageDuration: "",
-    requesterName: "John Doe", // Replace with dynamic user data if needed
-    department: "",
-    approvalNeededBy: "",
-    priorityLevel: "medium", // Default value
-  });
+  const [itemRequestFormData, setItemRequestFormData] =
+    useState<ItemRequestFormData>({
+      item: "",
+      userId: "",
+      category: "",
+      quantity: 1,
+      description: "",
+      technicalSpecifications: "",
+      location: "",
+      expectedDeliveryDate: "",
+      purpose: "",
+      expectedUsageDuration: "",
+      requesterName: "John Doe", // Replace with dynamic user data if needed
+      department: "",
+      approvalNeededBy: "",
+      priorityLevel: "medium", // Default value
+    });
 
   // Handle field changes
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
   ) => {
     const { name, value } = e.target;
     setItemRequestFormData((prev) => ({
@@ -94,17 +97,27 @@ const NewItemRequest = () => {
   };
 
   return (
-    <DefaultLayout>
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
       <Breadcrumb pageName="ISSUE ITEM REQUEST FORM" />
 
       <div className="flex flex-col gap-9">
         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <form onSubmit={handleSubmit}>
-            <div className="p-6.5 grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-6 p-6.5 sm:grid-cols-2">
               {/* Standard Fields */}
               {[
-                { name: "item", label: "Item Name/Type", type: "text", required: true },
-                { name: "userId", label: "User Id", type: "text", required: true },
+                {
+                  name: "item",
+                  label: "Item Name/Type",
+                  type: "text",
+                  required: true,
+                },
+                {
+                  name: "userId",
+                  label: "User Id",
+                  type: "text",
+                  required: true,
+                },
                 {
                   name: "category",
                   label: "Category",
@@ -123,7 +136,12 @@ const NewItemRequest = () => {
                     "Office Supply",
                   ],
                 },
-                { name: "quantity", label: "Quantity", type: "number", required: true },
+                {
+                  name: "quantity",
+                  label: "Quantity",
+                  type: "number",
+                  required: true,
+                },
                 {
                   name: "condition",
                   label: "Condition",
@@ -132,21 +150,60 @@ const NewItemRequest = () => {
                   required: true,
                 },
                 { name: "description", label: "Description", type: "textarea" },
-                { name: "technicalSpecifications", label: "Technical Specifications", type: "textarea" },
-                
-                { name: "location", label: "Location", type: "text", required: true },
-                { name: "expectedDeliveryDate", label: "Expected Delivery Date", type: "date", required: true },
-                { name: "purpose", label: "Purpose/Use Case", type: "textarea", required: true },
-                { name: "expectedUsageDuration", label: "Expected Usage Duration", type: "text" },
-                { name: "requesterName", label: "Requester Name", type: "text", required: true },
+                {
+                  name: "technicalSpecifications",
+                  label: "Technical Specifications",
+                  type: "textarea",
+                },
+
+                {
+                  name: "location",
+                  label: "Location",
+                  type: "text",
+                  required: true,
+                },
+                {
+                  name: "expectedDeliveryDate",
+                  label: "Expected Delivery Date",
+                  type: "date",
+                  required: true,
+                },
+                {
+                  name: "purpose",
+                  label: "Purpose/Use Case",
+                  type: "textarea",
+                  required: true,
+                },
+                {
+                  name: "expectedUsageDuration",
+                  label: "Expected Usage Duration",
+                  type: "text",
+                },
+                {
+                  name: "requesterName",
+                  label: "Requester Name",
+                  type: "text",
+                  required: true,
+                },
                 {
                   name: "department",
                   label: "Department",
                   type: "dropdown",
-                  options: ["Logistics", "Operations", "IT", "Administration", "Security"],
+                  options: [
+                    "Logistics",
+                    "Operations",
+                    "IT",
+                    "Administration",
+                    "Security",
+                  ],
                   required: true,
                 },
-                { name: "approvalNeededBy", label: "Approval Needed By", type: "date", required: true },
+                {
+                  name: "approvalNeededBy",
+                  label: "Approval Needed By",
+                  type: "date",
+                  required: true,
+                },
                 {
                   name: "priorityLevel",
                   label: "Priority Level",
@@ -163,7 +220,11 @@ const NewItemRequest = () => {
                     <textarea
                       name={name}
                       placeholder={`Enter ${label}`}
-                      value={itemRequestFormData[name as keyof ItemRequestFormData] as string}
+                      value={
+                        itemRequestFormData[
+                          name as keyof ItemRequestFormData
+                        ] as string
+                      }
                       onChange={handleChange}
                       required={required}
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
@@ -171,7 +232,11 @@ const NewItemRequest = () => {
                   ) : type === "dropdown" ? (
                     <select
                       name={name}
-                      value={itemRequestFormData[name as keyof ItemRequestFormData] as string}
+                      value={
+                        itemRequestFormData[
+                          name as keyof ItemRequestFormData
+                        ] as string
+                      }
                       onChange={handleChange}
                       required={required}
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
@@ -188,7 +253,11 @@ const NewItemRequest = () => {
                       type={type}
                       name={name}
                       placeholder={`Enter ${label}`}
-                      value={itemRequestFormData[name as keyof ItemRequestFormData] as string}
+                      value={
+                        itemRequestFormData[
+                          name as keyof ItemRequestFormData
+                        ] as string
+                      }
                       onChange={handleChange}
                       required={required}
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
@@ -210,7 +279,7 @@ const NewItemRequest = () => {
           </form>
         </div>
       </div>
-    </DefaultLayout>
+    </div>
   );
 };
 

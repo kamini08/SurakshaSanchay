@@ -53,6 +53,8 @@ model User {
   Penalty Penalty[]
 
   Award Award[]
+
+  ReturnRequest ReturnRequest[]
 }
 
 model Account {
@@ -155,6 +157,10 @@ model InventoryItem {
   locationHistories ItemLocationHistory[]
 
   IssuanceRequest IssuanceRequest[]
+
+  itemAssignmentHistories ItemAssignmentHistory[]
+
+  ReturnRequest ReturnRequest[]
 }
 
 model IssuanceRequest {
@@ -330,18 +336,39 @@ model Notification {
   incharge User @relation("InchargeNotifications", fields: [inchargeId], references: [id])
 }
 
+enum stat {
+  In
+  Out
+}
 model ItemLocationHistory {
-  id           String   @id @default(cuid())
-  itemId       String // Foreign key to InventoryItem
-  govId        String // govId of the person to whom the item is assigned
-  assignedDate DateTime @default(now()) // Date and time of assignment
-  location     String // Location where the item is assigned
-  description  String? // Optional description for the transfer
-
+  id             String   @id @default(cuid())
+  itemId         String   // Foreign key to InventoryItem
+  govId          String   // govId of the person to whom the item is assigned
+  assignedDate   DateTime @default(now()) // Date and time of assignment
+  location       String   // Location where the item is assigned
+  status  String 
+  description    String?  // Optional description for the transfer
   inventoryItem InventoryItem @relation(fields: [itemId], references: [itemId], onDelete: Cascade)
 
   @@index([itemId, assignedDate]) // Optional index for faster queries
 }
+
+model ItemAssignmentHistory {
+  id          String   @id @default(uuid())
+  itemId      String
+  assignedTo  Json    // Array of `govId`s of assigned users
+  assignedBy  Json    // Array of `govId`s of assignors
+  assignDates Json    // Array of DateTimes for assignments
+  returnDates Json?   // Array of DateTimes for returns (optional)
+  inchargeIds Json    // Array of `govId`s for incharges
+  
+  itemStatus      Json   // e.g., 'Assigned', 'Returned'
+  reason      Json?  // Optional: reason for the transfer or return
+  
+  // Relationships
+  item        InventoryItem @relation(fields: [itemId], references: [itemId])
+}
+
 
 enum PolicyName {
   STORAGE_POLICY
@@ -419,4 +446,20 @@ model Award {
   description        String
   inchargeId         String
   date               DateTime @default(now())
+}
+model ReturnRequest {
+  id                 String   @id @default(cuid())
+  userId             String
+  equipmentName String
+  name  String
+  user               User     @relation(fields: [userId], references: [govId])
+  itemId             String
+  item               InventoryItem @relation(fields: [itemId], references: [itemId])
+  notes            String
+  isLost Boolean @default(false)
+  returnDate DateTime
+  inchargeId         String
+  date               DateTime
+  isDamaged Boolean @default(false)
+  returnStatus String @default("Not Completed")
 }

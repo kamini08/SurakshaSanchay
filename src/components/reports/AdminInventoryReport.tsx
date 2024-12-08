@@ -148,32 +148,54 @@ const AdminInventoryReport: React.FC<AdminReportData> = (adminReportData) => {
           <div className="chart">
             <h3>Inventory Distribution</h3>
             <Bar
-              data={{
-                labels: adminReportData.inventoryOverview.categories,
-                datasets: [
-                  {
-                    label: "Total Items",
-                    data: adminReportData.inventoryOverview.values,
-                    backgroundColor: "rgba(75, 192, 192, 0.8)",
-                  },
-                ],
-              }}
-            />
+  data={{
+    labels: adminReportData.inventoryOverview.categories,
+    datasets: [
+      {
+        label: "Total Items",
+        data: adminReportData.inventoryOverview.values,
+        backgroundColor: "rgba(75, 192, 192, 0.8)",
+      },
+    ],
+  }}
+  options={{
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: {
+        ticks: {
+          font: { size: 10 }, // Adjust font size for mobile
+        },
+      },
+      y: {
+        ticks: {
+          font: { size: 10 }, // Adjust font size for mobile
+        },
+      },
+    },
+  }}
+  style={{ maxHeight: "200px" }} // Limit chart height for mobile
+/>
           </div>
 
           <div className="chart">
             <h3>Compliance Status</h3>
             <Pie
-              data={{
-                labels: adminReportData.compliance.labels,
-                datasets: [
-                  {
-                    data: adminReportData.compliance.values,
-                    backgroundColor: ["#4caf50", "#f44336"],
-                  },
-                ],
-              }}
-            />
+  data={{
+    labels: adminReportData.compliance.labels,
+    datasets: [
+      {
+        data: adminReportData.compliance.values,
+        backgroundColor: ["#4caf50", "#f44336"],
+      },
+    ],
+  }}
+  options={{
+    responsive: true,
+    maintainAspectRatio: false,
+  }}
+  style={{ maxHeight: "150px" }} // Limit chart height for mobile
+/>
           </div>
         </div>
       </div>

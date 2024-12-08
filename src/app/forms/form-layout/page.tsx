@@ -3,10 +3,9 @@ import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import SelectGroupOne from "@/components/SelectGroup/SelectGroupOne";
 import Link from "next/link";
 
-
 const FormLayout = () => {
   return (
-    <DefaultLayout>
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
       <Breadcrumb pageName="MONTHLY REPORT" />
 
       <div className="grid grid-cols-1 gap-9 sm:grid-cols-2">
@@ -226,7 +225,7 @@ const FormLayout = () => {
           </div>
         </div>
       </div>
-    </DefaultLayout>
+    </div>
   );
 };
 

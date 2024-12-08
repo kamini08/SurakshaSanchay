@@ -85,7 +85,7 @@
 //   };
 
 //   return (
-//     <DefaultLayout>
+//     <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
 //       <Breadcrumb pageName="ISSUE ITEMS" />
 //       <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
 //         <div className="max-w-full overflow-x-auto">
@@ -154,7 +154,7 @@
 //           )}
 //         </div>
 //       </div>
-//     </DefaultLayout>
+//     </div>
 //   );
 // };
 
@@ -263,14 +263,18 @@ const IssueItemTable = () => {
     const rejectedItem = updatedData[index];
 
     updatedData.splice(index, 1); // Remove the rejected request
+<<<<<<< HEAD
     setIssueData({...updatedData});
+=======
+    setIssueData(updatedData);
+>>>>>>> 36e4f86dda7906b162abd7f3ec1e70abb7cf3ac7
     setNotification(
       `Request ${rejectedItem.requestId} has been rejected and removed.`,
     );
   };
 
   return (
-    <DefaultLayout>
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
       <Breadcrumb pageName="ISSUE ITEMS" />
       <div className="max-w-full overflow-x-auto rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="max-w-full  overflow-x-auto">
@@ -408,7 +412,7 @@ const IssueItemTable = () => {
           {notification}
         </div>
       )}
-    </DefaultLayout>
+    </div>
   );
 };
 

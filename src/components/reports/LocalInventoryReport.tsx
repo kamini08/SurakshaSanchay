@@ -104,7 +104,7 @@ const Dashboard: React.FC<DashboardProps> = ({ data }) => {
         <div className="right-section">
           <ChartSection
             title="Inventory Overview"
-            chartType={Bar}
+            chartType={Bar} 
             chartData={{
               labels: data.inventoryOverview.map((item) => item.category),
             

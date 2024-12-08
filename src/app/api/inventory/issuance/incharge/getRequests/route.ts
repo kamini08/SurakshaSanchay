@@ -45,7 +45,7 @@ export async function GET(req: Request) {
       remarks: "",
       assetTag: "",
     }));
-
+    console.log(data);
     return NextResponse.json(requests, { status: 201 });
   } catch (error) {
     console.error("Error finding request:", error);
