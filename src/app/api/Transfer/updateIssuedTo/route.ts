@@ -28,14 +28,6 @@ export async function PUT(req: Request) {
       updatedItems.push(updatedItem);
     });
 
-    // const res = await fetch(`${process.env.DOMAIN}/api/Transfer/updateIssuedTo`, {
-    //   method: "PUT",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(updatedItems),
-    // });
-
 
       return NextResponse.json({
         message: "Items updated successfully",

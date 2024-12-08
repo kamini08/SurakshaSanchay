@@ -65,6 +65,7 @@ const ViewInventoryIndividual = () => {
     }));
   };
   const handleConfirmTransfer =async () => {
+    console.log("Selected items:", selectedItems);
     const selectedIds = Object.keys(selectedItems).filter((id) => selectedItems[id]);
     console.log("Selected items for transfer:", selectedIds);
     console.log("Transfer to location:", transferLocation);

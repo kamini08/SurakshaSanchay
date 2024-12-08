@@ -1,5 +1,7 @@
 
-//  NOT REQUIRED NOW!
+// //  NOT REQUIRED NOW!
+
+import { FaWpexplorer } from "react-icons/fa";
 
 // import { db } from "@/lib/db";
 // import { auth } from "../../../../../auth";
@@ -52,3 +54,16 @@
 //     });
 // }
 // }
+
+
+// const res = await fetch(`${process.env.DOMAIN}/api/Transfer/updateIssuedTo`, {
+//       method: "PUT",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(updatedItems),
+//     });
+
+export async function GET(req: Request) {
+    return new Response("Mismatched Location Data");
+}
