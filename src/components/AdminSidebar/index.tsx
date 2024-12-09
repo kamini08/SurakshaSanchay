@@ -110,10 +110,6 @@ const menuGroups = [
         children: [
           { label: "Add Inventory Item", route: "/adminPages/addInventory" },
           { label: "View Inventory", route: "/adminPages/adminViewInventory" },
-          {
-            label: "Inventory Overview",
-            route: "/adminPages/inventoryOverview",
-          },
         ],
       },
       {
@@ -207,7 +203,7 @@ const menuGroups = [
         label: "Request Management",
         route: "#",
         children: [
-          { label: "View Pending Request", route: "/admin/pendingRequest" },
+          // { label: "View Pending Request", route: "/admin/pendingRequest" },
           {
             label: "Approved/Denied Request",
             route: "/adminPages/acceptDenyRequest",
@@ -256,8 +252,9 @@ const menuGroups = [
         label: "Reports & Audits",
         route: "#",
         children: [
-          { label: "View Monthly Report", route: "/adminPages/monthlyReport" },
-          { label: "Audit Logs", route: "/forms/auditLogs" },
+          { label: "View Monthly Report", route: "/report/admin" },
+          { label: "Audit Logs", route: "/adminPages/auditReport" },
+
         ],
       },
       {

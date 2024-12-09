@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
@@ -39,6 +39,30 @@ const RequestManagement: React.FC = () => {
       priorityLevel: "High",
     },
   ]);
+
+  useEffect(() => {
+    // Fetch requests from the backend
+    const fetchRequests = async () => {
+      try {
+        const response = await fetch(
+          "/api/inventory/issuance/admin/getRequests",
+          {
+            method: "GET",
+          },
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch requests");
+        }
+        const data: Request[] = await response.json();
+        setRequests(data);
+      } catch (err: any) {
+        throw new Error("Failed to fetch requests", err);
+      } finally {
+      }
+    };
+
+    fetchRequests();
+  }, []);
 
   const [approvedRequests, setApprovedRequests] = useState<Request[]>([]);
   const [deniedRequests, setDeniedRequests] = useState<Request[]>([]); // New state to store denied requests
@@ -275,32 +299,35 @@ const RequestManagement: React.FC = () => {
               Deny Request
             </h1>
             <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleDiscard();
-              }}
-            >
-              <textarea
-                required
-                placeholder="Reason for denying"
-                value={discardReason}
-                onChange={(e) => setDiscardReason(e.target.value)}
-                className="mb-4 w-full rounded border px-4 py-2"
-              ></textarea>
-              <button
-                type="submit"
-                className="rounded bg-red-500 px-4 py-2 text-white"
-              >
-                Submit
-              </button>
-              <button
-                type="button"
-                className="ml-2 rounded bg-gray-500 px-4 py-2 text-white"
-                onClick={() => setShowDiscardForm(false)}
-              >
-                Cancel
-              </button>
-            </form>
+  onSubmit={(e) => {
+    e.preventDefault();
+    handleDiscard();
+  }}
+>
+  <textarea
+    required
+    placeholder="Reason for denying (max 100 characters)"
+    value={discardReason}
+    onChange={(e) => setDiscardReason(e.target.value)}
+    maxLength={100} /* Maximum character limit */
+    className="w-full mb-2 px-4 py-2 border rounded"
+  ></textarea>
+  {/* Character Count */}
+  <div className="text-sm text-gray-500 mb-4">
+    {discardReason.length}/100 characters
+  </div>
+  <button type="submit" className="bg-red-500 text-white px-4 py-2 rounded">
+    Submit
+  </button>
+  <button
+    type="button"
+    className="bg-gray-500 text-white px-4 py-2 rounded ml-2"
+    onClick={() => setShowDiscardForm(false)}
+  >
+    Cancel
+  </button>
+</form>
+
           </section>
         )}
       </section>

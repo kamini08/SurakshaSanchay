@@ -40,10 +40,6 @@ const Profile = () => {
       try {
         const response = await fetch("/api/profile", {
           method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            },
-
         }); // Replace with your API endpoint
 
         if (!response.ok) {
@@ -52,48 +48,41 @@ const Profile = () => {
         const result = await response.json();
         setProfileData(result); // Set the fetched data
       } catch (err: any) {
-        alert(err.message) // Handle errors
+        alert(err.message); // Handle errors
       } finally {
         setLoading(false); // End loading state
       }
     };
 
-    const fetchFines = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch("/api/fines", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            },
-          });
-          if (!response.ok) {
-            return NextResponse.json({
-              status: 500,
-              error: "Failed to fetch fines",
-
-            });
-          }
-          const result = await response.json();
-          setFineArray(result);
-           // Set the fetched fines
-          } catch (err: any) {
-            alert(err.message) // Handle errors
-            } finally {
-              setLoading(false); // End loading state
-
-            }
-
-    }
-
-    fetchFines();
     fetchData(); // Call the fetch function
   }, []);
 
-  
+  useEffect(() => {
+    const fetchFines = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch("/api/penalty", {
+          method: "GET",
+        });
+        if (!response.ok) {
+          return NextResponse.json({
+            status: 500,
+            error: `Failed to fetch fines: ${response}`,
+          });
+        }
+        const result = await response.json();
+        setFineArray(result);
+        // Set the fetched fines
+      } catch (err: any) {
+        alert(err.message); // Handle errors
+      } finally {
+        setLoading(false); // End loading state
+      }
+    };
+    fetchFines();
+  }, []);
 
   // Example fine array
-  
 
   const handleEditClick = () => {
     setIsEditing(!isEditing);
@@ -120,9 +109,9 @@ const Profile = () => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        },
-        body: JSON.stringify(profileData),
-    })
+      },
+      body: JSON.stringify(profileData),
+    });
     setIsEditing(false);
   };
 
@@ -316,4 +305,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
