@@ -9,6 +9,7 @@ export async function POST(req: Request) {
     const {
       userId,
       description,
+      category,
       item,
       location,
       quantity,
@@ -49,7 +50,7 @@ export async function POST(req: Request) {
       data: {
         userId,
         name: item,
-        itemId: "",
+        category,
         inchargeId: admin?.govId,
         issueDescription: description,
         quantity,

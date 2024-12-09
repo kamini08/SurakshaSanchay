@@ -11,7 +11,6 @@ interface ItemRequestFormData {
   category: string;
   quantity: number;
   description: string;
-  technicalSpecifications: string;
   location: string;
   expectedDeliveryDate: string;
   purpose: string;
@@ -31,7 +30,6 @@ const NewItemRequest = () => {
       category: "",
       quantity: 1,
       description: "",
-      technicalSpecifications: "",
       location: "",
       expectedDeliveryDate: "",
       purpose: "",
@@ -76,7 +74,6 @@ const NewItemRequest = () => {
           category: "",
           quantity: 1,
           description: "",
-          technicalSpecifications: "",
           location: "",
           expectedDeliveryDate: "",
           purpose: "",
