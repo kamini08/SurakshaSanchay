@@ -1,27 +1,26 @@
-// import { auth, signOut } from "../../../../auth";
-
 import { auth, signOut } from "../../../../auth";
 import Dashboard from "@/app/Dashboard/page";
+// import React, { useState, useEffect } from "react";
 
 const SettingsPage = async () => {
-  // const session = await auth();
-  // const user = session?.user.id;
-  // console.log(user);
-
   return (
     <div className="text-center">
-      {/* {JSON.stringify(session?.user)}
+      {/* Uncomment if you want to display user session info */}
+      {/* {JSON.stringify(session?.user)} */}
 
-      <form
+      {/* Sign Out Form */}
+      {/* <form
         action={async () => {
           "use server";
-
           await signOut();
         }}
       >
         <button type="submit">Sign Out</button>
       </form> */}
 
+      {/* Reload Button */}
+
+      {/* Render Dashboard with a key to force reload */}
       <Dashboard />
     </div>
   );

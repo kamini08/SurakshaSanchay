@@ -204,6 +204,7 @@ model MaintenanceRequest {
   status            MaintenanceStatus @default(PENDING)
   requestDate       DateTime          @default(now())
   approvalDate      DateTime?
+  govId String? 
   completionDate    DateTime?
   issueDescription  String
   resolutionDetails String?

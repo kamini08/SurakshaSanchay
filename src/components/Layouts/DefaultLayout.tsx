@@ -34,7 +34,7 @@ const DefaultLayout = () => {
     };
 
     fetchUserRole();
-  }, [role]); // Empty dependency array to run only once on mount
+  }, []); // Empty dependency array to run only once on mount
 
   const renderSidebar = () => {
     if (loading) {
@@ -61,20 +61,25 @@ const DefaultLayout = () => {
           />
         );
       default:
-        return null; // Handle the case where role is null or undefined
+        return null; // Do not render anything if the role is not recognized
     }
   };
+
+  // Only render the layout if the role is present
+  if (loading) {
+    return <div>Loading...</div>; // Show loading state while fetching
+  }
+
+  if (!role) {
+    return null; // Do not render anything if role is not present
+  }
 
   return (
     <div className="flex">
       {renderSidebar()}
       <div className="relative flex flex-1 flex-col lg:ml-72.5">
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-        {/* <main>
-          <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-            {/* {children} */}
-        {/* </div> */}
-        {/* </main> */}
+        {/* Add your main content here */}
       </div>
     </div>
   );
