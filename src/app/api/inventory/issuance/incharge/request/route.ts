@@ -22,7 +22,6 @@ export async function POST(req: Request) {
 
     const user = await prisma.user.findUnique({
       where: { govId: userId },
-      select: { role: true },
     });
 
     const admin = await prisma.user.findFirst({
@@ -39,6 +38,9 @@ export async function POST(req: Request) {
         ],
       },
     });
+
+    console.log(user);
+    console.log(user?.role);
 
     if (!user || user.role !== "incharge") {
       return NextResponse.json(
