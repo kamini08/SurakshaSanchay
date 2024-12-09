@@ -26,7 +26,7 @@ export async function POST(req: Request) {
         },
       });
       const numberOfStars = penalty.numberOfStarsReduced;
-      const newStars = user.stars ? user.stars : 5 - numberOfStars;
+      const newStars = user?.stars ? user?.stars : 5 - numberOfStars;
       await prisma.user.update({
         where: { govId: userId },
         data: {
@@ -63,22 +63,20 @@ export async function POST(req: Request) {
 export async function GET(req: Request) {
   try {
     const session = await auth();
-    const userId: any = session?.user.id;
+    const govId = session?.user.govId;
 
     const user = await prisma.user.findUnique({
-      where: { govId: userId },
+      where: { govId },
     });
 
     if (!user) {
-      return NextResponse.json({ message: "User not found!" }, { status: 404 });
+      return NextResponse.json({ message: "User not found!" }, { status: 405 });
     }
 
-   
     const data = await prisma.penalty.findMany({
       where: { userId: user.govId },
     });
-  
-    
+
     return NextResponse.json(data, { status: 201 });
   } catch (error) {
     console.error("Error finding fines: ", error);

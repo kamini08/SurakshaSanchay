@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, ChangeEvent, FormEvent, useEffect } from "react";
+import React ,{ useState, ChangeEvent, FormEvent, useEffect } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { FormError } from "@/components/form-error";
@@ -190,7 +190,39 @@ const AddInventory = () => {
     } catch (error) {
       console.error("Error submitting inventory form:", error);
       setError("Failed to submit the inventory.");
+    } 
+  };
+  const [formData, setFormData] = useState({
+    frequencyRange: "",
+    batteryType: "",
+    connectivity: "",
+  });
+  const [errors, setErrors] = useState({
+    frequencyRange: "",
+    batteryType: "",
+    connectivity: "",
+  });
+
+  const validate = () => {
+    const newErrors = {
+      frequencyRange: formData.frequencyRange ? "" : "Frequency range is required.",
+      batteryType: formData.batteryType ? "" : "Battery type is required.",
+      connectivity: formData.connectivity ? "" : "Connectivity is required.",
+    };
+    setErrors(newErrors);
+    return Object.values(newErrors).every((error) => error === "");
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (validate()) {
+      alert("Form submitted successfully!");
+      console.log("Form data:", formData);
     }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const renderCategoryForm = () => {
     switch (categoryType) {
@@ -202,94 +234,58 @@ const AddInventory = () => {
                 Communication Device Form
               </h3>
             </div>
-            <form onSubmit={handleCategoryFormSubmit}>
-              <div className="p-6.5">
-                <div className="mb-4.5">
-                  <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                    Frequency Range
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Enter frequency range"
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    value={
-                      itemData.categoryDetails.communicationDevice
-                        ?.frequencyRange || ""
-                    }
-                    onChange={(e) => {
-                      const updatedDetails = { ...itemData.categoryDetails };
-                      updatedDetails.communicationDevice = {
-                        ...updatedDetails.communicationDevice,
-                        frequencyRange: e.target.value,
-                      };
-                      setItemData({
-                        ...itemData,
-                        categoryDetails: updatedDetails,
-                      });
-                    }}
-                  />
-                </div>
+           <form onSubmit={handleSubmit}>
+      <div className="p-6.5">
+        <div className="mb-4.5">
+          <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+            Frequency Range
+          </label>
+          <input
+            type="text"
+            name="frequencyRange"
+            placeholder="Enter frequency range"
+            value={formData.frequencyRange}
+            onChange={handleChange}
+            className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
+          />
+          {errors.frequencyRange && <span className="text-red-500 text-sm">{errors.frequencyRange}</span>}
+        </div>
 
-                <div className="mb-4.5">
-                  <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                    Battery Type
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Enter battery type"
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    value={
-                      itemData.categoryDetails.communicationDevice
-                        ?.batteryType || ""
-                    }
-                    onChange={(e) => {
-                      const updatedDetails = { ...itemData.categoryDetails };
-                      updatedDetails.communicationDevice = {
-                        ...updatedDetails.communicationDevice,
-                        batteryType: e.target.value,
-                      };
-                      setItemData({
-                        ...itemData,
-                        categoryDetails: updatedDetails,
-                      });
-                    }}
-                  />
-                </div>
+        <div className="mb-4.5">
+          <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+            Battery Type
+          </label>
+          <input
+            type="text"
+            name="batteryType"
+            placeholder="Enter battery type"
+            value={formData.batteryType}
+            onChange={handleChange}
+            className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
+          />
+          {errors.batteryType && <span className="text-red-500 text-sm">{errors.batteryType}</span>}
+        </div>
 
-                <div className="mb-4.5">
-                  <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                    Connectivity
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Enter connectivity"
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    value={
-                      itemData.categoryDetails.communicationDevice
-                        ?.connectivity || ""
-                    }
-                    onChange={(e) => {
-                      const updatedDetails = { ...itemData.categoryDetails };
-                      updatedDetails.communicationDevice = {
-                        ...updatedDetails.communicationDevice,
-                        connectivity: e.target.value,
-                      };
-                      setItemData({
-                        ...itemData,
-                        categoryDetails: updatedDetails,
-                      });
-                    }}
-                  />
-                </div>
+        <div className="mb-4.5">
+          <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+            Connectivity
+          </label>
+          <input
+            type="text"
+            name="connectivity"
+            placeholder="Enter connectivity"
+            value={formData.connectivity}
+            onChange={handleChange}
+            className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
+          />
+          {errors.connectivity && <span className="text-red-500 text-sm">{errors.connectivity}</span>}
+        </div>
 
-                {/* <button
-                  type="submit"
-                  className="rounded bg-blue-500 px-4 py-2 text-white"
-                >
-                  Submit
-                </button> */}
-              </div>
-            </form>
+        <button type="submit" className="rounded bg-blue-500 px-4 py-2 text-white">
+          Submit
+        </button>
+      </div>
+    </form>
           </div>
         );
       case "computerAndITEquipment":
@@ -1533,7 +1529,7 @@ const AddInventory = () => {
               </div>
 
               {/* Return Date */}
-              <div>
+              {/* <div>
                 <label className="mb-3 block text-sm font-medium text-black dark:text-white">
                   Return Date
                 </label>
@@ -1544,7 +1540,7 @@ const AddInventory = () => {
                   onChange={handleInventoryChange}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                 />
-              </div>
+              </div> */}
 
               {/* Last Inspection Date */}
               <div>

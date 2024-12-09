@@ -7,25 +7,27 @@ import { db } from "@/lib/db";
 const prisma = new PrismaClient();
 
 // Function to delete an inventory item (only for admins)
-async function deleteInventoryItem(userId: string, itemId: string) {
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { role: true },
-  });
+// async function deleteInventoryItem(userId: string, itemId: string) {
+//   console.log(userId, itemId);
+//   const user = await prisma.user.findUnique({
+//     where: { id: userId },
+//     select: { role: true },
+//   });
+//   console.log(user);
 
-  if (!user || user.role !== "admin") {
-    return {
-      success: false,
-      message: "Permission denied: Only admins can delete inventory items.",
-    };
-  }
+//   if (!user || user.role !== "admin") {
+//     return {
+//       success: false,
+//       message: "Permission denied: Only admins can delete inventory items.",
+//     };
+//   }
 
-  await prisma.inventoryItem.delete({
-    where: { itemId: itemId },
-  });
+//   await db.inventoryItem.deleteMany({
+//     where: { itemId: itemId },
+//   });
 
-  return { success: true, message: "Inventory item deleted successfully." };
-}
+//   return { success: true, message: "Inventory item deleted successfully." };
+// }
 
 // Function to add an inventory item (only for admins)
 
@@ -335,30 +337,47 @@ export async function POST(request: Request) {
   }
 }
 
-// DELETE handler (for deleting inventory item)
 export async function DELETE(req: Request) {
-  const session = await auth(); // Fetch session server-side
-  const userId = session?.user.id;
   try {
+    // Authenticate the user
+    const session = await auth();
+    const role = session?.user.role;
+
+    // Check if the user has admin privileges
+    if (role !== "admin") {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Permission denied: Only admins can delete inventory items.",
+        },
+        { status: 403 },
+      ); // Use 403 Forbidden status
+    }
+
+    // Parse the request body to get itemId
     const { itemId } = await req.json();
 
-    if (!userId || !itemId) {
+    // Validate itemId
+    if (!itemId) {
       return NextResponse.json(
-        { success: false, message: "userId and itemId are required." },
+        { error: "itemId is required" },
         { status: 400 },
       );
     }
 
-    const response = await deleteInventoryItem(userId, itemId);
+    // Delete the inventory item
+    await db.inventoryItem.updateMany({
+      where: { itemId: itemId },
+      data: { condition: "discarded" },
+    });
 
-    if (response.success) {
-      return NextResponse.json(response, { status: 200 });
-    } else {
-      return NextResponse.json(response, { status: 400 });
-    }
+    return NextResponse.json({
+      message: "Inventory item deleted successfully",
+    });
   } catch (error: any) {
+    console.error("Error deleting inventory item:", error); // Log the error for debugging
     return NextResponse.json(
-      { success: false, message: `Internal server error: ${error.message}` },
+      { message: "Error deleting inventory item", error: error.message },
       { status: 500 },
     );
   }
@@ -441,11 +460,22 @@ export async function GET() {
     let inventoryData;
     if (role === "incharge") {
       inventoryData = await prisma.inventoryItem.findMany({
-        where: { userId: govId },
+        where: {
+          userId: govId,
+          condition: {
+            not: "discarded",
+          },
+        },
       });
       console.log(inventoryData);
     } else {
-      inventoryData = await prisma.inventoryItem.findMany();
+      inventoryData = await prisma.inventoryItem.findMany({
+        where: {
+          condition: {
+            not: "discarded",
+          },
+        },
+      });
     }
 
     // Return the data as a JSON response

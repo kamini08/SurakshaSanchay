@@ -1,8 +1,10 @@
+
 "use client";
 import { useParams } from "next/navigation";
+import html2canvas from "html2canvas";
 
 import React, { useEffect, useState } from "react";
-import DefaultLayout from "@/components/Layouts/DefaultLayout";
+
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 
 interface Package {
@@ -45,18 +47,46 @@ const ViewInventoryIndividual = () => {
   const [loading, setLoading] = useState(true);
   const [editMode, setEditMode] = useState<number | null>(null); // Track the row being edited by index
   const [editedRow, setEditedRow] = useState<Partial<Package>>({}); // Store data being edited
-  const [rowToDelete, setRowToDelete] = useState<number | null>(null); // Track the row to delete
+  // const [rowToDelete, setRowToDelete] = useState<number | null>(null); // Track the row to delete
 
   const params = useParams();
 
   const [transferMode, setTransferMode] = useState(false);
   const [selectedItems, setSelectedItems] = useState<{ [id: string | number]: boolean }>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [transferLocation, setTransferLocation] = useState("tt");
-
+  const [transferLocation, setTransferLocation] = useState("");
+  const [formVisible, setFormVisible] = useState(false);
+  const [selectedTransferDetails, setSelectedTransferDetails] = useState<Package[]>([]);
   const handleTransferClick = () => {
     setTransferMode(true);
   };
+
+  interface EquipmentDetailsProps {
+    equipment: Record<string, string | null | undefined>; // Object with string keys and nullable/undefined string values
+    excludeNullValues: (value: string | null | undefined) => string; // Function to process nullable/undefined strings
+  }
+  const selectedDetails = packageData.filter((item) =>
+    selectedItems[item.itemId]
+  );
+  const EquipmentDetails: React.FC<EquipmentDetailsProps> = ({ equipment, excludeNullValues }) => {
+    return (
+      <>
+        {Object.keys(equipment).map((key) => {
+          const values = excludeNullValues(equipment[key]);
+          return (
+            values && (
+              <div key={key}>
+                {values.split(",").map((value, idx) => (
+                  <div key={idx}>{value.trim()}</div>
+                ))}
+              </div>
+            )
+          );
+        })}
+      </>
+    );
+  };
+  
 
   const handleCheckboxChange = (id: string | number) => {
     setSelectedItems((prev) => ({
@@ -65,7 +95,21 @@ const ViewInventoryIndividual = () => {
     }));
   };
   const handleConfirmTransfer =async () => {
+   
     const selectedIds = Object.keys(selectedItems).filter((id) => selectedItems[id]);
+   ;
+   // Filter the details of the selected items from the packageData
+  // const selectedDetails = packageData.filter((item) =>
+  //   selectedIds.includes(item.itemId)
+  // );
+
+  // Display the selected items' details in the form
+  if (selectedDetails.length > 0) {
+    setSelectedTransferDetails(selectedDetails); // Assuming this state is used to display the details in the form
+    setFormVisible(true); // Trigger the form modal visibility
+  } else {
+    console.warn("No items selected for transfer.");
+  }
 
 try {
       const response = await fetch("/api/Transfer/updateIssuedTo", {
@@ -88,15 +132,31 @@ try {
       console.error("Error saving edited data:", error);
     }
     // Reset the state
-    setTransferMode(false);
-    setSelectedItems({});
-    setTransferLocation("");
-    setIsModalOpen(false);
+    // setFormVisible(true);
+    // setTransferMode(false);
+    // setSelectedItems({});
+    // setTransferLocation("");
+    // setIsModalOpen(false);
   };
 
   const handleCancelTransfer = () => {
     setTransferMode(false);
     setSelectedItems({});
+    setFormVisible(false);
+    
+    setTransferLocation("");
+    setIsModalOpen(false);
+  };
+  const handleDownloadAsImage = () => {
+    const formElement = document.getElementById("transfer-form");
+    if (formElement) {
+      html2canvas(formElement).then((canvas) => {
+        const link = document.createElement("a");
+        link.download = "transfer-details.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      });
+    }
   };
 
   // Decode stationId from URL params
@@ -121,22 +181,7 @@ try {
 
     return result.join(", "); // Join the results with a comma and space
   };
-  const renderKeyValuePairs = (data: any) => {
-    return (
-      <div>
-        {Object.entries(data).map(([key, value]) => (
-          <div key={key}>
-            <strong>{key}:</strong> {String(value)}
-          </div>
-        ))}
-      </div>
-    );
-  };
-
-  // const jsonStr = excludeNullValues(item["surveillanceAndTracking"]);
-
-  // Parse the string back into an object
-  // const parsedData = JSON.parse(jsonStr);
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -165,13 +210,9 @@ try {
   }, [stationId]);
  
 
-  
 
-  const handleCancelDelete = (): void => {
-    setIsModalOpen(false);
-  };
 
-  // Handle input changes during editing
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     field: keyof Package,
@@ -217,78 +258,47 @@ try {
             <p>Loading data...</p>
           ) : (
             <table className="w-full table-auto">
+              
               <thead>
-                <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                  <th className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
-                    Item Id
-                  </th>
-                  <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
-                    Category
-                  </th>
-                  <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white">
-                    Type
-                  </th>
-                  {/* <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">Issued To</th> */}
-                  <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
-                    Quantity
-                  </th>
-                  <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white">
-                    Location
-                  </th>
-                  <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
-                    Condition
-                  </th>
-                  <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
-                    Acquisition Date
-                  </th>
-                  <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
-                    Expiry Date
-                  </th>
-                  <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
-                    Price
-                  </th>
-                  <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
-                    Supplier
-                  </th>
-                  {/* <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">Assigned to</th> */}
-                  <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
-                    Return Date
-                  </th>
-                  <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
-                    Last Inspection Date
-                  </th>
-                  <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
-                    Maintenance Schedule
-                  </th>
-                  <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
-                    Maintenance Charge
-                  </th>
-                  <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
-                    Issued To
-                  </th>
-                  <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
-                    User Id
-                  </th>
-                  <th className="min-w-[300px] px-4 py-4 font-medium text-black dark:text-white">
-                    Category details
-                  </th>
-                  {!transferMode && <th className="px-4 py-4 font-medium text-black dark:text-white">
-                    Actions
-                  </th>}
-                </tr>
-              </thead>
+  <tr className="bg-gray-2 text-left dark:bg-meta-4">
+    {[
+      { name: "Item Id", minWidth: "220px" },
+      { name: "Category", minWidth: "120px" },
+      { name: "Type", minWidth: "150px" },
+      { name: "Quantity", minWidth: "120px" },
+      { name: "Location", minWidth: "150px" },
+      { name: "Condition", minWidth: "120px" },
+      { name: "Acquisition Date", minWidth: "120px" },
+      { name: "Expiry Date", minWidth: "120px" },
+      { name: "Price", minWidth: "120px" },
+      { name: "Supplier", minWidth: "120px" },
+      { name: "Return Date", minWidth: "120px" },
+      { name: "Last Inspection Date", minWidth: "120px" },
+      { name: "Maintenance Schedule", minWidth: "120px" },
+      { name: "Maintenance Charge", minWidth: "120px" },
+      { name: "Issued To", minWidth: "120px" },
+      { name: "User Id", minWidth: "120px" },
+      { name: "Category details", minWidth: "300px" },
+    ].map(({ name, minWidth }) => (
+      <th
+        key={name}
+        className={`min-w-[${minWidth}] px-4 py-4 font-medium text-black dark:text-white`}
+      >
+        {name}
+      </th>
+    ))}
+    {!transferMode && (
+      <th className="px-4 py-4 font-medium text-black dark:text-white">
+        Actions
+      </th>
+    )}
+  </tr>
+</thead>
+
               <tbody>
-          {packageData.map((item,index) => (
+          {packageData.map((item, index) => (
             <tr key={item.itemId}>
-              {transferMode && (
-                <td className="border p-2">
-                  <input
-                    type="checkbox"
-                    checked={selectedItems[item.itemId] || false}
-                    onChange={() => handleCheckboxChange(item.itemId)}
-                  />
-                </td>
-              )}
+             
               <td className="border p-1">{item.itemId}</td>
               <td className="border p-1">{item.category}</td>
               <td className="border p-1">{item.type}</td>
@@ -315,120 +325,22 @@ try {
                           className="border p-1"
                         />
                       ) : (
-                        <div key={index}>
-                          {item["communicationDevice"] &&
-                            excludeNullValues(item["communicationDevice"]) && (
-                              <div>
-                                {excludeNullValues(item["communicationDevice"])
-                                  .split(",")
-                                  .map((value, idx) => (
-                                    <div key={idx}>{value.trim()}</div>
-                                  ))}
-                              </div>
-                            )}
-                          {item["computerAndITEquipment"] &&
-                            excludeNullValues(
-                              item["computerAndITEquipment"],
-                            ) && (
-                              <div>
-                                {excludeNullValues(
-                                  item["computerAndITEquipment"],
-                                )
-                                  .split(",")
-                                  .map((value, idx) => (
-                                    <div key={idx}>{value.trim()}</div>
-                                  ))}
-                              </div>
-                            )}
-                          {item["networkingEquipment"] &&
-                            excludeNullValues(item["networkingEquipment"]) && (
-                              <div>
-                                {excludeNullValues(item["networkingEquipment"])
-                                  .split(",")
-                                  .map((value, idx) => (
-                                    <div key={idx}>{value.trim()}</div>
-                                  ))}
-                              </div>
-                            )}
-                          {item["surveillanceAndTracking"] &&
-                            excludeNullValues(
-                              item["surveillanceAndTracking"],
-                            ) && (
-                              <div>
-                                {excludeNullValues(
-                                  item["surveillanceAndTracking"],
-                                )
-                                  .split(",")
-                                  .map((value, idx) => (
-                                    <div key={idx}>{value.trim()}</div>
-                                  ))}
-                              </div>
-                            )}
-                          {item["vehicleAndAccessories"] &&
-                            excludeNullValues(
-                              item["vehicleAndAccessories"],
-                            ) && (
-                              <div>
-                                {excludeNullValues(
-                                  item["vehicleAndAccessories"],
-                                )
-                                  .split(",")
-                                  .map((value, idx) => (
-                                    <div key={idx}>{value.trim()}</div>
-                                  ))}
-                              </div>
-                            )}
-                          {item["protectiveGear"] &&
-                            excludeNullValues(item["protectiveGear"]) && (
-                              <div>
-                                {excludeNullValues(item["protectiveGear"])
-                                  .split(",")
-                                  .map((value, idx) => (
-                                    <div key={idx}>{value.trim()}</div>
-                                  ))}
-                              </div>
-                            )}
-                          {item["firearm"] &&
-                            excludeNullValues(item["firearm"]) && (
-                              <div>
-                                {excludeNullValues(item["firearm"])
-                                  .split(",")
-                                  .map((value, idx) => (
-                                    <div key={idx}>{value.trim()}</div>
-                                  ))}
-                              </div>
-                            )}
-                          {item["forensic"] &&
-                            excludeNullValues(item["forensic"]) && (
-                              <div>
-                                {excludeNullValues(item["forensic"])
-                                  .split(",")
-                                  .map((value, idx) => (
-                                    <div key={idx}>{value.trim()}</div>
-                                  ))}
-                              </div>
-                            )}
-                          {item["medicalFirstAid"] &&
-                            excludeNullValues(item["medicalFirstAid"]) && (
-                              <div>
-                                {excludeNullValues(item["medicalFirstAid"])
-                                  .split(",")
-                                  .map((value, idx) => (
-                                    <div key={idx}>{value.trim()}</div>
-                                  ))}
-                              </div>
-                            )}
-                          {item["officeSupply"] &&
-                            excludeNullValues(item["officeSupply"]) && (
-                              <div>
-                                {excludeNullValues(item["officeSupply"])
-                                  .split(",")
-                                  .map((value, idx) => (
-                                    <div key={idx}>{value.trim()}</div>
-                                  ))}
-                              </div>
-                            )}
-                        </div>
+                       
+                        <EquipmentDetails
+          equipment={{
+            communicationDevice: item.communicationDevice,
+            computerAndITEquipment: item.computerAndITEquipment,
+            networkingEquipment: item.networkingEquipment,
+            surveillanceAndTracking: item.surveillanceAndTracking,
+            vehicleAndAccessories: item.vehicleAndAccessories,
+            protectiveGear: item.protectiveGear,
+            firearm: item.firearm,
+            forensic: item.forensic,
+            medicalFirstAid: item.medicalFirstAid,
+            officeSupply: item.officeSupply,
+          }}
+          excludeNullValues={excludeNullValues}
+        />
                       )}
                     </td>
                     {transferMode ? (
@@ -449,8 +361,10 @@ try {
                   </button>
                 </td>
               )}
-            </tr>
+              
+                    </tr>
           ))}
+                  
         </tbody>
             </table>
           )}
@@ -472,49 +386,85 @@ try {
         </div>
       )}
       {isModalOpen && (
-  <div className="fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
-    <div className="rounded bg-white p-6 shadow-lg">
-      <h3 className="mb-4 text-xl">Enter Transfer Location</h3>
-      <div>
-      <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-        Location (Police Station)
-      </label>
-      <select
-        value={transferLocation} // Bind to transferLocation state
-        onChange={(e) => setTransferLocation(e.target.value)} // Update state on change
-        className="w-full p-2 border rounded"
-      >
-        <option value="" disabled>
-          Select a police station
-        </option>
-        {policeStations.map((station) => (
-          <option value={station.name}> {/* Use a unique key if available */}
-            {station.name}
-          </option>
-        ))}
-      </select>
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
+          <div className="rounded bg-white p-6 shadow-lg">
+            <h3 className="mb-4 text-xl">Enter Transfer Location</h3>
+            <div>
+            <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+              Location (Police Station)
+            </label>
+            <select>
+              <option value="" disabled>
+                Select a police station
+              </option>
+              {policeStations.map((station) => (
+                <option key={station.name} value={station.name}>
+                  {station.name}
+                </option>
+              ))}
+            </select>
+          </div>
+            <div className="mt-4">
+              <button
+                onClick={handleConfirmTransfer}
+                className="rounded bg-blue-500 p-2 text-white"
+              >
+                Confirm Transfer
+              </button>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="ml-2 rounded bg-gray-500 p-2 text-white"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}{formVisible && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
+          <div id="transfer-form" className="rounded bg-white p-6 shadow-lg w-full max-w-3xl">
+            <h3 className="mb-4 text-xl font-bold">Transfer Details</h3>
+            <p className="mb-2">Location: {transferLocation}</p>
+            <table className="w-full table-auto border-collapse border border-gray-300">
+              <thead>
+                <tr>
+                  <th className="border border-gray-300 px-4 py-2">Item ID</th>
+                  <th className="border border-gray-300 px-4 py-2">Category</th>
+                  <th className="border border-gray-300 px-4 py-2">Type</th>
+                </tr>
+              </thead>
+              <tbody>
+                {selectedDetails.map((item) => (
+                  <tr key={item.itemId}>
+                    <td className="border border-gray-300 px-4 py-2">{item.itemId}</td>
+                    <td className="border border-gray-300 px-4 py-2">{item.category}</td>
+                    <td className="border border-gray-300 px-4 py-2">{item.type}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="mt-4 flex justify-end">
+              <button
+                onClick={handleDownloadAsImage}
+                className="bg-green-500 text-white p-2 rounded"
+              >
+                Download as Image
+              </button>
+              <button
+                onClick={() => setFormVisible(false)}
+                className="ml-2 bg-gray-500 text-white p-2 rounded"
+              >Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
-      <div className="mt-4">
-        <button
-          onClick={handleConfirmTransfer}
-          className="rounded bg-blue-500 p-2 text-white"
-        >
-          Confirm Transfer
-        </button>
-        <button
-          onClick={() => setIsModalOpen(false)}
-          className="ml-2 rounded bg-gray-500 p-2 text-white"
-        >
-          Cancel
-        </button>
-      </div>
-    </div>
-  </div>
-)}
-
-      </div>
     </div>
   );
 };
 
-export default ViewInventoryIndividual;
+export default ViewInventoryIndividual; 
+
+
+
