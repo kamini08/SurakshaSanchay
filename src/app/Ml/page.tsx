@@ -1,97 +1,97 @@
-// 'use client';
-// import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-// import DefaultLayout from "@/components/Layouts/DefaultLayout";
-// import React, { useEffect, useState } from 'react';
-// import {
-//   ScatterChart,
-//   Scatter,
-//   XAxis,
-//   YAxis,
-//   CartesianGrid,
-//   Tooltip,
-//   ResponsiveContainer,
-//   Label,
-// } from 'recharts';
+'use client';
+import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import React, { useEffect, useState } from 'react';
+import {
+  ScatterChart,
+  Scatter,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Label,
+} from 'recharts';
 
-// const formatNumber = (num: number): string => {
-//   return num.toLocaleString('en-IN', { style: 'currency', currency: 'INR' });
-// };
+const formatNumber = (num: number): string => {
+  return num.toLocaleString('en-IN', { style: 'currency', currency: 'INR' });
+};
 
-// const ChartComponent = () => {
-//   const [chartData, setChartData] = useState<any[]>([]);
+const ChartComponent = () => {
+  const [chartData, setChartData] = useState<any[]>([]);
 
-//   useEffect(() => {
-//     fetch('http://127.0.0.1:5000/get_chart_data')
-//       .then((response) => response.json())
-//       .then((data) => {
-//         const formattedData = data.y_test.map((actualPrice: number, index: number) => ({
-//           actualPrice: actualPrice / 1_000_000, // Scaling down to millions
-//           predictedPrice: data.y_pred[index] / 1_000_000,
-//         }));
-//         setChartData(formattedData);
-//       })
-//       .catch((error) => console.error('Error fetching chart data:', error));
-//   }, []);
+  useEffect(() => {
+    fetch('http://127.0.0.1:5000/get_chart_data')
+      .then((response) => response.json())
+      .then((data) => {
+        const formattedData = data.y_test.map((actualPrice: number, index: number) => ({
+          actualPrice: actualPrice / 1_000_000, // Scaling down to millions
+          predictedPrice: data.y_pred[index] / 1_000_000,
+        }));
+        setChartData(formattedData);
+      })
+      .catch((error) => console.error('Error fetching chart data:', error));
+  }, []);
 
-//   return (
-//     <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
-//       <Breadcrumb pageName="ML MODEL PREDICTIONS" />
-//     <div className="flex justify-center items-center min-h-screen bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-//       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl bg-white shadow-default dark:border-strokedark dark:bg-boxdark text-sm font-medium text-black dark:text-white">
-//         <h2 className="text-xl font-semibold text-center text-gray-800 mb-4 text-sm font-medium text-black dark:text-white">
-//           Actual Prices vs Predicted Prices
-//         </h2>
-//         <ResponsiveContainer width="100%" height={350}>
-//           <ScatterChart>
-//             <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
-//             <XAxis
-//               type="number"
-//               dataKey="actualPrice"
-//               name="Actual Price"
-//               tick={{ fontSize: 12, fill: '#333' }}
-//               stroke="#333"
-//             >
-//               <Label
-//                 value="Actual Price (₹ in Millions)"
-//                 offset={-5}
-//                 position="insideBottom"
-//                 style={{ fill: '#333', fontSize: '14px' }}
-//               />
-//             </XAxis>
-//             <YAxis
-//               type="number"
-//               dataKey="predictedPrice"
-//               name="Predicted Price"
-//               tick={{ fontSize: 12, fill: '#333' }}
-//               stroke="#333"
-//             >
-//               <Label
-//                 value="Predicted Price (₹ in Millions)"
-//                 angle={-90}
-//                 position="insideLeft"
-//                 style={{ fill: '#333', fontSize: '14px', textAnchor: 'middle' }}
-//               />
-//             </YAxis>
-//             <Tooltip
-//               formatter={(value: number) => formatNumber(value * 1_000_000)} // Revert scaling for display
-//               cursor={{ strokeDasharray: '3 3' }}
-//             />
-//             <Scatter
-//               name="Price Prediction"
-//               data={chartData}
-//               fill="#34D399"
-//               line={{ stroke: '#10B981', strokeWidth: 2 }}
-//               shape="circle"
-//             />
-//           </ScatterChart>
-//         </ResponsiveContainer>
-//       </div>
-//     </div>
-//     </div>
-//   );
-// };
+  return (
+    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
+      <Breadcrumb pageName="ML MODEL PREDICTIONS" />
+    <div className="flex justify-center items-center min-h-screen bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl bg-white shadow-default dark:border-strokedark dark:bg-boxdark text-sm font-medium text-black dark:text-white">
+        <h2 className="text-xl font-semibold text-center text-gray-800 mb-4 text-sm font-medium text-black dark:text-white">
+          Actual Prices vs Predicted Prices
+        </h2>
+        <ResponsiveContainer width="100%" height={350}>
+          <ScatterChart>
+            <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
+            <XAxis
+              type="number"
+              dataKey="actualPrice"
+              name="Actual Price"
+              tick={{ fontSize: 12, fill: '#333' }}
+              stroke="#333"
+            >
+              <Label
+                value="Actual Price (₹ in Millions)"
+                offset={-5}
+                position="insideBottom"
+                style={{ fill: '#333', fontSize: '14px' }}
+              />
+            </XAxis>
+            <YAxis
+              type="number"
+              dataKey="predictedPrice"
+              name="Predicted Price"
+              tick={{ fontSize: 12, fill: '#333' }}
+              stroke="#333"
+            >
+              <Label
+                value="Predicted Price (₹ in Millions)"
+                angle={-90}
+                position="insideLeft"
+                style={{ fill: '#333', fontSize: '14px', textAnchor: 'middle' }}
+              />
+            </YAxis>
+            <Tooltip
+              formatter={(value: number) => formatNumber(value * 1_000_000)} // Revert scaling for display
+              cursor={{ strokeDasharray: '3 3' }}
+            />
+            <Scatter
+              name="Price Prediction"
+              data={chartData}
+              fill="#34D399"
+              line={{ stroke: '#10B981', strokeWidth: 2 }}
+              shape="circle"
+            />
+          </ScatterChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+    </div>
+  );
+};
 
-// export default ChartComponent;
+export default ChartComponent;
 // 'use client';
 // import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 // import DefaultLayout from "@/components/Layouts/DefaultLayout";
@@ -537,100 +537,230 @@
 // };
 
 // export default App;
-'use client';
-import React, { useState } from 'react';
-import axios from 'axios';
+// 'use client';
+// import React, { useState } from 'react';
+// import axios from 'axios';
 
-interface PredictionResults {
-  buy_price: number[];
-  maintenance_cost: number[];
-  total_price: number[];
-  annual_budget: number[];
-}
+// interface PredictionResults {
+//   buy_price: number[];
+//   maintenance_cost: number[];
+//   total_price: number[];
+//   annual_budget: number[];
+// }
 
-const App: React.FC = () => {
-  const [results, setResults] = useState<PredictionResults | null>(null);
-  const [year, setYear] = useState<string>('');
-  const [category, setCategory] = useState<string>('');
+// const App: React.FC = () => {
+//   const [results, setResults] = useState<PredictionResults | null>(null);
+//   const [year, setYear] = useState<string>('');
+//   const [category, setCategory] = useState<string>('');
   
-  const categories: string[] = [
-    "Communication Devices", "Computer and IT Equipment", "Firearms",
-    "Forensic", "Medical First Aid", "Networking Equipment",
-    "Office Supplies", "Protective Gear", "Surveillance and Tracking",
-    "Vehicle and Accessories"
-  ];
+//   const categories: string[] = [
+//     "Communication Devices", "Computer and IT Equipment", "Firearms",
+//     "Forensic", "Medical First Aid", "Networking Equipment",
+//     "Office Supplies", "Protective Gear", "Surveillance and Tracking",
+//     "Vehicle and Accessories"
+//   ];
 
-  const fetchResults = () => {
-    if (!year || !category) {
-      console.error("Year and category are required.");
-      return;
-    }
+//   const fetchResults = () => {
+//     if (!year || !category) {
+//       console.error("Year and category are required.");
+//       return;
+//     }
 
-    axios.post('http://127.0.0.1:5000/predict', {
-      Year: parseInt(year, 10),
-      Category: category
-    })
-    .then(response => {
-      setResults(response.data as PredictionResults);
-    })
-    .catch(error => {
-      console.error("There was an error!", error);
-    });
-  };
+//     axios.post('http://127.0.0.1:5000/predict', {
+//       Year: parseInt(year, 10),
+//       Category: category
+//     })
+//     .then(response => {
+//       setResults(response.data as PredictionResults);
+//     })
+//     .catch(error => {
+//       console.error("There was an error!", error);
+//     });
+//   };
 
-  return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-6">
-      <h1 className="text-3xl font-semibold mb-6 text-blue-600">Budget Predictions</h1>
+//   return (
+//     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-6">
+//       <h1 className="text-3xl font-semibold mb-6 text-blue-600">Budget Predictions</h1>
 
-      {/* Input fields */}
-      <div className="space-y-4 mb-6">
-        <div className="flex flex-col">
-          <label className="text-lg font-medium text-gray-700 mb-2">Year:</label>
-          <input 
-            type="number" 
-            value={year} 
-            onChange={(e) => setYear(e.target.value)} 
-            className="px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
+//       {/* Input fields */}
+//       <div className="space-y-4 mb-6">
+//         <div className="flex flex-col">
+//           <label className="text-lg font-medium text-gray-700 mb-2">Year:</label>
+//           <input 
+//             type="number" 
+//             value={year} 
+//             onChange={(e) => setYear(e.target.value)} 
+//             className="px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+//           />
+//         </div>
         
-        <div className="flex flex-col">
-          <label className="text-lg font-medium text-gray-700 mb-2">Category:</label>
-          <select 
-            value={category} 
-            onChange={(e) => setCategory(e.target.value)} 
-            className="px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="" disabled>Select a category</option>
-            {categories.map(cat => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
-          </select>
-        </div>
-      </div>
+//         <div className="flex flex-col">
+//           <label className="text-lg font-medium text-gray-700 mb-2">Category:</label>
+//           <select 
+//             value={category} 
+//             onChange={(e) => setCategory(e.target.value)} 
+//             className="px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+//           >
+//             <option value="" disabled>Select a category</option>
+//             {categories.map(cat => (
+//               <option key={cat} value={cat}>{cat}</option>
+//             ))}
+//           </select>
+//         </div>
+//       </div>
 
-      {/* Button */}
-      <button
-        onClick={fetchResults}
-        className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out"
-      >
-        Get Predictions
-      </button>
+//       {/* Button */}
+//       <button
+//         onClick={fetchResults}
+//         className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out"
+//       >
+//         Get Predictions
+//       </button>
 
-      {/* Results */}
-      {results && (
-        <div className="mt-6 p-6 bg-white shadow-lg rounded-lg w-full max-w-lg">
-          <h2 className="text-xl font-semibold mb-4 text-gray-800">Prediction Results</h2>
-          <div className="space-y-2">
-            <p><strong>Buy Price:</strong> {results.buy_price[0]}</p>
-            <p><strong>Maintenance Cost:</strong> {results.maintenance_cost[0]}</p>
-            <p><strong>Total Price:</strong> {results.total_price[0]}</p>
-            <p><strong>Annual Budget:</strong> {results.annual_budget[0]}</p>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
+//       {/* Results */}
+//       {results && (
+//         <div className="mt-6 p-6 bg-white shadow-lg rounded-lg w-full max-w-lg">
+//           <h2 className="text-xl font-semibold mb-4 text-gray-800">Prediction Results</h2>
+//           <div className="space-y-2">
+//             <p><strong>Buy Price:</strong> {results.buy_price[0]}</p>
+//             <p><strong>Maintenance Cost:</strong> {results.maintenance_cost[0]}</p>
+//             <p><strong>Total Price:</strong> {results.total_price[0]}</p>
+//             <p><strong>Annual Budget:</strong> {results.annual_budget[0]}</p>
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
 
-export default App;
+// export default App;
+// 'use client';
+// import { useState } from "react";
+
+// export default function Predict() {
+//   const categories = [
+//     "Communication Devices", 
+//     "Computer and IT Equipment", 
+//     "Firearms",
+//     "Forensic", 
+//     "Medical First Aid", 
+//     "Networking Equipment",
+//     "Office Supplies", 
+//     "Protective Gear", 
+//     "Surveillance and Tracking",
+//     "Vehicle and Accessories"
+//   ];
+
+//   const [formData, setFormData] = useState({ Year: "", Category: "" });
+//   const [results, setResults] = useState(null);
+//   const [error, setError] = useState(null);
+
+//   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+//     const { name, value } = e.target;
+//     setFormData({ ...formData, [name]: value });
+//   };
+
+//   const handleSubmit = async (e: React.FormEvent) => {
+//     e.preventDefault();
+//     setError(null);
+//     setResults(null);
+
+//     try {
+//       const response = await fetch("http://127.0.0.1:5000/predict", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(formData),
+//       });
+
+//       if (!response.ok) {
+//         throw new Error("Failed to fetch predictions.");
+//       }
+
+//       const data = await response.json();
+//       setResults(data);
+//     } catch (err) {
+//       setError(err.message);
+//     }
+//   };
+
+//   return (
+//     <div style={{ fontFamily: "Arial, sans-serif", padding: "20px" }}>
+//       <h1>Budget Prediction</h1>
+//       <form onSubmit={handleSubmit} style={{ maxWidth: "400px", margin: "auto" }}>
+//         <div style={{ marginBottom: "10px" }}>
+//           <label htmlFor="Year" style={{ display: "block", marginBottom: "5px" }}>
+//             Year:
+//           </label>
+//           <input
+//             type="number"
+//             id="Year"
+//             name="Year"
+//             value={formData.Year}
+//             onChange={handleChange}
+//             required
+//             style={{ width: "100%", padding: "8px" }}
+//           />
+//         </div>
+//         <div style={{ marginBottom: "10px" }}>
+//           <label htmlFor="Category" style={{ display: "block", marginBottom: "5px" }}>
+//             Category:
+//           </label>
+//           <select
+//             id="Category"
+//             name="Category"
+//             value={formData.Category}
+//             onChange={handleChange}
+//             required
+//             style={{ width: "100%", padding: "8px" }}
+//           >
+//             <option value="">Select a category</option>
+//             {categories.map((category) => (
+//               <option key={category} value={category}>
+//                 {category}
+//               </option>
+//             ))}
+//           </select>
+//         </div>
+//         <button
+//           type="submit"
+//           style={{
+//             padding: "10px 20px",
+//             backgroundColor: "#007BFF",
+//             color: "#FFF",
+//             border: "none",
+//             borderRadius: "5px",
+//             cursor: "pointer",
+//           }}
+//         >
+//           Predict
+//         </button>
+//       </form>
+
+//       {error && (
+//         <div style={{ marginTop: "20px", color: "red", textAlign: "center" }}>
+//           <strong>Error:</strong> {error}
+//         </div>
+//       )}
+
+//       {results && (
+//         <div style={{ marginTop: "20px", textAlign: "center" }}>
+//           <h2>Prediction Results</h2>
+//           <p>
+//             <strong>Buy Price:</strong> {results.buy_price[0]}
+//           </p>
+//           <p>
+//             <strong>Maintenance Cost:</strong> {results.maintenance_cost[0]}
+//           </p>
+//           <p>
+//             <strong>Total Price:</strong> {results.total_price[0]}
+//           </p>
+//           <p>
+//             <strong>Annual Budget:</strong> {results.annual_budget[0]}
+//           </p>
+//         </div>
+//       )}
+//     </div>
+//   );
+// }

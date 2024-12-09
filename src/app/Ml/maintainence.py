@@ -1,38 +1,43 @@
-from flask import Flask
-from flask_cors import CORS
 import pandas as pd
 import matplotlib.pyplot as plt
 
-app = Flask(__name__)
-CORS(app)
+# Load the hardware inventory data
+file_path = 'C:\\Users\\Lenovo\\Desktop\\SIH_SurakshaSanchay\\src\\app\\Ml\\trial1.csv'
+hardware_inventory_data = pd.read_csv(file_path)
 
-# Function to load and process the dataset
-def load_and_prepare_data(file_path):
-    # Load the dataset
-    budget_data = pd.read_csv(file_path)
-    
-    # Group data by 'Year' and sum relevant columns
-    df_grouped = budget_data.groupby('Year')[['Total Buy Price', 'Total Maintenance Cost']].sum()
-    return df_grouped
+# Ensure the necessary columns exist in the data
+required_columns = ['Item_Age(years)', 'Condition', 'Average_Maintenance_Charge']
+for column in required_columns:
+    if column not in hardware_inventory_data.columns:
+        raise ValueError(f"Missing required column: {column}")
 
-# Function to generate and display the stacked bar chart using matplotlib
-def generate_stacked_bar_chart(data):
-    # Create the stacked bar chart
-    data.plot(kind='bar', stacked=True, figsize=(12, 6), color=['#1f77b4', '#ff7f0e'])
-    
-    # Add titles and labels
-    plt.title("Total Buy Price vs. Maintenance Cost Over Years", fontsize=16)
-    plt.xlabel("Year", fontsize=12)
-    plt.ylabel("Cost (₹ Cr)", fontsize=12)
-    plt.legend(title="Cost Type")
-    plt.xticks(rotation=45)
-    plt.grid(axis='y', linestyle='--', alpha=0.7)
-    plt.tight_layout()
+# Aggregate data by grouping item ages into bins
+max_age = int(hardware_inventory_data['Item_Age(years)'].max()) + 100
+bins = range(0, max_age, 100)  # Group item age into bins of 100
+hardware_inventory_data['Age_Group'] = pd.cut(hardware_inventory_data['Item_Age(years)'], bins)
 
-    # Show the plot locally (in your development environment)
-    plt.show()
+# Calculate the average maintenance cost per age group
+age_group_cost = hardware_inventory_data.groupby('Age_Group')['Average_Maintenance_Charge'].mean()
 
-# API Route to generate and display the chart
+# Plot average maintenance cost by age group
+plt.figure(figsize=(12, 6))
+age_group_cost.plot(kind='bar', color='lightgreen', edgecolor='black')
+plt.title('Average Maintenance Cost by Age Group')
+plt.xlabel('Age Group (Years)')
+plt.ylabel('Average Maintenance Cost')
+plt.grid(axis='y', linestyle='--', alpha=0.5)
+plt.tight_layout()
+plt.show()
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# Group data by condition and calculate total maintenance cost
+condition_cost = hardware_inventory_data.groupby('Condition')['Average_Maintenance_Charge'].sum()
+
+# Plot maintenance cost by condition
+plt.figure(figsize=(12, 6))
+condition_cost.plot(kind='bar', color=['skyblue', 'orange', 'lightcoral', 'lightyellow'], edgecolor='black')
+plt.title('Maintenance Cost by Condition')
+plt.xlabel('Condition')
+plt.ylabel('Total Maintenance Cost')
+plt.grid(axis='y', linestyle='--', alpha=0.5)
+plt.tight_layout()
+plt.show()
