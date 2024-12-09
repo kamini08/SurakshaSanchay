@@ -1,10 +1,10 @@
 // import { User, IssuanceRequest, PrismaClient } from "@prisma/client";
-// import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 // import { auth } from "../../../../../../../auth";
 
 // const prisma = new PrismaClient();
 
-// export async function GET(req: Request) {
+export async function GET(req: Request) {
 //   try {
 //     const session = await auth();
 //     const userId = session?.user.id || "";
@@ -49,9 +49,9 @@
 //     return NextResponse.json(requests, { status: 201 });
 //   } catch (error) {
 //     console.error("Error finding request:", error);
-//     return NextResponse.json(
-//       { error: "Failed to create request" },
-//       { status: 500 },
-//     );
+    return NextResponse.json(
+      { error: "Failed to create request" },
+      { status: 500 },
+    );
 //   }
-// }
+}
