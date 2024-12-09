@@ -5,6 +5,7 @@ import { db } from '@/lib/db';
 
 const prisma = new PrismaClient();
 
+const domain = process.env.DOMAIN;
 export async function PUT(req: Request) {
   try {
     const session = await auth();
@@ -50,6 +51,29 @@ export async function PUT(req: Request) {
           temporaryLocation: temporaryLocation, // Users can only modify the temporary location
         },
       });
+      try {
+        const response = await fetch('${domain}/api/asset/item-location', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            itemId: itemId,
+            temporaryLocation: temporaryLocation,
+          }),
+        });
+    
+        if (!response.ok) {
+          const errorData = await response.json();
+          return NextResponse.json({ message: errorData.message || 'Failed to create item location' }, { status: response.status });
+        }
+    
+        const locationData = await response.json();
+        // Optionally, you can handle the response from the item-location route here
+    
+      } catch (error:any) {
+        return NextResponse.json({ message: 'Error occurred while creating item location', error: error.message }, { status: 500 });
+      }
     }
 
     return NextResponse.json({ message: 'Item updated successfully', item: updatedItem });

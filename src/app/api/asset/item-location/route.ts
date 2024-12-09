@@ -49,6 +49,13 @@ export async function POST(request: Request) {
       },
     });
 
+    await db.inventoryItem.update({
+      where: { itemId },
+      data: {
+        temporaryLocation:location,// Update the status to "OUT"
+      },
+    })
+
     return NextResponse.json(newEntry, { status: 200 });
   } catch (error) {
     console.error("Error inserting data:", error);
