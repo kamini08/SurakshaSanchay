@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Image from "next/image";
 import { NextResponse } from "next/server";
+import { toast } from "react-toastify";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -111,6 +112,10 @@ const Profile = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(profileData),
+    });
+    toast.success("data updated successfully", {
+      position: "top-right",
+      autoClose: 3000,
     });
     setIsEditing(false);
   };

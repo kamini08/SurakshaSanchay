@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { toast } from "react-toastify";
 
 interface Notification {
   id: string;
@@ -31,10 +32,13 @@ const NotificationTable = () => {
       const response = await fetch("/api/notifications/index");
       if (!response.ok) throw new Error("Failed to fetch notifications");
       const data = await response.json();
-      console.log(data);
       setNotifications(data.notifications);
     } catch (error) {
       console.error("Error fetching notifications:", error);
+      toast.error("Error fetching notifications", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     } finally {
       setLoading(false);
     }
@@ -64,8 +68,16 @@ const NotificationTable = () => {
       if (!response.ok) {
         throw new Error("Failed to toggle notification seen state");
       }
+      toast.success("toggling notification to seen state", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     } catch (error) {
       console.error("Error toggling notification seen state:", error);
+      toast.error("Error toggling notification seen state", {
+        position: "top-right",
+        autoClose: 3000,
+      });
       // Revert the optimistic update on error
       setNotifications((prev) => {
         const reverted = [...prev];
@@ -94,8 +106,16 @@ const NotificationTable = () => {
         prev.filter((_, index) => !selectedNotifications.includes(index)),
       );
       setSelectedNotifications([]);
+      toast.warning("Item deleted successfully", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     } catch (error) {
       console.error("Error deleting notifications:", error);
+      toast.warning("Error deleting notifications", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 

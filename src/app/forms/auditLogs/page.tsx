@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import { toast } from "react-toastify";
 
 interface ItemAssignment {
   id: string;
@@ -41,6 +42,10 @@ const ItemAssignmentTable = () => {
         }
       } catch (error) {
         setAssignmentData(defaultData);
+        toast.error("Failed to find the request. Please try again.", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       } finally {
         setLoading(false);
       }
