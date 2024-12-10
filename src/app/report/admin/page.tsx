@@ -10,6 +10,7 @@ import fs from "fs";
 import path from "path";
 import { PrismaClient } from "@prisma/client";
 import { auth } from "../../../../auth";
+import { toast } from "react-toastify";
 
 // const prisma = new PrismaClient();
 // // async function getModelFields() {
@@ -165,6 +166,10 @@ const Reports: React.FC = () => {
         }
       } catch (err: any) {
         alert("Error fetching data: " + err.message);
+        toast.error("Error fetching data", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       }
     };
 

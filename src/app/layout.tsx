@@ -6,7 +6,8 @@ import "@/css/style.css";
 import React, { useEffect, useState } from "react";
 import Loader from "@/components/common/Loader";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -24,6 +25,7 @@ export default function RootLayout({
         <DefaultLayout />
         <div className="relative min-h-screen w-auto overflow-x-auto dark:bg-boxdark-2 dark:text-bodydark lg:ml-[290px]">
           {loading ? <Loader /> : children}
+          <ToastContainer/>
         </div>
       </body>
     </html>

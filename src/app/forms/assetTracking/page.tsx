@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { toast } from "react-toastify";
 
 const AddItemLocationForm = () => {
   // State management for form fields
@@ -33,8 +34,12 @@ const AddItemLocationForm = () => {
 
       const result = await response.json();
       if (response.ok) {
-        setMessage("Item location added successfully!");
-        setMessageType("success"); // Set message type to success
+        toast.success("Item location added successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        // setMessage("Item location added successfully!");
+        // setMessageType("success"); // Set message type to success
         // Reset form after successful submission
         setItemLocationData({
           itemId: "",
@@ -54,9 +59,12 @@ const AddItemLocationForm = () => {
         setMessage("");
       }, 3000);
     } catch (error) {
-      setMessage("An error occurred while adding the item location.");
-      setMessageType("error"); // Set message type to error
-
+      // setMessage("An error occurred while adding the item location.");
+      // setMessageType("error"); // Set message type to error
+      toast.error("An error occurred while adding the item location.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
       // Hide the message after 3 seconds
       setTimeout(() => {
         setMessage("");

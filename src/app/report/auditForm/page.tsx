@@ -3,6 +3,7 @@
 import { useState, FormEvent, ChangeEvent } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { toast } from "react-toastify";
 
 // Defining the structure for Policy Data
 interface PolicyData {
@@ -121,9 +122,17 @@ const AuditForm = () => {
       body: JSON.stringify(formData),
     });
     if (response.ok) {
-      alert("Form submitted successfully");
+      // alert("Form submitted successfully");
+      toast.success("Form submitted successfully", {
+        position: "top-right",
+        autoClose: 3000,
+      });
       } else {
-        alert("Error submitting form");
+        // alert("Error submitting form");
+        toast.error("Error submitting form", {
+          position: "top-right",
+          autoClose: 3000,
+        });
         }
   };
 
