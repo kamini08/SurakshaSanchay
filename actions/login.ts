@@ -26,66 +26,66 @@ export const login = async (values: any) => {
   }
 
 
-  if (!recaptcha_token) {
-    return { error: "reCAPTCHA token not found! Try again" };
-  }
+  // if (!recaptcha_token) {
+  //   return { error: "reCAPTCHA token not found! Try again" };
+  // }
 
-  async function createAssessment({
-    projectID = process.env.RECAPTCHA_PROJECT,
-    recaptchaKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
-    token = recaptcha_token,
-    recaptchaAction = "LOGIN",
-  }) {
+  // async function createAssessment({
+  //   projectID = process.env.RECAPTCHA_PROJECT,
+  //   recaptchaKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
+  //   token = recaptcha_token,
+  //   recaptchaAction = "LOGIN",
+  // }) {
 
-    // Create the reCAPTCHA client.
-    // TODO: Cache the client generation code (recommended) or call client.close() before exiting the method.
-    const client = new RecaptchaEnterpriseServiceClient();
-    const projectPath = client.projectPath(projectID);
+  //   // Create the reCAPTCHA client.
+  //   // TODO: Cache the client generation code (recommended) or call client.close() before exiting the method.
+  //   const client = new RecaptchaEnterpriseServiceClient();
+  //   const projectPath = client.projectPath(projectID);
   
-    // Build the assessment request.
-    const request = ({
-      assessment: {
-        event: {
-          token: token,
-          siteKey: recaptchaKey,
-        },
-      },
-      parent: projectPath,
-    });
+  //   // Build the assessment request.
+  //   const request = ({
+  //     assessment: {
+  //       event: {
+  //         token: token,
+  //         siteKey: recaptchaKey,
+  //       },
+  //     },
+  //     parent: projectPath,
+  //   });
   
-    const [ response ] = await client.createAssessment(request);
+  //   const [ response ] = await client.createAssessment(request);
   
-    // Check if the token is valid.
-    if (!response.tokenProperties.valid) {
-      console.log(`The CreateAssessment call failed because the token was: ${response.tokenProperties.invalidReason}`);
-      return null;
-    }
+  //   // Check if the token is valid.
+  //   if (!response.tokenProperties.valid) {
+  //     console.log(`The CreateAssessment call failed because the token was: ${response.tokenProperties.invalidReason}`);
+  //     return null;
+  //   }
   
     
-    if (response.tokenProperties.action === recaptchaAction) {
-      // Get the risk score and the reason(s).
-      // For more information on interpreting the assessment, see:
-      // https://cloud.google.com/recaptcha-enterprise/docs/interpret-assessment
-      console.log(`The reCAPTCHA score is: ${response.riskAnalysis.score}`);
-      response.riskAnalysis.reasons.forEach((reason: any) => {
-        console.log(reason);
-      });
+  //   if (response.tokenProperties.action === recaptchaAction) {
+  //     // Get the risk score and the reason(s).
+  //     // For more information on interpreting the assessment, see:
+  //     // https://cloud.google.com/recaptcha-enterprise/docs/interpret-assessment
+  //     console.log(`The reCAPTCHA score is: ${response.riskAnalysis.score}`);
+  //     response.riskAnalysis.reasons.forEach((reason: any) => {
+  //       console.log(reason);
+  //     });
 
-      console.log(response.riskAnalysis.score);
-  if (response.riskAnalysis.score < 0.7) {
-    return { error: response["error-codes"] };
-  }
+  //     console.log(response.riskAnalysis.score);
+  // if (response.riskAnalysis.score < 0.7) {
+  //   return { error: response["error-codes"] };
+  // }
   
-      return response.riskAnalysis.score;
-    } else {
-      console.log("The action attribute in your reCAPTCHA tag does not match the action you are expecting to score");
-      return null;
-    }
-  }
+  //     return response.riskAnalysis.score;
+  //   } else {
+  //     console.log("The action attribute in your reCAPTCHA tag does not match the action you are expecting to score");
+  //     return null;
+  //   }
+  // }
   
  
 
-  const recaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY;
+  // const recaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY;
 
   
 
