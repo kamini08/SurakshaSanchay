@@ -1,6 +1,6 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
@@ -20,6 +20,10 @@ import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
 import { login } from "../../../actions/login";
 import Link from "next/link";
+import {
+  GoogleReCaptchaProvider,
+  GoogleReCaptcha,
+} from "react-google-recaptcha-v3";
 
 // Updated LoginSchema with validation rules
 const LoginSchema = z.object({
@@ -41,22 +45,37 @@ export const LoginForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
+  const [refreshReCaptcha, setRefreshReCaptcha] = useState(false);
+  const [token, setToken] = useState<string>("");
 
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-      govId: "",
-    },
-  });
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+
+const setTokenFunc = (getToken: string) => {
+  setToken(getToken);
+};
+
+const form = useForm<z.infer<typeof LoginSchema>>({
+  resolver: zodResolver(LoginSchema),
+  defaultValues: {
+    email: "",
+    password: "",
+  },
+});
+
+
+
+
+  const onSubmit = (values: any) => {
     setError("");
     setSuccess("");
+    grecaptcha.enterprise.ready(async () => {
+      const token = await grecaptcha.enterprise.execute(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY, {action: 'LOGIN'});
+    });
+
+    const recaptcha_token = token;
 
     startTransition(() => {
-      login(values)
+      login({...values, recaptcha_token})
         .then((data) => {
           if (data?.error) {
             form.reset();
@@ -172,6 +191,18 @@ export const LoginForm = () => {
                 </>
               )}
             </div>
+            <GoogleReCaptchaProvider
+            reCaptchaKey={
+              process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+                ? process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+                : ""
+            }
+          >
+            <GoogleReCaptcha
+              onVerify={setTokenFunc}
+              refreshReCaptcha={refreshReCaptcha}
+            />
+          </GoogleReCaptchaProvider>
             <FormError message={error || urlError} />
             <FormSuccess message={success} />
             <Button

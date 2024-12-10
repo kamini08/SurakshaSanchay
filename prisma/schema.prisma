@@ -52,8 +52,6 @@ model User {
 
   Penalty Penalty[]
 
-  Award Award[]
-
   ReturnRequest ReturnRequest[]
 }
 
@@ -439,7 +437,6 @@ model Penalty {
 model Award {
   id                 String   @id @default(cuid())
   userId             String
-  user               User     @relation(fields: [userId], references: [govId])
   numberOfStarsAdded Int
   description        String
   inchargeId         String
