@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import CardDataStats from "./Card";
 import BarChart from "./BarChart";
 import PieChart from "./PieChart";
+import { toast } from "react-toastify";
 
 interface Package {
   category: string;
@@ -38,12 +39,12 @@ const MonthlyReport = () => {
   const cardImages = [
     "/images/iconimages/comm-devices.png",
     "/images/iconimages/it-equipment.png",
-    "/images/iconimages/firearms.png",
+    "/images/iconimages/net-equipment.png",
     "/images/iconimages/monitoring.png",
     "/images/iconimages/vehicles.png",
     "/images/iconimages/protective.png",
-    "/images/iconimages/net-equipment.png",
-    "/images/iconimages/forensics.png",
+     "/images/iconimages/firearms.png",
+    "/images/iconimages/forensics.png", 
     "/images/iconimages/medical.png",
     "/images/iconimages/office-supplies.png",
   ];
@@ -60,6 +61,10 @@ const MonthlyReport = () => {
         }
       } catch (error) {
         console.error("Error fetching data:" + error);
+        toast.error("Something went wrong", {
+          position: "top-right",
+          autoClose: 3000,
+        }); 
       } finally {
         setLoading(false);
       }

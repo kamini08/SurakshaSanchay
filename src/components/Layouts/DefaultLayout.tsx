@@ -4,6 +4,7 @@ import Sidebar from "@/components/Sidebar";
 import AdminSidebar from "@/components/AdminSidebar";
 import UserSidebar from "@/components/UserSidebar";
 import Header from "@/components/Header";
+import { toast } from "react-toastify";
 
 const DefaultLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -28,6 +29,10 @@ const DefaultLayout = () => {
         setRole(role);
       } catch (error) {
         console.error("Error fetching user role:", error);
+        toast.error("Error fetching user role", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       } finally {
         setLoading(false); // Set loading to false after fetching
       }
@@ -70,6 +75,7 @@ const DefaultLayout = () => {
       {renderSidebar()}
       <div className="relative flex flex-1 flex-col lg:ml-72.5">
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+
         {/* <main>
           <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
             {/* {children} */}

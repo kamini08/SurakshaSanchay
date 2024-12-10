@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { toast } from "react-toastify";
 
 // Define the structure of return form data
 interface ItemReturnFormData {
@@ -72,7 +73,11 @@ const ItemReturnForm = () => {
       });
 
       if (response.ok) {
-        alert("Item return submitted successfully!");
+        // alert("Item return submitted successfully!");
+        toast.success("Item return submitted successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+        });
         // Reset form data after successful submission
         setItemReturnFormData({
           returnId: "",
@@ -93,11 +98,19 @@ const ItemReturnForm = () => {
         });
       } else {
         const errorData = await response.json();
-        alert(`Error: ${errorData.message}`);
+        // alert(`Error: ${errorData.message}`);
+        toast.error(`Error: ${errorData.message}`, {
+          position: "top-right",
+          autoClose: 3000,
+        });
       }
     } catch (error) {
       console.error("Error submitting item return form:", error);
-      alert("Failed to submit the item return.");
+      // alert("Failed to submit the item return.");
+      toast.error("Error submitting item return form:", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 

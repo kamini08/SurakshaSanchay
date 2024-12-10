@@ -381,7 +381,7 @@ const menuGroups = [
         label: "Authentication",
         route: "#",
         children: [
-          { label: "Register Inventory Incharge", route: "/register" },
+          { label: "Register User/Inventory Incharge", route: "/register" },
         ],
       },
     ],

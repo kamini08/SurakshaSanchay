@@ -1,6 +1,7 @@
 
 
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 interface Item {
   itemId: string;
@@ -33,6 +34,10 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ result, onClear }) => {
         }
       } catch (error) {
         console.error("Error fetching item:", error);
+        toast.error("Error fetching item", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       }
     };
     
@@ -58,11 +63,23 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ result, onClear }) => {
 
       if (res.ok) {
         console.log('Item updated successfully');
+        toast.success("Item updated successfully", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       } else {
         console.error('Failed to update item');
+        toast.error("Failed to update item", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       }
     } catch (error) {
       console.error('Error updating item:', error);
+      toast.error("Error updating item", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 

@@ -3,6 +3,7 @@
 import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { toast } from "react-toastify";
 
 
 interface itemData {
@@ -118,7 +119,10 @@ const AddInventory = () => {
       });
 
       if (response.ok) {
-        alert("Inventory added successfully!");
+        toast.success("Inventory added successfully", {
+          position: "top-right",
+          autoClose: 3000,
+        });
 
         // Reset the form after successful submission
         setItemData({
@@ -147,7 +151,10 @@ const AddInventory = () => {
       }
     } catch (error) {
       console.error("Error submitting inventory form:", error);
-      alert("Failed to submit the inventory.");
+      toast.error("Failed to submit the inventory.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
   const renderCategoryForm = () => {

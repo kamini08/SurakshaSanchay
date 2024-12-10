@@ -7,6 +7,7 @@ import SummaryCard from "@/components/reports/SummaryPage";
 import { Box } from "@mui/material";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { auth } from "../../../../auth";
+import { toast } from "react-toastify";
 
 interface CompliancePolicy {
   policy: string;
@@ -144,7 +145,11 @@ const ReportsPage: React.FC = () => {
         setWorkingItems(result.workingItems);
 
       } catch (err: any) {
-        alert("Error fetching data: " + err.message);
+        // alert("Error fetching data: " + err.message);
+        toast.error("Error fetching data", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       }
     };
 
