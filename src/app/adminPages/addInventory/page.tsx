@@ -5,6 +5,7 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
+import { toast } from "react-toastify";
 
 const policeStations = [
   { name: "TT Nagar Police Station", lat: 23.23725, long: 77.39984 },
@@ -160,8 +161,11 @@ const AddInventory = () => {
       });
 
       if (response.ok) {
-        setSuccess("Inventory added successfully!");
-
+        // setSuccess("Inventory added successfully!");
+        toast.success("Inventory added successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+        });
         // Reset the form after successful submission
         setItemData({
           itemId: "",
@@ -185,7 +189,11 @@ const AddInventory = () => {
         });
       } else {
         const errorData = await response.json();
-        setError(`Error: ${errorData.message}`);
+        // setError(`Error: ${errorData.message}`);
+        toast.error(`Error: ${errorData.message}`, {
+          position: "top-right",
+          autoClose: 3000,
+        });
       }
     } catch (error) {
       console.error("Error submitting inventory form:", error);

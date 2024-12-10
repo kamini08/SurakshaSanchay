@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import { toast } from "react-toastify";
 
 interface ItemReturn {
   isLost: boolean;
@@ -115,6 +116,10 @@ const ItemReturnTable = () => {
     } catch (error) {
       console.error(error);
       setNotification("An error occurred while confirming the return.");
+      toast.warning("An error occurred while confirming the return.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 

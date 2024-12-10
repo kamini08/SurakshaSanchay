@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
+import { toast } from "react-toastify";
 
 const PieChart: React.FC = () => {
     const categories = [
@@ -39,6 +40,10 @@ const PieChart: React.FC = () => {
                 const response = await fetch('/api/Dashboard'); // Replace with your backend endpoint
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
+                    toast.error("Network response was not ok", {
+                        position: "top-right",
+                        autoClose: 3000,
+                      }); 
                 }
                 const temp = await response.json();
                 const result = temp.data;
@@ -51,6 +56,11 @@ const PieChart: React.FC = () => {
                 setData(fetchedData);
             } catch (err) {
                 console.error("Fetch error:", err);
+                toast.error("Something went wrong", {
+                    position: "top-right",
+                    autoClose: 3000,
+                  }); 
+                // Set to example data in case of an error
                 setData(exampleData.map(item => 0.001));
             } finally {
                 setLoading(false);

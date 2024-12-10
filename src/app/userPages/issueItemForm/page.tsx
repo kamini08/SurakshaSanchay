@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { toast } from "react-toastify";
 
 // Define the structure of form data
 interface ItemRequestFormData {
@@ -69,7 +70,11 @@ const NewItemRequest = () => {
       });
 
       if (response.ok) {
-        alert("Item request submitted successfully!");
+        // alert("Item request submitted successfully!");
+        toast.success("Item request submitted successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+        });
         setItemRequestFormData({
           item: "",
           userId: "",
@@ -88,11 +93,19 @@ const NewItemRequest = () => {
         });
       } else {
         const errorData = await response.json();
-        alert(`Error: ${errorData.message}`);
+        // alert(`Error: ${errorData.message}`);
+        toast.error(`Error: ${errorData.message}`, {
+          position: "top-right",
+          autoClose: 3000,
+        });
       }
     } catch (error) {
       console.error("Error submitting item request form:", error);
-      alert("Failed to submit the item request.");
+      // alert("Failed to submit the item request.");
+      toast.error("Error submitting item request form!", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 

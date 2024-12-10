@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import { toast } from "react-toastify";
 
 const RequestMaitenanceManagement = () => {
   // State for form data and previous records
@@ -50,6 +51,10 @@ const RequestMaitenanceManagement = () => {
         }
       } catch (error) {
         console.error("Error fetching previous requests:", error);
+        toast.error("Error fetching previous requests", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       } finally {
         setLoading(false);
       }
@@ -81,7 +86,11 @@ const RequestMaitenanceManagement = () => {
       });
 
       if (response.ok) {
-        alert("Request submitted successfully!");
+        // alert("Request submitted successfully!");
+        toast.success("Request submitted successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+        });
         setRequestData({
           itemId: "",
           category: "",
@@ -93,11 +102,19 @@ const RequestMaitenanceManagement = () => {
         });
       } else {
         const errorData = await response.json();
-        alert(`Error: ${errorData.message}`);
+        // alert(`Error: ${errorData.message}`);
+        toast.error(`Error: ${errorData.message}`, {
+          position: "top-right",
+          autoClose: 3000,
+        });
       }
     } catch (error) {
       console.error("Error submitting the request:", error);
-      alert("Failed to submit the request.");
+      // alert("Failed to submit the request.");
+      toast.error("Error submitting the request:", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 

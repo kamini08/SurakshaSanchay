@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import { toast } from "react-toastify";
 
 const RequestMaintenanceManagement = () => {
   const initialRequestData = {
@@ -89,6 +90,10 @@ const RequestMaintenanceManagement = () => {
           } else {
             console.error("Unexpected API response structure:", result);
             setPreviousRequests([initialRequestData]);
+            toast.error("Error fetching data:", {
+              position: "top-right",
+              autoClose: 3000,
+            }); 
           }
         } else {
           console.error(
@@ -100,6 +105,10 @@ const RequestMaintenanceManagement = () => {
       } catch (error) {
         console.error("Error fetching previous requests:", error);
         setPreviousRequests([initialRequestData]);
+        toast.error("Error fetching data:", {
+          position: "top-right",
+          autoClose: 3000,
+        }); 
       } finally {
         setLoading(false);
       }
@@ -127,13 +136,18 @@ const RequestMaintenanceManagement = () => {
       }
 
       const updatedItem = await response.json();
-      console.log("Updated Item:", updatedItem);
-
-      alert(`Condition for item ${itemId} updated to ${newCondition}`);
+      toast.error(`Condition for item ${itemId} updated to ${newCondition}`, {
+        position: "top-right",
+        autoClose: 3000,
+      }); 
       return updatedItem; // Optionally return updated data
     } catch (error: any) {
       console.error("Error updating item condition:", error.message);
       alert(`Error: ${error.message}`);
+      toast.error("Failed to update item condition", {
+        position: "top-right",
+        autoClose: 3000,
+      }); 
     }
   };
 
@@ -164,6 +178,10 @@ const RequestMaintenanceManagement = () => {
       if (!response.ok) {
         const errorResponse = await response.json();
         throw new Error(errorResponse.message || `Failed to update status`);
+        toast.error("Failed to update status", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       }
 
       const updatedRequest = await response.json();
@@ -175,13 +193,16 @@ const RequestMaintenanceManagement = () => {
             : request,
         ),
       );
-
-      alert(
-        `Request status updated successfully to ${updatedRequest.data.status}`,
-      );
+      toast.success(`Request status updated successfully to ${updatedRequest.data.status}`, {
+        position: "top-right",
+        autoClose: 3000,
+      });
     } catch (error: any) {
       console.error("Error updating request:", error);
-      alert(`Error updating status: ${error.message}`);
+      toast.error(`Error updating status: ${error.message}`, {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 
@@ -206,7 +227,10 @@ const RequestMaintenanceManagement = () => {
 
     if (!selectedRequest) {
       console.error("Error: No request found for the selected ID.");
-      alert("Failed to find the request. Please try again.");
+      toast.error("Failed to find the request. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
       return;
     }
 
@@ -214,7 +238,10 @@ const RequestMaintenanceManagement = () => {
 
     if (!selectedItemId) {
       console.error("Error: No itemId found for the selected request.");
-      alert("Failed to find the itemId. Please try again.");
+      toast.error("Failed to find the itemId. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
       return;
     }
 
@@ -234,12 +261,17 @@ const RequestMaintenanceManagement = () => {
 
     if (!selectedItemId) {
       console.error("Error: No itemId found for the selected request.");
-      alert("Failed to find the itemId. Please try again.");
+      toast.error("Failed to find the itemId. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
       return;
     }
 
-    alert("Approval submitted!");
-
+    toast.success("Approval submitted successfully", {
+      position: "top-right",
+      autoClose: 3000,
+    });
     try {
       // Update the request status
       await updateRequestStatus(
@@ -259,6 +291,10 @@ const RequestMaintenanceManagement = () => {
       await updateItemCondition(selectedItemId, conditionToSet);
     } catch (error) {
       console.error("Error in approval process:", error);
+      toast.error("Error in approval process:", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     } finally {
       setShowApprovalForm(false); // Close the approval form
     }
@@ -278,7 +314,10 @@ const RequestMaintenanceManagement = () => {
       requestData.discardReason,
       0,
     );
-    alert("Rejection submitted!");
+    toast.success("Rejection submitted successfully", {
+      position: "top-right",
+      autoClose: 3000,
+    });
     setShowRejectionForm(false);
   };
 
@@ -328,10 +367,15 @@ const RequestMaintenanceManagement = () => {
     );
     if (!selectedItemId) {
       console.error("Error: No itemId found for the selected request.");
-      alert("Failed to find the itemId. Please try again.");
-      return;
+      toast.error("Failed to find the itemId. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+      });      return;
     }
-    alert("Item maintenance completed");
+    toast.success("Item maintenance completed", {
+      position: "top-right",
+      autoClose: 3000,
+    });
     try {
       // Update the request status
       await updateRequestStatus(
@@ -351,6 +395,10 @@ const RequestMaintenanceManagement = () => {
       await updateItemCondition(selectedItemId, conditionToSet);
     } catch (error) {
       console.error("Error in completion process:", error);
+      toast.error("Error in completion process:", {
+        position: "top-right",
+        autoClose: 3000,
+      }); 
     } finally {
       setShowCompletionForm(false); // Close the approval form
     }
@@ -369,7 +417,10 @@ const RequestMaintenanceManagement = () => {
 
     if (!selectedRequest) {
       console.error("Error: No request found for the selected ID.");
-      alert("Failed to find the request. Please try again.");
+      toast.error("Failed to find the request. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
       return;
     }
 
@@ -377,7 +428,10 @@ const RequestMaintenanceManagement = () => {
 
     if (!selectedItemId) {
       console.error("Error: No itemId found for the selected request.");
-      alert("Failed to find the itemId. Please try again.");
+      toast.error("Failed to find the itemId. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
       return;
     }
     setPreviousRequests((prevRequests) =>
@@ -394,7 +448,10 @@ const RequestMaintenanceManagement = () => {
     );
     if (!selectedItemId) {
       console.error("Error: No itemId found for the selected request.");
-      alert("Failed to find the itemId. Please try again.");
+      toast.error("Failed to find the itemId. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
       return;
     }
     try {

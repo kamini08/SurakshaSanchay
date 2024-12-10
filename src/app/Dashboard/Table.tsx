@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 // Define the type for the schema
 interface Item {
@@ -91,6 +92,10 @@ const TableFive: React.FC<TableFiveProps> = ({ category }) => {
         setBrandData(data); // Replace with API response
       } catch (error) {
         console.error("Error fetching data:", error);
+        toast.error("Error fetching data:", {
+          position: "top-right",
+          autoClose: 3000,
+        }); 
       }
     };
 

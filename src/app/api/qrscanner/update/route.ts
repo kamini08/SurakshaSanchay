@@ -10,6 +10,18 @@ export async function PUT(req: Request) {
   try {
     const session = await auth();
     const user = session?.user;
+    const govId = session?.user.govId;
+    const locGov = session?.user.location;
+    if (!locGov) {
+      return NextResponse.json({ message: "No location" }, { status: 400 });
+    }
+
+    if (!govId) {
+      return NextResponse.json(
+        { message: "Gov ID is required" },
+        { status: 401 },
+      );
+    }
     const location = await db.user.findUnique({
       where: { id: user?.id },
       select: { location: true },
@@ -58,28 +70,69 @@ export async function PUT(req: Request) {
         },
       });
       try {
-        const response = await fetch('${domain}/api/asset/item-location', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            itemId: itemId,
-            temporaryLocation: temporaryLocation,
-          }),
+        const stat = await prisma.itemLocationHistory.findFirst({
+          where: { itemId: itemId },
+          orderBy: { assignedDate: "desc" },
+          select: { status: true },
         });
-    
-        if (!response.ok) {
-          const errorData = await response.json();
-          return NextResponse.json({ message: errorData.message || 'Failed to create item location' }, { status: response.status });
+        let loc;
+        let statusItem;
+        if (!stat || stat.status === "In") {
+          statusItem = "Out";
+          loc = temporaryLocation;
+        } else if (stat.status === "Out") {
+          statusItem = "In";
+          loc = locGov;
+          await prisma.inventoryItem.update({
+            where: { itemId: itemId },
+            data: {
+              temporaryLocation: null,
+            },
+          });
         }
-    
-        const locationData = await response.json();
-        // Optionally, you can handle the response from the item-location route here
-    
-      } catch (error:any) {
-        return NextResponse.json({ message: 'Error occurred while creating item location', error: error.message }, { status: 500 });
+
+        await prisma.itemLocationHistory.create({
+          data: {
+            itemId: itemId,
+            status: statusItem,
+            govId: govId,
+            location: loc,
+          },
+        });
+        return NextResponse.json({ status: 200 });
+      } catch (err) {
+        return NextResponse.json({ status: 400 });
       }
+      // try {
+      //   const response = await fetch(`${domain}/api/asset/item-location`, {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify({
+      //       itemId: itemId,
+      //       temporaryLocation: temporaryLocation,
+      //     }),
+      //   });
+
+      //   if (!response.ok) {
+      //     const errorData = await response.json();
+      //     return NextResponse.json(
+      //       { message: errorData.message || "Failed to create item location" },
+      //       { status: response.status },
+      //     );
+      //   }
+
+      //   // Optionally, you can handle the response from the item-location route here
+      // } catch (error: any) {
+      //   return NextResponse.json(
+      //     {
+      //       message: "Error occurred while creating item location",
+      //       error: error.message,
+      //     },
+      //     { status: 501 },
+      //   );
+      // }
     }
 
     return NextResponse.json({

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 interface Item {
   itemId: string;
@@ -21,12 +22,21 @@ const ItemList = () => {
         const response = await fetch("/api/asset/assetItem");
         if (!response.ok) {
           throw new Error("Failed to fetch items");
+          toast.error("something went wrong", {
+            position: "top-right",
+            autoClose: 3000,
+          });
         }
 
         const data = await response.json();
         setItems(data);
       } catch (error: any) {
         setError(error.message);
+        toast.error("something went wrong", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+
       } finally {
         setLoading(false);
       }
