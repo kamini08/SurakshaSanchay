@@ -125,16 +125,12 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ result, onClear }) => {
         </div>
       ) : null}
 
-      {!isUpdated && (
-        <button
-          onClick={handleUpdate}
-          className="mt-4 rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white transition duration-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-        >
-          Update
-        </button>
-      )}
-
-      {isUpdated && <p className="mt-4 text-green-600">Update successful!</p>}
+      <button
+        onClick={handleUpdate}
+        className="rounded-lg bg-blue-500 px-4 py-2 font-semibold text-white shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+      >
+        Update
+      </button>
     </div>
   );
 };

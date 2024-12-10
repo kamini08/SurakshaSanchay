@@ -39,12 +39,12 @@ const MonthlyReport = () => {
   const cardImages = [
     "/images/iconimages/comm-devices.png",
     "/images/iconimages/it-equipment.png",
-    "/images/iconimages/forensics.png",
+    "/images/iconimages/net-equipment.png",
     "/images/iconimages/monitoring.png",
     "/images/iconimages/vehicles.png",
     "/images/iconimages/protective.png",
-    "/images/iconimages/net-equipment.png",
-    "/images/iconimages/firearms.png",
+     "/images/iconimages/firearms.png",
+    "/images/iconimages/forensics.png", 
     "/images/iconimages/medical.png",
     "/images/iconimages/office-supplies.png",
   ];
