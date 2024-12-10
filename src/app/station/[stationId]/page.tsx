@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { jsPDF } from "jspdf";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { toast } from "react-toastify";
-import { saveAs } from "file-saver";
+// import { saveAs } from "file-saver";
 
 interface Package {
   itemId: string;
@@ -178,38 +178,37 @@ const ViewInventoryIndividual = () => {
       // Save the PDF file
       const pdfBlob = pdf.output("blob");
 
-      saveAs(pdfBlob, "downloaded.pdf");
+      // saveAs(pdfBlob, "downloaded.pdf");
     } catch (error) {
       console.error("Error creating PDF:", error);
     }
   };
 
-  const handleDownloadAsImage = () => {
+  const handleDownloadAsImage = async () => {
     const formElement = document.getElementById("transfer-form");
     if (formElement) {
       html2canvas(formElement).then((canvas) => {
         const link = document.createElement("a");
+        setFile(link);
         link.download = "transfer-details.png";
-
         link.href = canvas.toDataURL("image/png");
         link.click();
-        console.log(canvas);
-        setFile(link);
       });
 
+      const imageData = file.split(",")[1];
       const pdf: any = downloadPdfFromImage(file);
 
       // Upload to AWS S3
-      const uploadParams: any = {
+      const params: any = {
         Bucket: process.env.S3_BUCKET_NAME,
         Key: `transfer-details.pdf`, // Unique file name
-        Body: Buffer.from(pdf),
-        ContentType: "application/pdf",
+        Body: imageData,
+        ContentType: "image/png",
       };
+      const result = await s3.upload(params).promise();
+      console.log("Image uploaded successfully:", result.Location);
     }
   };
-  const result = await s3.upload(params).promise();
-  console.log("Image uploaded successfully:", result.Location);
 
   // Decode stationId from URL params
   const stationId = params?.stationId
