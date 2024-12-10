@@ -19,6 +19,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { toast } from "react-toastify";
 
 const policeStations = [
   { name: "TT Nagar Police Station", lat: 23.23725, long: 77.39984 },
@@ -188,11 +189,21 @@ const ViewInventory = () => {
       if (!response.ok) {
         throw new Error("Failed to update inventory");
       }
-
+      else{
+        toast.success("Inventory updated successfully", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      }
       const updatedInventory = await response.json();
       console.log("Inventory updated:", updatedInventory);
     } catch (error) {
       console.error("Error saving edited data:", error);
+      
+      toast.error("Error saving edited data", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 
@@ -221,8 +232,6 @@ const ViewInventory = () => {
         }
 
         const deletedInventory = await response.json();
-        console.log("Deleted inventory item:", deletedInventory);
-
         // Update the frontend after deletion
         const updatedData = packageData.filter((_, i) => i !== rowToDelete);
         setPackageData(updatedData);
@@ -282,12 +291,19 @@ const ViewInventory = () => {
       if (response.ok) {
         const updatedData = await response.json();
         setPackageData(updatedData);
-        // console.log("Data successfully updated:", updatedData);
+        toast.success("Inventory filtered successfully", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       } else {
         console.error("Error updating data:", response.statusText);
       }
     } catch (error) {
       console.error("Error submitting form:", error);
+      toast.error("Error submitting form", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 

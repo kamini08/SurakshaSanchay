@@ -2,6 +2,7 @@
 
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const CreateItemAssignment = () => {
   const [itemId, setItemId] = useState("");
@@ -44,7 +45,8 @@ const CreateItemAssignment = () => {
 
       if (!response.ok) {
         throw new Error(data.message || "Something went wrong");
-      }
+            }
+       
 
       setSuccessMessage(data.message);
       // Reset form fields if needed
@@ -58,6 +60,10 @@ const CreateItemAssignment = () => {
       setReason([]);
     } catch (err: any) {
       setError(err.message);
+      toast.error("Something went wrong in audit log", {
+        position: "top-right",
+        autoClose: 3000,
+      }); 
     }
   };
 

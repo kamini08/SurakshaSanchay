@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { toast } from "react-toastify";
 
 // Define the structure of form data
 interface ItemRequestFormData {
@@ -11,7 +12,6 @@ interface ItemRequestFormData {
   category: string;
   quantity: number;
   description: string;
-  technicalSpecifications: string;
   location: string;
   expectedDeliveryDate: string;
   purpose: string;
@@ -31,7 +31,6 @@ const NewItemRequest = () => {
       category: "",
       quantity: 1,
       description: "",
-      technicalSpecifications: "",
       location: "",
       expectedDeliveryDate: "",
       purpose: "",
@@ -60,39 +59,82 @@ const NewItemRequest = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("/api/inventory/issuance/user/request", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(itemRequestFormData),
+      const res = await fetch("/api/Role", {
+        method: "GET",
       });
+      const role = await res.json();
 
-      if (response.ok) {
-        alert("Item request submitted successfully!");
-        setItemRequestFormData({
-          item: "",
-          userId: "",
-          category: "",
-          quantity: 1,
-          description: "",
-          technicalSpecifications: "",
-          location: "",
-          expectedDeliveryDate: "",
-          purpose: "",
-          expectedUsageDuration: "",
-          requesterName: "John Doe", // Reset to default or fetched value
-          department: "",
-          approvalNeededBy: "",
-          priorityLevel: "medium",
+      if (role == "user") {
+        const response = await fetch("/api/inventory/issuance/user/request", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(itemRequestFormData),
         });
+
+        if (response.ok) {
+          alert("Item request submitted successfully!");
+          setItemRequestFormData({
+            item: "",
+            userId: "",
+            category: "",
+            quantity: 1,
+            description: "",
+            location: "",
+            expectedDeliveryDate: "",
+            purpose: "",
+            expectedUsageDuration: "",
+            requesterName: "John Doe", // Reset to default or fetched value
+            department: "",
+            approvalNeededBy: "",
+            priorityLevel: "medium",
+          });
+        } else {
+          const errorData = await response.json();
+          alert(`Error: ${errorData.message}`);
+        }
       } else {
-        const errorData = await response.json();
-        alert(`Error: ${errorData.message}`);
+        const response = await fetch(
+          "/api/inventory/issuance/incharge/request",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(itemRequestFormData),
+          },
+        );
+
+        if (response.ok) {
+          alert("Item request submitted successfully!");
+          setItemRequestFormData({
+            item: "",
+            userId: "",
+            category: "",
+            quantity: 1,
+            description: "",
+            location: "",
+            expectedDeliveryDate: "",
+            purpose: "",
+            expectedUsageDuration: "",
+            requesterName: "John Doe", // Reset to default or fetched value
+            department: "",
+            approvalNeededBy: "",
+            priorityLevel: "medium",
+          });
+        } else {
+          const errorData = await response.json();
+          alert(`Error: ${errorData.message}`);
+        }
       }
     } catch (error) {
       console.error("Error submitting item request form:", error);
-      alert("Failed to submit the item request.");
+      // alert("Failed to submit the item request.");
+      toast.error("Error submitting item request form!", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 
@@ -159,8 +201,33 @@ const NewItemRequest = () => {
                 {
                   name: "location",
                   label: "Location",
-                  type: "text",
+                  type: "dropdown",
                   required: true,
+                  options: [
+                    "TT Nagar Police Station",
+                    "Kamla Nagar Police Station",
+                    "Shyamla Hills Police Station",
+                    "Habibganj Police Station",
+                    "Piplani Police Station",
+                    "Govindpura Police Station",
+                    "Ashoka Garden Police Station",
+                    "MP Nagar Police Station",
+                    "Bhopal Kotwali Police Station",
+                    "Hanumanganj Police Station",
+                    "Chhola Mandir Police Station",
+                    "Shahpura Police Station",
+                    "Misrod Police Station",
+                    "Kolar Police Station",
+                    "Jahangirabad Police Station",
+                    "Mangalwara Police Station",
+                    "Talaiya Police Station",
+                    "Ayodhya Nagar Police Station",
+                    "Bagh Sewania Police Station",
+                    "Khajuri Sadak Police Station",
+                    "Ratibad Police Station",
+                    "Berasia Police Station"
+
+                ],
                 },
                 {
                   name: "expectedDeliveryDate",

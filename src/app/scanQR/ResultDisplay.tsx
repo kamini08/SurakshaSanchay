@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 interface Item {
   itemId: string;
@@ -33,6 +34,10 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ result, onClear }) => {
         }
       } catch (error) {
         console.error("Error fetching item:", error);
+        toast.error("Error fetching item", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       }
     };
 
@@ -56,17 +61,23 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ result, onClear }) => {
 
       if (res.ok) {
         console.log("Item updated successfully");
-        setIsUpdated(true); // Set isUpdated to true on success
-
-        // Clear the update message after 3 seconds
-        setTimeout(() => {
-          setIsUpdated(false);
-        }, 3000);
+        toast.success("Item updated successfully", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       } else {
         console.error("Failed to update item");
+        toast.error("Failed to update item", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       }
     } catch (error) {
       console.error("Error updating item:", error);
+      toast.error("Error updating item", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 
@@ -114,16 +125,12 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ result, onClear }) => {
         </div>
       ) : null}
 
-      {!isUpdated && (
-        <button
-          onClick={handleUpdate}
-          className="mt-4 rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white transition duration-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-        >
-          Update
-        </button>
-      )}
-
-      {isUpdated && <p className="mt-4 text-green-600">Update successful!</p>}
+      <button
+        onClick={handleUpdate}
+        className="rounded-lg bg-blue-500 px-4 py-2 font-semibold text-white shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+      >
+        Update
+      </button>
     </div>
   );
 };

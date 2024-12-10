@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
+import { toast } from "react-toastify";
 
 interface MaintenanceRequest {
     status: string; // Status of the maintenance request
@@ -52,7 +53,10 @@ const BarChart: React.FC = () => {
                 setData(formattedData);
             } catch (err) {
                 console.error("Fetch error:", err);
-
+                toast.error("Something went wrong", {
+                    position: "top-right",
+                    autoClose: 3000,
+                  }); 
                 // Fall back to default data on error
                 setData(defaultData);
             } finally {

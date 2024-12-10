@@ -59,7 +59,6 @@ const AdminInventoryReport: React.FC<AdminReportData> = ({
         compliance.values[index],
       ]),
     ];
-
     const csvContent = headers.map((row) => row.join(",")).join("\n");
     const blob = new Blob([csvContent], { type: "text/csv" });
     const link = document.createElement("a");

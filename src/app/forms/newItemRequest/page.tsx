@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { toast } from "react-toastify";
 
 // Define the structure of form data
 interface ItemRequestFormData {
@@ -25,6 +26,8 @@ interface ItemRequestFormData {
 
 const NewItemRequest = () => {
   // State for the form
+  
+
   const [itemRequestFormData, setItemRequestFormData] =
     useState<ItemRequestFormData>({
       item: "",
@@ -70,7 +73,11 @@ const NewItemRequest = () => {
       });
 
       if (response.ok) {
-        alert("Item request submitted successfully!");
+        // alert("Item request submitted successfully!");
+        toast.success("Item request submitted successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+        });
         setItemRequestFormData({
           item: "",
           category: "",
@@ -89,11 +96,20 @@ const NewItemRequest = () => {
         });
       } else {
         const errorData = await response.json();
-        alert(`Error: ${errorData.message}`);
+        // alert(`Error: ${errorData.message}`);
+        toast.error("Error: ${errorData.message}", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+
       }
     } catch (error) {
       console.error("Error submitting item request form:", error);
-      alert("Failed to submit the item request.");
+      // alert("Failed to submit the item request.");
+      toast.error("Failed to submit the item request.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 
@@ -154,8 +170,33 @@ const NewItemRequest = () => {
                 {
                   name: "location",
                   label: "Location",
-                  type: "text",
+                  type: "dropdown",
                   required: true,
+                  options: [
+                      "TT Nagar Police Station",
+                      "Kamla Nagar Police Station",
+                      "Shyamla Hills Police Station",
+                      "Habibganj Police Station",
+                      "Piplani Police Station",
+                      "Govindpura Police Station",
+                      "Ashoka Garden Police Station",
+                      "MP Nagar Police Station",
+                      "Bhopal Kotwali Police Station",
+                      "Hanumanganj Police Station",
+                      "Chhola Mandir Police Station",
+                      "Shahpura Police Station",
+                      "Misrod Police Station",
+                      "Kolar Police Station",
+                      "Jahangirabad Police Station",
+                      "Mangalwara Police Station",
+                      "Talaiya Police Station",
+                      "Ayodhya Nagar Police Station",
+                      "Bagh Sewania Police Station",
+                      "Khajuri Sadak Police Station",
+                      "Ratibad Police Station",
+                      "Berasia Police Station"
+  
+                  ],
                 },
                 {
                   name: "expectedDeliveryDate",

@@ -1,6 +1,10 @@
 import { auth, signOut } from "../../../../auth";
-import Dashboard from "@/app/Dashboard/page";
+// import Dashboard from "@/app/Dashboard/page";
 // import React, { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
+
+// Dynamically load BarChart without SSR
+const Dashboard = dynamic(() => import("../../Dashboard/page"), { ssr: false });
 
 const SettingsPage = async () => {
   return (

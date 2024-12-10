@@ -52,8 +52,6 @@ model User {
 
   Penalty Penalty[]
 
-  Award Award[]
-
   ReturnRequest ReturnRequest[]
 }
 
@@ -156,7 +154,6 @@ model InventoryItem {
 
   locationHistories ItemLocationHistory[]
 
-  IssuanceRequest IssuanceRequest[]
 
   itemAssignmentHistories ItemAssignmentHistory[]
 
@@ -166,6 +163,7 @@ model InventoryItem {
 model IssuanceRequest {
   id                    String         @id @default(cuid()) // Unique identified
   name                  String
+  category              Category
   quantity              Int
   expectedDeliveryDate  DateTime
   purpose               String
@@ -174,8 +172,6 @@ model IssuanceRequest {
   priorityLevel         String
   createdAt             DateTime       @default(now()) // Automatically set creation time
   updatedAt             DateTime       @updatedAt // Automatically update timestamp
-  itemId                String?
-  inventoryItem         InventoryItem? @relation(fields: [itemId], references: [itemId])
   userId                String
   user                  User           @relation(fields: [userId], references: [govId])
   inchargeId            String?
@@ -347,8 +343,9 @@ model ItemLocationHistory {
   govId          String   // govId of the person to whom the item is assigned
   assignedDate   DateTime @default(now()) // Date and time of assignment
   location       String   // Location where the item is assigned
-  status  String 
-  description    String?  // Optional description for the transfer
+  status  String?
+ 
+  // description    String?  // Optional description for the transfer
   inventoryItem InventoryItem @relation(fields: [itemId], references: [itemId], onDelete: Cascade)
 
   @@index([itemId, assignedDate]) // Optional index for faster queries
@@ -442,7 +439,6 @@ model Penalty {
 model Award {
   id                 String   @id @default(cuid())
   userId             String
-  user               User     @relation(fields: [userId], references: [govId])
   numberOfStarsAdded Int
   description        String
   inchargeId         String

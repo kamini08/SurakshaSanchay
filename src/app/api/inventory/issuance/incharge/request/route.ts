@@ -9,6 +9,7 @@ export async function POST(req: Request) {
     const {
       userId,
       description,
+      category,
       item,
       location,
       quantity,
@@ -21,23 +22,25 @@ export async function POST(req: Request) {
 
     const user = await prisma.user.findUnique({
       where: { govId: userId },
-      select: { role: true },
     });
 
     const admin = await prisma.user.findFirst({
       where: { role: "admin" },
     });
 
-    const inventoryItem = await prisma.inventoryItem.findMany({
-      where: {
-        AND: [
-          { type: item },
-          {
-            userId: null,
-          },
-        ],
-      },
-    });
+    // const inventoryItem = await prisma.inventoryItem.findMany({
+    //   where: {
+    //     AND: [
+    //       { type: item },
+    //       {
+    //         userId: null,
+    //       },
+    //     ],
+    //   },
+    // });
+
+    console.log(user);
+    console.log(user?.role);
 
     if (!user || user.role !== "incharge") {
       return NextResponse.json(
@@ -49,7 +52,7 @@ export async function POST(req: Request) {
       data: {
         userId,
         name: item,
-        itemId: "",
+        category,
         inchargeId: admin?.govId,
         issueDescription: description,
         quantity,

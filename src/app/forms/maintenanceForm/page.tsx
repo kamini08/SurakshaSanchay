@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { toast } from "react-toastify";
 
 const RequestManagement = () => {
   // State for Maintenance Request Form
@@ -44,7 +45,10 @@ const RequestManagement = () => {
       });
 
       if (response.ok) {
-        alert("Maintenance request submitted successfully!");
+        toast.success("Maintenance request submitted successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+        });
         setMaintenanceFormData({
           itemId: "",
           item: "",
@@ -61,11 +65,19 @@ const RequestManagement = () => {
         });
       } else {
         const errorData = await response.json();
-        alert(`Error: ${errorData.message}`);
+        // alert(`Error: ${errorData.message}`);
+        toast.error(`Error: ${errorData.message}`, {
+          position: "top-right",
+          autoClose: 3000,
+        });
       }
     } catch (error) {
       console.error("Error submitting maintenance form:", error);
-      alert("Failed to submit the maintenance request.");
+      // alert("Failed to submit the maintenance request.");
+      toast.error("Failed to submit the maintenance request.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 

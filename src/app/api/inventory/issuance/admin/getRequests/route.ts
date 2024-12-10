@@ -25,16 +25,14 @@ export async function GET(req: Request) {
     const requests = await prisma.issuanceRequest.findMany({
       where: { inchargeId: user?.govId },
       include: {
-        inventoryItem: true,
         user: true,
       },
     });
 
     const data = requests.map((request) => ({
       requestId: request.id,
-      itemId: request.itemId,
-      category: request.inventoryItem?.category,
-      item: request.inventoryItem?.type,
+      category: request.category,
+      item: request.name,
       quantityRequested: request.quantity,
       requestedBy: request.user?.name,
       department: request.user?.location,

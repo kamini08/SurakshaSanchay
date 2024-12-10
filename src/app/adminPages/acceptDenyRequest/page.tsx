@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { toast } from "react-toastify";
 
 interface Request {
   id: string;
@@ -52,11 +53,19 @@ const RequestManagement: React.FC = () => {
         );
         if (!response.ok) {
           throw new Error("Failed to fetch requests");
+          toast.error("Failed to fetch requests,try sometime later", {
+            position: "top-right",
+            autoClose: 3000,
+          });
         }
         const data: Request[] = await response.json();
         setRequests(data);
       } catch (err: any) {
         throw new Error("Failed to fetch requests", err);
+        toast.error("Failed to fetch requests,try sometime later", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       } finally {
       }
     };
@@ -78,6 +87,10 @@ const RequestManagement: React.FC = () => {
         ...approvedRequests,
         { ...requestToApprove, status: "Approved" },
       ]);
+      toast.success("Item approved successfully", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 
@@ -98,7 +111,10 @@ const RequestManagement: React.FC = () => {
       ]);
       setShowDiscardForm(false);
       setDiscardReason("");
-      alert(`Request "${selectedRequest.item}" has been denied.`);
+      toast.warning(`Request "${selectedRequest.item}" has been denied.`, {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 

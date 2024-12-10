@@ -11,6 +11,11 @@ type EnumMaintenanceStatusFieldUpdateOperationsInput =
 export async function POST(request: any) {
   const session = await auth();
   const govId = session?.user.govId;
+  if (!govId) {
+    return NextResponse.json({
+      message: "no govId",
+    });
+  }
   try {
     const { userId, itemId, issueDescription } = await request.json();
 
@@ -76,7 +81,7 @@ export async function POST(request: any) {
     // Find the incharge based on the location
     const incharge = await prisma.user.findFirst({
       where: { role: "incharge", location: userLocation },
-      select: { email: true, id: true },
+      select: { email: true, id: true, govId: true },
     });
 
     if (!incharge) {
@@ -92,8 +97,8 @@ export async function POST(request: any) {
     // Create a notification for the incharge
     const bhoomi = await prisma.notification.create({
       data: {
-        userId: user.id,
-        inchargeId: incharge.id,
+        userId: govId,
+        inchargeId: incharge.govId,
         message: `New maintenance request created by ${user.name} having govId ${userId}. `,
       },
     });
