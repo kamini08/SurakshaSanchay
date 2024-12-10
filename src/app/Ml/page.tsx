@@ -1,97 +1,97 @@
-'use client';
-import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import React, { useEffect, useState } from 'react';
-import {
-  ScatterChart,
-  Scatter,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Label,
-} from 'recharts';
+// 'use client';
+// import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+// import DefaultLayout from "@/components/Layouts/DefaultLayout";
+// import React, { useEffect, useState } from 'react';
+// import {
+//   ScatterChart,
+//   Scatter,
+//   XAxis,
+//   YAxis,
+//   CartesianGrid,
+//   Tooltip,
+//   ResponsiveContainer,
+//   Label,
+// } from 'recharts';
 
-const formatNumber = (num: number): string => {
-  return num.toLocaleString('en-IN', { style: 'currency', currency: 'INR' });
-};
+// const formatNumber = (num: number): string => {
+//   return num.toLocaleString('en-IN', { style: 'currency', currency: 'INR' });
+// };
 
-const ChartComponent = () => {
-  const [chartData, setChartData] = useState<any[]>([]);
+// const ChartComponent = () => {
+//   const [chartData, setChartData] = useState<any[]>([]);
 
-  useEffect(() => {
-    fetch('http://127.0.0.1:5000/get_chart_data')
-      .then((response) => response.json())
-      .then((data) => {
-        const formattedData = data.y_test.map((actualPrice: number, index: number) => ({
-          actualPrice: actualPrice / 1_000_000, // Scaling down to millions
-          predictedPrice: data.y_pred[index] / 1_000_000,
-        }));
-        setChartData(formattedData);
-      })
-      .catch((error) => console.error('Error fetching chart data:', error));
-  }, []);
+//   useEffect(() => {
+//     fetch('http://127.0.0.1:5000/get_chart_data')
+//       .then((response) => response.json())
+//       .then((data) => {
+//         const formattedData = data.y_test.map((actualPrice: number, index: number) => ({
+//           actualPrice: actualPrice / 1_000_000, // Scaling down to millions
+//           predictedPrice: data.y_pred[index] / 1_000_000,
+//         }));
+//         setChartData(formattedData);
+//       })
+//       .catch((error) => console.error('Error fetching chart data:', error));
+//   }, []);
 
-  return (
-    <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
-      <Breadcrumb pageName="ML MODEL PREDICTIONS" />
-    <div className="flex justify-center items-center min-h-screen bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl bg-white shadow-default dark:border-strokedark dark:bg-boxdark text-sm font-medium text-black dark:text-white">
-        <h2 className="text-xl font-semibold text-center text-gray-800 mb-4 text-sm font-medium text-black dark:text-white">
-          Actual Prices vs Predicted Prices
-        </h2>
-        <ResponsiveContainer width="100%" height={350}>
-          <ScatterChart>
-            <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
-            <XAxis
-              type="number"
-              dataKey="actualPrice"
-              name="Actual Price"
-              tick={{ fontSize: 12, fill: '#333' }}
-              stroke="#333"
-            >
-              <Label
-                value="Actual Price (₹ in Millions)"
-                offset={-5}
-                position="insideBottom"
-                style={{ fill: '#333', fontSize: '14px' }}
-              />
-            </XAxis>
-            <YAxis
-              type="number"
-              dataKey="predictedPrice"
-              name="Predicted Price"
-              tick={{ fontSize: 12, fill: '#333' }}
-              stroke="#333"
-            >
-              <Label
-                value="Predicted Price (₹ in Millions)"
-                angle={-90}
-                position="insideLeft"
-                style={{ fill: '#333', fontSize: '14px', textAnchor: 'middle' }}
-              />
-            </YAxis>
-            <Tooltip
-              formatter={(value: number) => formatNumber(value * 1_000_000)} // Revert scaling for display
-              cursor={{ strokeDasharray: '3 3' }}
-            />
-            <Scatter
-              name="Price Prediction"
-              data={chartData}
-              fill="#34D399"
-              line={{ stroke: '#10B981', strokeWidth: 2 }}
-              shape="circle"
-            />
-          </ScatterChart>
-        </ResponsiveContainer>
-      </div>
-    </div>
-    </div>
-  );
-};
+//   return (
+//     <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
+//       <Breadcrumb pageName="ML MODEL PREDICTIONS" />
+//     <div className="flex justify-center items-center min-h-screen bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+//       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl bg-white shadow-default dark:border-strokedark dark:bg-boxdark text-sm font-medium text-black dark:text-white">
+//         <h2 className="text-xl font-semibold text-center text-gray-800 mb-4 text-sm font-medium text-black dark:text-white">
+//           Actual Prices vs Predicted Prices
+//         </h2>
+//         <ResponsiveContainer width="100%" height={350}>
+//           <ScatterChart>
+//             <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
+//             <XAxis
+//               type="number"
+//               dataKey="actualPrice"
+//               name="Actual Price"
+//               tick={{ fontSize: 12, fill: '#333' }}
+//               stroke="#333"
+//             >
+//               <Label
+//                 value="Actual Price (₹ in Millions)"
+//                 offset={-5}
+//                 position="insideBottom"
+//                 style={{ fill: '#333', fontSize: '14px' }}
+//               />
+//             </XAxis>
+//             <YAxis
+//               type="number"
+//               dataKey="predictedPrice"
+//               name="Predicted Price"
+//               tick={{ fontSize: 12, fill: '#333' }}
+//               stroke="#333"
+//             >
+//               <Label
+//                 value="Predicted Price (₹ in Millions)"
+//                 angle={-90}
+//                 position="insideLeft"
+//                 style={{ fill: '#333', fontSize: '14px', textAnchor: 'middle' }}
+//               />
+//             </YAxis>
+//             <Tooltip
+//               formatter={(value: number) => formatNumber(value * 1_000_000)} // Revert scaling for display
+//               cursor={{ strokeDasharray: '3 3' }}
+//             />
+//             <Scatter
+//               name="Price Prediction"
+//               data={chartData}
+//               fill="#34D399"
+//               line={{ stroke: '#10B981', strokeWidth: 2 }}
+//               shape="circle"
+//             />
+//           </ScatterChart>
+//         </ResponsiveContainer>
+//       </div>
+//     </div>
+//     </div>
+//   );
+// };
 
-export default ChartComponent;
+// export default ChartComponent;
 // 'use client';
 // import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 // import DefaultLayout from "@/components/Layouts/DefaultLayout";
@@ -764,3 +764,90 @@ export default ChartComponent;
 //     </div>
 //   );
 // }
+
+
+
+
+///////////////////////BUDGET IMPLEMENTATION///////////////////////////////////////////////
+'use client';
+import React, { useState } from 'react';
+
+function App() {
+  const [year, setYear] = useState('');
+  const [category, setCategory] = useState('');
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  // Handle form submission and call the backend API
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setResult(null);
+
+    try {
+      // Call the backend API
+      const response = await fetch(' http://127.0.0.1:5000/predict', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ year, category })
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setResult(data);
+      } else {
+        setError(data.error);
+      }
+    } catch (err) {
+      setError('Failed to fetch data from backend');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="App">
+      <h1>Budget Calculator</h1>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Year:</label>
+          <input
+            type="number"
+            value={year}
+            onChange={(e) => setYear(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label>Category:</label>
+          <input
+            type="text"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit" disabled={loading}>
+          {loading ? 'Calculating...' : 'Submit'}
+        </button>
+      </form>
+
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {result && (
+        <div>
+          <h2>Results:</h2>
+          <p>Buy Price: {result.buy_price}</p>
+          <p>Maintenance Cost: {result.maintenance_cost}</p>
+          <p>Total Price: {result.total_price}</p>
+          <p>Annual Budget: {result.annual_budget}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default App;
