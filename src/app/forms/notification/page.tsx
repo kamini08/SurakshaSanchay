@@ -152,7 +152,7 @@ const NotificationTable = () => {
         {/* Notification Table */}
         <table className="w-full border-collapse border bg-white">
           <thead>
-            <tr className="bg-gray-100">
+            <tr className="dark:bg-slate-400">
               <th className="p-3">
                 <input
                   type="checkbox"
@@ -167,10 +167,10 @@ const NotificationTable = () => {
                   }}
                 />
               </th>
-              <th className="p-3 text-left">Sender</th>
-              <th className="p-3 text-left">Subject</th>
-              <th className="p-3 text-left">Date</th>
-              <th className="p-3 text-left">Action</th>
+              <th className="p-3 dark:text-white text-left">Sender</th>
+              <th className="p-3 dark:text-white text-left">Subject</th>
+              <th className="p-3 dark:text-white text-left">Date</th>
+              <th className="p-3 dark:text-white text-left">Action</th>
             </tr>
           </thead>
           <tbody>

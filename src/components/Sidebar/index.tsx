@@ -253,7 +253,7 @@ const menuGroups = [
         children: [
           { label: "New Item Request", route: "/userPages/issueItemForm" },
           // { label: "Maintenance Request", route: "/userPages/userMaintenanceForm" },
-          { label: "Discard Item Request", route: "/forms/discardForm" },
+          // { label: "Discard Item Request", route: "/forms/discardForm" },
         ],
       },
       {

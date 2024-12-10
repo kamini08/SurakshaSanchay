@@ -156,7 +156,6 @@ model InventoryItem {
 
   locationHistories ItemLocationHistory[]
 
-  IssuanceRequest IssuanceRequest[]
 
   itemAssignmentHistories ItemAssignmentHistory[]
 
@@ -174,8 +173,6 @@ model IssuanceRequest {
   priorityLevel         String
   createdAt             DateTime       @default(now()) // Automatically set creation time
   updatedAt             DateTime       @updatedAt // Automatically update timestamp
-  itemId                String?
-  inventoryItem         InventoryItem? @relation(fields: [itemId], references: [itemId])
   userId                String
   user                  User           @relation(fields: [userId], references: [govId])
   inchargeId            String?
