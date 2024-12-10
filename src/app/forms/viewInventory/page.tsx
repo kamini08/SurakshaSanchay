@@ -19,6 +19,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 const categoryDrop = [
   { name: "COMMUNICATION_DEVICES" },
   { name: "COMPUTER_AND_IT_EQUIPMENT" },
@@ -124,9 +125,16 @@ const ViewInventory = () => {
       }
 
       const updatedInventory = await response.json();
-      console.log("Inventory updated:", updatedInventory);
+      toast.success("Inventory updated", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     } catch (error) {
       console.error("Error saving edited data:", error);
+      toast.error("Error saving edited data", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 
@@ -156,12 +164,19 @@ const ViewInventory = () => {
 
         const deletedInventory = await response.json();
         console.log("Deleted inventory item:", deletedInventory);
-
+        toast.success("Deleted inventory item", {
+          position: "top-right",
+          autoClose: 3000,
+        });
         // Update the frontend after deletion
         const updatedData = packageData.filter((_, i) => i !== rowToDelete);
         setPackageData(updatedData);
       } catch (error) {
         console.error("Error deleting inventory:", error);
+        toast.error("Error deleting inventory", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       }
     }
 
@@ -213,12 +228,23 @@ const ViewInventory = () => {
       if (response.ok) {
         const updatedData = await response.json();
         setPackageData(updatedData);
-        console.log("Data successfully updated:", updatedData);
+        toast.success("Data successfully updated", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       } else {
         console.error("Error updating data:", response.statusText);
+        toast.error("Error updating data", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       }
     } catch (error) {
       console.error("Error submitting form:", error);
+      toast.error("Error updating data", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { toast } from "react-toastify";
 
 const DiscardForm = () => {
   const [discardFormData, setDiscardFormData] = useState({
@@ -113,7 +114,10 @@ const DiscardForm = () => {
       });
 
       if (response.ok) {
-        alert("Discard request submitted successfully!");
+        toast.success("Discard request submitted successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+        });
         setDiscardFormData({
           itemId: "",
           itemName: "",
@@ -129,11 +133,18 @@ const DiscardForm = () => {
         });
       } else {
         const errorData = await response.json();
-        alert(`Error: ${errorData.message}`);
+        // alert(`Error: ${errorData.message}`);
+        toast.error(`Error: ${errorData.message}`, {
+          position: "top-right",
+          autoClose: 3000,
+        });
       }
     } catch (error) {
       console.error("Error submitting discard form:", error);
-      alert("Failed to submit the discard request.");
+      toast.error("Failed to submit the discard request.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 

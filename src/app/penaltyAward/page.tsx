@@ -2,6 +2,7 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 interface IPenalty {
   userId: string;
@@ -259,7 +260,11 @@ const AwardForm: React.FC = () => {
       .then((data) => console.log(data))
       .catch((error) => {
         console.error(error);
-        alert("Error logging award!");
+        // alert("Error logging award!");
+        toast.error("Error logging award!", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       });
 
     setAward({

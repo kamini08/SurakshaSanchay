@@ -6,6 +6,7 @@ import html2canvas from "html2canvas";
 import React, { useEffect, useState } from "react";
 
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import { toast } from "react-toastify";
 
 interface Package {
   itemId: string;
@@ -201,6 +202,10 @@ try {
         }
       } catch (error) {
         setPackageData(defaultData);
+        toast.error("Error searching the station", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       } finally {
         setLoading(false);
       }

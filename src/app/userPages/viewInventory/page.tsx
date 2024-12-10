@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const categoryDrop = [
   { name: "COMMUNICATION_DEVICES" },
@@ -81,6 +82,10 @@ const PackageTable = () => {
         console.error(error.message); // Log the error for debugging
         setPackages(defaultPackages); // Use default data in case of error
         setFilteredPackages(defaultPackages); // Display fallback data
+        toast.error("Error fetching previous requests", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       } finally {
         setLoading(false);
       }

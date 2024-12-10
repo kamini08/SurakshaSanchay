@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import CardDataStats from "./Card";
 import BarChart from "./BarChart";
 import PieChart from "./PieChart";
+import { toast } from "react-toastify";
 
 interface Package {
   category: string;
@@ -60,6 +61,10 @@ const MonthlyReport = () => {
         }
       } catch (error) {
         console.error("Error fetching data:" + error);
+        toast.error("Something went wrong", {
+          position: "top-right",
+          autoClose: 3000,
+        }); 
       } finally {
         setLoading(false);
       }

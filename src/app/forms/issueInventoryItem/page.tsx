@@ -163,6 +163,7 @@
 import React, { useEffect, useState } from "react";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import { toast } from "react-toastify";
 
 interface IssueItem {
   requestId: string;
@@ -229,6 +230,11 @@ const IssueItemTable = () => {
         }
       } catch (error) {
         setIssueData(defaultData);
+        toast.error("Failed to fetch the data.", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        
       } finally {
         setLoading(false);
       }
