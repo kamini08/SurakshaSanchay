@@ -52,8 +52,6 @@ model User {
 
   Penalty Penalty[]
 
-  Award Award[]
-
   ReturnRequest ReturnRequest[]
 }
 
@@ -165,6 +163,7 @@ model InventoryItem {
 model IssuanceRequest {
   id                    String         @id @default(cuid()) // Unique identified
   name                  String
+  category              Category
   quantity              Int
   expectedDeliveryDate  DateTime
   purpose               String
@@ -438,7 +437,6 @@ model Penalty {
 model Award {
   id                 String   @id @default(cuid())
   userId             String
-  user               User     @relation(fields: [userId], references: [govId])
   numberOfStarsAdded Int
   description        String
   inchargeId         String
