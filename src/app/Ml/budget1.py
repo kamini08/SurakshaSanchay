@@ -175,7 +175,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Load the dataset and prepare the model (this part is unchanged)
-data = pd.read_csv("C:\\Users\\Lenovo\\Desktop\\SIH_SurakshaSanchay\\src\\app\\Ml\\budgetval.csv")
+data = pd.read_csv("budgetval.csv")
 
 X = data.drop(columns=["Total Buy Price", "Total Maintenance Cost", "Total Price", "Annual Budget"])
 y_buy_price = data["Total Buy Price"]
