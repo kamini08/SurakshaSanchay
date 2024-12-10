@@ -1,5 +1,5 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import DefaultLayout from "@/components/Layouts/DefaultLayout";
+
 import Map from "@/components/Map/MapDisplay";
 
 const SearchPoliceStation = () => {
