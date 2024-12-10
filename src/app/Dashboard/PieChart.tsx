@@ -43,6 +43,7 @@ const PieChart: React.FC = () => {
                 const temp = await response.json();
                 const result = temp.data;
 
+                // Map categories to the fetched data or fallback to zero/placeholder
                 const fetchedData = categories.map(category => {
                     const item = result.find((data: any) => data.category === category);
                     return item ? (item.total > 0 ? item.total : 0.001) : 0.001; // Placeholder for zero
@@ -51,6 +52,7 @@ const PieChart: React.FC = () => {
                 setData(fetchedData);
             } catch (err) {
                 console.error("Fetch error:", err);
+                // Set to example data in case of an error
                 setData(exampleData.map(item => 0.001));
             } finally {
                 setLoading(false);
@@ -64,7 +66,6 @@ const PieChart: React.FC = () => {
         chart: {
             type: 'pie',
             height: 350,
-            foreColor: '#ffffff', // Set chart text color to white
         },
         labels: categories,
         colors: [
@@ -85,9 +86,6 @@ const PieChart: React.FC = () => {
                 const value = opts.w.globals.series[opts.seriesIndex];
                 return `${seriesName}: ${value > 0 ? value.toFixed(2) : 0}`;
             },
-            labels: {
-                colors: "#ffffff", // Set legend text color to white
-            },
         },
         responsive: [{
             breakpoint: 480,
@@ -103,12 +101,12 @@ const PieChart: React.FC = () => {
     };
 
     if (loading) {
-        return <div className="text-white">Loading...</div>; // Make loading text white
+        return <div>Loading...</div>;
     }
 
     return (
         <div>
-            <h2 className="text-3xl mb-5 text-white">Inventory Distribution</h2> {/* Make title white */}
+            <h2 className="text-3xl mb-5">Inventory Distribution</h2>
             <div id="chart">
                 <ReactApexChart
                     options={options}
