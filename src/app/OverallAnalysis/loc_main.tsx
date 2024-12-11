@@ -43,24 +43,17 @@ const LocationWiseChart: React.FC = () => {
           locationRatios[item.Location].count += 1;
         });
 
-        const averagedData = Object.keys(locationRatios).map((location) => {
-          const { totalMaintenance, totalPrice, count } = locationRatios[location];
-          const averageMaintenance = totalMaintenance / count;
-          const averagePrice = totalPrice / count;
-          const maintenanceToPriceRatio = averagePrice !== 0 ? averageMaintenance / averagePrice : 0; // Avoid division by zero
-
-          return {
-            location,
-            ratio: maintenanceToPriceRatio,
-          };
-        });
+        const ratioData = Object.keys(locationRatios).map((location) => ({
+          location,
+          ratio: locationRatios[location].totalMaintenance / locationRatios[location].totalPrice,
+        }));
 
         setChartData({
-          labels: averagedData.map((entry) => entry.location),
+          labels: ratioData.map((entry) => entry.location),
           datasets: [
             {
               label: "Maintenance to Price Ratio",
-              data: averagedData.map((entry) => entry.ratio),
+              data: ratioData.map((entry) => entry.ratio),
               backgroundColor: "rgba(75, 192, 192, 0.6)",
               borderColor: "rgba(75, 192, 192, 1)",
               borderWidth: 1,
@@ -79,16 +72,16 @@ const LocationWiseChart: React.FC = () => {
     responsive: true,
     scales: {
       x: {
-        title: {
-          display: true,
-          text: "Location",
-        },
-      },
-      y: {
         beginAtZero: true,
         title: {
           display: true,
           text: "Maintenance to Price Ratio",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Location",
         },
       },
     },
