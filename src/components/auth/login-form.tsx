@@ -48,22 +48,17 @@ export const LoginForm = () => {
   const [refreshReCaptcha, setRefreshReCaptcha] = useState(false);
   const [token, setToken] = useState<string>("");
 
+  const setTokenFunc = (getToken: string) => {
+    setToken(getToken);
+  };
 
-
-const setTokenFunc = (getToken: string) => {
-  setToken(getToken);
-};
-
-const form = useForm<z.infer<typeof LoginSchema>>({
-  resolver: zodResolver(LoginSchema),
-  defaultValues: {
-    email: "",
-    password: "",
-  },
-});
-
-
-
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
   const onSubmit = (values: any) => {
     setError("");
@@ -75,7 +70,7 @@ const form = useForm<z.infer<typeof LoginSchema>>({
     const recaptcha_token = token;
 
     startTransition(() => {
-      login({...values, recaptcha_token})
+      login({ ...values, recaptcha_token })
         .then((data) => {
           if (data?.error) {
             form.reset();
@@ -192,6 +187,7 @@ const form = useForm<z.infer<typeof LoginSchema>>({
               )}
             </div>
             {/* <GoogleReCaptchaProvider
+<<<<<<< HEAD
             reCaptchaKey={
               process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
                 ? process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
@@ -203,6 +199,19 @@ const form = useForm<z.infer<typeof LoginSchema>>({
               refreshReCaptcha={refreshReCaptcha}
             />
           </GoogleReCaptchaProvider> */}
+=======
+              reCaptchaKey={
+                process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+                  ? process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+                  : ""
+              }
+            >
+              <GoogleReCaptcha
+                onVerify={setTokenFunc}
+                refreshReCaptcha={refreshReCaptcha}
+              />
+            </GoogleReCaptchaProvider> */}
+>>>>>>> 3e82bfce57c999006872261b1c803d15b61318a8
             <FormError message={error || urlError} />
             <FormSuccess message={success} />
             <Button

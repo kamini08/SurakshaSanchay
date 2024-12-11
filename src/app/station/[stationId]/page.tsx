@@ -4,7 +4,7 @@ import html2canvas from "html2canvas";
 import AWS from "aws-sdk";
 import { S3 } from "aws-sdk";
 import React, { useEffect, useState } from "react";
-import { jsPDF } from 'jspdf';
+import { jsPDF } from "jspdf";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { toast } from "react-toastify";
 import { NextResponse } from "next/server";
@@ -76,8 +76,6 @@ const ViewInventoryIndividual = () => {
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     region: process.env.AWS_REGION,
   });
-
-
 
   interface EquipmentDetailsProps {
     equipment: Record<string, string | null | undefined>; // Object with string keys and nullable/undefined string values
@@ -178,6 +176,7 @@ const ViewInventoryIndividual = () => {
     if (formElement) {
       html2canvas(formElement).then((canvas) => {
         const link = document.createElement("a");
+        setFile(link);
         link.download = "transfer-details.png";
         link.href = canvas.toDataURL("image/png");
         link.click();
@@ -188,7 +187,7 @@ const ViewInventoryIndividual = () => {
 
       const imageData = file.split(",")[1];
       // Upload to AWS S3
-      const uploadParams: any = {
+      const params: any = {
         Bucket: process.env.S3_BUCKET_NAME,
         Key: `transfer-details.pdf`, // Unique file name
         Body: Buffer.from(imageData),
@@ -196,7 +195,7 @@ const ViewInventoryIndividual = () => {
       };
     
     try {
-      const data = await s3.upload(uploadParams).promise();
+      const data = await s3.upload(params).promise();
       console.log(`File uploaded successfully. ${data.Location}`);
       
       const imageUrl = data.Location;
@@ -252,7 +251,6 @@ const ViewInventoryIndividual = () => {
   };
   
 
-  
   // Decode stationId from URL params
   const stationId = params?.stationId
     ? decodeURIComponent(params.stationId as string)
@@ -275,8 +273,6 @@ const ViewInventoryIndividual = () => {
 
     return result.join(", "); // Join the results with a comma and space
   };
-
-  
 
   useEffect(() => {
     const fetchData = async () => {

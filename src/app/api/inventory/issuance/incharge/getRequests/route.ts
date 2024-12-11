@@ -5,6 +5,7 @@ import { auth } from "../../../../../../../auth";
 const prisma = new PrismaClient();
 
 export async function GET(req: Request) {
+  const returnData: any = [];
   try {
     const session = await auth();
     const userId = session?.user.id || "";
@@ -28,23 +29,36 @@ export async function GET(req: Request) {
         user: true,
       },
     });
+    console.log(requests);
 
-    const data = requests.forEach((request) => ({
-      requestId: request.id,
-      category: request.category,
-      item: request.name,
-      quantityRequested: request.quantity,
-      requestedBy: request.user?.name,
-      department: request.user?.location,
-      priorityLevel: request.priorityLevel,
-      requestDate: request.createdAt,
-      status: request.status,
-      returnDate: "",
-      remarks: "",
-      assetTag: "",
-    }));
-    console.log(data);
-    return NextResponse.json(requests, { status: 201 });
+    for (let i = 0; i < requests.length; i++) {
+      const available = await prisma.inventoryItem.count({
+        where: {
+          AND: [
+            { type: requests[i].name },
+            { userId: null },
+            { location: user.location },
+          ],
+        },
+      });
+
+      const item = {
+        requestId: requests[i].id,
+        category: requests[i].category,
+        item: requests[i].name,
+        quantityRequested: requests[i].quantity,
+        requestedBy: requests[i].user?.name,
+        department: requests[i].user?.location,
+        priorityLevel: requests[i].priorityLevel,
+        requestDate: requests[i].createdAt,
+        status: requests[i].status,
+        availableQuantity: available,
+      };
+
+      returnData.push(item);
+    }
+
+    return NextResponse.json(returnData, { status: 201 });
   } catch (error) {
     console.error("Error finding request:", error);
     return NextResponse.json(

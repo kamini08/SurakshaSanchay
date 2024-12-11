@@ -8,33 +8,20 @@ import { toast } from "react-toastify";
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({
-    role: "Administrator",
-    govId: "123456789",
-    name: "John Doe",
-    email: "johndoe@example.com",
-    password: "********",
-    location: "New York, USA",
-    phone: "+1 234 567 890",
-    profileImage: "/images/user/user-06.png", // Default profile image
-    stars: 3, // Number of filled stars
+    role: "",
+    govId: "",
+    name: "",
+    email: "",
+    password: "",
+    location: "",
+    phone: "",
+    profileImage: "/images/policeIcon.png", // Default profile image
+    stars: 0, // Number of filled stars
   });
   const [formData, setFormData] = useState({ ...profileData });
   const [profileImage, setProfileImage] = useState(profileData.profileImage);
   const [loading, setLoading] = useState(false);
-  const [fineArray, setFineArray] = useState([
-    {
-      amount: 50,
-      reason: "Missed Deadline",
-      starsReduced: 2,
-      description: "Missed submitting the report on time.",
-    },
-    {
-      amount: 20,
-      reason: "Improper Conduct",
-      starsReduced: 1,
-      description: "Violation of team meeting protocols.",
-    },
-  ]);
+  const [fineArray, setFineArray] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -141,7 +128,7 @@ const Profile = () => {
               alt="Profile"
               layout="fill"
               objectFit="cover"
-              className="rounded-full"
+              className="rounded-full bg-white"
             />
             {isEditing && (
               <label
@@ -287,7 +274,7 @@ const Profile = () => {
                 key={index}
                 className="mb-4 rounded border border-gray-200 p-4 dark:border-strokedark"
               >
-                <p>
+                {/* <p>
                   <strong>Amount:</strong> ${fine.amount}
                 </p>
                 <p>
@@ -299,7 +286,7 @@ const Profile = () => {
                 </p>
                 <p>
                   <strong>Description:</strong> {fine.description}
-                </p>
+                </p> */}
               </div>
             ))}
           </div>
