@@ -175,7 +175,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Load the dataset and prepare the model (this part is unchanged)
-data = pd.read_csv("budgetval.csv")
+data = pd.read_csv("C:\\Users\\Lenovo\\Desktop\\SIH_SurakshaSanchay\\src\\app\\Ml\\budgetval.csv")
 
 X = data.drop(columns=["Total Buy Price", "Total Maintenance Cost", "Total Price", "Annual Budget"])
 y_buy_price = data["Total Buy Price"]
@@ -204,6 +204,13 @@ X_train, X_test, y_train_buy, y_test_buy, y_train_maintenance, y_test_maintenanc
 
 model_buy_price.fit(X_train, y_train_buy)
 model_maintenance_cost.fit(X_train, y_train_maintenance)
+
+
+# Calculate and print MSE for debugging
+mse_buy_price = mean_squared_error(y_test_buy, model_buy_price.predict(X_test))
+mse_maintenance_cost = mean_squared_error(y_test_maintenance, model_maintenance_cost.predict(X_test))
+print(f'Mean Squared Error for Buy Price: {mse_buy_price}')
+print(f'Mean Squared Error for Maintenance Cost: {mse_maintenance_cost}')
 
 # Flask route to handle predictions
 @app.route('/predict', methods=['POST'])

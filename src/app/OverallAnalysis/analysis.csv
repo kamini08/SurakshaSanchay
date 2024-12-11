@@ -1,0 +1,1001 @@
+id,Location,Category,Quantity,Condition,Average_Maintenance_Charge ,Item_Age(years),Return_Duration(days)rs),Price
+1,Bhopal Kotwali Police Station,COMPUTER_AND_IT_EQUIPMENT,10,Lost,4361,7,149,33179
+2,Mangalwara Police Station,OFFICE_SUPPLIES,19,New,0,1,148,16048
+3,Habibganj Police Station,MEDICAL_FIRST_AID,20,Lost,7276,7,55,3094
+4,Piplani Police Station,PROTECTIVE_GEAR,17,Discarded,6668,4,63,9690
+5,Misrod Police Station,OFFICE_SUPPLIES,16,New,0,3,100,18728
+6,Ratibad Police Station,OFFICE_SUPPLIES,7,Repaired,9906,3,38,12815
+7,Habibganj Police Station,SURVEILLANCE_AND_TRACKING,5,Repaired,4261,7,140,8466
+8,Shahpura Police Station,PROTECTIVE_GEAR,2,Discarded,4943,1,167,5119
+9,Kolar Police Station,COMMUNICATION_DEVICES,8,Repaired,3670,2,67,3482
+10,Shahpura Police Station,FIREARMS,17,Discarded,8719,8,86,61021
+11,Bhopal Kotwali Police Station,MEDICAL_FIRST_AID,18,Repaired,8601,3,55,1437
+12,Ratibad Police Station,COMMUNICATION_DEVICES,20,New,0,4,139,1953
+13,Berasia Police Station,PROTECTIVE_GEAR,9,Lost,9860,7,70,4913
+14,Shahpura Police Station,FIREARMS,12,Discarded,3074,1,63,57603
+15,Misrod Police Station,OFFICE_SUPPLIES,11,Lost,5634,5,173,15644
+16,Kolar Police Station,NETWORKING_EQUIPMENT,14,Lost,1465,5,113,4331
+17,TT Nagar Police Station,COMPUTER_AND_IT_EQUIPMENT,20,Discarded,5544,8,36,98098
+18,Habibganj Police Station,PROTECTIVE_GEAR,6,Discarded,5567,2,34,4260
+19,Chhola Mandir Police Station,NETWORKING_EQUIPMENT,15,Repaired,3301,9,136,6637
+20,MP Nagar Police Station,NETWORKING_EQUIPMENT,9,New,0,7,109,1617
+21,Kamla Nagar Police Station,PROTECTIVE_GEAR,13,Repaired,2536,8,75,6246
+22,Hanumanganj Police Station,OFFICE_SUPPLIES,7,Discarded,6016,1,95,4088
+23,Chhola Mandir Police Station,COMMUNICATION_DEVICES,6,Repaired,4556,9,113,2328
+24,TT Nagar Police Station,COMPUTER_AND_IT_EQUIPMENT,6,Lost,7007,5,63,60835
+25,Misrod Police Station,FIREARMS,14,Repaired,3235,2,93,68440
+26,Berasia Police Station,COMMUNICATION_DEVICES,10,Repaired,6191,9,157,1286
+27,Kolar Police Station,COMMUNICATION_DEVICES,6,New,0,7,113,2853
+28,Shyamla Hills Police Station,NETWORKING_EQUIPMENT,8,Discarded,2950,4,155,4661
+29,Bagh Sewania Police Station,FIREARMS,2,Discarded,2194,2,78,8639
+30,Ratibad Police Station,FIREARMS,11,Lost,8630,8,50,7402
+31,Shyamla Hills Police Station,VEHICLE_AND_ACCESSORIES,8,Repaired,7319,10,103,67862
+32,Govindpura Police Station,SURVEILLANCE_AND_TRACKING,2,Lost,6115,3,51,9576
+33,Chhola Mandir Police Station,FORENSIC,5,Repaired,3835,7,163,27814
+34,TT Nagar Police Station,PROTECTIVE_GEAR,18,Discarded,2430,6,74,8197
+35,Jahangirabad Police Station,PROTECTIVE_GEAR,10,Repaired,2154,4,151,8765
+36,Shahpura Police Station,OFFICE_SUPPLIES,18,Repaired,2512,5,140,3386
+37,Ashoka Garden Police Station,VEHICLE_AND_ACCESSORIES,3,Discarded,2220,6,55,86695
+38,Berasia Police Station,VEHICLE_AND_ACCESSORIES,12,Discarded,1896,9,136,47817
+39,Govindpura Police Station,MEDICAL_FIRST_AID,10,New,0,9,151,4396
+40,Kolar Police Station,SURVEILLANCE_AND_TRACKING,13,Lost,7825,5,81,2708
+41,Piplani Police Station,COMMUNICATION_DEVICES,1,New,0,8,147,3662
+42,MP Nagar Police Station,SURVEILLANCE_AND_TRACKING,2,Lost,274,10,177,8287
+43,Govindpura Police Station,FIREARMS,3,Repaired,8216,6,118,28920
+44,Talaiya Police Station,PROTECTIVE_GEAR,5,Discarded,2485,9,169,5602
+45,Berasia Police Station,FORENSIC,1,Discarded,5678,3,103,31721
+46,Ashoka Garden Police Station,PROTECTIVE_GEAR,12,New,0,9,126,1923
+47,Ayodhya Nagar Police Station,FORENSIC,16,Discarded,3604,7,65,37653
+48,Kamla Nagar Police Station,COMPUTER_AND_IT_EQUIPMENT,16,Lost,5535,6,64,61219
+49,Hanumanganj Police Station,OFFICE_SUPPLIES,14,New,0,2,62,5311
+50,Ashoka Garden Police Station,FIREARMS,18,Lost,7871,2,69,18461
+51,Ratibad Police Station,SURVEILLANCE_AND_TRACKING,16,Repaired,8381,3,84,8899
+52,Jahangirabad Police Station,FORENSIC,2,New,0,4,145,35419
+53,Jahangirabad Police Station,COMMUNICATION_DEVICES,16,Discarded,5690,2,45,3610
+54,Kolar Police Station,OFFICE_SUPPLIES,20,New,0,7,72,1306
+55,Jahangirabad Police Station,SURVEILLANCE_AND_TRACKING,1,New,0,9,121,3118
+56,Mangalwara Police Station,FIREARMS,5,Discarded,4095,6,55,55904
+57,Kamla Nagar Police Station,OFFICE_SUPPLIES,5,Lost,8036,8,141,16993
+58,Bhopal Kotwali Police Station,FORENSIC,13,Repaired,7197,5,170,29309
+59,MP Nagar Police Station,COMPUTER_AND_IT_EQUIPMENT,4,Lost,2528,10,151,66251
+60,Jahangirabad Police Station,MEDICAL_FIRST_AID,14,Repaired,6060,10,155,769
+61,Khajuri Sadak Police Station,SURVEILLANCE_AND_TRACKING,1,Lost,6029,7,175,5062
+62,Kamla Nagar Police Station,FORENSIC,6,Lost,2412,7,177,19924
+63,Ratibad Police Station,COMPUTER_AND_IT_EQUIPMENT,2,New,0,10,86,73330
+64,Talaiya Police Station,OFFICE_SUPPLIES,8,Repaired,1608,2,105,8752
+65,Berasia Police Station,SURVEILLANCE_AND_TRACKING,16,Lost,4213,6,128,401
+66,Bagh Sewania Police Station,COMMUNICATION_DEVICES,3,Discarded,9050,2,158,4704
+67,Jahangirabad Police Station,COMMUNICATION_DEVICES,8,Discarded,7985,9,109,3052
+68,MP Nagar Police Station,COMPUTER_AND_IT_EQUIPMENT,14,Discarded,9192,8,153,71849
+69,Bagh Sewania Police Station,COMMUNICATION_DEVICES,16,New,0,4,80,4463
+70,Kolar Police Station,PROTECTIVE_GEAR,18,New,0,6,54,4038
+71,Ayodhya Nagar Police Station,SURVEILLANCE_AND_TRACKING,4,Discarded,1500,9,170,3416
+72,Talaiya Police Station,COMPUTER_AND_IT_EQUIPMENT,8,New,0,2,146,48939
+73,Shyamla Hills Police Station,COMPUTER_AND_IT_EQUIPMENT,9,New,0,8,44,65305
+74,Bhopal Kotwali Police Station,NETWORKING_EQUIPMENT,10,Repaired,6236,7,88,2240
+75,Jahangirabad Police Station,MEDICAL_FIRST_AID,4,Lost,2882,7,143,4403
+76,TT Nagar Police Station,OFFICE_SUPPLIES,5,Lost,4628,5,124,16162
+77,Bhopal Kotwali Police Station,COMPUTER_AND_IT_EQUIPMENT,18,New,0,7,138,83363
+78,Shahpura Police Station,COMPUTER_AND_IT_EQUIPMENT,19,Discarded,3392,7,152,23508
+79,Chhola Mandir Police Station,OFFICE_SUPPLIES,9,New,0,9,128,12928
+80,Misrod Police Station,COMMUNICATION_DEVICES,17,Lost,2647,5,56,3363
+81,Kamla Nagar Police Station,PROTECTIVE_GEAR,2,Repaired,4848,2,63,6619
+82,Hanumanganj Police Station,COMPUTER_AND_IT_EQUIPMENT,3,Lost,3018,6,115,26326
+83,Govindpura Police Station,FORENSIC,15,Discarded,4807,4,178,21245
+84,MP Nagar Police Station,NETWORKING_EQUIPMENT,10,New,0,6,42,525
+85,Talaiya Police Station,NETWORKING_EQUIPMENT,4,Discarded,8677,8,80,3534
+86,Ratibad Police Station,NETWORKING_EQUIPMENT,18,Discarded,4336,9,108,6157
+87,Jahangirabad Police Station,VEHICLE_AND_ACCESSORIES,10,Discarded,7354,8,176,28915
+88,Ashoka Garden Police Station,FIREARMS,12,Lost,6728,7,172,28926
+89,Habibganj Police Station,MEDICAL_FIRST_AID,16,Lost,4405,5,136,2778
+90,Shyamla Hills Police Station,COMPUTER_AND_IT_EQUIPMENT,13,Repaired,8057,10,109,53420
+91,Piplani Police Station,COMMUNICATION_DEVICES,14,New,0,6,101,4887
+92,Mangalwara Police Station,FORENSIC,18,New,0,4,105,20621
+93,Bagh Sewania Police Station,MEDICAL_FIRST_AID,5,Repaired,9091,10,52,5409
+94,Kamla Nagar Police Station,FORENSIC,7,Discarded,1166,3,113,17034
+95,Berasia Police Station,PROTECTIVE_GEAR,13,Discarded,4131,6,167,5559
+96,Ratibad Police Station,COMPUTER_AND_IT_EQUIPMENT,18,Repaired,2432,7,43,17116
+97,Jahangirabad Police Station,PROTECTIVE_GEAR,20,New,0,6,65,7658
+98,Talaiya Police Station,NETWORKING_EQUIPMENT,7,New,0,4,36,2142
+99,Govindpura Police Station,VEHICLE_AND_ACCESSORIES,1,Discarded,1045,6,125,79103
+100,Khajuri Sadak Police Station,MEDICAL_FIRST_AID,8,New,0,3,128,799
+101,Habibganj Police Station,FIREARMS,18,New,0,10,32,38860
+102,Habibganj Police Station,NETWORKING_EQUIPMENT,8,Repaired,5547,10,146,3440
+103,Piplani Police Station,FORENSIC,11,Lost,8932,3,47,31746
+104,Bhopal Kotwali Police Station,MEDICAL_FIRST_AID,8,Discarded,3854,2,101,5566
+105,Khajuri Sadak Police Station,NETWORKING_EQUIPMENT,11,New,0,3,119,2618
+106,MP Nagar Police Station,NETWORKING_EQUIPMENT,12,New,0,8,119,7799
+107,Chhola Mandir Police Station,SURVEILLANCE_AND_TRACKING,19,New,0,6,128,1285
+108,Mangalwara Police Station,COMMUNICATION_DEVICES,7,Repaired,4019,5,72,2046
+109,Kolar Police Station,NETWORKING_EQUIPMENT,10,Lost,7191,2,159,3855
+110,Hanumanganj Police Station,OFFICE_SUPPLIES,15,Discarded,8736,10,92,7817
+111,Bagh Sewania Police Station,FIREARMS,17,Repaired,7851,3,136,85225
+112,MP Nagar Police Station,FIREARMS,18,New,0,2,150,67260
+113,Khajuri Sadak Police Station,SURVEILLANCE_AND_TRACKING,6,Repaired,5645,2,128,9256
+114,Chhola Mandir Police Station,SURVEILLANCE_AND_TRACKING,18,Repaired,5630,7,46,4252
+115,Shahpura Police Station,OFFICE_SUPPLIES,9,Discarded,5936,7,87,7357
+116,Mangalwara Police Station,MEDICAL_FIRST_AID,16,Repaired,8579,5,165,4455
+117,TT Nagar Police Station,OFFICE_SUPPLIES,10,Lost,3729,10,67,3907
+118,Talaiya Police Station,OFFICE_SUPPLIES,11,Lost,322,4,137,15077
+119,Berasia Police Station,COMMUNICATION_DEVICES,7,Repaired,2415,2,146,1748
+120,Ayodhya Nagar Police Station,COMMUNICATION_DEVICES,8,New,0,10,135,4279
+121,MP Nagar Police Station,FORENSIC,12,Lost,8533,10,109,37858
+122,Mangalwara Police Station,VEHICLE_AND_ACCESSORIES,17,Repaired,4909,5,172,94836
+123,Misrod Police Station,MEDICAL_FIRST_AID,18,Lost,2868,2,154,3714
+124,Ayodhya Nagar Police Station,VEHICLE_AND_ACCESSORIES,14,Lost,6165,7,151,52472
+125,Misrod Police Station,PROTECTIVE_GEAR,13,Repaired,5836,5,112,2995
+126,Jahangirabad Police Station,SURVEILLANCE_AND_TRACKING,3,Lost,7340,2,117,1357
+127,MP Nagar Police Station,COMMUNICATION_DEVICES,17,Repaired,4819,10,160,3653
+128,Shahpura Police Station,PROTECTIVE_GEAR,12,Discarded,7435,1,179,9166
+129,MP Nagar Police Station,OFFICE_SUPPLIES,5,New,0,5,30,19581
+130,Ratibad Police Station,MEDICAL_FIRST_AID,11,New,0,4,58,2899
+131,Khajuri Sadak Police Station,COMMUNICATION_DEVICES,3,New,0,5,125,4228
+132,Ashoka Garden Police Station,PROTECTIVE_GEAR,4,Discarded,6277,2,121,3743
+133,Khajuri Sadak Police Station,SURVEILLANCE_AND_TRACKING,14,New,0,5,62,4007
+134,Chhola Mandir Police Station,FIREARMS,3,Discarded,799,4,146,55553
+135,Ashoka Garden Police Station,COMMUNICATION_DEVICES,3,New,0,8,180,2048
+136,Habibganj Police Station,COMPUTER_AND_IT_EQUIPMENT,14,Discarded,3190,1,134,8918
+137,Shyamla Hills Police Station,PROTECTIVE_GEAR,17,Discarded,1909,2,135,7933
+138,Talaiya Police Station,PROTECTIVE_GEAR,1,Repaired,9632,4,73,9177
+139,Berasia Police Station,SURVEILLANCE_AND_TRACKING,15,Discarded,300,1,106,5115
+140,Govindpura Police Station,PROTECTIVE_GEAR,9,Repaired,2261,9,162,8691
+141,MP Nagar Police Station,NETWORKING_EQUIPMENT,15,Repaired,7210,1,112,3145
+142,Ratibad Police Station,VEHICLE_AND_ACCESSORIES,20,Repaired,570,7,140,61752
+143,Kolar Police Station,MEDICAL_FIRST_AID,19,New,0,4,172,5405
+144,Bagh Sewania Police Station,COMPUTER_AND_IT_EQUIPMENT,9,Discarded,9602,8,115,54826
+145,Jahangirabad Police Station,COMMUNICATION_DEVICES,10,Lost,4469,10,101,995
+146,Berasia Police Station,SURVEILLANCE_AND_TRACKING,10,New,0,2,177,5476
+147,Misrod Police Station,FORENSIC,13,Discarded,3715,5,48,39106
+148,Mangalwara Police Station,COMMUNICATION_DEVICES,20,Lost,995,7,160,1805
+149,Piplani Police Station,NETWORKING_EQUIPMENT,15,Discarded,1047,7,46,2504
+150,MP Nagar Police Station,NETWORKING_EQUIPMENT,18,Lost,2611,5,44,4589
+151,Bhopal Kotwali Police Station,FIREARMS,18,New,0,5,39,43953
+152,Ashoka Garden Police Station,SURVEILLANCE_AND_TRACKING,20,New,0,6,145,4218
+153,Ratibad Police Station,PROTECTIVE_GEAR,11,Lost,835,3,102,8491
+154,Bhopal Kotwali Police Station,MEDICAL_FIRST_AID,15,Repaired,6369,1,88,844
+155,Talaiya Police Station,NETWORKING_EQUIPMENT,1,Discarded,448,1,62,1817
+156,Shahpura Police Station,MEDICAL_FIRST_AID,13,Repaired,2198,10,111,1314
+157,Talaiya Police Station,OFFICE_SUPPLIES,14,Lost,3999,8,119,6915
+158,Khajuri Sadak Police Station,MEDICAL_FIRST_AID,3,New,0,7,168,5775
+159,Talaiya Police Station,MEDICAL_FIRST_AID,3,Discarded,4564,3,51,3505
+160,MP Nagar Police Station,NETWORKING_EQUIPMENT,3,Repaired,541,9,67,6493
+161,Ayodhya Nagar Police Station,FORENSIC,11,Repaired,4341,10,156,32414
+162,Mangalwara Police Station,MEDICAL_FIRST_AID,18,Discarded,3699,2,149,2393
+163,Bagh Sewania Police Station,MEDICAL_FIRST_AID,11,Repaired,5665,7,150,2694
+164,Bhopal Kotwali Police Station,FORENSIC,11,Repaired,9082,6,65,24818
+165,Piplani Police Station,VEHICLE_AND_ACCESSORIES,16,Repaired,7414,7,148,50184
+166,Kamla Nagar Police Station,FIREARMS,15,Discarded,2444,5,30,70685
+167,Kamla Nagar Police Station,COMPUTER_AND_IT_EQUIPMENT,5,Repaired,9370,6,123,59038
+168,Shahpura Police Station,COMMUNICATION_DEVICES,13,Repaired,6600,4,120,3456
+169,Shyamla Hills Police Station,SURVEILLANCE_AND_TRACKING,17,New,0,3,66,4108
+170,Kolar Police Station,VEHICLE_AND_ACCESSORIES,6,Lost,3450,4,103,16561
+171,Talaiya Police Station,NETWORKING_EQUIPMENT,8,Discarded,9593,9,127,5093
+172,Piplani Police Station,COMMUNICATION_DEVICES,13,Lost,971,3,118,348
+173,Khajuri Sadak Police Station,PROTECTIVE_GEAR,2,New,0,5,52,3407
+174,Talaiya Police Station,COMPUTER_AND_IT_EQUIPMENT,6,Repaired,4794,6,83,20811
+175,MP Nagar Police Station,SURVEILLANCE_AND_TRACKING,2,Lost,3543,6,123,1183
+176,Piplani Police Station,COMMUNICATION_DEVICES,2,Repaired,6449,2,67,4031
+177,MP Nagar Police Station,OFFICE_SUPPLIES,20,New,0,1,130,12101
+178,Habibganj Police Station,FORENSIC,11,Lost,9025,3,110,39742
+179,Habibganj Police Station,VEHICLE_AND_ACCESSORIES,13,Lost,7395,8,98,29913
+180,Chhola Mandir Police Station,VEHICLE_AND_ACCESSORIES,17,Lost,8624,6,114,74407
+181,Ratibad Police Station,COMMUNICATION_DEVICES,17,New,0,1,135,1553
+182,Talaiya Police Station,COMPUTER_AND_IT_EQUIPMENT,10,Lost,3985,8,30,21585
+183,Ashoka Garden Police Station,VEHICLE_AND_ACCESSORIES,1,Lost,7074,6,77,80366
+184,Kolar Police Station,FORENSIC,6,Repaired,9871,3,168,19438
+185,Kolar Police Station,MEDICAL_FIRST_AID,10,Discarded,2413,4,158,2619
+186,Shyamla Hills Police Station,OFFICE_SUPPLIES,13,New,0,9,49,16087
+187,Khajuri Sadak Police Station,COMPUTER_AND_IT_EQUIPMENT,8,Repaired,6624,9,88,68594
+188,Jahangirabad Police Station,COMPUTER_AND_IT_EQUIPMENT,1,New,0,9,45,45284
+189,Berasia Police Station,SURVEILLANCE_AND_TRACKING,19,Repaired,6167,4,157,7234
+190,MP Nagar Police Station,COMPUTER_AND_IT_EQUIPMENT,1,Discarded,7260,9,173,61076
+191,Misrod Police Station,MEDICAL_FIRST_AID,8,Lost,5982,1,41,322
+192,Shyamla Hills Police Station,FIREARMS,12,Lost,3427,7,117,85035
+193,TT Nagar Police Station,SURVEILLANCE_AND_TRACKING,2,Lost,9073,8,129,3559
+194,Hanumanganj Police Station,FORENSIC,3,Repaired,5709,9,165,15047
+195,Ashoka Garden Police Station,PROTECTIVE_GEAR,20,Lost,747,1,140,2359
+196,Talaiya Police Station,OFFICE_SUPPLIES,20,New,0,2,122,8446
+197,Ashoka Garden Police Station,COMMUNICATION_DEVICES,3,New,0,2,63,174
+198,Habibganj Police Station,MEDICAL_FIRST_AID,6,Discarded,631,1,49,3402
+199,TT Nagar Police Station,FORENSIC,5,New,0,6,91,17384
+200,Berasia Police Station,FIREARMS,16,Repaired,5795,2,77,92026
+201,Kamla Nagar Police Station,SURVEILLANCE_AND_TRACKING,11,Lost,7691,1,70,4516
+202,Berasia Police Station,COMMUNICATION_DEVICES,1,New,0,9,147,4627
+203,Misrod Police Station,NETWORKING_EQUIPMENT,5,Discarded,8163,9,173,3361
+204,Bhopal Kotwali Police Station,VEHICLE_AND_ACCESSORIES,1,Lost,4106,2,146,62423
+205,Khajuri Sadak Police Station,MEDICAL_FIRST_AID,9,Repaired,6679,1,168,3524
+206,Jahangirabad Police Station,MEDICAL_FIRST_AID,8,Lost,9979,6,62,3665
+207,Govindpura Police Station,OFFICE_SUPPLIES,8,New,0,8,81,16824
+208,Piplani Police Station,FIREARMS,1,Lost,4253,6,134,30656
+209,Mangalwara Police Station,MEDICAL_FIRST_AID,5,Lost,6060,7,60,5475
+210,TT Nagar Police Station,SURVEILLANCE_AND_TRACKING,9,Repaired,2466,8,77,9343
+211,Ayodhya Nagar Police Station,PROTECTIVE_GEAR,8,Lost,2950,3,77,4759
+212,Khajuri Sadak Police Station,OFFICE_SUPPLIES,19,Lost,5450,5,86,19830
+213,Piplani Police Station,SURVEILLANCE_AND_TRACKING,9,Repaired,4743,10,63,6737
+214,Shahpura Police Station,OFFICE_SUPPLIES,10,Repaired,8148,1,39,8885
+215,Hanumanganj Police Station,COMMUNICATION_DEVICES,19,Repaired,5872,9,120,496
+216,Shahpura Police Station,COMMUNICATION_DEVICES,16,Lost,6642,6,58,4439
+217,Shyamla Hills Police Station,COMPUTER_AND_IT_EQUIPMENT,20,New,0,9,168,93615
+218,Govindpura Police Station,FIREARMS,14,Lost,1109,3,30,91654
+219,Berasia Police Station,OFFICE_SUPPLIES,7,Repaired,6242,1,120,3336
+220,Shahpura Police Station,MEDICAL_FIRST_AID,7,Repaired,6559,3,101,3302
+221,Shahpura Police Station,OFFICE_SUPPLIES,6,Lost,1764,6,146,5945
+222,Misrod Police Station,PROTECTIVE_GEAR,4,Lost,8052,4,152,6428
+223,Talaiya Police Station,PROTECTIVE_GEAR,17,Repaired,6043,3,143,7676
+224,Kamla Nagar Police Station,MEDICAL_FIRST_AID,9,Lost,2701,8,105,2180
+225,Piplani Police Station,FORENSIC,4,Repaired,251,4,65,25865
+226,Kamla Nagar Police Station,COMMUNICATION_DEVICES,8,Discarded,680,8,70,3379
+227,Piplani Police Station,FORENSIC,14,Repaired,3324,4,110,33882
+228,Bagh Sewania Police Station,COMMUNICATION_DEVICES,19,New,0,1,56,624
+229,MP Nagar Police Station,SURVEILLANCE_AND_TRACKING,7,Discarded,2603,7,178,6683
+230,Khajuri Sadak Police Station,FORENSIC,10,Discarded,4975,5,81,20172
+231,Jahangirabad Police Station,FIREARMS,2,Lost,5692,9,74,13403
+232,Shyamla Hills Police Station,FORENSIC,6,Discarded,2917,6,128,33006
+233,MP Nagar Police Station,MEDICAL_FIRST_AID,13,Lost,7220,1,89,3438
+234,MP Nagar Police Station,FORENSIC,11,New,0,5,59,22749
+235,Hanumanganj Police Station,MEDICAL_FIRST_AID,11,New,0,10,32,2166
+236,Chhola Mandir Police Station,PROTECTIVE_GEAR,6,New,0,1,124,8265
+237,Berasia Police Station,FIREARMS,20,New,0,5,81,80172
+238,Habibganj Police Station,COMPUTER_AND_IT_EQUIPMENT,3,Discarded,4575,5,134,41782
+239,Berasia Police Station,PROTECTIVE_GEAR,19,Repaired,402,1,54,1028
+240,Habibganj Police Station,OFFICE_SUPPLIES,4,New,0,3,41,9032
+241,Misrod Police Station,FIREARMS,15,New,0,3,133,15422
+242,Ashoka Garden Police Station,PROTECTIVE_GEAR,10,New,0,3,37,7207
+243,Bhopal Kotwali Police Station,FIREARMS,7,New,0,2,157,24312
+244,Jahangirabad Police Station,PROTECTIVE_GEAR,14,Lost,3774,5,127,3951
+245,TT Nagar Police Station,SURVEILLANCE_AND_TRACKING,15,New,0,7,36,9274
+246,Ratibad Police Station,FIREARMS,4,Repaired,5842,5,114,38123
+247,Talaiya Police Station,COMPUTER_AND_IT_EQUIPMENT,4,Repaired,4487,8,166,9538
+248,Berasia Police Station,SURVEILLANCE_AND_TRACKING,5,Discarded,5201,1,125,7987
+249,Khajuri Sadak Police Station,PROTECTIVE_GEAR,19,New,0,9,92,3539
+250,TT Nagar Police Station,FORENSIC,5,Repaired,2168,1,42,16516
+251,Ratibad Police Station,OFFICE_SUPPLIES,9,Discarded,6012,9,81,832
+252,Kamla Nagar Police Station,FIREARMS,18,Discarded,5711,4,142,90492
+253,Talaiya Police Station,PROTECTIVE_GEAR,18,Discarded,4681,9,31,3792
+254,Bhopal Kotwali Police Station,VEHICLE_AND_ACCESSORIES,2,Lost,7665,2,170,86096
+255,Misrod Police Station,COMPUTER_AND_IT_EQUIPMENT,19,Discarded,632,5,180,86800
+256,Kamla Nagar Police Station,VEHICLE_AND_ACCESSORIES,15,Discarded,5364,3,143,73651
+257,Habibganj Police Station,FIREARMS,4,Lost,1931,3,167,45015
+258,TT Nagar Police Station,SURVEILLANCE_AND_TRACKING,6,New,0,2,50,7833
+259,Govindpura Police Station,FORENSIC,14,New,0,9,34,35280
+260,Khajuri Sadak Police Station,COMMUNICATION_DEVICES,17,Discarded,5974,2,111,2456
+261,Mangalwara Police Station,VEHICLE_AND_ACCESSORIES,14,Discarded,6480,6,112,73104
+262,Ayodhya Nagar Police Station,MEDICAL_FIRST_AID,4,Lost,6912,2,120,667
+263,Shahpura Police Station,OFFICE_SUPPLIES,8,Discarded,9976,1,88,9814
+264,Jahangirabad Police Station,NETWORKING_EQUIPMENT,18,New,0,5,64,7118
+265,Talaiya Police Station,FIREARMS,15,Discarded,8193,4,62,59223
+266,Chhola Mandir Police Station,VEHICLE_AND_ACCESSORIES,3,New,0,9,33,29737
+267,Chhola Mandir Police Station,FORENSIC,16,Discarded,3055,5,59,18198
+268,Shahpura Police Station,NETWORKING_EQUIPMENT,15,Repaired,269,8,102,1068
+269,Ayodhya Nagar Police Station,COMPUTER_AND_IT_EQUIPMENT,6,Lost,955,4,83,40188
+270,TT Nagar Police Station,MEDICAL_FIRST_AID,3,Repaired,8725,2,145,4184
+271,Chhola Mandir Police Station,COMMUNICATION_DEVICES,5,Repaired,4228,2,171,4502
+272,Piplani Police Station,MEDICAL_FIRST_AID,20,Repaired,3615,7,97,1049
+273,Khajuri Sadak Police Station,OFFICE_SUPPLIES,15,New,0,6,51,9462
+274,Misrod Police Station,OFFICE_SUPPLIES,15,Discarded,8090,7,155,3314
+275,MP Nagar Police Station,PROTECTIVE_GEAR,2,Discarded,9889,9,176,2139
+276,Misrod Police Station,MEDICAL_FIRST_AID,18,New,0,8,147,694
+277,Misrod Police Station,COMPUTER_AND_IT_EQUIPMENT,19,Lost,6340,6,160,79716
+278,Bhopal Kotwali Police Station,MEDICAL_FIRST_AID,1,Lost,1959,9,179,1639
+279,Ratibad Police Station,MEDICAL_FIRST_AID,4,Lost,4331,2,71,3271
+280,Habibganj Police Station,OFFICE_SUPPLIES,2,Lost,8328,8,30,6236
+281,Govindpura Police Station,VEHICLE_AND_ACCESSORIES,1,Repaired,4567,5,140,89890
+282,Kolar Police Station,FIREARMS,11,New,0,5,109,56666
+283,Ratibad Police Station,VEHICLE_AND_ACCESSORIES,3,Discarded,3863,1,71,13940
+284,TT Nagar Police Station,VEHICLE_AND_ACCESSORIES,6,Lost,9111,1,68,61595
+285,Mangalwara Police Station,MEDICAL_FIRST_AID,7,Lost,520,6,128,5587
+286,Bhopal Kotwali Police Station,FORENSIC,12,Discarded,6080,6,145,27697
+287,Khajuri Sadak Police Station,MEDICAL_FIRST_AID,20,New,0,10,33,365
+288,Govindpura Police Station,MEDICAL_FIRST_AID,3,Lost,5093,1,117,5693
+289,Piplani Police Station,SURVEILLANCE_AND_TRACKING,12,Repaired,3474,3,148,7313
+290,Shahpura Police Station,PROTECTIVE_GEAR,18,Repaired,1643,4,179,1284
+291,Ashoka Garden Police Station,PROTECTIVE_GEAR,18,Repaired,9332,1,144,3975
+292,Khajuri Sadak Police Station,NETWORKING_EQUIPMENT,10,Lost,7230,8,56,6871
+293,Shahpura Police Station,PROTECTIVE_GEAR,12,Lost,9500,8,110,5102
+294,TT Nagar Police Station,OFFICE_SUPPLIES,15,Lost,8069,6,179,11742
+295,Bagh Sewania Police Station,SURVEILLANCE_AND_TRACKING,6,Lost,9507,3,75,5540
+296,Ratibad Police Station,FORENSIC,18,Repaired,1344,8,91,19280
+297,Ashoka Garden Police Station,COMMUNICATION_DEVICES,13,Lost,875,10,55,4161
+298,Talaiya Police Station,SURVEILLANCE_AND_TRACKING,2,New,0,4,129,7737
+299,Khajuri Sadak Police Station,MEDICAL_FIRST_AID,17,Lost,8478,10,45,3819
+300,MP Nagar Police Station,OFFICE_SUPPLIES,13,Discarded,5270,10,163,690
+301,Talaiya Police Station,COMPUTER_AND_IT_EQUIPMENT,2,Discarded,2280,5,91,5764
+302,Misrod Police Station,COMPUTER_AND_IT_EQUIPMENT,13,New,0,1,40,97954
+303,Misrod Police Station,FORENSIC,2,Lost,6843,2,103,39753
+304,Bhopal Kotwali Police Station,COMMUNICATION_DEVICES,4,Discarded,3193,3,153,3943
+305,Bhopal Kotwali Police Station,MEDICAL_FIRST_AID,3,Lost,1714,7,37,2668
+306,Misrod Police Station,FORENSIC,6,Discarded,8429,6,109,21012
+307,Kamla Nagar Police Station,COMPUTER_AND_IT_EQUIPMENT,2,Discarded,8714,10,95,67049
+308,MP Nagar Police Station,VEHICLE_AND_ACCESSORIES,12,Lost,579,5,155,24585
+309,Ashoka Garden Police Station,NETWORKING_EQUIPMENT,6,New,0,5,177,3641
+310,Bagh Sewania Police Station,COMMUNICATION_DEVICES,11,New,0,2,95,2528
+311,Mangalwara Police Station,PROTECTIVE_GEAR,16,Repaired,838,10,154,8797
+312,Chhola Mandir Police Station,FORENSIC,11,Discarded,7260,7,127,36778
+313,Shyamla Hills Police Station,VEHICLE_AND_ACCESSORIES,13,Repaired,8234,2,114,89680
+314,Govindpura Police Station,SURVEILLANCE_AND_TRACKING,3,Repaired,4844,1,123,7604
+315,Ratibad Police Station,FORENSIC,16,Discarded,7291,9,97,26108
+316,Misrod Police Station,FIREARMS,11,New,0,10,150,58516
+317,Bhopal Kotwali Police Station,FORENSIC,16,New,0,1,32,25339
+318,Jahangirabad Police Station,COMMUNICATION_DEVICES,17,Repaired,9740,7,176,1311
+319,Ratibad Police Station,COMPUTER_AND_IT_EQUIPMENT,19,Repaired,7855,8,56,58213
+320,Bagh Sewania Police Station,NETWORKING_EQUIPMENT,9,Repaired,7542,5,82,3289
+321,Hanumanganj Police Station,FIREARMS,15,Discarded,6191,1,37,39571
+322,Talaiya Police Station,COMPUTER_AND_IT_EQUIPMENT,15,Repaired,7903,1,33,45986
+323,Hanumanganj Police Station,COMPUTER_AND_IT_EQUIPMENT,19,Lost,2604,3,143,51530
+324,Kolar Police Station,COMMUNICATION_DEVICES,1,Discarded,8340,7,145,3862
+325,Shahpura Police Station,NETWORKING_EQUIPMENT,2,Repaired,7659,6,105,3993
+326,Hanumanganj Police Station,MEDICAL_FIRST_AID,16,Discarded,1717,1,62,4788
+327,Shahpura Police Station,NETWORKING_EQUIPMENT,1,Repaired,8122,5,30,6897
+328,Kamla Nagar Police Station,FORENSIC,18,New,0,7,69,35153
+329,Khajuri Sadak Police Station,SURVEILLANCE_AND_TRACKING,3,Discarded,7776,3,109,2803
+330,Ayodhya Nagar Police Station,NETWORKING_EQUIPMENT,14,New,0,6,173,4529
+331,Kolar Police Station,COMMUNICATION_DEVICES,8,Repaired,8578,5,62,1129
+332,Talaiya Police Station,COMPUTER_AND_IT_EQUIPMENT,16,Lost,8324,1,52,29691
+333,Bagh Sewania Police Station,VEHICLE_AND_ACCESSORIES,10,Discarded,3369,3,38,54897
+334,Kolar Police Station,VEHICLE_AND_ACCESSORIES,19,New,0,2,164,91155
+335,Shahpura Police Station,FIREARMS,20,New,0,10,93,2657
+336,Piplani Police Station,COMPUTER_AND_IT_EQUIPMENT,15,New,0,7,168,23916
+337,Talaiya Police Station,FORENSIC,7,Discarded,1555,10,147,35258
+338,Kamla Nagar Police Station,SURVEILLANCE_AND_TRACKING,4,Lost,3132,2,104,3811
+339,Kamla Nagar Police Station,PROTECTIVE_GEAR,3,Discarded,9285,9,115,9557
+340,Talaiya Police Station,COMPUTER_AND_IT_EQUIPMENT,10,Lost,5446,2,130,53801
+341,Berasia Police Station,FORENSIC,13,New,0,5,35,38462
+342,Kolar Police Station,MEDICAL_FIRST_AID,4,Lost,8023,3,163,533
+343,Shahpura Police Station,FIREARMS,7,New,0,5,79,45361
+344,Bhopal Kotwali Police Station,COMMUNICATION_DEVICES,14,Lost,7016,5,180,1636
+345,Ashoka Garden Police Station,OFFICE_SUPPLIES,18,New,0,6,127,9615
+346,Govindpura Police Station,MEDICAL_FIRST_AID,16,Lost,5237,10,143,4025
+347,Bagh Sewania Police Station,MEDICAL_FIRST_AID,16,Lost,5938,6,48,3176
+348,Shyamla Hills Police Station,VEHICLE_AND_ACCESSORIES,9,Lost,3912,4,113,13707
+349,Kolar Police Station,FIREARMS,18,Repaired,4348,2,178,11864
+350,Khajuri Sadak Police Station,FORENSIC,12,New,0,10,130,20073
+351,Bagh Sewania Police Station,COMPUTER_AND_IT_EQUIPMENT,2,New,0,2,35,84062
+352,Mangalwara Police Station,COMMUNICATION_DEVICES,12,New,0,3,72,2354
+353,Jahangirabad Police Station,VEHICLE_AND_ACCESSORIES,11,Lost,3216,9,39,28903
+354,Habibganj Police Station,MEDICAL_FIRST_AID,17,Lost,1861,6,138,3964
+355,Kamla Nagar Police Station,FIREARMS,12,New,0,8,36,18553
+356,Jahangirabad Police Station,VEHICLE_AND_ACCESSORIES,12,Discarded,7441,1,142,20043
+357,Bhopal Kotwali Police Station,COMPUTER_AND_IT_EQUIPMENT,17,New,0,1,160,85878
+358,Piplani Police Station,NETWORKING_EQUIPMENT,15,Repaired,1741,7,101,3330
+359,Bagh Sewania Police Station,COMMUNICATION_DEVICES,4,Repaired,2038,4,116,532
+360,Bhopal Kotwali Police Station,FORENSIC,2,Repaired,2386,8,152,31935
+361,Ayodhya Nagar Police Station,COMMUNICATION_DEVICES,20,Lost,2920,3,88,2726
+362,TT Nagar Police Station,FIREARMS,19,New,0,2,74,12715
+363,Piplani Police Station,NETWORKING_EQUIPMENT,20,Lost,5885,4,94,5218
+364,Habibganj Police Station,COMMUNICATION_DEVICES,3,Discarded,3579,7,94,3156
+365,Govindpura Police Station,VEHICLE_AND_ACCESSORIES,7,New,0,3,41,92378
+366,Berasia Police Station,VEHICLE_AND_ACCESSORIES,14,Lost,2262,2,36,53496
+367,Bhopal Kotwali Police Station,FIREARMS,19,Repaired,3024,10,69,52684
+368,Shyamla Hills Police Station,SURVEILLANCE_AND_TRACKING,14,Repaired,5589,8,73,178
+369,Khajuri Sadak Police Station,COMPUTER_AND_IT_EQUIPMENT,20,New,0,9,166,17814
+370,Govindpura Police Station,OFFICE_SUPPLIES,19,Lost,1718,5,150,9892
+371,Mangalwara Police Station,MEDICAL_FIRST_AID,12,Lost,479,3,84,2025
+372,Habibganj Police Station,FORENSIC,5,Discarded,3415,9,40,19938
+373,Habibganj Police Station,COMMUNICATION_DEVICES,19,Lost,9824,6,70,556
+374,Ashoka Garden Police Station,FORENSIC,18,Discarded,3342,9,153,23078
+375,Misrod Police Station,SURVEILLANCE_AND_TRACKING,19,New,0,9,90,9429
+376,Berasia Police Station,VEHICLE_AND_ACCESSORIES,18,New,0,6,91,98689
+377,Kamla Nagar Police Station,NETWORKING_EQUIPMENT,8,Lost,4877,4,137,5972
+378,Khajuri Sadak Police Station,FIREARMS,3,Discarded,9403,10,177,7878
+379,Jahangirabad Police Station,VEHICLE_AND_ACCESSORIES,7,Discarded,7398,9,146,54124
+380,Mangalwara Police Station,NETWORKING_EQUIPMENT,15,Discarded,6161,9,150,4078
+381,Hanumanganj Police Station,COMPUTER_AND_IT_EQUIPMENT,20,Discarded,3151,3,148,13061
+382,Govindpura Police Station,COMPUTER_AND_IT_EQUIPMENT,1,Repaired,2134,3,80,57990
+383,TT Nagar Police Station,FORENSIC,6,Repaired,1656,5,150,25554
+384,Berasia Police Station,FORENSIC,2,Repaired,4999,3,178,27568
+385,Berasia Police Station,MEDICAL_FIRST_AID,13,Lost,6978,3,38,5733
+386,Berasia Police Station,NETWORKING_EQUIPMENT,12,Lost,6343,1,106,816
+387,MP Nagar Police Station,COMMUNICATION_DEVICES,14,Discarded,3630,1,94,2595
+388,Ashoka Garden Police Station,MEDICAL_FIRST_AID,11,Discarded,5431,6,115,3110
+389,Mangalwara Police Station,OFFICE_SUPPLIES,13,Repaired,882,10,105,6097
+390,Shyamla Hills Police Station,OFFICE_SUPPLIES,7,Lost,8711,8,111,9563
+391,Berasia Police Station,COMPUTER_AND_IT_EQUIPMENT,19,Lost,1466,10,46,62978
+392,Kamla Nagar Police Station,OFFICE_SUPPLIES,18,New,0,5,110,2050
+393,Kamla Nagar Police Station,SURVEILLANCE_AND_TRACKING,12,Repaired,9392,9,163,4948
+394,Bagh Sewania Police Station,OFFICE_SUPPLIES,3,Repaired,1283,5,109,9314
+395,Khajuri Sadak Police Station,COMPUTER_AND_IT_EQUIPMENT,19,New,0,4,168,55211
+396,Chhola Mandir Police Station,NETWORKING_EQUIPMENT,12,Lost,4903,7,75,4733
+397,Talaiya Police Station,VEHICLE_AND_ACCESSORIES,18,Discarded,1004,1,73,38790
+398,Berasia Police Station,COMMUNICATION_DEVICES,8,Lost,8179,7,59,2148
+399,Talaiya Police Station,COMMUNICATION_DEVICES,20,Lost,3985,4,72,3544
+400,Shyamla Hills Police Station,OFFICE_SUPPLIES,10,New,0,2,126,18577
+401,Shahpura Police Station,VEHICLE_AND_ACCESSORIES,5,New,0,10,102,62069
+402,Talaiya Police Station,VEHICLE_AND_ACCESSORIES,2,New,0,8,94,79356
+403,Hanumanganj Police Station,FORENSIC,19,Repaired,802,8,169,39230
+404,Habibganj Police Station,COMMUNICATION_DEVICES,12,Discarded,5383,2,88,4452
+405,Ayodhya Nagar Police Station,OFFICE_SUPPLIES,11,Repaired,7839,8,137,14293
+406,Chhola Mandir Police Station,FORENSIC,15,Discarded,5476,3,71,18288
+407,Khajuri Sadak Police Station,NETWORKING_EQUIPMENT,4,Discarded,347,8,95,678
+408,Kamla Nagar Police Station,NETWORKING_EQUIPMENT,13,Discarded,6676,7,40,1989
+409,Talaiya Police Station,COMMUNICATION_DEVICES,11,Repaired,9793,10,162,3305
+410,Ashoka Garden Police Station,COMMUNICATION_DEVICES,1,New,0,7,153,3452
+411,Ratibad Police Station,NETWORKING_EQUIPMENT,15,Discarded,2480,9,110,6035
+412,Misrod Police Station,COMMUNICATION_DEVICES,11,New,0,4,177,4132
+413,Berasia Police Station,OFFICE_SUPPLIES,13,Lost,9319,4,51,17292
+414,Shyamla Hills Police Station,MEDICAL_FIRST_AID,8,Discarded,7302,2,81,5581
+415,Berasia Police Station,OFFICE_SUPPLIES,9,Discarded,537,5,40,8236
+416,Talaiya Police Station,MEDICAL_FIRST_AID,7,New,0,2,113,4237
+417,Ayodhya Nagar Police Station,FIREARMS,5,Repaired,4078,2,114,52261
+418,Bagh Sewania Police Station,FIREARMS,9,New,0,9,144,51382
+419,Berasia Police Station,FIREARMS,13,Lost,3536,1,170,33504
+420,Shahpura Police Station,FIREARMS,16,Discarded,8646,3,141,31082
+421,Ashoka Garden Police Station,COMPUTER_AND_IT_EQUIPMENT,14,Lost,2210,4,111,35291
+422,Shyamla Hills Police Station,COMPUTER_AND_IT_EQUIPMENT,3,Lost,1101,5,57,46063
+423,Kolar Police Station,SURVEILLANCE_AND_TRACKING,7,Lost,8022,7,151,2479
+424,Jahangirabad Police Station,PROTECTIVE_GEAR,5,Lost,7693,7,35,2686
+425,Govindpura Police Station,MEDICAL_FIRST_AID,1,Repaired,3331,3,31,4131
+426,Piplani Police Station,MEDICAL_FIRST_AID,3,Discarded,6152,5,129,5708
+427,Chhola Mandir Police Station,NETWORKING_EQUIPMENT,9,Lost,2564,1,171,3463
+428,Shyamla Hills Police Station,COMMUNICATION_DEVICES,6,Repaired,4602,9,111,1077
+429,Ashoka Garden Police Station,FIREARMS,1,New,0,9,30,47805
+430,Piplani Police Station,VEHICLE_AND_ACCESSORIES,15,Repaired,2163,6,30,84961
+431,Habibganj Police Station,PROTECTIVE_GEAR,14,Discarded,2977,4,37,9133
+432,Shyamla Hills Police Station,MEDICAL_FIRST_AID,8,Lost,1035,7,92,5815
+433,Bagh Sewania Police Station,OFFICE_SUPPLIES,1,Lost,5955,8,103,18629
+434,MP Nagar Police Station,PROTECTIVE_GEAR,12,Lost,5809,2,123,7995
+435,Khajuri Sadak Police Station,PROTECTIVE_GEAR,16,Lost,4458,3,31,9727
+436,Shyamla Hills Police Station,FORENSIC,4,Repaired,6994,8,42,33197
+437,Piplani Police Station,MEDICAL_FIRST_AID,13,Discarded,928,3,96,5104
+438,Misrod Police Station,OFFICE_SUPPLIES,6,New,0,1,109,3120
+439,MP Nagar Police Station,VEHICLE_AND_ACCESSORIES,19,New,0,1,98,61680
+440,Kamla Nagar Police Station,OFFICE_SUPPLIES,13,New,0,8,119,15639
+441,Ashoka Garden Police Station,VEHICLE_AND_ACCESSORIES,7,Lost,228,3,89,49053
+442,Bagh Sewania Police Station,FORENSIC,14,Discarded,5598,3,94,16943
+443,Kamla Nagar Police Station,NETWORKING_EQUIPMENT,11,Lost,9345,7,127,1187
+444,Chhola Mandir Police Station,FORENSIC,17,New,0,9,180,37772
+445,Kamla Nagar Police Station,SURVEILLANCE_AND_TRACKING,13,Repaired,2345,4,131,4271
+446,TT Nagar Police Station,VEHICLE_AND_ACCESSORIES,17,Lost,236,2,92,34614
+447,Ashoka Garden Police Station,NETWORKING_EQUIPMENT,11,Discarded,7201,6,119,7439
+448,Habibganj Police Station,OFFICE_SUPPLIES,5,New,0,1,51,17193
+449,Ashoka Garden Police Station,FIREARMS,3,New,0,7,82,98121
+450,Kolar Police Station,COMPUTER_AND_IT_EQUIPMENT,11,Discarded,7715,3,99,27745
+451,Jahangirabad Police Station,NETWORKING_EQUIPMENT,5,Discarded,7864,7,49,2541
+452,Kolar Police Station,VEHICLE_AND_ACCESSORIES,8,New,0,9,45,21618
+453,Mangalwara Police Station,MEDICAL_FIRST_AID,16,Lost,9977,1,163,3165
+454,Habibganj Police Station,COMPUTER_AND_IT_EQUIPMENT,17,New,0,9,161,38031
+455,Chhola Mandir Police Station,NETWORKING_EQUIPMENT,13,New,0,8,66,6813
+456,Ratibad Police Station,MEDICAL_FIRST_AID,18,Lost,8503,4,179,3208
+457,Talaiya Police Station,COMMUNICATION_DEVICES,5,Lost,692,2,116,1376
+458,Ashoka Garden Police Station,MEDICAL_FIRST_AID,6,New,0,6,157,4528
+459,Talaiya Police Station,COMPUTER_AND_IT_EQUIPMENT,20,Discarded,5811,6,116,52675
+460,Mangalwara Police Station,FIREARMS,1,New,0,10,137,13606
+461,Ashoka Garden Police Station,OFFICE_SUPPLIES,8,Lost,2792,5,70,11053
+462,Khajuri Sadak Police Station,PROTECTIVE_GEAR,6,Repaired,4047,4,83,1160
+463,Govindpura Police Station,PROTECTIVE_GEAR,16,Repaired,9929,7,108,6704
+464,Mangalwara Police Station,COMPUTER_AND_IT_EQUIPMENT,14,Discarded,9968,9,90,89860
+465,Bhopal Kotwali Police Station,MEDICAL_FIRST_AID,5,Repaired,6428,3,89,3845
+466,MP Nagar Police Station,PROTECTIVE_GEAR,6,New,0,1,46,6059
+467,Shahpura Police Station,FORENSIC,14,Discarded,6744,9,56,19807
+468,Misrod Police Station,SURVEILLANCE_AND_TRACKING,14,Lost,1678,6,51,1387
+469,Jahangirabad Police Station,MEDICAL_FIRST_AID,5,New,0,7,49,1617
+470,Shahpura Police Station,FIREARMS,15,Repaired,6295,2,135,71205
+471,Berasia Police Station,FORENSIC,7,Discarded,4941,9,59,33598
+472,MP Nagar Police Station,MEDICAL_FIRST_AID,9,Repaired,1894,4,126,4830
+473,Bagh Sewania Police Station,FORENSIC,8,Discarded,6795,9,136,17803
+474,Khajuri Sadak Police Station,NETWORKING_EQUIPMENT,12,New,0,1,110,1675
+475,Jahangirabad Police Station,COMMUNICATION_DEVICES,10,Discarded,6113,8,149,4378
+476,Bhopal Kotwali Police Station,FORENSIC,7,New,0,1,118,22819
+477,Piplani Police Station,FIREARMS,12,Repaired,9677,3,30,78258
+478,Berasia Police Station,OFFICE_SUPPLIES,17,New,0,1,107,19593
+479,Talaiya Police Station,COMMUNICATION_DEVICES,14,Repaired,5981,9,180,1820
+480,Misrod Police Station,FORENSIC,6,New,0,3,50,32852
+481,Shyamla Hills Police Station,MEDICAL_FIRST_AID,14,New,0,8,54,4420
+482,Govindpura Police Station,FIREARMS,2,Discarded,8754,8,110,52666
+483,Habibganj Police Station,PROTECTIVE_GEAR,2,New,0,6,112,1676
+484,Misrod Police Station,VEHICLE_AND_ACCESSORIES,3,Discarded,6241,1,82,89776
+485,Shyamla Hills Police Station,FIREARMS,18,New,0,6,60,9095
+486,Kamla Nagar Police Station,COMPUTER_AND_IT_EQUIPMENT,18,Repaired,4520,5,35,4183
+487,Bagh Sewania Police Station,SURVEILLANCE_AND_TRACKING,18,Repaired,9827,3,136,4491
+488,Hanumanganj Police Station,NETWORKING_EQUIPMENT,13,Lost,1105,5,82,6877
+489,Bagh Sewania Police Station,OFFICE_SUPPLIES,13,Lost,4081,3,124,8281
+490,Kamla Nagar Police Station,SURVEILLANCE_AND_TRACKING,7,Lost,3862,2,151,7382
+491,Kamla Nagar Police Station,COMMUNICATION_DEVICES,20,Repaired,9730,4,55,2679
+492,Ratibad Police Station,FORENSIC,15,Discarded,6728,7,60,37710
+493,Ashoka Garden Police Station,COMMUNICATION_DEVICES,11,Discarded,4688,4,51,4115
+494,Ashoka Garden Police Station,SURVEILLANCE_AND_TRACKING,16,Discarded,6318,2,101,7649
+495,Jahangirabad Police Station,FORENSIC,13,Lost,8611,1,159,30179
+496,Shahpura Police Station,VEHICLE_AND_ACCESSORIES,4,Lost,3729,3,107,44173
+497,Talaiya Police Station,FIREARMS,17,Repaired,1292,3,98,39351
+498,Ashoka Garden Police Station,FIREARMS,16,New,0,5,179,6799
+499,TT Nagar Police Station,OFFICE_SUPPLIES,14,Discarded,4108,6,62,1044
+500,Shyamla Hills Police Station,COMMUNICATION_DEVICES,14,Lost,4636,6,180,489
+501,Jahangirabad Police Station,COMPUTER_AND_IT_EQUIPMENT,2,New,0,1,145,94275
+502,Kamla Nagar Police Station,SURVEILLANCE_AND_TRACKING,1,New,0,2,175,3233
+503,Chhola Mandir Police Station,COMPUTER_AND_IT_EQUIPMENT,10,Repaired,7130,8,48,90958
+504,Talaiya Police Station,FORENSIC,4,Lost,1614,4,150,23615
+505,Bhopal Kotwali Police Station,PROTECTIVE_GEAR,13,Discarded,1642,3,43,1015
+506,Mangalwara Police Station,COMMUNICATION_DEVICES,8,Discarded,6800,3,55,2965
+507,Hanumanganj Police Station,COMPUTER_AND_IT_EQUIPMENT,13,Lost,1948,8,96,65194
+508,Bagh Sewania Police Station,MEDICAL_FIRST_AID,17,New,0,10,95,2659
+509,Ratibad Police Station,PROTECTIVE_GEAR,1,Lost,2411,4,167,1766
+510,Shahpura Police Station,COMMUNICATION_DEVICES,8,Repaired,911,5,109,4733
+511,Chhola Mandir Police Station,OFFICE_SUPPLIES,13,New,0,10,60,19000
+512,Ratibad Police Station,COMMUNICATION_DEVICES,7,New,0,1,48,1567
+513,Talaiya Police Station,COMPUTER_AND_IT_EQUIPMENT,12,Discarded,9499,2,171,82619
+514,Khajuri Sadak Police Station,VEHICLE_AND_ACCESSORIES,2,Repaired,6292,10,98,81670
+515,Shyamla Hills Police Station,VEHICLE_AND_ACCESSORIES,8,Repaired,8799,3,39,19489
+516,Misrod Police Station,MEDICAL_FIRST_AID,19,New,0,3,77,3468
+517,Khajuri Sadak Police Station,COMPUTER_AND_IT_EQUIPMENT,6,New,0,7,167,96004
+518,Jahangirabad Police Station,SURVEILLANCE_AND_TRACKING,19,New,0,3,118,1504
+519,Shyamla Hills Police Station,PROTECTIVE_GEAR,20,Discarded,420,5,150,6961
+520,Mangalwara Police Station,FORENSIC,15,New,0,7,149,17197
+521,Jahangirabad Police Station,MEDICAL_FIRST_AID,6,Lost,7718,7,130,1754
+522,Shahpura Police Station,NETWORKING_EQUIPMENT,12,Repaired,3813,7,68,1758
+523,Habibganj Police Station,OFFICE_SUPPLIES,5,Lost,6986,9,171,7109
+524,Jahangirabad Police Station,VEHICLE_AND_ACCESSORIES,3,Repaired,8005,6,68,52919
+525,Govindpura Police Station,SURVEILLANCE_AND_TRACKING,3,Repaired,122,4,66,2681
+526,Mangalwara Police Station,SURVEILLANCE_AND_TRACKING,13,Repaired,4265,7,147,4244
+527,Berasia Police Station,PROTECTIVE_GEAR,2,Discarded,7496,6,124,7396
+528,Kolar Police Station,MEDICAL_FIRST_AID,9,Discarded,8064,10,74,4726
+529,Kamla Nagar Police Station,COMPUTER_AND_IT_EQUIPMENT,16,Lost,3893,8,168,16303
+530,Ashoka Garden Police Station,PROTECTIVE_GEAR,10,Repaired,6430,2,124,8228
+531,Hanumanganj Police Station,COMMUNICATION_DEVICES,14,Discarded,2608,10,116,3459
+532,Shyamla Hills Police Station,SURVEILLANCE_AND_TRACKING,16,Discarded,3871,10,72,2370
+533,MP Nagar Police Station,FIREARMS,9,Repaired,6137,10,161,8089
+534,TT Nagar Police Station,FORENSIC,2,Lost,8835,9,153,22380
+535,Shyamla Hills Police Station,COMPUTER_AND_IT_EQUIPMENT,14,Repaired,3447,6,130,18954
+536,Kolar Police Station,NETWORKING_EQUIPMENT,6,Repaired,4897,2,166,367
+537,Chhola Mandir Police Station,COMPUTER_AND_IT_EQUIPMENT,8,Lost,6136,1,75,37923
+538,Habibganj Police Station,PROTECTIVE_GEAR,15,New,0,2,179,2581
+539,Jahangirabad Police Station,NETWORKING_EQUIPMENT,18,New,0,7,128,3820
+540,Kamla Nagar Police Station,FIREARMS,8,New,0,2,70,74494
+541,Khajuri Sadak Police Station,FIREARMS,19,New,0,2,80,25265
+542,Piplani Police Station,VEHICLE_AND_ACCESSORIES,17,New,0,8,170,81398
+543,Shyamla Hills Police Station,COMPUTER_AND_IT_EQUIPMENT,20,New,0,1,156,10693
+544,Bagh Sewania Police Station,VEHICLE_AND_ACCESSORIES,15,Discarded,567,4,112,66995
+545,Ratibad Police Station,NETWORKING_EQUIPMENT,8,Discarded,3581,3,124,2143
+546,TT Nagar Police Station,SURVEILLANCE_AND_TRACKING,17,Lost,8978,6,133,9762
+547,Piplani Police Station,OFFICE_SUPPLIES,16,New,0,8,66,15274
+548,Berasia Police Station,FORENSIC,10,Lost,6070,8,172,17674
+549,Govindpura Police Station,VEHICLE_AND_ACCESSORIES,7,New,0,3,48,59155
+550,Kamla Nagar Police Station,SURVEILLANCE_AND_TRACKING,6,New,0,8,155,4707
+551,Jahangirabad Police Station,FIREARMS,10,Discarded,6881,10,46,67854
+552,Hanumanganj Police Station,MEDICAL_FIRST_AID,20,New,0,1,77,1813
+553,Hanumanganj Police Station,FIREARMS,1,Lost,8080,6,91,38856
+554,Khajuri Sadak Police Station,OFFICE_SUPPLIES,18,New,0,3,113,14180
+555,Talaiya Police Station,OFFICE_SUPPLIES,18,Lost,2063,5,35,4536
+556,Shyamla Hills Police Station,OFFICE_SUPPLIES,19,New,0,3,177,8834
+557,TT Nagar Police Station,MEDICAL_FIRST_AID,3,New,0,5,174,4618
+558,Chhola Mandir Police Station,SURVEILLANCE_AND_TRACKING,11,Discarded,5321,5,155,913
+559,Ashoka Garden Police Station,COMMUNICATION_DEVICES,6,Repaired,7448,1,133,979
+560,Bagh Sewania Police Station,FIREARMS,18,Repaired,6704,3,48,19733
+561,Ashoka Garden Police Station,VEHICLE_AND_ACCESSORIES,12,New,0,8,40,30137
+562,Piplani Police Station,COMMUNICATION_DEVICES,1,Discarded,4622,6,141,2411
+563,Jahangirabad Police Station,OFFICE_SUPPLIES,6,Discarded,7487,6,144,9970
+564,Misrod Police Station,OFFICE_SUPPLIES,7,Lost,404,1,151,18548
+565,Kamla Nagar Police Station,PROTECTIVE_GEAR,16,Repaired,4045,4,128,3979
+566,Jahangirabad Police Station,COMMUNICATION_DEVICES,18,New,0,2,162,254
+567,Bhopal Kotwali Police Station,PROTECTIVE_GEAR,18,Discarded,7304,10,102,9335
+568,Ashoka Garden Police Station,PROTECTIVE_GEAR,6,New,0,7,95,3285
+569,Bagh Sewania Police Station,OFFICE_SUPPLIES,5,New,0,10,79,1480
+570,Bagh Sewania Police Station,FORENSIC,17,Repaired,388,2,144,28566
+571,Shahpura Police Station,COMPUTER_AND_IT_EQUIPMENT,8,Repaired,9580,3,50,14003
+572,Piplani Police Station,COMPUTER_AND_IT_EQUIPMENT,17,New,0,10,113,96683
+573,Berasia Police Station,SURVEILLANCE_AND_TRACKING,8,Discarded,6789,3,39,7703
+574,Khajuri Sadak Police Station,VEHICLE_AND_ACCESSORIES,6,Lost,3808,6,122,11082
+575,Talaiya Police Station,FIREARMS,10,Repaired,4111,5,131,43858
+576,MP Nagar Police Station,COMPUTER_AND_IT_EQUIPMENT,7,Discarded,2579,7,93,30684
+577,Shahpura Police Station,FIREARMS,6,Lost,8753,7,94,40488
+578,Shahpura Police Station,COMMUNICATION_DEVICES,14,Lost,5625,7,33,241
+579,Berasia Police Station,COMPUTER_AND_IT_EQUIPMENT,9,Lost,4937,7,50,18502
+580,Chhola Mandir Police Station,FIREARMS,17,Repaired,1030,8,129,70936
+581,Talaiya Police Station,FIREARMS,19,Discarded,231,6,69,10147
+582,Talaiya Police Station,FORENSIC,17,New,0,6,42,37359
+583,Ashoka Garden Police Station,NETWORKING_EQUIPMENT,13,Lost,9661,4,60,7196
+584,Hanumanganj Police Station,PROTECTIVE_GEAR,7,Lost,5981,3,121,1356
+585,Bhopal Kotwali Police Station,MEDICAL_FIRST_AID,12,New,0,6,134,196
+586,Misrod Police Station,VEHICLE_AND_ACCESSORIES,19,Lost,1722,9,104,96648
+587,Jahangirabad Police Station,MEDICAL_FIRST_AID,20,New,0,6,96,4047
+588,Govindpura Police Station,SURVEILLANCE_AND_TRACKING,15,Discarded,6644,3,178,6089
+589,Bagh Sewania Police Station,VEHICLE_AND_ACCESSORIES,1,Lost,7487,8,66,86456
+590,MP Nagar Police Station,COMMUNICATION_DEVICES,7,Discarded,3136,8,126,3793
+591,Ratibad Police Station,COMPUTER_AND_IT_EQUIPMENT,15,Repaired,2492,2,98,59620
+592,Piplani Police Station,FORENSIC,19,Repaired,3127,1,110,29621
+593,MP Nagar Police Station,COMPUTER_AND_IT_EQUIPMENT,11,New,0,8,166,32152
+594,Berasia Police Station,FIREARMS,8,Discarded,2536,5,147,2253
+595,TT Nagar Police Station,COMMUNICATION_DEVICES,5,New,0,8,141,2964
+596,Bagh Sewania Police Station,VEHICLE_AND_ACCESSORIES,19,Lost,2144,5,91,64131
+597,Piplani Police Station,COMMUNICATION_DEVICES,2,Repaired,6647,10,150,896
+598,Ratibad Police Station,COMPUTER_AND_IT_EQUIPMENT,14,New,0,2,95,27423
+599,Chhola Mandir Police Station,FORENSIC,5,Repaired,3731,3,94,37880
+600,Piplani Police Station,SURVEILLANCE_AND_TRACKING,12,Repaired,3227,9,140,9073
+601,Piplani Police Station,MEDICAL_FIRST_AID,19,Repaired,3370,3,87,598
+602,Ayodhya Nagar Police Station,FORENSIC,5,Repaired,3604,9,175,36773
+603,Talaiya Police Station,VEHICLE_AND_ACCESSORIES,20,Discarded,2608,10,105,12979
+604,Bhopal Kotwali Police Station,PROTECTIVE_GEAR,11,New,0,8,41,2132
+605,Piplani Police Station,COMPUTER_AND_IT_EQUIPMENT,13,New,0,10,139,98216
+606,Govindpura Police Station,VEHICLE_AND_ACCESSORIES,12,New,0,1,144,33107
+607,Talaiya Police Station,OFFICE_SUPPLIES,15,Repaired,1358,3,113,11746
+608,Berasia Police Station,COMMUNICATION_DEVICES,15,New,0,10,103,1379
+609,MP Nagar Police Station,COMPUTER_AND_IT_EQUIPMENT,13,New,0,9,86,89360
+610,Kamla Nagar Police Station,PROTECTIVE_GEAR,20,Lost,955,6,59,6533
+611,Shahpura Police Station,COMPUTER_AND_IT_EQUIPMENT,2,Repaired,5356,5,49,36558
+612,Chhola Mandir Police Station,COMPUTER_AND_IT_EQUIPMENT,3,Discarded,5498,1,141,55683
+613,Berasia Police Station,MEDICAL_FIRST_AID,19,Discarded,7401,8,91,3118
+614,Ayodhya Nagar Police Station,COMMUNICATION_DEVICES,3,New,0,9,54,994
+615,Kamla Nagar Police Station,VEHICLE_AND_ACCESSORIES,14,Repaired,5535,3,94,37396
+616,Jahangirabad Police Station,FIREARMS,4,New,0,10,71,62995
+617,Berasia Police Station,OFFICE_SUPPLIES,3,Lost,9620,4,154,8187
+618,Bhopal Kotwali Police Station,SURVEILLANCE_AND_TRACKING,20,Lost,4826,3,67,7539
+619,Berasia Police Station,FORENSIC,13,Discarded,6132,2,72,39093
+620,Ayodhya Nagar Police Station,FIREARMS,6,Discarded,8055,7,164,8355
+621,Govindpura Police Station,FORENSIC,13,Repaired,6045,6,143,18094
+622,Shahpura Police Station,VEHICLE_AND_ACCESSORIES,15,Lost,7466,8,144,96488
+623,Piplani Police Station,COMPUTER_AND_IT_EQUIPMENT,20,Discarded,1853,2,167,14289
+624,Talaiya Police Station,MEDICAL_FIRST_AID,5,Discarded,1825,8,38,2037
+625,Shyamla Hills Police Station,MEDICAL_FIRST_AID,5,New,0,9,131,2292
+626,Ratibad Police Station,SURVEILLANCE_AND_TRACKING,11,Discarded,9809,1,177,6606
+627,Berasia Police Station,COMPUTER_AND_IT_EQUIPMENT,5,Discarded,1870,4,106,92951
+628,Kamla Nagar Police Station,NETWORKING_EQUIPMENT,20,New,0,9,47,6463
+629,MP Nagar Police Station,VEHICLE_AND_ACCESSORIES,17,Lost,4426,1,145,14085
+630,Jahangirabad Police Station,FIREARMS,9,Discarded,1521,4,159,89678
+631,Kamla Nagar Police Station,COMMUNICATION_DEVICES,4,Discarded,2136,3,101,1392
+632,Kamla Nagar Police Station,SURVEILLANCE_AND_TRACKING,3,New,0,5,69,3922
+633,Hanumanganj Police Station,COMMUNICATION_DEVICES,15,Lost,966,7,101,1795
+634,Bagh Sewania Police Station,COMPUTER_AND_IT_EQUIPMENT,3,Discarded,3710,7,33,36043
+635,Ratibad Police Station,NETWORKING_EQUIPMENT,13,Discarded,3327,7,33,200
+636,Govindpura Police Station,MEDICAL_FIRST_AID,12,New,0,2,90,435
+637,Khajuri Sadak Police Station,SURVEILLANCE_AND_TRACKING,20,Discarded,6924,9,178,6085
+638,Piplani Police Station,COMMUNICATION_DEVICES,5,New,0,2,155,2235
+639,Kamla Nagar Police Station,PROTECTIVE_GEAR,12,Lost,6682,5,115,9971
+640,Talaiya Police Station,OFFICE_SUPPLIES,18,Discarded,7352,2,109,4522
+641,Jahangirabad Police Station,COMPUTER_AND_IT_EQUIPMENT,20,Repaired,3492,6,124,66552
+642,Kolar Police Station,OFFICE_SUPPLIES,1,Lost,3095,4,85,8707
+643,Habibganj Police Station,PROTECTIVE_GEAR,8,Repaired,7131,10,60,4993
+644,Berasia Police Station,COMPUTER_AND_IT_EQUIPMENT,15,Discarded,374,1,65,40221
+645,Chhola Mandir Police Station,MEDICAL_FIRST_AID,15,Lost,8168,8,35,2863
+646,Ratibad Police Station,MEDICAL_FIRST_AID,6,New,0,4,81,4810
+647,Ashoka Garden Police Station,COMMUNICATION_DEVICES,2,Lost,8605,3,92,909
+648,Ratibad Police Station,COMPUTER_AND_IT_EQUIPMENT,14,Discarded,6746,6,89,71686
+649,Shahpura Police Station,OFFICE_SUPPLIES,9,Discarded,4173,7,121,13604
+650,Jahangirabad Police Station,MEDICAL_FIRST_AID,3,Discarded,373,5,65,4006
+651,MP Nagar Police Station,COMPUTER_AND_IT_EQUIPMENT,8,Repaired,5356,8,40,87838
+652,Habibganj Police Station,VEHICLE_AND_ACCESSORIES,19,Repaired,4928,3,93,79990
+653,Habibganj Police Station,FORENSIC,7,Repaired,530,6,176,25119
+654,Jahangirabad Police Station,NETWORKING_EQUIPMENT,20,Lost,1530,10,129,3695
+655,Jahangirabad Police Station,MEDICAL_FIRST_AID,11,Repaired,8948,4,87,5294
+656,Govindpura Police Station,PROTECTIVE_GEAR,17,Discarded,5232,5,127,2209
+657,Govindpura Police Station,FORENSIC,8,Repaired,1965,7,73,27282
+658,Jahangirabad Police Station,SURVEILLANCE_AND_TRACKING,3,Discarded,5591,10,124,2334
+659,Govindpura Police Station,COMPUTER_AND_IT_EQUIPMENT,13,Repaired,8591,5,97,54903
+660,Ayodhya Nagar Police Station,MEDICAL_FIRST_AID,8,Repaired,4953,9,82,122
+661,Mangalwara Police Station,NETWORKING_EQUIPMENT,5,Discarded,3163,3,140,4338
+662,Piplani Police Station,PROTECTIVE_GEAR,10,Discarded,8427,10,98,3522
+663,Ayodhya Nagar Police Station,NETWORKING_EQUIPMENT,15,Lost,4122,7,144,3058
+664,Chhola Mandir Police Station,COMPUTER_AND_IT_EQUIPMENT,12,Lost,8189,1,124,36859
+665,Govindpura Police Station,PROTECTIVE_GEAR,20,Repaired,2422,1,168,8417
+666,Piplani Police Station,FIREARMS,4,New,0,8,63,71797
+667,Habibganj Police Station,VEHICLE_AND_ACCESSORIES,17,Lost,952,2,64,42283
+668,Kamla Nagar Police Station,COMPUTER_AND_IT_EQUIPMENT,6,New,0,10,94,39668
+669,Ashoka Garden Police Station,PROTECTIVE_GEAR,15,Repaired,6842,6,176,5997
+670,Khajuri Sadak Police Station,FIREARMS,17,Lost,4060,9,77,13299
+671,Talaiya Police Station,FORENSIC,11,Repaired,8348,3,59,22358
+672,Kamla Nagar Police Station,VEHICLE_AND_ACCESSORIES,20,Repaired,4486,7,174,53707
+673,TT Nagar Police Station,COMPUTER_AND_IT_EQUIPMENT,6,Repaired,1734,6,78,35718
+674,Jahangirabad Police Station,COMMUNICATION_DEVICES,13,Discarded,7358,3,44,2652
+675,Bagh Sewania Police Station,OFFICE_SUPPLIES,12,Lost,7609,9,86,13372
+676,Ratibad Police Station,FORENSIC,3,Discarded,5377,4,152,22024
+677,Piplani Police Station,FORENSIC,14,Discarded,6509,1,125,19498
+678,Jahangirabad Police Station,VEHICLE_AND_ACCESSORIES,18,Repaired,3376,1,35,32972
+679,Shahpura Police Station,PROTECTIVE_GEAR,14,Lost,2509,9,150,8503
+680,TT Nagar Police Station,VEHICLE_AND_ACCESSORIES,7,Lost,1645,8,82,75861
+681,Chhola Mandir Police Station,COMPUTER_AND_IT_EQUIPMENT,11,Discarded,1282,3,116,29998
+682,Misrod Police Station,COMMUNICATION_DEVICES,2,New,0,7,49,380
+683,Bagh Sewania Police Station,FIREARMS,3,New,0,9,57,15410
+684,Shyamla Hills Police Station,MEDICAL_FIRST_AID,17,Repaired,8615,5,34,2555
+685,Kamla Nagar Police Station,MEDICAL_FIRST_AID,6,Discarded,7065,10,90,3498
+686,Ashoka Garden Police Station,VEHICLE_AND_ACCESSORIES,20,Lost,6029,7,86,13008
+687,Chhola Mandir Police Station,NETWORKING_EQUIPMENT,4,New,0,7,158,1557
+688,Hanumanganj Police Station,MEDICAL_FIRST_AID,5,Repaired,937,1,34,2051
+689,Kamla Nagar Police Station,NETWORKING_EQUIPMENT,12,Discarded,1444,4,137,1955
+690,Ashoka Garden Police Station,NETWORKING_EQUIPMENT,12,Discarded,1496,9,170,4204
+691,Mangalwara Police Station,OFFICE_SUPPLIES,14,Lost,2751,1,52,2179
+692,Jahangirabad Police Station,VEHICLE_AND_ACCESSORIES,9,Lost,5761,9,176,37300
+693,Mangalwara Police Station,NETWORKING_EQUIPMENT,18,Repaired,288,5,168,3780
+694,Govindpura Police Station,OFFICE_SUPPLIES,11,Lost,8655,8,79,5766
+695,Bagh Sewania Police Station,FORENSIC,11,New,0,2,153,36418
+696,Ayodhya Nagar Police Station,VEHICLE_AND_ACCESSORIES,6,Lost,8217,6,119,47972
+697,Ratibad Police Station,COMPUTER_AND_IT_EQUIPMENT,20,New,0,2,171,57410
+698,Talaiya Police Station,FORENSIC,9,Repaired,2582,4,106,37893
+699,Shahpura Police Station,VEHICLE_AND_ACCESSORIES,9,New,0,6,134,82151
+700,Kolar Police Station,MEDICAL_FIRST_AID,17,Lost,7620,8,96,4602
+701,Piplani Police Station,OFFICE_SUPPLIES,19,Lost,6954,10,65,10997
+702,Bagh Sewania Police Station,VEHICLE_AND_ACCESSORIES,14,Repaired,5038,2,100,33527
+703,Ashoka Garden Police Station,MEDICAL_FIRST_AID,6,Discarded,9110,2,36,999
+704,TT Nagar Police Station,FORENSIC,16,New,0,5,122,22947
+705,MP Nagar Police Station,OFFICE_SUPPLIES,8,New,0,8,61,17713
+706,Kolar Police Station,NETWORKING_EQUIPMENT,4,Repaired,2304,6,84,3319
+707,Shyamla Hills Police Station,VEHICLE_AND_ACCESSORIES,7,Repaired,5431,8,108,23775
+708,Mangalwara Police Station,VEHICLE_AND_ACCESSORIES,7,Repaired,5246,1,35,56356
+709,Bagh Sewania Police Station,OFFICE_SUPPLIES,12,Lost,6789,8,127,3692
+710,Mangalwara Police Station,COMMUNICATION_DEVICES,3,Repaired,9460,1,41,4663
+711,Chhola Mandir Police Station,MEDICAL_FIRST_AID,3,Discarded,328,10,65,3657
+712,Ashoka Garden Police Station,COMMUNICATION_DEVICES,16,Discarded,6119,8,138,4475
+713,Shahpura Police Station,OFFICE_SUPPLIES,4,New,0,4,153,14561
+714,Mangalwara Police Station,COMPUTER_AND_IT_EQUIPMENT,9,Repaired,9233,9,80,30768
+715,TT Nagar Police Station,OFFICE_SUPPLIES,12,Lost,5208,1,151,8286
+716,TT Nagar Police Station,MEDICAL_FIRST_AID,13,Lost,849,2,60,2205
+717,MP Nagar Police Station,PROTECTIVE_GEAR,13,Lost,7172,9,161,8825
+718,Govindpura Police Station,MEDICAL_FIRST_AID,1,New,0,2,173,3481
+719,Piplani Police Station,FORENSIC,14,New,0,5,86,34392
+720,MP Nagar Police Station,VEHICLE_AND_ACCESSORIES,4,Discarded,8382,4,43,43464
+721,Hanumanganj Police Station,OFFICE_SUPPLIES,14,New,0,8,152,6606
+722,Kolar Police Station,FORENSIC,6,New,0,5,91,31904
+723,MP Nagar Police Station,OFFICE_SUPPLIES,2,Lost,1618,3,114,8261
+724,MP Nagar Police Station,VEHICLE_AND_ACCESSORIES,5,Lost,2508,9,171,54436
+725,Shahpura Police Station,FIREARMS,16,Lost,7627,9,88,91627
+726,Shahpura Police Station,PROTECTIVE_GEAR,15,Repaired,9909,4,156,5914
+727,Hanumanganj Police Station,VEHICLE_AND_ACCESSORIES,19,Discarded,226,6,119,38402
+728,Mangalwara Police Station,PROTECTIVE_GEAR,14,Discarded,6974,5,175,4180
+729,MP Nagar Police Station,SURVEILLANCE_AND_TRACKING,8,Lost,8026,9,123,7256
+730,Bhopal Kotwali Police Station,FIREARMS,6,New,0,10,91,17981
+731,TT Nagar Police Station,PROTECTIVE_GEAR,11,Repaired,1680,2,175,3572
+732,Habibganj Police Station,SURVEILLANCE_AND_TRACKING,12,New,0,3,129,2889
+733,Govindpura Police Station,MEDICAL_FIRST_AID,10,Discarded,9992,10,33,3647
+734,Piplani Police Station,OFFICE_SUPPLIES,11,New,0,4,77,1026
+735,Ashoka Garden Police Station,VEHICLE_AND_ACCESSORIES,17,Discarded,2324,3,130,15540
+736,Misrod Police Station,PROTECTIVE_GEAR,10,New,0,2,148,3486
+737,Mangalwara Police Station,PROTECTIVE_GEAR,1,Repaired,7922,6,177,7545
+738,Bagh Sewania Police Station,MEDICAL_FIRST_AID,13,Lost,2795,3,151,4740
+739,Misrod Police Station,NETWORKING_EQUIPMENT,18,Repaired,7326,4,37,3347
+740,Ashoka Garden Police Station,NETWORKING_EQUIPMENT,1,Discarded,157,10,161,863
+741,Ayodhya Nagar Police Station,MEDICAL_FIRST_AID,3,Lost,7106,5,111,3596
+742,Govindpura Police Station,SURVEILLANCE_AND_TRACKING,4,Repaired,6871,7,125,7832
+743,Kamla Nagar Police Station,NETWORKING_EQUIPMENT,3,Lost,9924,2,99,2773
+744,Misrod Police Station,PROTECTIVE_GEAR,6,New,0,2,125,7459
+745,Misrod Police Station,COMMUNICATION_DEVICES,2,Lost,7658,8,62,3550
+746,Kamla Nagar Police Station,NETWORKING_EQUIPMENT,15,New,0,10,160,4074
+747,Jahangirabad Police Station,VEHICLE_AND_ACCESSORIES,5,New,0,6,53,37792
+748,Hanumanganj Police Station,NETWORKING_EQUIPMENT,8,Lost,4853,3,159,7276
+749,Khajuri Sadak Police Station,COMPUTER_AND_IT_EQUIPMENT,8,New,0,2,45,14761
+750,TT Nagar Police Station,OFFICE_SUPPLIES,18,Discarded,7868,10,153,17700
+751,Ashoka Garden Police Station,OFFICE_SUPPLIES,15,New,0,6,109,4673
+752,Shahpura Police Station,OFFICE_SUPPLIES,10,Lost,2668,9,42,9065
+753,Chhola Mandir Police Station,SURVEILLANCE_AND_TRACKING,17,Lost,7334,1,37,1693
+754,Ashoka Garden Police Station,MEDICAL_FIRST_AID,2,New,0,8,127,1009
+755,Talaiya Police Station,FORENSIC,7,New,0,4,47,27618
+756,Jahangirabad Police Station,NETWORKING_EQUIPMENT,7,Repaired,1718,7,74,2894
+757,Govindpura Police Station,PROTECTIVE_GEAR,8,Lost,8900,4,119,3837
+758,Berasia Police Station,COMPUTER_AND_IT_EQUIPMENT,12,Lost,746,5,169,10688
+759,TT Nagar Police Station,SURVEILLANCE_AND_TRACKING,20,Repaired,487,1,157,4171
+760,Bagh Sewania Police Station,FORENSIC,14,Discarded,7821,3,39,32438
+761,Misrod Police Station,MEDICAL_FIRST_AID,11,Lost,6613,6,172,2833
+762,Bhopal Kotwali Police Station,COMPUTER_AND_IT_EQUIPMENT,16,Repaired,7797,7,114,44076
+763,Bhopal Kotwali Police Station,COMMUNICATION_DEVICES,18,Discarded,9819,2,107,4121
+764,MP Nagar Police Station,COMPUTER_AND_IT_EQUIPMENT,15,Repaired,1056,6,48,4497
+765,Bagh Sewania Police Station,COMPUTER_AND_IT_EQUIPMENT,3,New,0,10,72,16444
+766,Ayodhya Nagar Police Station,NETWORKING_EQUIPMENT,20,Repaired,9285,8,148,3199
+767,Bagh Sewania Police Station,SURVEILLANCE_AND_TRACKING,1,New,0,8,165,6989
+768,Ayodhya Nagar Police Station,MEDICAL_FIRST_AID,17,Lost,4175,5,167,2900
+769,Ayodhya Nagar Police Station,FORENSIC,17,Discarded,6218,4,165,35916
+770,Bagh Sewania Police Station,COMMUNICATION_DEVICES,4,Lost,172,1,87,2570
+771,Kamla Nagar Police Station,COMPUTER_AND_IT_EQUIPMENT,13,Discarded,2359,2,145,56398
+772,Khajuri Sadak Police Station,COMPUTER_AND_IT_EQUIPMENT,13,Repaired,2946,6,68,32834
+773,Govindpura Police Station,SURVEILLANCE_AND_TRACKING,15,Repaired,9939,9,128,3759
+774,Kolar Police Station,COMMUNICATION_DEVICES,4,Repaired,3510,6,180,1914
+775,Talaiya Police Station,NETWORKING_EQUIPMENT,15,Lost,6576,8,78,642
+776,Ratibad Police Station,COMMUNICATION_DEVICES,11,New,0,1,136,3065
+777,Habibganj Police Station,FIREARMS,14,Lost,7621,7,65,28015
+778,Khajuri Sadak Police Station,COMMUNICATION_DEVICES,9,Discarded,8249,9,53,2449
+779,Habibganj Police Station,OFFICE_SUPPLIES,6,Lost,5715,6,81,17961
+780,Govindpura Police Station,COMPUTER_AND_IT_EQUIPMENT,5,Repaired,1186,3,70,26278
+781,MP Nagar Police Station,MEDICAL_FIRST_AID,2,Discarded,5916,6,121,5498
+782,Piplani Police Station,COMMUNICATION_DEVICES,3,Discarded,5820,6,33,1425
+783,Habibganj Police Station,FORENSIC,13,Discarded,5613,7,156,31580
+784,Bhopal Kotwali Police Station,SURVEILLANCE_AND_TRACKING,8,Discarded,7879,7,94,7786
+785,Kolar Police Station,OFFICE_SUPPLIES,8,New,0,7,155,16804
+786,Kolar Police Station,COMPUTER_AND_IT_EQUIPMENT,20,New,0,3,94,4765
+787,Talaiya Police Station,SURVEILLANCE_AND_TRACKING,2,New,0,7,94,3352
+788,Govindpura Police Station,PROTECTIVE_GEAR,20,Repaired,8459,3,147,8192
+789,Piplani Police Station,FIREARMS,13,Repaired,6752,5,169,71915
+790,Hanumanganj Police Station,MEDICAL_FIRST_AID,2,Lost,2193,9,78,5555
+791,Jahangirabad Police Station,FIREARMS,18,Lost,1433,2,176,17636
+792,Ashoka Garden Police Station,MEDICAL_FIRST_AID,1,Repaired,9098,4,130,3485
+793,Talaiya Police Station,PROTECTIVE_GEAR,19,Repaired,6567,4,100,4754
+794,Shahpura Police Station,COMPUTER_AND_IT_EQUIPMENT,8,New,0,2,56,86589
+795,Misrod Police Station,NETWORKING_EQUIPMENT,18,Repaired,3596,10,75,325
+796,Hanumanganj Police Station,SURVEILLANCE_AND_TRACKING,10,Lost,5763,3,41,4236
+797,Kamla Nagar Police Station,MEDICAL_FIRST_AID,20,New,0,10,150,3090
+798,Bagh Sewania Police Station,FIREARMS,9,Repaired,4535,3,74,41571
+799,Shyamla Hills Police Station,OFFICE_SUPPLIES,13,Lost,5364,8,167,16064
+800,Talaiya Police Station,OFFICE_SUPPLIES,16,New,0,8,140,10447
+801,Ratibad Police Station,NETWORKING_EQUIPMENT,9,Discarded,2730,5,154,4746
+802,Ayodhya Nagar Police Station,FIREARMS,10,Discarded,8642,3,102,6986
+803,Kamla Nagar Police Station,NETWORKING_EQUIPMENT,13,Lost,4951,10,145,630
+804,MP Nagar Police Station,MEDICAL_FIRST_AID,17,Repaired,2075,9,95,3645
+805,Shahpura Police Station,PROTECTIVE_GEAR,8,Lost,5009,10,177,7713
+806,Hanumanganj Police Station,NETWORKING_EQUIPMENT,10,Lost,8947,10,164,1980
+807,Habibganj Police Station,OFFICE_SUPPLIES,13,Repaired,7884,9,160,13711
+808,MP Nagar Police Station,NETWORKING_EQUIPMENT,5,Repaired,1264,6,121,618
+809,Habibganj Police Station,MEDICAL_FIRST_AID,12,Lost,502,4,98,3278
+810,Hanumanganj Police Station,COMMUNICATION_DEVICES,15,New,0,5,176,2229
+811,Shyamla Hills Police Station,NETWORKING_EQUIPMENT,8,Discarded,1676,8,76,2007
+812,Kolar Police Station,COMMUNICATION_DEVICES,1,Lost,6029,7,38,969
+813,Shyamla Hills Police Station,SURVEILLANCE_AND_TRACKING,20,New,0,5,130,8229
+814,Jahangirabad Police Station,PROTECTIVE_GEAR,5,New,0,5,45,9278
+815,Khajuri Sadak Police Station,NETWORKING_EQUIPMENT,14,Lost,7382,7,119,7066
+816,Kolar Police Station,SURVEILLANCE_AND_TRACKING,17,Lost,8220,7,75,6154
+817,MP Nagar Police Station,PROTECTIVE_GEAR,13,Lost,8363,5,105,1263
+818,Shyamla Hills Police Station,COMMUNICATION_DEVICES,10,Discarded,8122,4,151,4580
+819,Govindpura Police Station,NETWORKING_EQUIPMENT,19,Repaired,2306,10,94,3092
+820,Ratibad Police Station,COMPUTER_AND_IT_EQUIPMENT,5,Lost,7610,7,170,77799
+821,Hanumanganj Police Station,FORENSIC,20,New,0,2,70,36846
+822,MP Nagar Police Station,FIREARMS,12,Repaired,1902,9,93,17953
+823,Bagh Sewania Police Station,VEHICLE_AND_ACCESSORIES,14,Repaired,8142,4,85,46832
+824,Berasia Police Station,OFFICE_SUPPLIES,12,Lost,5376,7,38,4452
+825,Hanumanganj Police Station,COMMUNICATION_DEVICES,2,Discarded,8986,5,31,2367
+826,Bhopal Kotwali Police Station,FORENSIC,2,Lost,7566,3,107,34064
+827,Jahangirabad Police Station,NETWORKING_EQUIPMENT,18,Lost,6286,10,105,7131
+828,Bhopal Kotwali Police Station,PROTECTIVE_GEAR,20,Lost,2993,5,151,8479
+829,Misrod Police Station,MEDICAL_FIRST_AID,19,Discarded,7957,9,75,5022
+830,Kolar Police Station,SURVEILLANCE_AND_TRACKING,12,Lost,1986,8,73,3909
+831,Ashoka Garden Police Station,MEDICAL_FIRST_AID,14,New,0,9,180,4119
+832,Talaiya Police Station,NETWORKING_EQUIPMENT,20,Discarded,9670,3,162,6307
+833,Bhopal Kotwali Police Station,FORENSIC,19,Repaired,8418,2,33,23275
+834,Shyamla Hills Police Station,COMMUNICATION_DEVICES,19,New,0,6,116,928
+835,Shyamla Hills Police Station,COMMUNICATION_DEVICES,12,Repaired,1775,9,164,2234
+836,Piplani Police Station,SURVEILLANCE_AND_TRACKING,11,New,0,3,52,7283
+837,Hanumanganj Police Station,PROTECTIVE_GEAR,17,New,0,3,49,7241
+838,Chhola Mandir Police Station,VEHICLE_AND_ACCESSORIES,8,Discarded,5288,2,90,59491
+839,Ratibad Police Station,OFFICE_SUPPLIES,8,New,0,2,140,18782
+840,Ayodhya Nagar Police Station,FORENSIC,18,New,0,6,90,16951
+841,Berasia Police Station,COMMUNICATION_DEVICES,19,Repaired,2189,10,149,3063
+842,Shahpura Police Station,SURVEILLANCE_AND_TRACKING,15,Discarded,3585,6,37,2286
+843,Habibganj Police Station,COMMUNICATION_DEVICES,8,Discarded,3728,6,103,240
+844,Bhopal Kotwali Police Station,OFFICE_SUPPLIES,11,New,0,2,110,19383
+845,TT Nagar Police Station,FIREARMS,18,New,0,2,31,59866
+846,Khajuri Sadak Police Station,OFFICE_SUPPLIES,15,New,0,3,136,19017
+847,Shyamla Hills Police Station,OFFICE_SUPPLIES,3,Repaired,8154,6,153,16676
+848,Khajuri Sadak Police Station,PROTECTIVE_GEAR,17,Lost,3442,5,77,4455
+849,Misrod Police Station,SURVEILLANCE_AND_TRACKING,7,Lost,5198,10,113,7923
+850,Kamla Nagar Police Station,NETWORKING_EQUIPMENT,7,Lost,2568,3,116,2621
+851,Govindpura Police Station,COMMUNICATION_DEVICES,7,New,0,1,104,740
+852,Berasia Police Station,PROTECTIVE_GEAR,6,New,0,8,138,7990
+853,Jahangirabad Police Station,OFFICE_SUPPLIES,7,New,0,5,145,12974
+854,Mangalwara Police Station,PROTECTIVE_GEAR,17,Repaired,3161,3,63,3381
+855,Ashoka Garden Police Station,MEDICAL_FIRST_AID,1,New,0,9,63,1071
+856,Shyamla Hills Police Station,VEHICLE_AND_ACCESSORIES,16,Discarded,1746,5,136,65725
+857,Govindpura Police Station,NETWORKING_EQUIPMENT,3,Discarded,8102,7,94,3295
+858,Ratibad Police Station,MEDICAL_FIRST_AID,5,Discarded,6931,5,144,3233
+859,Kolar Police Station,COMPUTER_AND_IT_EQUIPMENT,17,Repaired,9713,7,71,90423
+860,Piplani Police Station,OFFICE_SUPPLIES,6,Repaired,6587,6,32,2785
+861,Bagh Sewania Police Station,FIREARMS,6,New,0,5,33,98115
+862,TT Nagar Police Station,VEHICLE_AND_ACCESSORIES,7,New,0,10,141,47018
+863,Shahpura Police Station,PROTECTIVE_GEAR,1,Lost,2764,2,176,4611
+864,Ayodhya Nagar Police Station,OFFICE_SUPPLIES,17,Discarded,4762,4,127,15642
+865,Ashoka Garden Police Station,NETWORKING_EQUIPMENT,7,New,0,6,121,6702
+866,Kolar Police Station,FIREARMS,7,Lost,2387,3,173,54790
+867,Kolar Police Station,SURVEILLANCE_AND_TRACKING,18,Discarded,3701,5,177,6662
+868,Berasia Police Station,PROTECTIVE_GEAR,18,Repaired,6199,1,53,4341
+869,Shahpura Police Station,NETWORKING_EQUIPMENT,18,Discarded,2495,9,112,7907
+870,Bhopal Kotwali Police Station,VEHICLE_AND_ACCESSORIES,14,Discarded,631,6,160,70705
+871,Ratibad Police Station,OFFICE_SUPPLIES,11,New,0,7,162,15723
+872,Misrod Police Station,SURVEILLANCE_AND_TRACKING,2,Discarded,1664,2,104,860
+873,Shahpura Police Station,OFFICE_SUPPLIES,2,Discarded,5997,7,70,16100
+874,Ratibad Police Station,FORENSIC,17,New,0,8,36,32043
+875,Talaiya Police Station,COMMUNICATION_DEVICES,3,Discarded,4230,10,161,3038
+876,Ayodhya Nagar Police Station,COMMUNICATION_DEVICES,12,Discarded,3302,4,107,486
+877,Habibganj Police Station,VEHICLE_AND_ACCESSORIES,10,Discarded,5798,7,43,44377
+878,Bhopal Kotwali Police Station,PROTECTIVE_GEAR,6,Discarded,9995,10,175,8425
+879,Misrod Police Station,MEDICAL_FIRST_AID,14,Lost,7553,8,146,5323
+880,Kolar Police Station,FIREARMS,5,Repaired,2981,1,179,57623
+881,Talaiya Police Station,COMPUTER_AND_IT_EQUIPMENT,17,Discarded,2318,7,176,78061
+882,Ratibad Police Station,COMMUNICATION_DEVICES,8,Discarded,9368,1,164,267
+883,MP Nagar Police Station,SURVEILLANCE_AND_TRACKING,13,Lost,3911,6,87,9255
+884,Kamla Nagar Police Station,NETWORKING_EQUIPMENT,13,Discarded,3036,9,129,250
+885,Kamla Nagar Police Station,PROTECTIVE_GEAR,15,Lost,5853,8,179,6039
+886,Misrod Police Station,FORENSIC,14,Discarded,5542,1,61,18307
+887,Ashoka Garden Police Station,FIREARMS,15,New,0,8,46,53680
+888,Khajuri Sadak Police Station,VEHICLE_AND_ACCESSORIES,9,Repaired,2699,6,151,78997
+889,Kamla Nagar Police Station,FIREARMS,7,Lost,5118,8,156,84652
+890,Ratibad Police Station,COMPUTER_AND_IT_EQUIPMENT,11,New,0,2,136,74576
+891,Mangalwara Police Station,MEDICAL_FIRST_AID,9,Lost,6876,3,173,4969
+892,Chhola Mandir Police Station,COMMUNICATION_DEVICES,14,Repaired,6976,5,176,4763
+893,Berasia Police Station,NETWORKING_EQUIPMENT,5,New,0,10,87,2217
+894,Ashoka Garden Police Station,PROTECTIVE_GEAR,6,Repaired,6090,1,154,4506
+895,Talaiya Police Station,COMPUTER_AND_IT_EQUIPMENT,20,Discarded,3539,7,151,16401
+896,Piplani Police Station,PROTECTIVE_GEAR,15,Lost,2679,7,114,3940
+897,Ayodhya Nagar Police Station,SURVEILLANCE_AND_TRACKING,4,New,0,5,50,8406
+898,Chhola Mandir Police Station,MEDICAL_FIRST_AID,13,Repaired,1591,8,43,5566
+899,Bagh Sewania Police Station,MEDICAL_FIRST_AID,17,Discarded,7912,3,115,1452
+900,Berasia Police Station,NETWORKING_EQUIPMENT,14,Repaired,8802,2,89,2872
+901,Shahpura Police Station,SURVEILLANCE_AND_TRACKING,2,Repaired,1271,8,107,8013
+902,Shyamla Hills Police Station,FORENSIC,16,Lost,4107,9,148,34283
+903,Talaiya Police Station,MEDICAL_FIRST_AID,14,New,0,3,141,3401
+904,Jahangirabad Police Station,FORENSIC,12,Repaired,962,4,71,26116
+905,Ayodhya Nagar Police Station,SURVEILLANCE_AND_TRACKING,16,Lost,7500,2,164,5766
+906,Habibganj Police Station,SURVEILLANCE_AND_TRACKING,5,Repaired,3203,7,79,6473
+907,Shahpura Police Station,PROTECTIVE_GEAR,13,Repaired,9684,9,154,8099
+908,Misrod Police Station,COMMUNICATION_DEVICES,7,Repaired,7769,2,109,1152
+909,Berasia Police Station,PROTECTIVE_GEAR,3,Discarded,2031,6,75,8730
+910,Habibganj Police Station,NETWORKING_EQUIPMENT,18,New,0,7,85,5255
+911,Ayodhya Nagar Police Station,FIREARMS,17,Lost,8447,6,143,76100
+912,Misrod Police Station,SURVEILLANCE_AND_TRACKING,5,Repaired,9420,7,39,2428
+913,Bagh Sewania Police Station,VEHICLE_AND_ACCESSORIES,6,Lost,4783,7,162,64169
+914,Habibganj Police Station,NETWORKING_EQUIPMENT,7,New,0,5,75,4539
+915,Ashoka Garden Police Station,VEHICLE_AND_ACCESSORIES,11,Discarded,3802,3,118,63559
+916,Talaiya Police Station,FIREARMS,16,Discarded,9970,8,49,92492
+917,Misrod Police Station,COMPUTER_AND_IT_EQUIPMENT,10,New,0,8,89,42602
+918,Shahpura Police Station,MEDICAL_FIRST_AID,14,Discarded,3394,8,53,3290
+919,Berasia Police Station,COMPUTER_AND_IT_EQUIPMENT,4,Lost,2455,9,105,58149
+920,Mangalwara Police Station,FIREARMS,12,Repaired,4840,2,124,95013
+921,Hanumanganj Police Station,COMMUNICATION_DEVICES,20,Lost,6309,6,135,2833
+922,Ratibad Police Station,COMMUNICATION_DEVICES,6,New,0,4,133,4771
+923,Hanumanganj Police Station,OFFICE_SUPPLIES,8,New,0,10,121,18088
+924,Talaiya Police Station,FIREARMS,16,Repaired,7321,3,86,83148
+925,Kamla Nagar Police Station,PROTECTIVE_GEAR,4,Discarded,5604,3,156,9250
+926,Jahangirabad Police Station,FORENSIC,20,Lost,4595,9,157,35040
+927,TT Nagar Police Station,NETWORKING_EQUIPMENT,16,Discarded,4233,3,41,3840
+928,Kamla Nagar Police Station,OFFICE_SUPPLIES,1,Lost,2023,8,89,5212
+929,TT Nagar Police Station,FORENSIC,19,Lost,1695,10,133,28143
+930,Kolar Police Station,COMPUTER_AND_IT_EQUIPMENT,12,Discarded,6137,3,125,37387
+931,Ashoka Garden Police Station,COMMUNICATION_DEVICES,12,Discarded,7042,7,75,3343
+932,Ratibad Police Station,MEDICAL_FIRST_AID,19,New,0,9,90,1494
+933,Bhopal Kotwali Police Station,OFFICE_SUPPLIES,13,New,0,9,134,10760
+934,Berasia Police Station,SURVEILLANCE_AND_TRACKING,2,Repaired,6104,9,85,6936
+935,Mangalwara Police Station,PROTECTIVE_GEAR,2,Lost,7468,4,146,2262
+936,Bagh Sewania Police Station,COMPUTER_AND_IT_EQUIPMENT,9,Lost,2230,1,157,47949
+937,Bagh Sewania Police Station,PROTECTIVE_GEAR,13,Lost,3468,3,73,6572
+938,Kolar Police Station,FORENSIC,1,Lost,4626,3,172,37842
+939,Shahpura Police Station,VEHICLE_AND_ACCESSORIES,16,Repaired,4576,1,82,63334
+940,Bagh Sewania Police Station,PROTECTIVE_GEAR,18,New,0,5,63,4377
+941,TT Nagar Police Station,COMMUNICATION_DEVICES,7,Repaired,427,5,79,2545
+942,Piplani Police Station,VEHICLE_AND_ACCESSORIES,13,Lost,7380,8,109,88327
+943,Piplani Police Station,FORENSIC,3,Discarded,7765,6,75,39407
+944,MP Nagar Police Station,NETWORKING_EQUIPMENT,12,Lost,9985,2,170,5268
+945,Ratibad Police Station,COMPUTER_AND_IT_EQUIPMENT,18,Discarded,4351,2,35,70658
+946,Govindpura Police Station,FIREARMS,18,Discarded,4488,1,42,21316
+947,MP Nagar Police Station,OFFICE_SUPPLIES,14,New,0,3,175,1508
+948,MP Nagar Police Station,COMMUNICATION_DEVICES,11,New,0,4,132,4491
+949,Hanumanganj Police Station,PROTECTIVE_GEAR,9,New,0,2,88,9283
+950,Piplani Police Station,OFFICE_SUPPLIES,10,New,0,7,116,18435
+951,Ratibad Police Station,PROTECTIVE_GEAR,7,Repaired,6464,8,51,4912
+952,Jahangirabad Police Station,COMPUTER_AND_IT_EQUIPMENT,8,Discarded,328,7,125,23921
+953,Berasia Police Station,FIREARMS,10,New,0,6,163,46153
+954,Piplani Police Station,VEHICLE_AND_ACCESSORIES,14,New,0,2,73,38607
+955,Habibganj Police Station,OFFICE_SUPPLIES,12,New,0,8,93,780
+956,Piplani Police Station,FORENSIC,3,Lost,1332,2,118,37890
+957,Ratibad Police Station,COMMUNICATION_DEVICES,5,Repaired,4952,8,161,972
+958,MP Nagar Police Station,MEDICAL_FIRST_AID,11,New,0,7,98,308
+959,Piplani Police Station,NETWORKING_EQUIPMENT,10,Discarded,8233,6,81,7581
+960,MP Nagar Police Station,COMPUTER_AND_IT_EQUIPMENT,16,New,0,6,64,12852
+961,MP Nagar Police Station,FORENSIC,17,Repaired,8940,10,65,26814
+962,Mangalwara Police Station,FORENSIC,18,Discarded,3089,7,44,35765
+963,Kamla Nagar Police Station,VEHICLE_AND_ACCESSORIES,20,New,0,6,141,47427
+964,Chhola Mandir Police Station,PROTECTIVE_GEAR,15,Discarded,807,7,149,7774
+965,MP Nagar Police Station,MEDICAL_FIRST_AID,9,New,0,3,133,5038
+966,Habibganj Police Station,OFFICE_SUPPLIES,19,Lost,4032,1,173,13644
+967,Misrod Police Station,NETWORKING_EQUIPMENT,7,Discarded,2016,4,168,611
+968,Mangalwara Police Station,FIREARMS,19,Repaired,3142,3,90,47201
+969,Talaiya Police Station,COMMUNICATION_DEVICES,17,Lost,4018,5,47,122
+970,Khajuri Sadak Police Station,PROTECTIVE_GEAR,4,Discarded,5615,9,33,4504
+971,Chhola Mandir Police Station,OFFICE_SUPPLIES,6,Discarded,3342,8,177,2185
+972,Bhopal Kotwali Police Station,NETWORKING_EQUIPMENT,1,New,0,8,32,2469
+973,Khajuri Sadak Police Station,FORENSIC,3,New,0,1,48,23201
+974,Talaiya Police Station,PROTECTIVE_GEAR,18,New,0,2,48,9293
+975,Govindpura Police Station,OFFICE_SUPPLIES,17,Repaired,2673,5,84,3969
+976,Berasia Police Station,COMPUTER_AND_IT_EQUIPMENT,14,Discarded,1056,5,90,93712
+977,TT Nagar Police Station,FIREARMS,14,Repaired,6882,4,132,79148
+978,Ayodhya Nagar Police Station,COMPUTER_AND_IT_EQUIPMENT,18,Discarded,9813,5,105,2156
+979,TT Nagar Police Station,SURVEILLANCE_AND_TRACKING,1,New,0,2,172,8133
+980,Ratibad Police Station,VEHICLE_AND_ACCESSORIES,19,Lost,9518,6,73,35654
+981,Shyamla Hills Police Station,COMMUNICATION_DEVICES,14,Repaired,3719,3,148,2784
+982,Hanumanganj Police Station,PROTECTIVE_GEAR,4,Lost,9237,8,143,4758
+983,Shahpura Police Station,PROTECTIVE_GEAR,9,New,0,10,95,2564
+984,Bagh Sewania Police Station,COMMUNICATION_DEVICES,3,Lost,3307,6,134,4977
+985,Ashoka Garden Police Station,OFFICE_SUPPLIES,14,New,0,8,46,11077
+986,Shyamla Hills Police Station,VEHICLE_AND_ACCESSORIES,20,Repaired,6826,4,133,40232
+987,Khajuri Sadak Police Station,SURVEILLANCE_AND_TRACKING,14,Lost,206,3,123,3431
+988,Shyamla Hills Police Station,SURVEILLANCE_AND_TRACKING,15,Discarded,9976,7,38,3691
+989,Piplani Police Station,SURVEILLANCE_AND_TRACKING,1,Lost,400,5,76,2591
+990,Piplani Police Station,FORENSIC,4,Repaired,5955,8,34,21409
+991,Kolar Police Station,SURVEILLANCE_AND_TRACKING,20,Discarded,7187,2,81,8706
+992,Govindpura Police Station,FORENSIC,16,Discarded,9459,4,177,26686
+993,Govindpura Police Station,MEDICAL_FIRST_AID,12,Lost,6193,2,46,3502
+994,Mangalwara Police Station,PROTECTIVE_GEAR,13,Discarded,8459,5,97,4989
+995,Hanumanganj Police Station,NETWORKING_EQUIPMENT,6,Lost,3977,8,147,2013
+996,Kamla Nagar Police Station,PROTECTIVE_GEAR,7,Repaired,372,7,113,3021
+997,Talaiya Police Station,PROTECTIVE_GEAR,19,Discarded,9631,9,152,9187
+998,Misrod Police Station,OFFICE_SUPPLIES,1,Discarded,8716,2,96,212
+999,Ashoka Garden Police Station,COMMUNICATION_DEVICES,18,New,0,1,145,524
+1000,Jahangirabad Police Station,VEHICLE_AND_ACCESSORIES,18,Repaired,5985,8,51,69970
