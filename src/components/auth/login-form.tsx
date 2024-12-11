@@ -187,7 +187,6 @@ export const LoginForm = () => {
               )}
             </div>
             {/* <GoogleReCaptchaProvider
-<<<<<<< HEAD
             reCaptchaKey={
               process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
                 ? process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
@@ -199,19 +198,6 @@ export const LoginForm = () => {
               refreshReCaptcha={refreshReCaptcha}
             />
           </GoogleReCaptchaProvider> */}
-=======
-              reCaptchaKey={
-                process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-                  ? process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-                  : ""
-              }
-            >
-              <GoogleReCaptcha
-                onVerify={setTokenFunc}
-                refreshReCaptcha={refreshReCaptcha}
-              />
-            </GoogleReCaptchaProvider> */}
->>>>>>> 3e82bfce57c999006872261b1c803d15b61318a8
             <FormError message={error || urlError} />
             <FormSuccess message={success} />
             <Button
