@@ -7,11 +7,11 @@ const prisma = new PrismaClient();
 export async function PUT(req: Request) {
   try {
     const body = await req.json(); // Parse request body
-    const { userId, itemId, inchargeId, requestId, isApproved, discardReason } = body;
+    const { userId, category, name, inchargeId, requestId, isApproved, discardReason } = body;
 
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: { role: true },
+      
     });
     
 
@@ -22,6 +22,11 @@ export async function PUT(req: Request) {
         )
     }
 
+   
+    
+
+    
+
     if (isApproved) {
 
       const request = await prisma.issuanceRequest.update({
@@ -31,13 +36,31 @@ export async function PUT(req: Request) {
           user: true,
         }
       });
-      const item = await prisma.inventoryItem.update({
-        where: { itemId: itemId },
+      const item = await prisma.inventoryItem.findFirst({
+        where: {
+          AND: [
+            { type: name },
+            {
+              userId: null,
+            },
+            {
+              issuedTo: user?.govId,
+            },
+            {
+              location: user.location,
+            }
+          ],
+        },
+      });
+      const updateItem = await prisma.inventoryItem.update({
+        where: {
+          itemId: item?.itemId,
+        },
         data: {
           status: "UNAVAILABLE",
           userId,
         }
-      });
+      })
       const bhoomi =  await prisma.notification.create({
         data: {
           userId:request.userId || "",

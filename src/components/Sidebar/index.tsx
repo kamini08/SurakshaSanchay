@@ -52,7 +52,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Dashboard",
-        route: "/Dashboard",
+        route: "/settings",
         // label: "
       },
 

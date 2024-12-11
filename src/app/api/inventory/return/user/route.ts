@@ -36,9 +36,21 @@ export async function POST(req: NextRequest) {
     let isLost = false;
     let isDamaged = false;
     if (condition === "lost") {
+      await prisma.inventoryItem.update({
+        where: { itemId: equipmentId },
+        data: {
+          isLost: isLost,
+        },
+      });
       isLost = true;
     } else if (condition === "damaged") {
       isDamaged = true;
+      await prisma.inventoryItem.update({
+        where: { itemId: equipmentId },
+        data: {
+          condition: "damaged",
+        },
+      });
     }
 
     const data = await prisma.returnRequest.create({
@@ -55,7 +67,7 @@ export async function POST(req: NextRequest) {
         date: new Date(),
       },
     });
-    
+
     return NextResponse.json(data, { status: 201 });
   } catch (err) {
     console.error(err);

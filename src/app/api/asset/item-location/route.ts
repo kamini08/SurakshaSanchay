@@ -16,7 +16,7 @@ export async function POST(request: Request) {
 
     const { itemId, govId, assignedDate, location, description, status } = body;
 
-    const formattedAssignedDate = new Date(assignedDate).toISOString();
+    // const formattedAssignedDate = new Date(assignedDate).toISOString();
     // Check if the itemId exists in the InventoryItem table
     const itemExists = await db.inventoryItem.findUnique({
       where: { itemId },
@@ -42,19 +42,19 @@ export async function POST(request: Request) {
       data: {
         itemId,
         govId,
-        assignedDate: formattedAssignedDate,
+        // assignedDate: formattedAssignedDate,
         location,
         status,
-        description,
+        // description,
       },
     });
 
     await db.inventoryItem.update({
       where: { itemId },
       data: {
-        temporaryLocation:location,// Update the status to "OUT"
+        temporaryLocation: location, // Update the status to "OUT"
       },
-    })
+    });
 
     return NextResponse.json(newEntry, { status: 200 });
   } catch (error) {

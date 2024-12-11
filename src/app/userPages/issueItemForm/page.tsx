@@ -12,7 +12,6 @@ interface ItemRequestFormData {
   category: string;
   quantity: number;
   description: string;
-  technicalSpecifications: string;
   location: string;
   expectedDeliveryDate: string;
   purpose: string;
@@ -32,7 +31,6 @@ const NewItemRequest = () => {
       category: "",
       quantity: 1,
       description: "",
-      technicalSpecifications: "",
       location: "",
       expectedDeliveryDate: "",
       purpose: "",
@@ -61,43 +59,74 @@ const NewItemRequest = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("/api/inventory/issuance/user/request", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(itemRequestFormData),
+      const res = await fetch("/api/Role", {
+        method: "GET",
       });
+      const role = await res.json();
 
-      if (response.ok) {
-        // alert("Item request submitted successfully!");
-        toast.success("Item request submitted successfully!", {
-          position: "top-right",
-          autoClose: 3000,
+      if (role == "user") {
+        const response = await fetch("/api/inventory/issuance/user/request", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(itemRequestFormData),
         });
-        setItemRequestFormData({
-          item: "",
-          userId: "",
-          category: "",
-          quantity: 1,
-          description: "",
-          technicalSpecifications: "",
-          location: "",
-          expectedDeliveryDate: "",
-          purpose: "",
-          expectedUsageDuration: "",
-          requesterName: "John Doe", // Reset to default or fetched value
-          department: "",
-          approvalNeededBy: "",
-          priorityLevel: "medium",
-        });
+
+        if (response.ok) {
+          alert("Item request submitted successfully!");
+          setItemRequestFormData({
+            item: "",
+            userId: "",
+            category: "",
+            quantity: 1,
+            description: "",
+            location: "",
+            expectedDeliveryDate: "",
+            purpose: "",
+            expectedUsageDuration: "",
+            requesterName: "John Doe", // Reset to default or fetched value
+            department: "",
+            approvalNeededBy: "",
+            priorityLevel: "medium",
+          });
+        } else {
+          const errorData = await response.json();
+          alert(`Error: ${errorData.message}`);
+        }
       } else {
-        const errorData = await response.json();
-        // alert(`Error: ${errorData.message}`);
-        toast.error(`Error: ${errorData.message}`, {
-          position: "top-right",
-          autoClose: 3000,
-        });
+        const response = await fetch(
+          "/api/inventory/issuance/incharge/request",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(itemRequestFormData),
+          },
+        );
+
+        if (response.ok) {
+          alert("Item request submitted successfully!");
+          setItemRequestFormData({
+            item: "",
+            userId: "",
+            category: "",
+            quantity: 1,
+            description: "",
+            location: "",
+            expectedDeliveryDate: "",
+            purpose: "",
+            expectedUsageDuration: "",
+            requesterName: "John Doe", // Reset to default or fetched value
+            department: "",
+            approvalNeededBy: "",
+            priorityLevel: "medium",
+          });
+        } else {
+          const errorData = await response.json();
+          alert(`Error: ${errorData.message}`);
+        }
       }
     } catch (error) {
       console.error("Error submitting item request form:", error);

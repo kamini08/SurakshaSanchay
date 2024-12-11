@@ -1,124 +1,3 @@
-// import React from 'react';
-// import { QrCode, X, Copy, Check } from 'lucide-react';
-
-// interface ResultDisplayProps {
-//   result: string;
-//   onClear: () => void;
-// }
-
-// const ResultDisplay: React.FC<ResultDisplayProps> = ({ result, onClear }) => {
-//   const [copied, setCopied] = React.useState(false);
-
-//   const handleCopy = async () => {
-//     await navigator.clipboard.writeText(result);
-//     setCopied(true);
-//     setTimeout(() => setCopied(false), 2000);
-//   };
-
-//   return (
-//     <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md mx-auto mt-6">
-//       <div className="flex items-center justify-between mb-4">
-//         <div className="flex items-center">
-//           <QrCode className="w-6 h-6 text-blue-500 mr-2" />
-//           <h2 className="text-xl font-semibold">Scanned Result</h2>
-//         </div>
-//         <div className="flex gap-2">
-//           <button
-//             onClick={handleCopy}
-//             className="text-gray-500 hover:text-gray-700 transition-colors p-1 rounded-md hover:bg-gray-100"
-//             aria-label="Copy result"
-//           >
-//             {copied ? (
-//               <Check className="w-5 h-5 text-green-500" />
-//             ) : (
-//               <Copy className="w-5 h-5" />
-//             )}
-//           </button>
-//           <button
-//             onClick={onClear}
-//             className="text-gray-500 hover:text-gray-700 transition-colors p-1 rounded-md hover:bg-gray-100"
-//             aria-label="Clear result"
-//           >
-//             <X className="w-5 h-5" />
-//           </button>
-//         </div>
-//       </div>
-//       <div className="bg-gray-50 p-4 rounded-md">
-//         <p className="text-gray-800 break-all">{result}</p>
-//       </div>
-//     </div>
-//   );
-// };
-
-
-
-
-
-
-
-
-
-
-// export default ResultDisplay;
-// import React from 'react';
-// import { QrCode, X, Copy, Check } from 'lucide-react';
-
-// interface ResultDisplayProps {
-//   result: string;
-//   onClear: () => void;
-// }
-
-// const ResultDisplay: React.FC<ResultDisplayProps> = ({ result, onClear }) => {
-//   const [copied, setCopied] = React.useState(false);
-
-//   const handleCopy = async () => {
-//     await navigator.clipboard.writeText(result);
-//     setCopied(true);
-//     setTimeout(() => setCopied(false), 2000);
-//   };
-
-//   return (
-//     <div className="bg-white dark:bg-boxdark p-6 rounded-lg shadow-md w-full max-w-md mx-auto mt-6 text-black dark:text-white">
-//       <div className="flex items-center justify-between mb-4">
-//         <div className="flex items-center">
-//           <QrCode className="w-6 h-6 text-blue-500 dark:text-blue-400 mr-2" />
-//           <h2 className="text-xl font-semibold">Scanned Result</h2>
-//         </div>
-//         <div className="flex gap-2">
-//           <button
-//             onClick={handleCopy}
-//             className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white transition-colors p-1 rounded-md hover:bg-gray-100 dark:hover:bg-strokedark"
-//             aria-label="Copy result"
-//           >
-//             {copied ? (
-//               <Check className="w-5 h-5 text-green-500 dark:text-green-400" />
-//             ) : (
-//               <Copy className="w-5 h-5" />
-//             )}
-//           </button>
-//           <button
-//             onClick={onClear}
-//             className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white transition-colors p-1 rounded-md hover:bg-gray-100 dark:hover:bg-strokedark"
-//             aria-label="Clear result"
-//           >
-//             <X className="w-5 h-5" />
-//           </button>
-//         </div>
-//       </div>
-//       <div className="bg-gray-50 dark:bg-strokedark p-4 rounded-md">
-//         <p className="text-gray-800 dark:text-gray-200 break-all">{result}</p>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ResultDisplay;
-
-
-
-
-
-
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -135,9 +14,11 @@ interface ResultDisplayProps {
 
 const ResultDisplay: React.FC<ResultDisplayProps> = ({ result, onClear }) => {
   const [itemDetails, setItemDetails] = useState<Item | null>(null);
-  const [temporaryLocation, setTemporaryLocation] = useState('');
+  const [pop, setPop] = useState(false);
+  const [temporaryLocation, setTemporaryLocation] = useState("");
   const [isDamaged, setIsDamaged] = useState(false);
-  const [userRole, setUserRole] = useState<'user' | 'incharge' | null>(null);
+  const [userRole, setUserRole] = useState<"user" | "incharge" | null>(null);
+  const [isUpdated, setIsUpdated] = useState(false); // New state variable
 
   useEffect(() => {
     const fetchItemDetails = async () => {
@@ -159,20 +40,18 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ result, onClear }) => {
         });
       }
     };
-    
 
     if (result) {
       fetchItemDetails();
     }
-
   }, [result]);
 
   const handleUpdate = async () => {
-    const condition = isDamaged ? 'Damaged' : 'Good';
+    const condition = isDamaged ? "Damaged" : "Good";
     try {
-      const res = await fetch('/api/qrscanner/update', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/qrscanner/update", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           itemId: result,
           condition,
@@ -181,20 +60,20 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ result, onClear }) => {
       });
 
       if (res.ok) {
-        console.log('Item updated successfully');
+        console.log("Item updated successfully");
         toast.success("Item updated successfully", {
           position: "top-right",
           autoClose: 3000,
         });
       } else {
-        console.error('Failed to update item');
+        console.error("Failed to update item");
         toast.error("Failed to update item", {
           position: "top-right",
           autoClose: 3000,
         });
       }
     } catch (error) {
-      console.error('Error updating item:', error);
+      console.error("Error updating item:", error);
       toast.error("Error updating item", {
         position: "top-right",
         autoClose: 3000,
@@ -203,39 +82,55 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ result, onClear }) => {
   };
 
   if (!itemDetails) {
-    return <p>Loading...</p>;
+    return <p className="text-center text-gray-500">Loading...</p>;
   }
 
   return (
-    <div>
-      <h2>Scanned Item</h2>
-      <p>The item under the Category {itemDetails.category} and having ItemId {itemDetails.itemId}</p>
+    <div className="mx-auto mt-6 w-full max-w-md rounded-lg bg-white/20 p-6 text-black shadow-md outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
+      <h2 className="mb-4 text-2xl font-bold text-gray-800 dark:text-white">
+        Scanned Item
+      </h2>
+      <p className="mb-4 text-xl text-gray-700 dark:text-white">
+        The item under the Category{" "}
+        <span className="font-semibold">{itemDetails.category}</span> and having
+        ItemId <span className="font-semibold">{itemDetails.itemId}</span>
+      </p>
 
-      { userRole=== 'incharge' ? (
-        <div>
-          <label>
-            is Damaged?:
+      {!isUpdated && userRole === "incharge" ? (
+        <div className="mb-4 text-xl">
+          <label className="flex items-center">
+            <span className="mr-2 text-gray-700 dark:text-white">
+              Is Damaged?:
+            </span>
             <input
               type="checkbox"
               checked={isDamaged}
               onChange={(e) => setIsDamaged(e.target.checked)}
+              className="form-checkbox h-5 w-5 text-blue-600 focus:ring-blue-500"
             />
           </label>
         </div>
-      ) : userRole === 'user' ? (
-        <div>
-          <label>
-            is going to a Temporary Location:
+      ) : userRole === "user" && !isUpdated ? (
+        <div className="mb-4">
+          <label className="mb-2 block text-xl text-gray-700">
+            Is going to a Temporary Location:
             <input
               type="text"
               value={temporaryLocation}
               onChange={(e) => setTemporaryLocation(e.target.value)}
+              className="focus:ring-blue -500 mt-1 block w-full rounded-md border border-gray-300 p-2 focus:outline-none focus:ring"
+              placeholder="Enter temporary location"
             />
           </label>
         </div>
       ) : null}
 
-      <button onClick={handleUpdate}>Update</button>
+      <button
+        onClick={handleUpdate}
+        className="rounded-lg bg-blue-500 px-4 py-2 font-semibold text-white shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+      >
+        Update
+      </button>
     </div>
   );
 };
