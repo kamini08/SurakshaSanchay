@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { db } from "../db";
+import { countItemsInCategories } from "./countItemInCategories";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -99,4 +100,26 @@ export default async function checkInventoryConditions() {
       console.error(`Item userId is null, unable to fetch user.`);
     }
   }
+  try {
+    const categoryCounts = await countItemsInCategories(); // Get inventory counts
+    const threshold = 5; // Set your threshold value
+    const adminEmail = "prajwal.kp.1817@gmail.com"; // Admin or recipient email
+
+    for (const categoryCount of categoryCounts) {
+      const { category, _count } = categoryCount;
+      const count = _count._all; // Total count of items in the category
+
+      if (count < threshold) {
+        const emailSubject = `Alert: Low Inventory in Category - ${category}`;
+        const emailBody = `The category "${category}" has a low inventory count of ${count}, which is below the threshold of ${threshold}. Please restock or investigate.`;
+
+        // Send email
+        await sendEmail(adminEmail, emailSubject, emailBody);
+        console.log(`Email sent to ${adminEmail} for category ${category}`);
+      }
+    }
+  } catch (error) {
+    console.error("Error in notifying low inventory:", error);
+  }
 }
+
