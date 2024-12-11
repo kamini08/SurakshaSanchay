@@ -42,7 +42,7 @@ interface Package {
   quantity: number;
   location?: string;
   condition: string;
-
+  temporaryLocation: string;
   acquisitionDate?: string;
   expiryDate?: string;
   price?: number;
@@ -431,8 +431,11 @@ const ViewInventory = () => {
                   <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
                     Quantity
                   </th>
-                  <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
+                  <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white">
                     Location
+                  </th>
+                  <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white">
+                    CurrentLocation
                   </th>
                   <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
                     Condition
@@ -553,6 +556,23 @@ const ViewInventory = () => {
                           onChange={(e) => handleInputChange(e, "location")}
                           className="border p-1"
                         />
+                      ) : (
+                        item.location
+                      )}
+                    </td>
+                    <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
+                      {editMode === index ? (
+                        <input
+                          type="text"
+                          name="temporaryLocation:"
+                          value={editedRow.temporaryLocation || ""}
+                          onChange={(e) =>
+                            handleInputChange(e, "temporaryLocation")
+                          }
+                          className="border p-1"
+                        />
+                      ) : item.temporaryLocation ? (
+                        item.temporaryLocation
                       ) : (
                         item.location
                       )}

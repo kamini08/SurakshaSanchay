@@ -11,7 +11,14 @@ import {
 } from "chart.js";
 import "./AuditReport.css";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  ArcElement,
+  Tooltip,
+  Legend,
+);
 
 interface CompliancePolicy {
   policy: string;
@@ -37,16 +44,11 @@ interface ComplianceData {
   labels: string[];
 }
 
-
 const AuditReport: React.FC<{
   complianceData: ComplianceData;
   valuationData: ValuationCategory;
   keyFindings: Finding[];
-}> = ({
-  complianceData, valuationData, keyFindings
-}) => {
-
-
+}> = ({ complianceData, valuationData, keyFindings }) => {
   return (
     <div className="policy-compliance-review">
       <div className="header">
@@ -60,16 +62,16 @@ const AuditReport: React.FC<{
           <ReportTable
             title="Compliance Overview"
             headers={["Policy", "Status", "Compliance Percentage"]}
-            data={complianceData.policies}
+            data={complianceData?.policies}
             dataKeys={["policy", "status", "percentage"]}
           />
 
           <ReportTable
             title="Stock Valuation Accuracy"
             headers={["Category", "Accuracy Percentage"]}
-            data={valuationData.categories.map((category, index) => ({
+            data={valuationData?.categories.map((category, index) => ({
               category,
-              accuracy: `${valuationData.accuracy[index]}%`,
+              accuracy: `${valuationData?.accuracy[index]}%`,
             }))}
             dataKeys={["category", "accuracy"]}
           />
@@ -81,10 +83,10 @@ const AuditReport: React.FC<{
             title="Policy Compliance Distribution"
             chartType={Pie}
             chartData={{
-              labels: complianceData.labels,
+              labels: complianceData?.labels,
               datasets: [
                 {
-                  data: complianceData.complianceOverview,
+                  data: complianceData?.complianceOverview,
                   backgroundColor: ["#4caf50", "#ff9800", "#2196f3", "#f44336"],
                 },
               ],
@@ -95,11 +97,11 @@ const AuditReport: React.FC<{
             title="Stock Valuation Accuracy"
             chartType={Bar}
             chartData={{
-              labels: valuationData.categories,
+              labels: valuationData?.categories,
               datasets: [
                 {
                   label: "Accuracy Percentage",
-                  data: valuationData.accuracy,
+                  data: valuationData?.accuracy,
                   backgroundColor: "rgba(75, 192, 192, 0.8)",
                 },
               ],
@@ -111,17 +113,17 @@ const AuditReport: React.FC<{
       {/* Key Findings Section */}
       <section className="findings-section">
         <h2>Key Findings</h2>
-        {keyFindings.map((finding, index) => (
+        {keyFindings?.map((finding, index) => (
           <div className="finding-card" key={index}>
-            <h3>{finding.category}</h3>
+            <h3>{finding?.category}</h3>
             <p>
-              <strong>Finding:</strong> {finding.finding}
+              <strong>Finding:</strong> {finding?.finding}
             </p>
             <p>
-              <strong>Impact:</strong> {finding.impact}
+              <strong>Impact:</strong> {finding?.impact}
             </p>
             <p>
-              <strong>Recommendation:</strong> {finding.recommendation}
+              <strong>Recommendation:</strong> {finding?.recommendation}
             </p>
           </div>
         ))}
@@ -147,9 +149,9 @@ const ReportTable: React.FC<{
         </tr>
       </thead>
       <tbody>
-        {data.map((row, rowIndex) => (
+        {data?.map((row, rowIndex) => (
           <tr key={rowIndex}>
-            {dataKeys.map((key, colIndex) => (
+            {dataKeys?.map((key, colIndex) => (
               <td key={colIndex}>{row[key]}</td>
             ))}
           </tr>

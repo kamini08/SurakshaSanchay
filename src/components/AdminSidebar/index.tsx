@@ -260,7 +260,6 @@ const menuGroups = [
         children: [
           { label: "View Monthly Report", route: "/report/admin" },
           { label: "Audit Logs", route: "/adminPages/auditReport" },
-
         ],
       },
       {

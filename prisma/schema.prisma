@@ -200,6 +200,7 @@ model MaintenanceRequest {
   status            MaintenanceStatus @default(PENDING)
   requestDate       DateTime          @default(now())
   approvalDate      DateTime?
+  govId String? 
   completionDate    DateTime?
   issueDescription  String
   resolutionDetails String?
@@ -342,8 +343,9 @@ model ItemLocationHistory {
   govId          String   // govId of the person to whom the item is assigned
   assignedDate   DateTime @default(now()) // Date and time of assignment
   location       String   // Location where the item is assigned
-  status  String 
-  description    String?  // Optional description for the transfer
+  status  String?
+ 
+  // description    String?  // Optional description for the transfer
   inventoryItem InventoryItem @relation(fields: [itemId], references: [itemId], onDelete: Cascade)
 
   @@index([itemId, assignedDate]) // Optional index for faster queries

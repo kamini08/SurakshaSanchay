@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Poppins } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { LoginButton } from "@/components/auth/login-button";
+import Spline from "@splinetool/react-spline";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -15,19 +16,26 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <main className="flex h-[100vh] flex-col items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-400 to-blue-800">
-      <script src="//code.tidio.co/7ghvmky1mcgimuuzffr8cktvubmxwkbp.js" async></script>
-      <div className=" space-y-6 text-center ">
+    <main className="relative h-screen w-full bg-black-2">
+      {/* Spline background */}
+      <div className="absolute inset-0 z-0">
+        <Spline scene="https://prod.spline.design/jG0MzB7-a2XMrdeV/scene.splinecode" />
+      </div>
+
+      {/* Foreground content */}
+      <div className="relative z-10 flex h-full flex-col items-center justify-start space-y-6 pt-[30px] text-center">
         <h1
           className={cn(
             "text-6xl font-semibold text-white drop-shadow-md",
             font.className,
           )}
         >
-          🔐 Auth
+          SurakshaSanchay
         </h1>
-        <p className="text-lg text-white">A Simple Authentication service</p>
-        <div>
+        <p className="text-lg text-white drop-shadow-md">
+          A Centrazlized HArdware Inventory Management System
+        </p>
+        <div className="bolder text-white">
           <LoginButton>
             <Button variant="secondary" size="lg">
               Sign in
@@ -35,6 +43,12 @@ export default function Home() {
           </LoginButton>
         </div>
       </div>
+
+      {/* Optional script for other functionalities */}
+      <script
+        src="//code.tidio.co/7ghvmky1mcgimuuzffr8cktvubmxwkbp.js"
+        async
+      ></script>
     </main>
   );
 }
