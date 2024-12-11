@@ -10,17 +10,17 @@ interface DataItem {
 
 const BarChart: React.FC = () => {
     const defaultData: DataItem[] = [
-        { status: "Pending", total: 0 },
-        { status: "In Progress", total: 0 },
-        { status: "Completed", total: 0 },
-        { status: "On Hold", total: 0 },
+        { status: "", total: 0 },
+        { status: "", total: 0 },
+        { status: "", total: 0 },
+        { status: "", total: 0 },
     ];
 
     const exampleData: DataItem[] = [
-        { status: "Pending", total: 5 },
-        { status: "In Progress", total: 10 },
-        { status: "Completed", total: 15 },
-        { status: "On Hold", total: 3 },
+        { status: "", total: 0 },
+        { status: "", total: 0 },
+        { status: "", total: 0 },
+        { status: "", total: 0 },
     ];
 
     const [data, setData] = useState<DataItem[]>(defaultData);
