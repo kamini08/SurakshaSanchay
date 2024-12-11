@@ -136,6 +136,7 @@ const ReportsPage: React.FC = () => {
         });
         if (!response.ok) throw new Error("Failed to fetch data");
 
+        console.log(response);
         const result = await response.json();
         
         setData(result);

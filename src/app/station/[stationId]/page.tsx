@@ -7,7 +7,9 @@ import React, { useEffect, useState } from "react";
 import { jsPDF } from "jspdf";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { toast } from "react-toastify";
-// import { saveAs } from "file-saver";
+import { NextResponse } from "next/server";
+
+
 
 interface Package {
   itemId: string;
@@ -82,7 +84,9 @@ const ViewInventoryIndividual = () => {
   const selectedDetails = packageData.filter(
     (item) => selectedItems[item.itemId],
   );
-  const EquipmentDetails: React.FC<EquipmentDetailsProps> = ({
+
+
+  const EquipmentDetails: React.FC<EquipmentDetailsProps> = async({
     equipment,
     excludeNullValues,
   }) => {
@@ -165,24 +169,7 @@ const ViewInventoryIndividual = () => {
     setIsModalOpen(false);
   };
 
-  const downloadPdfFromImage = async (base64Image: string) => {
-    try {
-      // Create a PDF instance
-      const pdf = new jsPDF();
-
-      // Add the base64 image to the PDF
-      const imageData = base64Image.split(",")[1];
-      console.log(imageData); // Remove the data:image/png;base64, prefix
-      pdf.addImage(imageData, "PNG", 10, 10, 180, 250); // Adjust dimensions as needed
-
-      // Save the PDF file
-      const pdfBlob = pdf.output("blob");
-
-      // saveAs(pdfBlob, "downloaded.pdf");
-    } catch (error) {
-      console.error("Error creating PDF:", error);
-    }
-  };
+  
 
   const handleDownloadAsImage = async () => {
     const formElement = document.getElementById("transfer-form");
@@ -193,22 +180,78 @@ const ViewInventoryIndividual = () => {
         link.download = "transfer-details.png";
         link.href = canvas.toDataURL("image/png");
         link.click();
+        setFile(canvas);
       });
 
-      const imageData = file.split(",")[1];
-      const pdf: any = downloadPdfFromImage(file);
+      
 
+      const imageData = file.split(",")[1];
       // Upload to AWS S3
       const params: any = {
         Bucket: process.env.S3_BUCKET_NAME,
         Key: `transfer-details.pdf`, // Unique file name
-        Body: imageData,
+        Body: Buffer.from(imageData),
         ContentType: "image/png",
       };
-      const result = await s3.upload(params).promise();
-      console.log("Image uploaded successfully:", result.Location);
-    }
+    
+    try {
+
+      const data = await s3.upload(params).promise();
+     
+      console.log(`File uploaded successfully. ${data.Location}`);
+      
+      const imageUrl = data.Location;
+  
+     
+  
+      return NextResponse.json(
+        { message: "Contract updated successfully" },
+        { status: 200 }
+      );
+  
+      /* API call not mandatory
+      try {
+        const response = await fetch(
+          process.env.URL + "/api/contract2/addContract2Url",
+          {
+            method: "PUT",
+            body: JSON.stringify(contract2Data),
+          }
+  
+        );
+        
+  
+        const result = await response.json();
+        console.log(result);
+        if (response.ok) {
+          return NextResponse.json({
+            status: 200,
+            body: result,
+          });
+        } else {
+          return NextResponse.json({
+            status: 500,
+            body: {
+              error: "Failed to update contract2",
+            },
+          });
+        }
+      } catch (err) {
+        console.error(err);
+        return NextResponse.json({
+          status: 500,
+          body: {
+            error: "Failed to update contract2",
+          },
+        });
+      }
+        */
+    } catch (error) {
+      console.error(`Error uploading PDF: ${error}`);
+      throw error;
+    }}
   };
+  
 
   // Decode stationId from URL params
   const stationId = params?.stationId
@@ -234,7 +277,10 @@ const ViewInventoryIndividual = () => {
   };
 
   useEffect(() => {
+    
     const fetchData = async () => {
+
+
       try {
         const response = await fetch(`/api/station/${stationId}`, {
           method: "GET",

@@ -65,7 +65,7 @@ export async function PUT(req: Request) {
         data: {
           userId: request.userId || "",
           inchargeId: request.inchargeId || "",
-          message: `New maintenance request created by ${request.user?.name} having govId ${userId}. `,
+          message: `issuance request approved by ${request.user?.name} having govId ${userId}. `,
         },
       });
       const incharge = await prisma.user.findUnique({
@@ -78,24 +78,23 @@ export async function PUT(req: Request) {
       const request = await prisma.issuanceRequest.update({
         where: { id: requestId },
         data: { status: "REJECTED", discardReason },
+        include: {
+          user: true,
+        }
       });
-      const res = await fetch(
-        `${process.env.HOST_URL}/api/notifications/create`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: request.userId,
-            requestId: request.id,
-            message: `Your request ${request.id} has been rejected for the following reasons:
-                ${request.discardReason}.`,
-            inchargeId: request.inchargeId,
-          }),
-        },
-      );
 
+      const bhoomi = await prisma.notification.create({
+        data: {
+          userId: request.userId || "",
+          inchargeId: request.inchargeId || "",
+          message: `Issuance request created by ${request.user?.name} having govId ${userId}. `,
+        },
+      });
+      const incharge = await prisma.user.findUnique({
+        where: { id: inchargeId },
+      });
+      await sendingEmail(incharge?.email as string, bhoomi.message);
+      
       return NextResponse.json(request, { status: 400 });
     }
   } catch (error) {

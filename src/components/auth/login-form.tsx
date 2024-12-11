@@ -187,17 +187,17 @@ export const LoginForm = () => {
               )}
             </div>
             {/* <GoogleReCaptchaProvider
-              reCaptchaKey={
-                process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-                  ? process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-                  : ""
-              }
-            >
-              <GoogleReCaptcha
-                onVerify={setTokenFunc}
-                refreshReCaptcha={refreshReCaptcha}
-              />
-            </GoogleReCaptchaProvider> */}
+            reCaptchaKey={
+              process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+                ? process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+                : ""
+            }
+          >
+            <GoogleReCaptcha
+              onVerify={setTokenFunc}
+              refreshReCaptcha={refreshReCaptcha}
+            />
+          </GoogleReCaptchaProvider> */}
             <FormError message={error || urlError} />
             <FormSuccess message={success} />
             <Button
