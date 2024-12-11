@@ -87,7 +87,7 @@ const AddInventory = () => {
     categoryDetails: [],
     type: "",
     description: "",
-    quantity: 1,
+    quantity: 0,
     location: "",
     condition: "",
     acquisitionDate: "",
