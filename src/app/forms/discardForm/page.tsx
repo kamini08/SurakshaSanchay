@@ -10,7 +10,7 @@ const DiscardForm = () => {
     itemId: "",
     itemName: "",
     category: "",
-    quantity: 1,
+    quantity: 0,
     location: "",
     requestDate: "",
     previouslyRepaired: false,

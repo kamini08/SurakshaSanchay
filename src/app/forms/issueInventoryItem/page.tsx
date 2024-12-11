@@ -29,7 +29,7 @@
 //     category: "IT Equipment",
 //     item: "Laptop",
 //     quantityRequested: 2,
-//     requestedBy: "John Doe",
+//     requestedBy: "",
 //     department: "IT",
 //     priorityLevel: "High",
 //     requestDate: "2024-11-17T10:00:00Z",
