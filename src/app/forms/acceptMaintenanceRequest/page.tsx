@@ -6,27 +6,27 @@ import { toast } from "react-toastify";
 
 const RequestMaintenanceManagement = () => {
   const initialRequestData = {
-    id: "DefaultRequestId",
-    itemId: "Defaultid",
-    userId: "DefaultUserId",
-    issueDescription: "Default issue description",
-    requestDate: "2024-01-01",
+    id: "",
+    itemId: "",
+    userId: "",
+    issueDescription: "",
+    requestDate: "",
     approvalDate: "",
     // Default date
-    status: "Pending",
-    resolutionDescription: "No resolution yet",
+    status: "",
+    resolutionDescription: "",
     completionDate: "",
     technicianId: "",
     discardReason: "",
     user: {
-      name: "John Doe",
-      govId: "123456789",
+      name: "",
+      govId: "",
     },
     item: {
-      category: "Electronics",
-      type: "IT Equipment",
+      category: "",
+      type: "",
     },
-    maintenanceCharge: 500,
+    maintenanceCharge: 0,
   };
 
   const [requestData, setRequestData] = useState(initialRequestData);

@@ -25,19 +25,19 @@ interface Request {
 const RequestManagement: React.FC = () => {
   const [requests, setRequests] = useState<Request[]>([
     {
-      id: "1",
-      item: "Laptop",
-      userId: "user001",
-      category: "Electronics",
-      quantity: 2,
-      description: "High-performance laptop for software development",
-      location: "Office",
-      purpose: "Development work",
-      expectedUsageDuration: "3 years",
-      requesterName: "John Doe",
-      department: "IT",
-      approvalNeededBy: "2023-12-10",
-      priorityLevel: "High",
+      id: "",
+      item: "",
+      userId: "",
+      category: "",
+      quantity: 0,
+      description: "",
+      location: "",
+      purpose: "",
+      expectedUsageDuration: "",
+      requesterName: "",
+      department: "",
+      approvalNeededBy: "",
+      priorityLevel: "",
     },
   ]);
 

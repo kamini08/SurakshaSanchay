@@ -34,7 +34,7 @@ const ItemReturnForm = () => {
       equipmentId: "",
       equipmentName: "",
       returnDate: "",
-      condition: "good", // Default condition
+      condition: "", // Default condition
       returnLocation: null,
       issueId: null,
       reasonForReturn: null,
@@ -42,7 +42,7 @@ const ItemReturnForm = () => {
       returnConfirmed: false,
       penalty: null,
       notes: null,
-      returnMethod: "In-Person", // Default method
+      returnMethod: "", // Default method
     });
 
   // Handle field changes
