@@ -116,7 +116,7 @@ const PackageTable = () => {
       <div className="mb-8 flex gap-4">
         {/* Category Filter */}
         <select
-          className="rounded-lg border px-4 py-2 shadow-sm"
+          className="rounded-lg border px-4 py-2 shadow-sm  dark:border-form-strokedark dark:bg-form-input dark:text-white"
           value={categoryFilter || ""}
           onChange={(e) => setCategoryFilter(e.target.value || null)}
         >
@@ -130,7 +130,7 @@ const PackageTable = () => {
 
         {/* Availability Filter */}
         <select
-          className="rounded-lg border px-4 py-2 shadow-sm"
+          className="rounded-lg border px-4 py-2 shadow-sm  dark:border-form-strokedark dark:bg-form-input dark:text-white"
           value={availabilityFilter || ""}
           onChange={(e) => setAvailabilityFilter(e.target.value || null)}
         >
@@ -144,15 +144,15 @@ const PackageTable = () => {
       </div>
 
       {/* Card Layout */}
-      <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3  ">
         {filteredPackages.length > 0 ? (
           filteredPackages.map((pkg, index) => (
             <div
               key={index}
-              className="rounded-xl border border-gray-300 bg-white p-6 shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out"
+              className="rounded-xl border border-gray-300 bg-white p-6 shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out dark:border-strokedark dark:bg-boxdark dark:text-white "
             >
-              <div className="mb-4 flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-gray-800">
+              <div className="mb-4 flex items-center justify-between dark:border-strokedark dark:bg-boxdark dark:text-white">
+                <h3 className="text-lg font-semibold text-gray-800 dark:border-strokedark dark:bg-boxdark dark:text-white">
                   {pkg.type}
                 </h3>
                 <span
@@ -165,19 +165,19 @@ const PackageTable = () => {
                   {pkg.status}
                 </span>
               </div>
-              <p className="mb-2 text-sm text-gray-600">
+              <p className="mb-2 text-sm text-gray-600 dark:border-strokedark dark:bg-boxdark dark:text-white">
                 <strong>Category:</strong> {pkg.category.replace(/_/g, " ")}
               </p>
-              <p className="mb-2 text-sm text-gray-600">
+              <p className="mb-2 text-sm text-gray-600 dark:border-strokedark dark:bg-boxdark dark:text-white">
                 <strong>Description:</strong> {pkg.description || "N/A"}
               </p>
-              <p className="mb-2 text-sm text-gray-600">
+              <p className="mb-2 text-sm text-gray-600 dark:border-strokedark dark:bg-boxdark dark:text-white">
                 <strong>Condition:</strong> {pkg.condition}
               </p>
-              <p className="mb-2 text-sm text-gray-600">
+              <p className="mb-2 text-sm text-gray-600 dark:border-strokedark dark:bg-boxdark dark:text-white">
                 <strong>Expiry Date:</strong> {pkg.expiryDate || "N/A"}
               </p>
-              <p className="mb-2 text-sm text-gray-600">
+              <p className="mb-2 text-sm text-gray-600 dark:border-strokedark dark:bg-boxdark dark:text-white">
                 <strong>Return Date:</strong> {pkg.returnDate || "N/A"}
               </p>
             </div>
