@@ -34,7 +34,7 @@ const AuditReport: React.FC = () => {
   const handleSearch = () => {
     if (selectedStation) {
       const filtered = policeStations.filter((station) =>
-        station.name.toLowerCase().includes(selectedStation.toLowerCase())
+        station.name.toLowerCase().includes(selectedStation.toLowerCase()),
       );
       setFilteredStations(filtered);
     } else {
@@ -42,9 +42,11 @@ const AuditReport: React.FC = () => {
     }
   };
 
-  const handleDownloadReport = (station: typeof policeStations[0]) => {
+  const handleDownloadReport = (station: (typeof policeStations)[0]) => {
     axios
-      .post(`/api/download-report`, { location: `${station.lat},${station.long}` })
+      .post(`/api/download-report`, {
+        location: `${station.lat},${station.long}`,
+      })
       .then((response) => {
         const blob = new Blob([response.data], { type: "application/pdf" });
         const url = window.URL.createObjectURL(blob);
@@ -55,9 +57,11 @@ const AuditReport: React.FC = () => {
       });
   };
 
-  const handleDownloadAudit = (station: typeof policeStations[0]) => {
+  const handleDownloadAudit = (station: (typeof policeStations)[0]) => {
     axios
-      .post(`/api/download-audit`, { location: `${station.lat},${station.long}` })
+      .post(`/api/download-audit`, {
+        location: `${station.lat},${station.long}`,
+      })
       .then((response) => {
         const blob = new Blob([response.data], { type: "application/pdf" });
         const url = window.URL.createObjectURL(blob);
@@ -70,12 +74,14 @@ const AuditReport: React.FC = () => {
 
   return (
     <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
-      <h1 className="font-medium text-black dark:text-white">Police Stations</h1>
+      <h1 className="font-medium text-black dark:text-white">
+        Police Stations
+      </h1>
       <div className="mb-4 flex items-center space-x-4">
         <select
           value={selectedStation}
           onChange={(e) => setSelectedStation(e.target.value)}
-          className="w-full rounded border px-4 py-2 text-black border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+          className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
         >
           <option value="">Select a police station</option>
           {policeStations.map((station) => (
@@ -95,14 +101,21 @@ const AuditReport: React.FC = () => {
         <table className="w-full table-auto border-collapse border border-gray-300">
           <thead>
             <tr className="bg-gray-200">
-              <th className="border border-gray-300 px-4 py-2 text-black text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">Station Name</th>
-              <th className="border border-gray-300 px-4 py-2 text-black text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">Actions</th>
+              <th className="border border-gray-300 px-4 py-2  text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
+                Station Name
+              </th>
+              <th className="border border-gray-300 px-4 py-2  text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody>
             {filteredStations.length === 0 ? (
               <tr>
-                <td colSpan={2} className="border border-gray-300 px-4 py-2 text-center">
+                <td
+                  colSpan={2}
+                  className="border border-gray-300 px-4 py-2 text-center"
+                >
                   No matching police stations found.
                 </td>
               </tr>

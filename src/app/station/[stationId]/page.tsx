@@ -4,9 +4,10 @@ import html2canvas from "html2canvas";
 import AWS from "aws-sdk";
 import { S3 } from "aws-sdk";
 import React, { useEffect, useState } from "react";
-import { jsPDF } from 'jspdf';
+import { jsPDF } from "jspdf";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { toast } from "react-toastify";
+// import { saveAs } from "file-saver";
 
 interface Package {
   itemId: string;
@@ -73,8 +74,6 @@ const ViewInventoryIndividual = () => {
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     region: process.env.AWS_REGION,
   });
-
-
 
   interface EquipmentDetailsProps {
     equipment: Record<string, string | null | undefined>; // Object with string keys and nullable/undefined string values
@@ -166,62 +165,51 @@ const ViewInventoryIndividual = () => {
     setIsModalOpen(false);
   };
 
-  const handleConvertToPDF = (imageFile: any) => {
-    if (imageFile) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        if (e.target?.result) {
-          const pdf = new jsPDF();
+  const downloadPdfFromImage = async (base64Image: string) => {
+    try {
+      // Create a PDF instance
+      const pdf = new jsPDF();
 
-          const img = new Image();
-          img.src = e.target.result as string;
+      // Add the base64 image to the PDF
+      const imageData = base64Image.split(",")[1];
+      console.log(imageData); // Remove the data:image/png;base64, prefix
+      pdf.addImage(imageData, "PNG", 10, 10, 180, 250); // Adjust dimensions as needed
 
-          img.onload = () => {
-            const width = pdf.internal.pageSize.getWidth();
-            const height = pdf.internal.pageSize.getHeight();
+      // Save the PDF file
+      const pdfBlob = pdf.output("blob");
 
-            const aspectRatio = img.width / img.height;
-            const imgWidth = width;
-            const imgHeight = width / aspectRatio;
-
-            pdf.addImage(img, 'JPEG', 0, 0, imgWidth, imgHeight);
-            pdf.save('transfer-details.pdf');
-            return pdf;
-          };
-        }
-      };
-      reader.readAsDataURL(imageFile);
-      
-      
+      // saveAs(pdfBlob, "downloaded.pdf");
+    } catch (error) {
+      console.error("Error creating PDF:", error);
     }
   };
 
-  const handleDownloadAsImage = () => {
+  const handleDownloadAsImage = async () => {
     const formElement = document.getElementById("transfer-form");
     if (formElement) {
       html2canvas(formElement).then((canvas) => {
         const link = document.createElement("a");
+        setFile(link);
         link.download = "transfer-details.png";
         link.href = canvas.toDataURL("image/png");
         link.click();
-        
-        setFile(canvas);
       });
 
-      const pdf: any = handleConvertToPDF(file);
+      const imageData = file.split(",")[1];
+      const pdf: any = downloadPdfFromImage(file);
 
       // Upload to AWS S3
-      const uploadParams: any = {
+      const params: any = {
         Bucket: process.env.S3_BUCKET_NAME,
         Key: `transfer-details.pdf`, // Unique file name
-        Body: Buffer.from(pdf),
-        ContentType: "application/pdf",
+        Body: imageData,
+        ContentType: "image/png",
       };
+      const result = await s3.upload(params).promise();
+      console.log("Image uploaded successfully:", result.Location);
     }
-    
   };
 
-  
   // Decode stationId from URL params
   const stationId = params?.stationId
     ? decodeURIComponent(params.stationId as string)
@@ -244,8 +232,6 @@ const ViewInventoryIndividual = () => {
 
     return result.join(", "); // Join the results with a comma and space
   };
-
-  
 
   useEffect(() => {
     const fetchData = async () => {

@@ -48,34 +48,29 @@ export const LoginForm = () => {
   const [refreshReCaptcha, setRefreshReCaptcha] = useState(false);
   const [token, setToken] = useState<string>("");
 
+  const setTokenFunc = (getToken: string) => {
+    setToken(getToken);
+  };
 
-
-const setTokenFunc = (getToken: string) => {
-  setToken(getToken);
-};
-
-const form = useForm<z.infer<typeof LoginSchema>>({
-  resolver: zodResolver(LoginSchema),
-  defaultValues: {
-    email: "",
-    password: "",
-  },
-});
-
-
-
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
   const onSubmit = (values: any) => {
     setError("");
     setSuccess("");
-    grecaptcha.enterprise.ready(async () => {
-      const token = await grecaptcha.enterprise.execute(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY, {action: 'LOGIN'});
-    });
+    // grecaptcha.enterprise.ready(async () => {
+    //   const token = await grecaptcha.enterprise.execute(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY, {action: 'LOGIN'});
+    // });
 
     const recaptcha_token = token;
 
     startTransition(() => {
-      login({...values, recaptcha_token})
+      login({ ...values, recaptcha_token })
         .then((data) => {
           if (data?.error) {
             form.reset();
@@ -191,18 +186,18 @@ const form = useForm<z.infer<typeof LoginSchema>>({
                 </>
               )}
             </div>
-            <GoogleReCaptchaProvider
-            reCaptchaKey={
-              process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-                ? process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-                : ""
-            }
-          >
-            <GoogleReCaptcha
-              onVerify={setTokenFunc}
-              refreshReCaptcha={refreshReCaptcha}
-            />
-          </GoogleReCaptchaProvider>
+            {/* <GoogleReCaptchaProvider
+              reCaptchaKey={
+                process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+                  ? process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+                  : ""
+              }
+            >
+              <GoogleReCaptcha
+                onVerify={setTokenFunc}
+                refreshReCaptcha={refreshReCaptcha}
+              />
+            </GoogleReCaptchaProvider> */}
             <FormError message={error || urlError} />
             <FormSuccess message={success} />
             <Button
