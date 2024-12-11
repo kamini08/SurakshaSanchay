@@ -1,13 +1,9 @@
 "use client";
-
-// import React, { useEffect, useRef, useState } from "react";
-// import { usePathname } from "next/navigation";
-// import Link from "next/link";
-// import Image from "next/image";
+import React, { useState } from "react";
+import Joyride, { CallBackProps, STATUS, Step } from "react-joyride";
 import SidebarItem from "@/components/Sidebar/SidebarItem";
 import ClickOutside from "@/components/ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
-
 interface SidebarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (arg: boolean) => void;
@@ -19,6 +15,7 @@ const menuGroups = [
     name: "ADMIN DASHBOARD",
     menuItems: [
       {
+        id: "dashboard", 
         icon: (
           <svg
             className="fill-current"
@@ -51,6 +48,7 @@ const menuGroups = [
       },
 
       {
+        id: "profile", 
         icon: (
           <svg
             className="fill-current"
@@ -74,6 +72,7 @@ const menuGroups = [
         route: "/profile",
       },
       {
+        id:"manage-inventory",
         icon: (
           <svg
             className="fill-current"
@@ -116,7 +115,8 @@ const menuGroups = [
           // },
         ],
       },
-      {
+      { 
+        id:"search-police-station",
         icon: (
           <svg
             className="fill-current"
@@ -140,6 +140,7 @@ const menuGroups = [
         route: "/adminPages/mapPage",
       },
       {
+        id:"request-management",
         icon: (
           <svg
             className="fill-current"
@@ -217,6 +218,7 @@ const menuGroups = [
         // ],
       },
       {
+        id:"reports-audits",
         icon: (
           <svg
             className="fill-current"
@@ -263,6 +265,7 @@ const menuGroups = [
         ],
       },
       {
+        id:"qr-code",
         icon: (
           <svg
             className="fill-current"
@@ -310,6 +313,7 @@ const menuGroups = [
       },
 
       {
+        id:"budget-forecast",
         icon: (
           <svg
             className="fill-current"
@@ -383,6 +387,7 @@ const menuGroups = [
       
 
       {
+        id:"authentication",
         icon: (
           <svg
             className="fill-current"
@@ -427,8 +432,77 @@ const menuGroups = [
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   // const pathname = usePathname();
   const [pageName, setPageName] = useLocalStorage("selectedMenu", "dashboard");
+  // Define the tour steps
+  const tourSteps: Step[] = [
+    {
+      target: "body",
+      content: "Welcome to Suraksha Sanchanyam!",
+      placement: "center",
+    },
+    
+    {
+      target: "#dashboard",
+      content: "This is the dashboard. It gives an overview.",
+    },
+    {
+      target: "#profile",
+      content: "This is the profile. It allows you to edit your profile.",
+    },
+    {
+      target: "#manage-inventory",
+      content: "This is Manage Inventory. You can add or edit items here.",
+    },
+    {
+      target: "#search-police-station",
+      content: "This is Search Police Station. You can view all stations here.",
+    },
+    {
+      target: "#request-management",
+      content: "This is Request Management. Accept or deny requests here.",
+    },
+    {
+      target: "#reports-audits",
+      content:
+        "This is Reports & Audits. View monthly reports or download station audits.",
+    },
+    {
+      target: "#qr-code",
+      content: "This is QR Code. Generate or scan QR codes for items.",
+    },
+    {
+      target: "#budget-forecast",
+      content: "This is Budget Forecast. Estimate future budgets here.",
+    },
+    {
+      target: "#authentication",
+      content: "This is Authentication. Add new users to the database here.",
+    },
+  ];
+
+  // Handle tour callback (optional)
+  const handleTourCallback = (data: CallBackProps) => {
+    const { status } = data;
+    if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
+      console.log("Tour finished or skipped");
+    }
+  };
 
   return (
+    <>
+      {/* Add the Joyride component */}
+      <Joyride
+        steps={tourSteps}
+        callback={handleTourCallback}
+        continuous
+        showSkipButton
+        styles={{
+          options: {
+            zIndex: 10000,
+          },
+        }}
+      />
+
+    
     <ClickOutside onClick={() => setSidebarOpen(false)}>
       <aside
         className={`fixed left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:translate-x-0 ${
@@ -522,6 +596,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         </div>
       </aside>
     </ClickOutside>
+    </>
   );
 };
 
