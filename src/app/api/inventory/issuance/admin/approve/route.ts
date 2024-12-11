@@ -1,18 +1,26 @@
 import { PrismaClient } from "@prisma/client";
+import { Session } from "inspector";
 import { NextResponse } from "next/server";
 import { it } from "node:test";
+import { auth } from "../../../../../../../auth";
+import { sendingEmail } from "@/lib/mail";
 
 const prisma = new PrismaClient();
 
 export async function PUT(req: Request) {
   try {
     const body = await req.json(); // Parse request body
-    const { userId, name, quantity, requestId, isApproved, discardReason } =
+    const {requestId, status, discardReason } =
       body;
+
+      const session = await auth();
+      const userId = session?.user.id;
+
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: { role: true },
     });
+
+    
 
     if (!user || user.role !== "admin") {
       return NextResponse.json(
@@ -20,18 +28,22 @@ export async function PUT(req: Request) {
         { status: 403 },
       );
     }
+    
 
-    if (isApproved) {
+    if (status == "APPROVED") {
       const request = await prisma.issuanceRequest.update({
         where: { id: requestId },
         data: { status: "APPROVED", approvalDate: new Date() },
-      });
+        include: {
+          user: true,
+        }
+    });
 
       const items = await prisma.inventoryItem.findMany({
-        take: quantity,
+        take: request.quantity,
         where: {
           AND: [
-            { type: name },
+            { type: request.name },
             {
               userId: null,
             },
@@ -59,44 +71,42 @@ export async function PUT(req: Request) {
         });
       });
 
-      const res = await fetch(
-        `${process.env.HOST_URL}/api/notifications/create`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: request.userId,
-            requestId: request.id,
-            message: `Your request ${request.id} has been approved`,
-            inchargeId: request.inchargeId,
-          }),
+      console.log(request.user.govId);
+
+      const bhoomi = await prisma.notification.create({
+        data: {
+          userId: user.govId || "",
+          inchargeId: request.user.govId || "",
+          message: `Issuance request approved by ${request.user?.name} having govId ${userId}. `,
         },
-      );
+      });
+      const incharge = await prisma.user.findUnique({
+        where: { govId: request.inchargeId || "" },
+      });
+      await sendingEmail(incharge?.email as string, bhoomi.message);
+
       return NextResponse.json(request, { status: 201 });
     } else {
+      
       const request = await prisma.issuanceRequest.update({
         where: { id: requestId },
         data: { status: "REJECTED", discardReason },
+        include: {
+          user: true,
+        }
       });
 
-      const res = await fetch(
-        `${process.env.HOST_URL}/api/notifications/create`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: request.userId,
-            requestId: request.id,
-            message: `Your request ${request.id} has been rejected for the following reasons:
-                ${request.discardReason}.`,
-            inchargeId: request.inchargeId,
-          }),
+      const bhoomi = await prisma.notification.create({
+        data: {
+          userId: request.userId || "",
+          inchargeId: request.inchargeId || "",
+          message: `Issuance request rejected by ${request.user?.name} having govId ${userId}. `,
         },
-      );
+      });
+      const incharge = await prisma.user.findUnique({
+        where: { govId: request.inchargeId || "" },
+      });
+      await sendingEmail(incharge?.email as string, bhoomi.message);
 
       return NextResponse.json(request, { status: 400 });
     }

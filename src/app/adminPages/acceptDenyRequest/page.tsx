@@ -58,7 +58,8 @@ const RequestManagement: React.FC = () => {
             autoClose: 3000,
           });
         }
-        const data: Request[] = await response.json();
+        const data: any= await response.json();
+        console.log(data);
         setRequests(data);
       } catch (err: any) {
         throw new Error("Failed to fetch requests", err);
@@ -79,7 +80,7 @@ const RequestManagement: React.FC = () => {
   const [selectedRequest, setSelectedRequest] = useState<Request | null>(null);
   const [discardReason, setDiscardReason] = useState("");
 
-  const handleApprove = (requestId: string) => {
+  const handleApprove = async(requestId: string) => {
     const requestToApprove = requests.find((req) => req.id === requestId);
     if (requestToApprove) {
       setRequests(requests.filter((req) => req.id !== requestId));
@@ -87,6 +88,13 @@ const RequestManagement: React.FC = () => {
         ...approvedRequests,
         { ...requestToApprove, status: "Approved" },
       ]);
+      const response =  await fetch("/api/inventory/issuance/admin/approve", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ requestId: requestId, status: "Approved" }),
+      })
       toast.success("Item approved successfully", {
         position: "top-right",
         autoClose: 3000,
@@ -94,10 +102,17 @@ const RequestManagement: React.FC = () => {
     }
   };
 
-  const handleDenyClick = (requestId: string) => {
+  const handleDenyClick = async(requestId: string) => {
     const requestToDeny = requests.find((req) => req.id === requestId);
     if (requestToDeny) {
       setSelectedRequest(requestToDeny);
+      const response =  await fetch("/api/inventory/issuance/admin/approve", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ requestId: requestId, status: "Approved" }),
+      })
       setShowDiscardForm(true);
     }
   };
@@ -132,12 +147,9 @@ const RequestManagement: React.FC = () => {
               <tr className="bg-gray-2 text-left dark:bg-meta-4">
                 {[
                   "Item",
-                  "User ID",
-                  "Category",
                   "Quantity",
+                  "Category",
                   "Description",
-                  "Location",
-                  "Purpose",
                   "Usage Duration",
                   "Requester Name",
                   "Department",
@@ -155,7 +167,8 @@ const RequestManagement: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {requests.length === 0 ? (
+              
+              {requests.length == 0 ? (
                 <tr>
                   <td colSpan={6} className="px-4 py-5 text-center">
                     No pending requests.
@@ -167,19 +180,34 @@ const RequestManagement: React.FC = () => {
                     <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                       {request.item}
                     </td>
+                    
                     <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-                      {request.userId}
+                      {request.quantity}
                     </td>
                     <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                       {request.category}
                     </td>
                     <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-                      {request.quantity}
+                      {request.description}
+                    </td>
+                    
+                    <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
+                      {request.expectedUsageDuration}
+                    </td>
+                    <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
+                      {request.requesterName}
+                    </td>
+                    
+                    <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
+                      {request.department}
                     </td>
                     <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                       {request.approvalNeededBy}
                     </td>
                     <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
+                      {request.priorityLevel}
+                    </td>
+                    <td className="border-b my-7 border-[#eee] flex flex-row px-4 py-5 dark:border-strokedark">
                       <button
                         className="mr-2 rounded bg-green-500 px-4 py-2 text-white"
                         onClick={() => handleApprove(request.id)}
@@ -187,7 +215,7 @@ const RequestManagement: React.FC = () => {
                         Approve
                       </button>
                       <button
-                        className="rounded bg-red-500 px-4 py-2 text-white"
+                        className="mr-2 rounded bg-red-500 px-4 py-2 text-white"
                         onClick={() => handleDenyClick(request.id)}
                       >
                         Deny
@@ -213,7 +241,6 @@ const RequestManagement: React.FC = () => {
                     {[
                       "Item",
                       "Category",
-                      "User ID",
                       "Request ID",
                       "Status",
                     ].map((header, index) => (
@@ -235,9 +262,7 @@ const RequestManagement: React.FC = () => {
                       <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                         {request.category}
                       </td>
-                      <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-                        {request.userId}
-                      </td>
+                      
                       <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                         {request.id}
                       </td>
