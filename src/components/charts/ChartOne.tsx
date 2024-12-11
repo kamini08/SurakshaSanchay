@@ -18,16 +18,16 @@ const PieChart: React.FC = () => {
     ];
 
     const exampleData = [
-        { category: "Forensic", total: 10 },
-        { category: "Firearms", total: 15 },
-        { category: "Protective", total: 20 },
-        { category: "Vehicles", total: 5 },
-        { category: "Monitoring", total: 8 },
-        { category: "Net Equipment", total: 12 },
-        { category: "IT Equipment", total: 18 },
-        { category: "Comm. Devices", total: 7 },
-        { category: "Office Supplies", total: 9 },
-        { category: "Medical", total: 11 },
+        { category: "", total: 0 },
+        { category: "", total: 0 },
+        { category: "", total: 0 },
+        { category: "", total: 0 },
+        { category: "", total: 0 },
+        { category: "", total: 0 },
+        { category: "", total: 0 },
+        { category: "", total: 0 },
+        { category: "", total: 0 },
+        { category: "", total: 0 },
     ];
 
     const [data, setData] = useState<number[]>(exampleData.map(item => item.total));

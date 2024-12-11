@@ -33,7 +33,7 @@ export default function Home() {
           SurakshaSanchay
         </h1>
         <p className="text-lg text-white drop-shadow-md">
-          A Centrazlized HArdware Inventory Management System
+          A Centrazlized Hardware Inventory Management System
         </p>
         <div className="bolder text-white">
           <LoginButton>

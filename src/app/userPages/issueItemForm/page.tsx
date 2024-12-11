@@ -29,16 +29,16 @@ const NewItemRequest = () => {
       item: "",
       userId: "",
       category: "",
-      quantity: 1,
+      quantity: 0,
       description: "",
       location: "",
       expectedDeliveryDate: "",
       purpose: "",
       expectedUsageDuration: "",
-      requesterName: "John Doe", // Replace with dynamic user data if needed
+      requesterName: "", // Replace with dynamic user data if needed
       department: "",
       approvalNeededBy: "",
-      priorityLevel: "medium", // Default value
+      priorityLevel: "", // Default value
     });
 
   // Handle field changes
@@ -79,16 +79,16 @@ const NewItemRequest = () => {
             item: "",
             userId: "",
             category: "",
-            quantity: 1,
+            quantity: 0,
             description: "",
             location: "",
             expectedDeliveryDate: "",
             purpose: "",
             expectedUsageDuration: "",
-            requesterName: "John Doe", // Reset to default or fetched value
+            requesterName: "", // Reset to default or fetched value
             department: "",
             approvalNeededBy: "",
-            priorityLevel: "medium",
+            priorityLevel: "",
           });
         } else {
           const errorData = await response.json();
@@ -112,16 +112,16 @@ const NewItemRequest = () => {
             item: "",
             userId: "",
             category: "",
-            quantity: 1,
+            quantity: 0,
             description: "",
             location: "",
             expectedDeliveryDate: "",
             purpose: "",
             expectedUsageDuration: "",
-            requesterName: "John Doe", // Reset to default or fetched value
+            requesterName: "", // Reset to default or fetched value
             department: "",
             approvalNeededBy: "",
-            priorityLevel: "medium",
+            priorityLevel: "",
           });
         } else {
           const errorData = await response.json();
@@ -166,16 +166,16 @@ const NewItemRequest = () => {
                   type: "dropdown",
                   required: true,
                   options: [
-                    "Communication Device",
+                    "Communication Devices",
                     "Computer and IT Equipment",
                     "Networking Equipment",
                     "Surveillance and Tracking",
                     "Vehicle and Accessories",
                     "Protective Gear",
-                    "Firearm",
+                    "Firearms",
                     "Forensic Equipment",
                     "Medical First Aid",
-                    "Office Supply",
+                    "Office Supplies",
                   ],
                 },
                 {
@@ -225,9 +225,8 @@ const NewItemRequest = () => {
                     "Bagh Sewania Police Station",
                     "Khajuri Sadak Police Station",
                     "Ratibad Police Station",
-                    "Berasia Police Station"
-
-                ],
+                    "Berasia Police Station",
+                  ],
                 },
                 {
                   name: "expectedDeliveryDate",
