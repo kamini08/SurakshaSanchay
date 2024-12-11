@@ -1,10 +1,26 @@
-import { IssuanceRequest, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+import { auth } from "../../../../../../../auth";
 
 const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
+    const session = await auth();
+    const govIds = session?.user.govId;
+    const loc = session?.user.location;
+    if (!loc) {
+      return NextResponse.json(
+        { message: "No location provided!" },
+        { status: 401 },
+      );
+    }
+    if (!govIds) {
+      return NextResponse.json(
+        { message: "No govId provided!" },
+        { status: 401 },
+      );
+    }
     const body = await req.json(); // Parse request body
     const {
       userId,
@@ -21,15 +37,16 @@ export async function POST(req: Request) {
     } = body;
 
     const user = await prisma.user.findUnique({
-      where: { govId: userId },
+      where: { govId: govIds },
     });
 
     if (!user) {
       return NextResponse.json({ message: "User not found!" }, { status: 404 });
     }
+
     console.log(location);
     const incharge = await prisma.user.findFirst({
-      where: { AND: [{ location }, { role: "incharge" }] },
+      where: { AND: [{ location: loc }, { role: "incharge" }] },
     });
     if (!incharge) {
       return NextResponse.json(
@@ -38,13 +55,12 @@ export async function POST(req: Request) {
       );
     }
     console.log(incharge);
- 
 
     const request = await prisma.issuanceRequest.create({
       data: {
         userId,
         name: item,
-        category, 
+        category: category.toString().toUpperCase().replaceAll(" ", "_"),
         inchargeId: incharge?.govId || "",
         issueDescription: description,
         quantity,

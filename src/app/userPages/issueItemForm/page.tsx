@@ -166,16 +166,16 @@ const NewItemRequest = () => {
                   type: "dropdown",
                   required: true,
                   options: [
-                    "Communication Device",
+                    "Communication Devices",
                     "Computer and IT Equipment",
                     "Networking Equipment",
                     "Surveillance and Tracking",
                     "Vehicle and Accessories",
                     "Protective Gear",
-                    "Firearm",
+                    "Firearms",
                     "Forensic Equipment",
                     "Medical First Aid",
-                    "Office Supply",
+                    "Office Supplies",
                   ],
                 },
                 {
@@ -225,9 +225,8 @@ const NewItemRequest = () => {
                     "Bagh Sewania Police Station",
                     "Khajuri Sadak Police Station",
                     "Ratibad Police Station",
-                    "Berasia Police Station"
-
-                ],
+                    "Berasia Police Station",
+                  ],
                 },
                 {
                   name: "expectedDeliveryDate",
