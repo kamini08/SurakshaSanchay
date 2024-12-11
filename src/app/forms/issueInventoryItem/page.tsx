@@ -178,10 +178,6 @@ interface IssueItem {
   status: string;
   condition: string;
   availableQuantity: number;
-  returnDate: string | null;
-  remarks: string | null;
-  assetTag: string;
-  supplierDetails: string;
 }
 
 const defaultData: IssueItem[] = [
@@ -198,14 +194,9 @@ const defaultData: IssueItem[] = [
     status: "Pending",
     condition: "New",
     availableQuantity: 10,
-    returnDate: null,
-    remarks: null,
-    assetTag: "ASSET123456",
-    supplierDetails: "TechSupplier Co.",
   },
   // Additional items can go here...
 ];
-
 
 const IssueItemTable = () => {
   const [issueData, setIssueData] = useState<IssueItem[]>(defaultData);
@@ -234,20 +225,16 @@ const IssueItemTable = () => {
           position: "top-right",
           autoClose: 3000,
         });
-        
       } finally {
         setLoading(false);
       }
     };
 
-    
     fetchData();
   }, []);
 
-
-
   // Handle Issue button click (Accept Action)
-  const handleIssueClick = (index: number): void => {
+  const handleIssueClick = async (index: number) => {
     const updatedData = [...issueData];
     const item = updatedData[index];
 
@@ -255,6 +242,23 @@ const IssueItemTable = () => {
       updatedData[index].status = "Issued"; // Mark as issued
       updatedData[index].availableQuantity -= item.quantityRequested; // Decrease available quantity
       setIssueData(updatedData);
+      const response = await fetch(
+        "/api/inventory/issuance/incharge/approve/",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...updatedData, isApproved: false }),
+        },
+      );
+      if (!response.ok) {
+        toast.error("Failed to reject the request.", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        return;
+      }
       setNotification(
         `Request ${item.requestId} has been accepted and issued.`,
       );
@@ -264,12 +268,12 @@ const IssueItemTable = () => {
   };
 
   // Handle Discard button click (Reject Action)
-  const handleDiscardClick = (index: number): void => {
+  const handleDiscardClick = async (index: number) => {
     const updatedData = [...issueData];
     const rejectedItem = updatedData[index];
 
     updatedData.splice(index, 1); // Remove the rejected request
-    setIssueData({...updatedData});
+    setIssueData({ ...updatedData });
     setNotification(
       `Request ${rejectedItem.requestId} has been rejected and removed.`,
     );
@@ -289,9 +293,9 @@ const IssueItemTable = () => {
                   <th className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
                     Request Id
                   </th>
-                  <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
+                  {/* <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
                     Item Id
-                  </th>
+                  </th> */}
                   <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white">
                     Category
                   </th>
@@ -304,7 +308,7 @@ const IssueItemTable = () => {
                   <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
                     Requested By
                   </th>
-                  <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
+                  <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white">
                     Department
                   </th>
                   <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
@@ -316,35 +320,35 @@ const IssueItemTable = () => {
                   <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
                     Status
                   </th>
-                  <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
+                  {/* <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
                     Condition
-                  </th>
+                  </th> */}
                   <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
                     Available Quantity
                   </th>
-                  <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
+                  {/* <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
                     Return Date
-                  </th>
-                  <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
+                  </th> */}
+                  {/* <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
                     Asset Tag
-                  </th>
-                  <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
+                  </th> */}
+                  {/* <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
                     Supplier Details
-                  </th>
+                  </th> */}
                   <th className="px-4 py-4 font-medium text-black dark:text-white">
                     Actions
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {issueData.map((item, index) => (
+                {issueData.map((item, index: any) => (
                   <tr key={index}>
                     <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                       {item.requestId}
                     </td>
-                    <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
+                    {/* <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                       {item.itemId}
-                    </td>
+                    </td> */}
                     <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                       {item.category}
                     </td>
@@ -369,21 +373,21 @@ const IssueItemTable = () => {
                     <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                       {item.status}
                     </td>
-                    <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
+                    {/* <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                       {item.condition}
-                    </td>
+                    </td> */}
                     <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                       {item.availableQuantity}
                     </td>
-                    <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
+                    {/* <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                       {item.returnDate || "N/A"}
-                    </td>
-                    <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
+                    </td> */}
+                    {/* <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                       {item.assetTag}
-                    </td>
-                    <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
+                    </td> */}
+                    {/* <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                       {item.supplierDetails}
-                    </td>
+                    </td> */}
                     <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                       <div className="flex gap-3">
                         <button
