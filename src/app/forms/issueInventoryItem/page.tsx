@@ -234,7 +234,7 @@ const IssueItemTable = () => {
   }, []);
 
   // Handle Issue button click (Accept Action)
-  const handleIssueClick = (index: number): void => {
+  const handleIssueClick = async (index: number) => {
     const updatedData = [...issueData];
     const item = updatedData[index];
 
@@ -242,6 +242,23 @@ const IssueItemTable = () => {
       updatedData[index].status = "Issued"; // Mark as issued
       updatedData[index].availableQuantity -= item.quantityRequested; // Decrease available quantity
       setIssueData(updatedData);
+      const response = await fetch(
+        "/api/inventory/issuance/incharge/approve/",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...updatedData, isApproved: false }),
+        },
+      );
+      if (!response.ok) {
+        toast.error("Failed to reject the request.", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        return;
+      }
       setNotification(
         `Request ${item.requestId} has been accepted and issued.`,
       );
@@ -251,7 +268,7 @@ const IssueItemTable = () => {
   };
 
   // Handle Discard button click (Reject Action)
-  const handleDiscardClick = (index: number): void => {
+  const handleDiscardClick = async (index: number) => {
     const updatedData = [...issueData];
     const rejectedItem = updatedData[index];
 
