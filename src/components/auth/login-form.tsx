@@ -68,9 +68,9 @@ const form = useForm<z.infer<typeof LoginSchema>>({
   const onSubmit = (values: any) => {
     setError("");
     setSuccess("");
-    grecaptcha.enterprise.ready(async () => {
-      const token = await grecaptcha.enterprise.execute(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY, {action: 'LOGIN'});
-    });
+    // grecaptcha.enterprise.ready(async () => {
+    //   const token = await grecaptcha.enterprise.execute(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY, {action: 'LOGIN'});
+    // });
 
     const recaptcha_token = token;
 
@@ -191,7 +191,7 @@ const form = useForm<z.infer<typeof LoginSchema>>({
                 </>
               )}
             </div>
-            <GoogleReCaptchaProvider
+            {/* <GoogleReCaptchaProvider
             reCaptchaKey={
               process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
                 ? process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
@@ -202,7 +202,7 @@ const form = useForm<z.infer<typeof LoginSchema>>({
               onVerify={setTokenFunc}
               refreshReCaptcha={refreshReCaptcha}
             />
-          </GoogleReCaptchaProvider>
+          </GoogleReCaptchaProvider> */}
             <FormError message={error || urlError} />
             <FormSuccess message={success} />
             <Button

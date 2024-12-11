@@ -7,6 +7,9 @@ import React, { useEffect, useState } from "react";
 import { jsPDF } from 'jspdf';
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { toast } from "react-toastify";
+import { NextResponse } from "next/server";
+
+
 
 interface Package {
   itemId: string;
@@ -83,7 +86,9 @@ const ViewInventoryIndividual = () => {
   const selectedDetails = packageData.filter(
     (item) => selectedItems[item.itemId],
   );
-  const EquipmentDetails: React.FC<EquipmentDetailsProps> = ({
+
+
+  const EquipmentDetails: React.FC<EquipmentDetailsProps> = async({
     equipment,
     excludeNullValues,
   }) => {
@@ -166,37 +171,9 @@ const ViewInventoryIndividual = () => {
     setIsModalOpen(false);
   };
 
-  const handleConvertToPDF = (imageFile: any) => {
-    if (imageFile) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        if (e.target?.result) {
-          const pdf = new jsPDF();
+  
 
-          const img = new Image();
-          img.src = e.target.result as string;
-
-          img.onload = () => {
-            const width = pdf.internal.pageSize.getWidth();
-            const height = pdf.internal.pageSize.getHeight();
-
-            const aspectRatio = img.width / img.height;
-            const imgWidth = width;
-            const imgHeight = width / aspectRatio;
-
-            pdf.addImage(img, 'JPEG', 0, 0, imgWidth, imgHeight);
-            pdf.save('transfer-details.pdf');
-            return pdf;
-          };
-        }
-      };
-      reader.readAsDataURL(imageFile);
-      
-      
-    }
-  };
-
-  const handleDownloadAsImage = () => {
+  const handleDownloadAsImage = async () => {
     const formElement = document.getElementById("transfer-form");
     if (formElement) {
       html2canvas(formElement).then((canvas) => {
@@ -204,22 +181,76 @@ const ViewInventoryIndividual = () => {
         link.download = "transfer-details.png";
         link.href = canvas.toDataURL("image/png");
         link.click();
-        
         setFile(canvas);
       });
 
-      const pdf: any = handleConvertToPDF(file);
+      
 
+      const imageData = file.split(",")[1];
       // Upload to AWS S3
       const uploadParams: any = {
         Bucket: process.env.S3_BUCKET_NAME,
         Key: `transfer-details.pdf`, // Unique file name
-        Body: Buffer.from(pdf),
-        ContentType: "application/pdf",
+        Body: Buffer.from(imageData),
+        ContentType: "image/png",
       };
-    }
     
+    try {
+      const data = await s3.upload(uploadParams).promise();
+      console.log(`File uploaded successfully. ${data.Location}`);
+      
+      const imageUrl = data.Location;
+  
+     
+  
+      return NextResponse.json(
+        { message: "Contract updated successfully" },
+        { status: 200 }
+      );
+  
+      /* API call not mandatory
+      try {
+        const response = await fetch(
+          process.env.URL + "/api/contract2/addContract2Url",
+          {
+            method: "PUT",
+            body: JSON.stringify(contract2Data),
+          }
+  
+        );
+        
+  
+        const result = await response.json();
+        console.log(result);
+        if (response.ok) {
+          return NextResponse.json({
+            status: 200,
+            body: result,
+          });
+        } else {
+          return NextResponse.json({
+            status: 500,
+            body: {
+              error: "Failed to update contract2",
+            },
+          });
+        }
+      } catch (err) {
+        console.error(err);
+        return NextResponse.json({
+          status: 500,
+          body: {
+            error: "Failed to update contract2",
+          },
+        });
+      }
+        */
+    } catch (error) {
+      console.error(`Error uploading PDF: ${error}`);
+      throw error;
+    }}
   };
+  
 
   
   // Decode stationId from URL params
