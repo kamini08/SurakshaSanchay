@@ -404,7 +404,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     },
     {
       target: "#profile",
-      content: "This is the dashboard. It gives an overview.",
+      content: "This is the profile. It allows you to edit your profile.",
     },
     {
       target: "#manage-inventory",

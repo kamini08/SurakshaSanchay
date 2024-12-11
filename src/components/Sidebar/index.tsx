@@ -4,6 +4,9 @@
 // import { usePathname } from "next/navigation";
 // import Link from "next/link";
 // import Image from "next/image";
+"use client";
+import React, { useState } from "react";
+import Joyride, { CallBackProps, STATUS, Step } from "react-joyride";
 import SidebarItem from "@/components/Sidebar/SidebarItem";
 import ClickOutside from "@/components/ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
@@ -16,9 +19,11 @@ interface SidebarProps {
 
 const menuGroups = [
   {
+    
     name: "INVENTORY INCHARGE DASHBOARD",
     menuItems: [
       {
+        id:"dashboard",
         icon: (
           <svg
             className="fill-current"
@@ -52,6 +57,7 @@ const menuGroups = [
       },
 
       {
+        id:"profile",
         icon: (
           <svg
             className="fill-current"
@@ -75,6 +81,7 @@ const menuGroups = [
         route: "/profile",
       },
       {
+        id:"penalty",
         icon: (
           <svg
             className="fill-current"
@@ -98,6 +105,7 @@ const menuGroups = [
         route: "/penaltyAward",
       },
       {
+        id:"manage-inventory",
         icon: (
           <svg
             className="fill-current"
@@ -137,6 +145,7 @@ const menuGroups = [
         ],
       },
       {
+        id:"user-interaction",
         icon: (
           <svg
             className="fill-current"
@@ -184,6 +193,7 @@ const menuGroups = [
         ],
       },
       {
+        id:"requests",
         icon: (
           <svg
             className="fill-current"
@@ -257,6 +267,7 @@ const menuGroups = [
         ],
       },
       {
+        id:"report-audit",
         icon: (
           <svg
             className="fill-current"
@@ -305,6 +316,7 @@ const menuGroups = [
       },
 
       {
+        id:"notification",
         icon: (
           <svg
             className="fill-current"
@@ -338,6 +350,7 @@ const menuGroups = [
       },
 
       {
+        id:"budget-forecast",
         icon: (
           <svg
             className="fill-current"
@@ -373,6 +386,7 @@ const menuGroups = [
         route: "/Ml",
       },
       {
+        id:"qr-code",
         icon: (
           <svg
             className="fill-current"
@@ -419,6 +433,7 @@ const menuGroups = [
         ],
       },
       {
+        id:"asset-tracking",
         icon: (
           <svg
             className="fill-current"
@@ -462,6 +477,7 @@ const menuGroups = [
       },
 
       {
+        id:"authentication",
         icon: (
           <svg
             className="fill-current"
@@ -504,8 +520,90 @@ const menuGroups = [
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   // const pathname = usePathname();
   const [pageName, setPageName] = useLocalStorage("selectedMenu", "dashboard");
+  // Define the tour steps
+  const tourSteps: Step[] = [
+    {
+      target: "body",
+      content: "Welcome to Suraksha Sanchanyam!",
+      placement: "center",
+    },
+    
+    {
+      target: "#dashboard",
+      content: "This is the dashboard. It gives an overview.",
+    },
+    {
+      target: "#profile",
+      content: "This is the Profile. It allows you to edit your profile.",
+    },
+    {
+      target:"#penalty",
+      content:"This is penaly and Awards.It allows you to log penalty or log award.",
+    },
+    {
+      target: "#manage-inventory",
+      content: "This is Manage Inventory. You can add or edit items here.",
+    },
+    {
+      target: "#user-interaction",
+      content: "This is User Interaction.Here you can Issue/Record items and accept maintenance requests.",
+    },
+    
+    
+    {
+      target: "#requests",
+      content: "This is Requests. Here we can apply new item requests .",
+    },
+    {
+      target: "#report-audit",
+      content:
+        "This is Reports & Audits. View/Fill monthly reports.",
+    },
+    {
+      target:"#notification",
+      content:"This is Notifications.View different notifications."
+    },
+
+    {
+      target: "#budget-forecast",
+      content: "This is Budget Forecast. Estimate future budgets here.",
+    },
+    {
+      target: "#qr-code",
+      content: "This is QR Code. Generate or scan QR codes for items.",
+    },
+    {
+      target:"#asset-tracking",
+      content:"This is asset tracking.Add or update locations for items using."
+    },
+    {
+      target: "#authentication",
+      content: "This is Authentication. Add new users to the database here.",
+    },
+  ];
+
+  // Handle tour callback (optional)
+  const handleTourCallback = (data: CallBackProps) => {
+    const { status } = data;
+    if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
+      console.log("Tour finished or skipped");
+    }
+  };
 
   return (
+    <>
+      {/* Add the Joyride component */}
+      <Joyride
+        steps={tourSteps}
+        callback={handleTourCallback}
+        continuous
+        showSkipButton
+        styles={{
+          options: {
+            zIndex: 10000,
+          },
+        }}
+      />
     <ClickOutside onClick={() => setSidebarOpen(false)}>
       <aside
         className={`fixed left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:translate-x-0 ${
@@ -599,6 +697,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         </div>
       </aside>
     </ClickOutside>
+    </>
   );
 };
 
