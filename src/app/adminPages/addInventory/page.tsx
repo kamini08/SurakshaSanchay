@@ -289,9 +289,9 @@ const AddInventory = () => {
           {errors.connectivity && <span className="text-red-500 text-sm">{errors.connectivity}</span>}
         </div>
 
-        <button type="submit" className="rounded bg-blue-500 px-4 py-2 text-white">
+        {/*<button type="submit" className="rounded bg-blue-500 px-4 py-2 text-white">
           Submit
-        </button>
+        </button>*/}
       </div>
     </form>
           </div>
