@@ -185,7 +185,7 @@ function App() {
             <label className="block text-sm font-medium mb-1">Year:</label>
             <input
               type="number"
-              value={year}
+              // value={year}
               onChange={(e) => setYear(e.target.value)}
               required
               className="w-full px-4 py-2 border rounded-md text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary dark:border-gray-700 dark:bg-gray-700 dark:focus:ring-primary dark:text-white"

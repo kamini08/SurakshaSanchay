@@ -51,7 +51,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Dashboard",
-        route: "/settings",
+        route: "/userPages/viewInventory",
         // label: "
       },
 
