@@ -152,6 +152,7 @@ const Reports: React.FC = () => {
           setTotalItems(result.totalItems || 0);
           setDamagedItems(result.damagedItems || 0);
           setWorkingItems(result.workingItems || 0);
+          console.log(result);
         } else if (user == "incharge") {
           const response = await fetch("/api/reports/localInventory", {
             method: "GET",
@@ -163,6 +164,7 @@ const Reports: React.FC = () => {
           setTotalItems(result.totalItems);
           setDamagedItems(result.damagedItems);
           setWorkingItems(result.workingItems);
+          console.log(localReportData);
         }
       } catch (err: any) {
         alert("Error fetching data: " + err.message);

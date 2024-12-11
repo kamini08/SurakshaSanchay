@@ -195,7 +195,9 @@ const ViewInventoryIndividual = () => {
       };
     
     try {
+
       const data = await s3.upload(params).promise();
+     
       console.log(`File uploaded successfully. ${data.Location}`);
       
       const imageUrl = data.Location;
@@ -275,7 +277,10 @@ const ViewInventoryIndividual = () => {
   };
 
   useEffect(() => {
+    
     const fetchData = async () => {
+
+
       try {
         const response = await fetch(`/api/station/${stationId}`, {
           method: "GET",

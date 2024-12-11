@@ -262,9 +262,7 @@ const RequestManagement: React.FC = () => {
                       <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                         {request.category}
                       </td>
-                      <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-                        {request.userId}
-                      </td>
+                      
                       <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                         {request.id}
                       </td>
