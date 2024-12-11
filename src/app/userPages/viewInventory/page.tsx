@@ -54,6 +54,7 @@ const defaultPackages: Package[] = [
   },
 ];
 
+
 const PackageTable = () => {
   const [packages, setPackages] = useState<Package[]>(defaultPackages); // Default data as initial state
   const [filteredPackages, setFilteredPackages] = useState<Package[]>(defaultPackages); // Initially display default data
@@ -67,7 +68,7 @@ const PackageTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/packages"); // Replace with your backend endpoint
+        const response = await fetch("/api/userDashboard"); // Replace with your backend endpoint
         if (!response.ok) {
           throw new Error('Error fetching data');
         }
