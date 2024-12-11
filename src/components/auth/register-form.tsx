@@ -1,6 +1,6 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -49,11 +49,16 @@ const policeStations = [
   { name: "Khajuri Sadak Police Station", lat: 23.1245, long: 77.5712 },
   { name: "Ratibad Police Station", lat: 23.1101, long: 77.3865 },
   { name: "Berasia Police Station", lat: 23.6352, long: 77.4323 },
+
 ];
+
+
 
 
 // Define Zod Schema
 const RegisterSchema = z.object({
+
+
   name: z.string().min(1, "Name is required"), // Name validation
   email: z.string().email("Please enter a valid email"), // Email validation
   number: z
@@ -73,6 +78,37 @@ export const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
+  
+
+  
+const [token, setToken] = useState<string>("");
+
+
+
+
+useEffect(() => {
+  // Load the reCAPTCHA script dynamically and ensure it loads fully before calling `grecaptcha`
+  const script = document.createElement("script");
+  script.src = `https://www.google.com/recaptcha/enterprise.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`;
+  script.async = true;
+  script.defer = true;
+  script.onload = getRecaptcha; // Call the function once the script is loaded
+  document.head.appendChild(script);
+
+  return () => {
+    // Clean up the script if the component unmounts
+    document.head.removeChild(script);
+  };
+}, []);
+
+const getRecaptcha = async () => {
+  grecaptcha.enterprise.ready(async () => {
+    const token = await grecaptcha.enterprise.execute(
+      process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+    );
+    setToken(token);
+  });
+};
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),

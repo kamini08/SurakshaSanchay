@@ -450,13 +450,13 @@ export async function GET() {
     const session = await auth();
     const role = session?.user.role;
     const id = session?.user.id;
-    const govIds = await db.user.findFirst({
-      where: { id },
-      select: { govId: true },
-    });
-    console.log(govIds);
-    const govId = govIds?.govId;
-
+    const govId = session?.user.govId;
+    if (!govId) {
+      return NextResponse.json(
+        { error: "GovId is required to fetch inventory data" },
+        { status: 400 },
+      );
+    }
     let inventoryData;
     if (role === "incharge") {
       inventoryData = await prisma.inventoryItem.findMany({
@@ -467,7 +467,7 @@ export async function GET() {
           },
         },
       });
-      console.log(inventoryData);
+      console.log("data: ", inventoryData);
     } else {
       inventoryData = await prisma.inventoryItem.findMany({
         where: {

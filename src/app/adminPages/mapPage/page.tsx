@@ -1,7 +1,12 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 
-import Map from "@/components/Map/MapDisplay";
+// import Map from "@/components/Map/MapDisplay";
+import dynamic from "next/dynamic";
 
+// Dynamically load BarChart without SSR
+const Map = dynamic(() => import("@/components/Map/MapDisplay"), {
+  ssr: false,
+});
 const SearchPoliceStation = () => {
   return (
     <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
