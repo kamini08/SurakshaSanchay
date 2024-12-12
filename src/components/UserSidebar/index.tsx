@@ -4,9 +4,12 @@
 // import { usePathname } from "next/navigation";
 // import Link from "next/link";
 // import Image from "next/image";
+import React, { useState } from "react";
+import Joyride, { CallBackProps, STATUS, Step } from "react-joyride";
 import SidebarItem from "@/components/Sidebar/SidebarItem";
 import ClickOutside from "@/components/ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
+
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -19,6 +22,7 @@ const menuGroups = [
     name: "USER DASHBOARD",
     menuItems: [
       {
+        id:"dashboard",
         icon: (
           <svg
             className="fill-current"
@@ -52,6 +56,7 @@ const menuGroups = [
       },
 
       {
+        id:"profile",
         icon: (
           <svg
             className="fill-current"
@@ -75,6 +80,7 @@ const menuGroups = [
         route: "/profile",
       },
       {
+        id:"request",
         icon: (
           <svg
             className="fill-current"
@@ -115,6 +121,7 @@ const menuGroups = [
         // ],
       },
       {
+        id:"return",
         icon: (
           <svg
             className="fill-current"
@@ -159,6 +166,7 @@ const menuGroups = [
         // ],
       },
       {
+        id:"request-maintenance",
         icon: (
           <svg
             className="fill-current"
@@ -282,6 +290,7 @@ const menuGroups = [
       // },
 
       {
+        id:"notification",
         icon: (
           <svg
             className="fill-current"
@@ -314,6 +323,7 @@ const menuGroups = [
         route: "/forms/notification",
       },
       {
+        id:"scan",
         icon: (
           <svg
             className="fill-current"
@@ -363,8 +373,72 @@ const menuGroups = [
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   // const pathname = usePathname();
   const [pageName, setPageName] = useLocalStorage("selectedMenu", "dashboard");
+ const tourSteps: Step[] = [
+    {
+      target: "body",
+      content: "Welcome to Suraksha Sanchanyam!",
+      placement: "center",
+    },
+    
+    {
+      target: "#dashboard",
+      content: "This is the dashboard. It gives an overview.",
+    },
+    {
+      target: "#profile",
+      content: "This is the Profile. It allows you to edit your profile.",
+    },  
+    {
+      target:"#request",
+      content:"This is request.It allows you to request an item.",
+    },
+    {
+      target: "#return",
+      content: "This is user item return form. You can return .",
+    },
+    {
+      target: "#user-interaction",
+      content: "This is User Interaction.Here you can Issue/Record items and accept maintenance requests.",
+    },
+    {
+      target: "#request-maintenance",
+      content: "This is Request for maintenance. Here we can apply for maintenance .",
+    },
+    {
+      target:"#notification",
+      content:"This is Notifications.View different notifications."
+    },
+
+  
+    {
+      target: "#scan",
+      content: "This is Scan QR Code. Scan QR codes for items.",
+    },
+    
+  ];
+
+  // Handle tour callback (optional)
+  const handleTourCallback = (data: CallBackProps) => {
+    const { status } = data;
+    if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
+      console.log("Tour finished or skipped");
+    }
+  };
 
   return (
+    <>
+      {/* Add the Joyride component */}
+      <Joyride
+        steps={tourSteps}
+        callback={handleTourCallback}
+        continuous
+        showSkipButton
+        styles={{
+          options: {
+            zIndex: 10000,
+          },
+        }}
+      />
     <ClickOutside onClick={() => setSidebarOpen(false)}>
       <aside
         className={`fixed left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:translate-x-0 ${
@@ -463,6 +537,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         </div>
       </aside>
     </ClickOutside>
+    </>
   );
 };
 

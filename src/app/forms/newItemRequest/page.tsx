@@ -32,18 +32,18 @@ const NewItemRequest = () => {
     useState<ItemRequestFormData>({
       item: "",
       category: "",
-      quantity: 1,
-      condition: "new",
+      quantity: 0,
+      condition: "",
       description: "",
       technicalSpecifications: "",
       location: "",
       expectedDeliveryDate: "",
       purpose: "",
       expectedUsageDuration: "",
-      requesterName: "John Doe", // Replace with dynamic user data if needed
+      requesterName: "", // Replace with dynamic user data if needed
       department: "",
       approvalNeededBy: "",
-      priorityLevel: "medium", // Default value
+      priorityLevel: "", // Default value
     });
 
   // Handle field changes
@@ -81,18 +81,18 @@ const NewItemRequest = () => {
         setItemRequestFormData({
           item: "",
           category: "",
-          quantity: 1,
-          condition: "new",
+          quantity: 0,
+          condition: "",
           description: "",
           technicalSpecifications: "",
           location: "",
           expectedDeliveryDate: "",
           purpose: "",
           expectedUsageDuration: "",
-          requesterName: "John Doe", // Reset to default or fetched value
+          requesterName: "", // Reset to default or fetched value
           department: "",
           approvalNeededBy: "",
-          priorityLevel: "medium",
+          priorityLevel: "",
         });
       } else {
         const errorData = await response.json();

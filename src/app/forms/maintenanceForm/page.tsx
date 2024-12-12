@@ -14,7 +14,7 @@ const RequestManagement = () => {
     userId: "",
     technicianId: "",
     requestDate: "",
-    status: "PENDING", // Default value
+    status: "", // Default value
     issueDescription: "",
     resolutionDetails: "",
     discardReason: "",

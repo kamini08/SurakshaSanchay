@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { toast } from "react-toastify";
@@ -8,15 +8,12 @@ import { toast } from "react-toastify";
 // Define the structure of form data
 interface ItemRequestFormData {
   item: string;
-  userId: string;
   category: string;
   quantity: number;
   description: string;
-  location: string;
   expectedDeliveryDate: string;
   purpose: string;
   expectedUsageDuration: string;
-  requesterName: string;
   department: string;
   approvalNeededBy: string;
   priorityLevel: string;
@@ -27,19 +24,20 @@ const NewItemRequest = () => {
   const [itemRequestFormData, setItemRequestFormData] =
     useState<ItemRequestFormData>({
       item: "",
-      userId: "",
       category: "",
-      quantity: 1,
+      quantity: 0,
       description: "",
-      location: "",
       expectedDeliveryDate: "",
       purpose: "",
       expectedUsageDuration: "",
-      requesterName: "John Doe", // Replace with dynamic user data if needed
       department: "",
       approvalNeededBy: "",
-      priorityLevel: "medium", // Default value
+      priorityLevel: "", // Default value
     });
+    const [userId, setUserId] = useState<string>("role");
+
+
+    
 
   // Handle field changes
   const handleChange = (
@@ -77,18 +75,15 @@ const NewItemRequest = () => {
           alert("Item request submitted successfully!");
           setItemRequestFormData({
             item: "",
-            userId: "",
             category: "",
-            quantity: 1,
+            quantity: 0,
             description: "",
-            location: "",
             expectedDeliveryDate: "",
             purpose: "",
             expectedUsageDuration: "",
-            requesterName: "John Doe", // Reset to default or fetched value
             department: "",
             approvalNeededBy: "",
-            priorityLevel: "medium",
+            priorityLevel: "",
           });
         } else {
           const errorData = await response.json();
@@ -110,18 +105,15 @@ const NewItemRequest = () => {
           alert("Item request submitted successfully!");
           setItemRequestFormData({
             item: "",
-            userId: "",
             category: "",
-            quantity: 1,
+            quantity: 0,
             description: "",
-            location: "",
             expectedDeliveryDate: "",
             purpose: "",
             expectedUsageDuration: "",
-            requesterName: "John Doe", // Reset to default or fetched value
             department: "",
             approvalNeededBy: "",
-            priorityLevel: "medium",
+            priorityLevel: "",
           });
         } else {
           const errorData = await response.json();
@@ -154,12 +146,14 @@ const NewItemRequest = () => {
                   type: "text",
                   required: true,
                 },
-                {
-                  name: "userId",
-                  label: "User Id",
-                  type: "text",
-                  required: true,
-                },
+                // {
+                //   name: "userId",
+                //   label: "User Id",
+                //   value: userId,
+                  
+                //   type: "text",
+                //   required: true,
+                // },
                 {
                   name: "category",
                   label: "Category",
@@ -185,50 +179,6 @@ const NewItemRequest = () => {
                   required: true,
                 },
                 {
-                  name: "condition",
-                  label: "Condition",
-                  type: "dropdown",
-                  options: ["New", "Refurbished"],
-                  required: true,
-                },
-                { name: "description", label: "Description", type: "textarea" },
-                {
-                  name: "technicalSpecifications",
-                  label: "Technical Specifications",
-                  type: "textarea",
-                },
-
-                {
-                  name: "location",
-                  label: "Location",
-                  type: "dropdown",
-                  required: true,
-                  options: [
-                    "TT Nagar Police Station",
-                    "Kamla Nagar Police Station",
-                    "Shyamla Hills Police Station",
-                    "Habibganj Police Station",
-                    "Piplani Police Station",
-                    "Govindpura Police Station",
-                    "Ashoka Garden Police Station",
-                    "MP Nagar Police Station",
-                    "Bhopal Kotwali Police Station",
-                    "Hanumanganj Police Station",
-                    "Chhola Mandir Police Station",
-                    "Shahpura Police Station",
-                    "Misrod Police Station",
-                    "Kolar Police Station",
-                    "Jahangirabad Police Station",
-                    "Mangalwara Police Station",
-                    "Talaiya Police Station",
-                    "Ayodhya Nagar Police Station",
-                    "Bagh Sewania Police Station",
-                    "Khajuri Sadak Police Station",
-                    "Ratibad Police Station",
-                    "Berasia Police Station",
-                  ],
-                },
-                {
                   name: "expectedDeliveryDate",
                   label: "Expected Delivery Date",
                   type: "date",
@@ -239,11 +189,6 @@ const NewItemRequest = () => {
                   label: "Purpose/Use Case",
                   type: "textarea",
                   required: true,
-                },
-                {
-                  name: "expectedUsageDuration",
-                  label: "Expected Usage Duration",
-                  type: "text",
                 },
                 {
                   name: "requesterName",

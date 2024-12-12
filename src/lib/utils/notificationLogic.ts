@@ -1,12 +1,12 @@
 import { Resend } from "resend";
 import { db } from "../db";
+import { countItemsInCategories } from "./countItemInCategories";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const sendEmail = async (to: string, subject: string, text: string) => {
   try {
     await resend.emails.send({
-      
       from: "mail@khetideals.shop",
       to,
       subject,
@@ -32,21 +32,15 @@ export default async function checkInventoryConditions() {
         { isLost: true },
         { expiryDate: { lte: currentDate } },
         {
-          AND: [
-            { maintenanceSchedule: { not: null } },
-            {
-              maintenanceSchedule: {
-                lte: currentDate.toISOString().split("T")[0], // Maintenance due today or earlier
-              },
-            },
-          ],
+          maintenanceSchedule: { not: null },
+          lastInspectionDate: { not: null },
         },
         {
           AND: [
             { lastInspectionDate: { not: null } },
             {
               lastInspectionDate: {
-                lte: new Date(currentDate.setMonth(currentDate.getMonth() - 6)), // Older than 6 months
+                lte: new Date(currentDate.setMonth(currentDate.getMonth() - 6)),
               },
             },
           ],
@@ -68,9 +62,21 @@ export default async function checkInventoryConditions() {
     } else if (item.expiryDate && new Date(item.expiryDate) <= currentDate) {
       emailSubject = `Alert: Expired Item - ${item.itemId}`;
       emailBody = `The item ${item.itemId} in category ${item.category} has expired on ${item.expiryDate}. Please replace it.`;
-    } else if (item.maintenanceSchedule && new Date(item.maintenanceSchedule) <= currentDate) {
-      emailSubject = `Alert: Maintenance Due for Item - ${item.itemId}`;
-      emailBody = `The item ${item.itemId} in category ${item.category} is due for maintenance on ${item.maintenanceSchedule}. Please schedule the maintenance immediately.`;
+    } else if (item.maintenanceSchedule) {
+      const lastMaintenanceDate = item.lastInspectionDate ? new Date(item.lastInspectionDate) : null;      let nextMaintenanceDate;
+      if(lastMaintenanceDate){
+      if (item.maintenanceSchedule === "monthly") {
+        nextMaintenanceDate = new Date(lastMaintenanceDate.setMonth(lastMaintenanceDate.getMonth() + 1));
+      } else if (item.maintenanceSchedule === "half-yearly") {
+        nextMaintenanceDate = new Date(lastMaintenanceDate.setMonth(lastMaintenanceDate.getMonth() + 6));
+      } else if (item.maintenanceSchedule === "yearly") {
+        nextMaintenanceDate = new Date(lastMaintenanceDate.setFullYear(lastMaintenanceDate.getFullYear() + 1));
+      }
+    }
+      if (nextMaintenanceDate && nextMaintenanceDate <= currentDate) {
+        emailSubject = `Alert: Maintenance Due for Item - ${item.itemId}`;
+        emailBody = `The item ${item.itemId} in category ${item.category} is due for maintenance. Please schedule the maintenance immediately.`;
+      }
     } else if (
       item.lastInspectionDate &&
       new Date(item.lastInspectionDate) <= new Date(currentDate.setMonth(currentDate.getMonth() - 6))
@@ -78,11 +84,12 @@ export default async function checkInventoryConditions() {
       emailSubject = `Alert: Inspection Overdue for Item - ${item.itemId}`;
       emailBody = `The item ${item.itemId} in category ${item.category} has not been inspected in over 6 months. Please conduct an inspection as soon as possible.`;
     }
-    if (item.userId) {
+
+    if (emailSubject && item.userId) {
       const user = await db.user.findFirst({
-        where: { govId: item.userId }, // Ensure item.userId is not null
+        where: { govId: item.userId },
       });
-    
+
       if (user?.email) {
         // Send the email
         await sendEmail(user.email, emailSubject, emailBody);
@@ -93,4 +100,26 @@ export default async function checkInventoryConditions() {
       console.error(`Item userId is null, unable to fetch user.`);
     }
   }
-};
+  try {
+    const categoryCounts = await countItemsInCategories(); // Get inventory counts
+    const threshold = 5; // Set your threshold value
+    const adminEmail = "prajwal.kp.1817@gmail.com"; // Admin or recipient email
+
+    for (const categoryCount of categoryCounts) {
+      const { category, _count } = categoryCount;
+      const count = _count._all; // Total count of items in the category
+
+      if (count < threshold) {
+        const emailSubject = `Alert: Low Inventory in Category - ${category}`;
+        const emailBody = `The category "${category}" has a low inventory count of ${count}, which is below the threshold of ${threshold}. Please restock or investigate.`;
+
+        // Send email
+        await sendEmail(adminEmail, emailSubject, emailBody);
+        console.log(`Email sent to ${adminEmail} for category ${category}`);
+      }
+    }
+  } catch (error) {
+    console.error("Error in notifying low inventory:", error);
+  }
+}
+

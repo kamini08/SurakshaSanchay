@@ -142,10 +142,10 @@ git checkout -b feature/your-feature-name
 4. Commit changes:
 git commit -m "Description of your changes"
 
-5. Push the branch to your fork:
+5. Push the branch to your fork repo:
 git push origin feature/your-feature-name
 
 6. Open a pull request to the main repository.
 
 License
-The project is licensed under the MIT License.
+The project is licensed under the MIT License.  

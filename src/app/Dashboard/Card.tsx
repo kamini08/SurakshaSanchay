@@ -20,7 +20,7 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
       style={{ cursor: onClick ? "pointer" : "default" }}
     >
       {icon && (
-        <div className="absolute  left-25 top-2 mb-5 mt-5 flex h-16 w-16 scale-75 items-center justify-center rounded-full bg-gray-300 p-3 md:h-20 md:w-20 md:p-4 lg:h-24 lg:w-24 lg:p-5">
+        <div className="absolute  left-23 top-2 mb-5 mt-5 flex h-16 w-16 scale-75 items-center justify-center rounded-full bg-gray-300 p-3 md:h-20 md:w-20 md:p-4 lg:h-24 lg:w-24 lg:p-5">
           {" "}
           {/* Responsive icon */}
           <img src={icon} alt="" className="object-contain" />{" "}

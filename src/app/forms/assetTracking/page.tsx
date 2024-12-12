@@ -13,7 +13,7 @@ const AddItemLocationForm = () => {
     assignedDate: "",
     location: "",
     description: "",
-    status: "In", // Default status
+    status: "", // Default status
   });
 
   const [message, setMessage] = useState("");
