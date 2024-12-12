@@ -436,7 +436,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const tourSteps: Step[] = [
     {
       target: "body",
-      content: "Welcome to SurakshaSanchany!",
+      content: "Welcome to SurakshaSanchay!",
       placement: "center",
     },
     
