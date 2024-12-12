@@ -158,6 +158,8 @@ model InventoryItem {
   itemAssignmentHistories ItemAssignmentHistory[]
 
   ReturnRequest ReturnRequest[]
+
+  
 }
 
 model IssuanceRequest {
@@ -459,4 +461,11 @@ model ReturnRequest {
   date               DateTime
   isDamaged Boolean @default(false)
   returnStatus String @default("Not Completed")
+}
+
+model Station {
+  id                String   @id @default(cuid())
+  name String
+  lat String
+  long String 
 }

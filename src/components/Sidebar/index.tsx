@@ -429,6 +429,7 @@ const menuGroups = [
         children: [
           { label: "Generate QR Code", route: "/qrGenerate" },
           { label: "Scan QR Code", route: "/scanQR" },
+          { label: "Asset Tracking", route: "/forms/assetList" },
         ],
       },
       {

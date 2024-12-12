@@ -6,6 +6,27 @@ import iconRetinaUrl from "leaflet/dist/images/marker-icon-2x.png";
 import iconUrl from "leaflet/dist/images/marker-icon.png";
 import shadowUrl from "leaflet/dist/images/marker-shadow.png";
 import { Feature, Geometry } from "geojson";
+
+// GeoJSON and police stations data...
+
+let categories = [
+  { name: "COMMUNICATION_DEVICES", quantity: 15 },
+  { name: "COMPUTER_AND_IT_EQUIPMENT", quantity: 8 },
+  { name: "NETWORKING_EQUIPMENT", quantity: 12 },
+  { name: "SURVEILLANCE_AND_TRACKING", quantity: 5 },
+  { name: "VEHICLE_AND_ACCESSORIES", quantity: 20 },
+  { name: "PROTECTIVE_GEAR", quantity: 7 },
+  { name: "FIREARMS", quantity: 3 },
+  { name: "FORENSIC", quantity: 11 },
+  { name: "MEDICAL_FIRST_AID", quantity: 9 },
+  { name: "OFFICE_SUPPLIES", quantity: 25 },
+];
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: iconRetinaUrl.src,
+  iconUrl: iconUrl.src,
+  shadowUrl: shadowUrl.src,
+});
 const madhyaPradeshGeoJSON: Feature<Geometry> = {
   type: "Feature",
   properties: {},
@@ -95,7 +116,6 @@ const madhyaPradeshGeoJSON: Feature<Geometry> = {
     type: "LineString",
   },
 };
-
 const policeStations = [
   { name: "TT Nagar Police Station", lat: 23.23725, long: 77.39984 },
   { name: "Kamla Nagar Police Station", lat: 23.21554, long: 77.39552 },
@@ -121,45 +141,112 @@ const policeStations = [
   { name: "Berasia Police Station", lat: 23.6352, long: 77.4323 },
 ];
 
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: iconRetinaUrl.src,
-  iconUrl: iconUrl.src,
-  shadowUrl: shadowUrl.src,
-});
-
 const MapComponent: React.FC = () => {
   const mapRef = useRef<L.Map | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(categories[0].name);
+  console.log(categories[0].name);
 
+  // useEffect(() => {
+  //   const fetchCategories = async () => {
+  //     try {
+  //       const response = await fetch("/api/mapLoc", {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       });
+  //       const data = await response.json();
+  //       if (data.length > 0) {
+  //         data.forEach((result: any) => {
+  //           categories.forEach((category) => {
+  //             if (result.location.includes(category.name.replace(/_/g, " "))) {
+  //               category.quantity = result.quantity;
+  //             }
+  //           });
+  //         });
+
+  //         console.log(categories);
+
+  //         console.log(categories);
+  //         // setCategories(updatedCategories);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching categories:", error);
+  //     }
+  //   };
+
+  //   fetchCategories();
+  // }, []);
+
+  // useEffect(() => {
+  //   const fetchCategories = async () => {
+  //     try {
+  //       const response = await fetch("/api/mapLoc", {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         // body: categories,
+  //       });
+  //       const data = await response.json();
+  //       // setCategories(data);
+  //       categories = data;
+  //       console.log(categories);
+  //       if (data.length > 0) {
+  //         setSelectedCategory(data.name);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching categories:", error);
+  //     }
+  //   };
+
+  //   fetchCategories();
+  // }, [selectedCategory]);
   useEffect(() => {
     if (!mapRef.current) {
-      const map = L.map("map").setView([22.973423, 78.656891], 7); // Default location
+      const map = L.map("map").setView([22.973423, 78.656891], 7);
       mapRef.current = map;
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "© OpenStreetMap contributors",
       }).addTo(map);
 
-      // Add marker
       policeStations.forEach((station) => {
         const marker = L.marker([station.lat, station.long])
           .addTo(map)
           .on("click", () => {
             window.location.href = `/station/${station.name}`;
           });
-        const popup = L.popup({ autoClose: false, closeOnClick: false }) // Ensure popups don't auto-close
-          .setContent(station.name);
+
+        const categoryData = categories.find(
+          (cat) => cat.name === selectedCategory,
+        );
+        const quantity = categoryData ? categoryData.quantity : 0;
+
+        const circleColor = quantity > 10 ? "blue" : "red";
+
+        const circle = L.circle([station.lat, station.long], {
+          color: circleColor,
+          fillColor: circleColor,
+          fillOpacity: 0.5,
+          radius: 200,
+        }).addTo(map);
+
+        const popup = L.popup({
+          autoClose: false,
+          closeOnClick: false,
+        }).setContent(`${station.name}`);
 
         marker.bindPopup(popup).openPopup();
       });
 
-      // Add Madhya Pradesh border
       L.geoJSON(madhyaPradeshGeoJSON, {
         style: {
-          color: "blue", // Border color
-          weight: 2, // Border thickness
-          fillColor: "cyan", // Fill color
-          fillOpacity: 0.2, // Opacity of fill
+          color: "blue",
+          weight: 2,
+          fillColor: "cyan",
+          fillOpacity: 0.2,
         },
       }).addTo(map);
     }
@@ -170,7 +257,7 @@ const MapComponent: React.FC = () => {
         mapRef.current = null;
       }
     };
-  }, []);
+  }, [selectedCategory]);
 
   const handleSearch = () => {
     if (!mapRef.current) return;
@@ -180,47 +267,50 @@ const MapComponent: React.FC = () => {
     );
 
     if (station) {
-      mapRef.current.setView([station.lat, station.long], 14); // Zoom to the station's coordinates
+      mapRef.current.setView([station.lat, station.long], 14);
     } else {
       alert("Station not found");
     }
   };
 
   return (
-
     <div className="relative">
-  {/* Search Bar Container */}
-  <div className="rounded-lg border border-stroke bg-white px-6 py-4 shadow-lg dark:border-strokedark dark:bg-boxdark max-w-4xl mx-auto mb-6">
-    {/* Search Input */}
-    <div className="flex items-center">
-      <input
-        className="w-3/4 rounded-lg border border-stroke bg-white px-4 py-2 shadow-sm text-sm placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-strokedark dark:bg-boxdark dark:text-white dark:placeholder-gray-500"
-        type="text"
-        placeholder="Search for a police station..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
-      {/* Search Button */}
-      <button
-        onClick={handleSearch}
-        className="ml-4 px-6 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow-sm hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:bg-blue-500 dark:hover:bg-blue-600"
+      <div className="mx-auto mb-6 max-w-4xl rounded-lg border border-stroke bg-white px-6 py-4 shadow-lg dark:border-strokedark dark:bg-boxdark">
+        <div className="mb-4 flex items-center">
+          <select
+            className="mr-4 rounded-lg border border-stroke bg-white px-4 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
+            {categories.map((category) => (
+              <option key={category.name} value={category.name}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+          <input
+            className="w-3/4 rounded-lg border border-stroke bg-white px-4 py-2 text-sm placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-strokedark dark:bg-boxdark dark:text-white dark:placeholder-gray-500"
+            type="text"
+            placeholder="Search for a police station..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <button
+            onClick={handleSearch}
+            className="ml-4 rounded-lg bg-blue-600 px-6 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+
+      <div
+        id="map"
+        className="flex h-[calc(100vh-4rem)] w-full items-center justify-center rounded-lg bg-gray-100 dark:bg-boxdark"
       >
-        Search
-      </button>
+        <p className="text-gray-500 dark:text-gray-300">Map loading...</p>
+      </div>
     </div>
-  </div>
-
-  {/* Map Container */}
-  <div
-    id="map"
-    className="h-[calc(100vh-4rem)] w-full flex items-center justify-center bg-gray-100 dark:bg-boxdark rounded-lg"
-  >
-    {/* Placeholder for the map */}
-    <p className="text-gray-500 dark:text-gray-300">Map loading...</p>
-  </div>
-</div>
-
-     
   );
 };
 
