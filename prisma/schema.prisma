@@ -389,7 +389,7 @@ model Policy {
   impact               String
   recommendation       String
   complianceStatus     ComplianceStatus
-  compliancePercentage Int
+  compliancePercentage String
 
   AuditReport AuditReport[]
 }
@@ -459,4 +459,12 @@ model ReturnRequest {
   date               DateTime
   isDamaged Boolean @default(false)
   returnStatus String @default("Not Completed")
+}
+
+model ReportLogs {
+
+  id String @id @default(cuid())
+  location String
+  auditurl  String[]
+  createdAt DateTime[]
 }
