@@ -15,7 +15,7 @@ export async function GET(req: Request) {
     if (!user) {
       return NextResponse.json({ message: "User not found!" }, { status: 404 });
     }
-    if (user?.role != "incharge") {
+    if (user?.role != "admin") {
       return NextResponse.json({
         message: "You are not authorized to make this request",
         status: 401,
@@ -29,22 +29,40 @@ export async function GET(req: Request) {
       },
     });
 
-    const data = requests.map((request) => ({
-      requestId: request.id,
-      category: request.category,
-      item: request.name,
-      quantityRequested: request.quantity,
-      requestedBy: request.user?.name,
-      department: request.user?.location,
-      priorityLevel: request.priorityLevel,
-      requestDate: request.createdAt,
-      status: request.status,
-      returnDate: "",
-      remarks: "",
-      assetTag: "",
-    }));
+    const returnData: any = [];
 
-    return NextResponse.json(requests, { status: 201 });
+    for (let i = 0; i < requests.length; i++) {
+      const available = await prisma.inventoryItem.count({
+        where: {
+          AND: [
+            { type: requests[i].name },
+            { issuedTo: null },
+            { location: user.location },
+          ],
+        },
+      });
+
+      const item = {
+        id: requests[i].id,
+        category: requests[i].category,
+        item: requests[i].name,
+        quantity: requests[i].quantity,
+        requesterName: requests[i].user?.name,
+        department: requests[i].user?.location,
+        description: requests[i].issueDescription,
+        expectedUsageDuration: requests[i].expectedUsageDuration,
+        priorityLevel: requests[i].priorityLevel,
+        approvalNeededBy: new Date(requests[i].approvalNeededBy),
+        requestDate: requests[i].createdAt,
+        status: requests[i].status,
+        availableQuantity: available,
+      };
+    
+
+      returnData.push(item);
+    }
+
+    return NextResponse.json(returnData, { status: 201 });
   } catch (error) {
     console.error("Error finding request:", error);
     return NextResponse.json(
