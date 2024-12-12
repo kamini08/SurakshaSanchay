@@ -179,30 +179,30 @@ const MapComponent: React.FC = () => {
   //   fetchCategories();
   // }, []);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch("/api/mapLoc", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: categories,
-        });
-        const data = await response.json();
-        // setCategories(data);
-        categories = data;
-        console.log(categories);
-        if (data.length > 0) {
-          setSelectedCategory(data.name);
-        }
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchCategories = async () => {
+  //     try {
+  //       const response = await fetch("/api/mapLoc", {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         // body: categories,
+  //       });
+  //       const data = await response.json();
+  //       // setCategories(data);
+  //       categories = data;
+  //       console.log(categories);
+  //       if (data.length > 0) {
+  //         setSelectedCategory(data.name);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching categories:", error);
+  //     }
+  //   };
 
-    fetchCategories();
-  }, [selectedCategory]);
+  //   fetchCategories();
+  // }, [selectedCategory]);
   useEffect(() => {
     if (!mapRef.current) {
       const map = L.map("map").setView([22.973423, 78.656891], 7);
