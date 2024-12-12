@@ -194,11 +194,11 @@ const Reports: React.FC = () => {
         <SummaryCard title="Damaged Items" value={damagedItems} />
         <SummaryCard title="Operational Items" value={workingItems} />
 
-        {user == "admin" ? (
-          <AdminInventoryReport {...adminData} />
+        {/* {user == "admin" ? (
+        //   <AdminInventoryReport {...adminData} />
         ) : (
-          <LocalInventoryReport data={localReportData} />
-        )}
+        //   <LocalInventoryReport data={localReportData} />
+        )} */}
       </Box>
     </div>
   );

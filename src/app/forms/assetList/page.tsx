@@ -36,7 +36,6 @@ const ItemList = () => {
           position: "top-right",
           autoClose: 3000,
         });
-
       } finally {
         setLoading(false);
       }
@@ -47,7 +46,7 @@ const ItemList = () => {
 
   return (
     <div className="p-6">
-      <h2 className="mb-4 text-xl font-semibold">Item List</h2>
+      <h2 className="mb-4 text-xl font-semibold">Asset Tracking</h2>
       {loading && <p>Loading items...</p>}
       {error && <p className="text-red-500">{error}</p>}
       <table className="min-w-full table-auto border-collapse">
@@ -60,7 +59,7 @@ const ItemList = () => {
             <th className="border-b p-3">Description</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="text-center">
           {items.length > 0 ? (
             items.map((item) => (
               <tr key={item.itemId}>

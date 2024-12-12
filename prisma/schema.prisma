@@ -158,6 +158,8 @@ model InventoryItem {
   itemAssignmentHistories ItemAssignmentHistory[]
 
   ReturnRequest ReturnRequest[]
+
+  
 }
 
 model IssuanceRequest {
@@ -467,4 +469,10 @@ model ReportLogs {
   location String
   auditurl  String[]
   createdAt DateTime[]
+}
+model Station {
+  id                String   @id @default(cuid())
+  name String
+  lat String
+  long String 
 }
