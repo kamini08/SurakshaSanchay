@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
         },
       });
     }
-
+console.log("before create")
     const data = await prisma.returnRequest.create({
       data: {
         userId,
@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
         date: new Date(),
       },
     });
-
+console.log("after create")
     return NextResponse.json(data, { status: 201 });
   } catch (err) {
     console.error(err);

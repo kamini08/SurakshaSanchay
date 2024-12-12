@@ -92,7 +92,7 @@ const ConditionWiseChart: React.FC = () => {
 
   return (
     <div>
-      <h1>Condition-wise Average Maintenance Cost</h1>
+      <h1 className="text-lg md:text-xl font-bold mb-4">Condition-wise Average Maintenance Cost</h1>
       {chartData ? (
         <Bar data={chartData} options={options} />
       ) : (
