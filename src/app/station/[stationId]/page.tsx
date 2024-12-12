@@ -118,18 +118,21 @@ const ViewInventoryIndividual = () => {
     const selectedIds = Object.keys(selectedItems).filter(
       (id) => selectedItems[id],
     );
+
     // Filter the details of the selected items from the packageData
     // const selectedDetails = packageData.filter((item) =>
     //   selectedIds.includes(item.itemId)
     // );
 
     // Display the selected items' details in the form
+
     if (selectedDetails.length > 0) {
       setSelectedTransferDetails(selectedDetails); // Assuming this state is used to display the details in the form
       setFormVisible(true); // Trigger the form modal visibility
     } else {
       console.warn("No items selected for transfer.");
     }
+
 
     try {
       const response = await fetch("/api/Transfer/updateIssuedTo", {
@@ -485,7 +488,7 @@ const ViewInventoryIndividual = () => {
                 <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                   Location (Police Station)
                 </label>
-                <select>
+                <select value={transferLocation} onChange={(e) => setTransferLocation(e.target.value)}>
                   <option value="" disabled>
                     Select a police station
                   </option>
@@ -499,75 +502,77 @@ const ViewInventoryIndividual = () => {
               <div className="mt-4">
                 <button
                   onClick={handleConfirmTransfer}
-                  className="rounded bg-blue-500 p-2 text-white"
+                  className={`rounded bg-blue-500 p-2 text-white ${transferLocation === "" ? "opacity-50 cursor-not-allowed" : ""}`}
+                  disabled={transferLocation === ""}
                 >
                   Confirm Transfer
                 </button>
-                <button
-                  onClick={() => setIsModalOpen(false)}
-                  className="ml-2 rounded bg-gray-500 p-2 text-white"
-                >
-                  Cancel
-                </button>
               </div>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="ml-2 rounded bg-gray-500 p-2 text-white"
+              >
+                Cancel
+              </button>
             </div>
           </div>
+      
         )}
-        {formVisible && (
-          <div className="fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
-            <div
-              id="transfer-form"
-              className="w-full max-w-3xl rounded bg-white p-6 shadow-lg"
-            >
-              <h3 className="mb-4 text-xl font-bold">Transfer Details</h3>
-              <p className="mb-2">Location: {transferLocation}</p>
-              <table className="w-full table-auto border-collapse border border-gray-300">
-                <thead>
-                  <tr>
-                    <th className="border border-gray-300 px-4 py-2">
-                      Item ID
-                    </th>
-                    <th className="border border-gray-300 px-4 py-2">
-                      Category
-                    </th>
-                    <th className="border border-gray-300 px-4 py-2">Type</th>
+      {formVisible && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
+          <div
+            id="transfer-form"
+            className="w-full max-w-3xl rounded bg-white p-6 shadow-lg"
+          >
+            <h3 className="mb-4 text-xl font-bold">Transfer Details</h3>
+            <p className="mb-2">Location: {transferLocation}</p>
+            <table className="w-full table-auto border-collapse border border-gray-300">
+              <thead>
+                <tr>
+                  <th className="border border-gray-300 px-4 py-2">
+                    Item ID
+                  </th>
+                  <th className="border border-gray-300 px-4 py-2">
+                    Category
+                  </th>
+                  <th className="border border-gray-300 px-4 py-2">Type</th>
+                </tr>
+              </thead>
+              <tbody>
+                {selectedDetails.map((item) => (
+                  <tr key={item.itemId}>
+                    <td className="border border-gray-300 px-4 py-2">
+                      {item.itemId}
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2">
+                      {item.category}
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2">
+                      {item.type}
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {selectedDetails.map((item) => (
-                    <tr key={item.itemId}>
-                      <td className="border border-gray-300 px-4 py-2">
-                        {item.itemId}
-                      </td>
-                      <td className="border border-gray-300 px-4 py-2">
-                        {item.category}
-                      </td>
-                      <td className="border border-gray-300 px-4 py-2">
-                        {item.type}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <div className="mt-4 flex justify-end">
-                <button
-                  onClick={handleDownloadAsImage}
-                  className="rounded bg-green-500 p-2 text-white"
-                >
-                  Download as Image
-                </button>
-                <button
-                  onClick={() => setFormVisible(false)}
-                  className="ml-2 rounded bg-gray-500 p-2 text-white"
-                >
-                  Cancel
-                </button>
-              </div>
+                ))}
+              </tbody>
+            </table>
+            <div className="mt-4 flex justify-end">
+              <button
+                onClick={handleDownloadAsImage}
+                className="rounded bg-green-500 p-2 text-white"
+              >
+                Download as Image
+              </button>
+              <button
+                onClick={() => setFormVisible(false)}
+                className="ml-2 rounded bg-gray-500 p-2 text-white"
+              >
+                Cancel
+              </button>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
+    </div >
   );
 };
 

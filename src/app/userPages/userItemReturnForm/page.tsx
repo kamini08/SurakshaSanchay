@@ -1,65 +1,781 @@
+// "use client";
+
+// import { useState, useEffect } from "react";
+// import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+// import { toast } from "react-toastify";
+
+// // Declare SpeechRecognition globally
+// declare global {
+//   interface Window {
+//     webkitSpeechRecognition: any;
+//   }
+// }
+
+// // Define the shape of the form data
+// interface ItemReturnFormData {
+//   userId: string;
+//   userName: string;
+//   equipmentId: string;
+//   equipmentName: string;
+//   condition: string;
+//   notes: string;
+// }
+
+// const ItemReturnForm = () => {
+//   // State to manage form data
+//   const [itemReturnFormData, setItemReturnFormData] = useState<ItemReturnFormData>({
+//     userId: "",
+//     userName: "",
+//     equipmentId: "",
+//     equipmentName: "",
+//     condition: "",
+//     notes: "",
+//   });
+
+//   // State to track currently active field for speech input
+//   const [listeningField, setListeningField] = useState<string | null>(null);
+
+//   // State to check browser support for speech recognition
+//   const [isSpeechRecognitionSupported, setIsSpeechRecognitionSupported] = useState(false);
+
+//   useEffect(() => {
+//     // Check if the browser supports SpeechRecognition
+//     if (typeof window !== "undefined" && "webkitSpeechRecognition" in window) {
+//       setIsSpeechRecognitionSupported(true);
+//     } else {
+//       setIsSpeechRecognitionSupported(false);
+//     }
+//   }, []);
+
+//   // Start speech recognition for a specific field
+//   const startSpeechRecognition = (field: string) => {
+//     if (!isSpeechRecognitionSupported) {
+//       toast.error("Speech recognition not supported in this browser.", {
+//         position: "top-right",
+//         autoClose: 3000,
+//       });
+//       return;
+//     }
+
+//     const recognition = new window.webkitSpeechRecognition();
+//     recognition.lang = "en-US";
+//     recognition.interimResults = false;
+
+//     recognition.onstart = () => {
+//       setListeningField(field);
+//       toast.info("Listening...", { position: "top-right", autoClose: 2000 });
+//     };
+
+//     recognition.onresult = (event: any) => {
+//       const spokenText = event.results[0][0].transcript;
+//       setItemReturnFormData((prev) => ({
+//         ...prev,
+//         [field]: spokenText,
+//       }));
+//       toast.success(`Captured: ${spokenText}`, { position: "top-right", autoClose: 3000 });
+//     };
+
+//     recognition.onerror = (event: any) => {
+//       console.error("Speech recognition error:", event.error);
+//       toast.error("Error during speech recognition.", { position: "top-right", autoClose: 3000 });
+//     };
+
+//     recognition.onend = () => {
+//       setListeningField(null);
+//     };
+
+//     recognition.start();
+//   };
+
+//   // Read label content aloud in the specified language
+//   const readLabelContent = (label: string, lang: "en" | "hi") => {
+//     const utterance = new SpeechSynthesisUtterance(label);
+//     utterance.lang = lang === "hi" ? "hi-IN" : "en-US";
+//     speechSynthesis.speak(utterance);
+
+//     toast.info(`Reading label: ${label}`, { position: "top-right", autoClose: 3000 });
+//   };
+
+//   // Handle form field changes
+//   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+//     const { name, value } = e.target;
+//     setItemReturnFormData((prev) => ({
+//       ...prev,
+//       [name]: value,
+//     }));
+//   };
+
+//   // Handle form submission
+//   const handleSubmit = async (e: React.FormEvent) => {
+//     e.preventDefault();
+
+//     try {
+//       const response = await fetch("/api/inventory/return/user", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(itemReturnFormData),
+//       });
+
+//       if (response.ok) {
+//         toast.success("Form submitted successfully!", { position: "top-right", autoClose: 3000 });
+//         setItemReturnFormData({
+//           userId: "",
+//           userName: "",
+//           equipmentId: "",
+//           equipmentName: "",
+//           condition: "",
+//           notes: "",
+//         });
+//       } else {
+//         const errorData = await response.json();
+//         toast.error(`Error: ${errorData.message}`, { position: "top-right", autoClose: 3000 });
+//       }
+//     } catch (error) {
+//       console.error("Error submitting the form:", error);
+//       toast.error("Failed to submit the form.", { position: "top-right", autoClose: 3000 });
+//     }
+//   };
+
+//   return (
+//     <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
+//       <Breadcrumb pageName="ITEM RETURN FORM" />
+//       <div className="flex flex-col gap-9">
+//         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+//           <form onSubmit={handleSubmit}>
+//             <div className="grid grid-cols-1 gap-6 p-6.5 sm:grid-cols-2">
+//               {[ // Map through fields for reuse
+//                 { name: "userId", label: "User ID" },
+//                 { name: "userName", label: "User Name" },
+//                 { name: "equipmentId", label: "Equipment ID" },
+//                 { name: "equipmentName", label: "Equipment Name" },
+//                 { name: "condition", label: "Condition" },
+//                 { name: "notes", label: "Notes" },
+//               ].map(({ name, label }) => (
+//                 <div key={name}>
+//                   <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+//                     {label} <span className="text-meta-1">*</span>
+//                   </label>
+//                   <div className="flex items-center">
+//                     <input
+//                       type={name === "notes" ? "textarea" : "text"}
+//                       name={name}
+//                       value={itemReturnFormData[name as keyof ItemReturnFormData]}
+//                       onChange={handleChange}
+//                       required
+//                       className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
+//                     />
+//                     {isSpeechRecognitionSupported && (
+//                       <>
+//                         <button
+//                           type="button"
+//                           onClick={() => readLabelContent(label, "en")}
+//                           className="ml-3 rounded bg-secondary p-2 text-white"
+//                         >
+//                           🔊 EN
+//                         </button>
+//                         <button
+//                           type="button"
+//                           onClick={() => readLabelContent(label, "hi")}
+//                           className="ml-3 rounded bg-secondary p-2 text-white"
+//                         >
+//                           🔊 HI
+//                         </button>
+//                         <button
+//                           type="button"
+//                           onClick={() => startSpeechRecognition(name)}
+//                           className={`ml-3 rounded bg-primary p-2 text-white ${
+//                             listeningField === name ? "animate-pulse" : ""
+//                           }`}
+//                         >
+//                           🎤
+//                         </button>
+//                       </>
+//                     )}
+//                   </div>
+//                 </div>
+//               ))}
+
+//               <div className="col-span-full flex justify-end">
+//                 <button
+//                   type="submit"
+//                   className="rounded bg-primary p-3 font-medium text-white hover:bg-opacity-90"
+//                 >
+//                   Submit Return
+//                 </button>
+//               </div>
+//             </div>
+//           </form>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ItemReturnForm;
+
+// "use client";
+
+// import { useState, useEffect } from "react";
+// import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+// import { toast } from "react-toastify";
+
+// // Declare SpeechRecognition globally
+// declare global {
+//   interface Window {
+//     webkitSpeechRecognition: any;
+//   }
+// }
+
+// // Define the shape of the form data
+// interface ItemReturnFormData {
+//   userId: string;
+//   userName: string;
+//   equipmentId: string;
+//   equipmentName: string;
+//   condition: string;
+//   notes: string;
+// }
+
+// const ItemReturnForm = () => {
+//   // State to manage form data
+//   const [itemReturnFormData, setItemReturnFormData] = useState<ItemReturnFormData>({
+//     userId: "",
+//     userName: "",
+//     equipmentId: "",
+//     equipmentName: "",
+//     condition: "",
+//     notes: "",
+//   });
+
+//   // State to track currently active field for speech input
+//   const [listeningField, setListeningField] = useState<string | null>(null);
+
+//   // State to check browser support for speech recognition
+//   const [isSpeechRecognitionSupported, setIsSpeechRecognitionSupported] = useState(false);
+
+//   useEffect(() => {
+//     // Check if the browser supports SpeechRecognition
+//     if (typeof window !== "undefined" && "webkitSpeechRecognition" in window) {
+//       setIsSpeechRecognitionSupported(true);
+//     } else {
+//       setIsSpeechRecognitionSupported(false);
+//     }
+//   }, []);
+
+//   // Start speech recognition for a specific field
+//   const startSpeechRecognition = (field: string) => {
+//     if (!isSpeechRecognitionSupported) {
+//       toast.error("Speech recognition not supported in this browser.", {
+//         position: "top-right",
+//         autoClose: 3000,
+//       });
+//       return;
+//     }
+
+//     const recognition = new window.webkitSpeechRecognition();
+//     recognition.lang = "en-US";
+//     recognition.interimResults = false;
+
+//     recognition.onstart = () => {
+//       setListeningField(field);
+//       toast.info("Listening...", { position: "top-right", autoClose: 2000 });
+//     };
+
+//     recognition.onresult = (event: any) => {
+//       const spokenText = event.results[0][0].transcript;
+//       setItemReturnFormData((prev) => ({
+//         ...prev,
+//         [field]: spokenText,
+//       }));
+//       toast.success(`Captured: ${spokenText}`, { position: "top-right", autoClose: 3000 });
+//     };
+
+//     recognition.onerror = (event: any) => {
+//       console.error("Speech recognition error:", event.error);
+//       toast.error("Error during speech recognition.", { position: "top-right", autoClose: 3000 });
+//     };
+
+//     recognition.onend = () => {
+//       setListeningField(null);
+//     };
+
+//     recognition.start();
+//   };
+
+//   // Read label content aloud in the specified language
+//   const readLabelContent = (label: string, lang: "en" | "hi") => {
+//     const utterance = new SpeechSynthesisUtterance();
+
+//     // Set the language based on the lang parameter
+//     if (lang === "hi") {
+//       utterance.lang = "hi-IN";
+//       utterance.text = label; // Ensure Hindi text is passed correctly
+//     } else {
+//       utterance.lang = "en-US";
+//       utterance.text = label;
+//     }
+
+//     speechSynthesis.speak(utterance);
+
+//     toast.info(`Reading label: ${label}`, { position: "top-right", autoClose: 3000 });
+//   };
+
+//   // Handle form field changes
+//   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+//     const { name, value } = e.target;
+//     setItemReturnFormData((prev) => ({
+//       ...prev,
+//       [name]: value,
+//     }));
+//   };
+
+//   // Handle form submission
+//   const handleSubmit = async (e: React.FormEvent) => {
+//     e.preventDefault();
+
+//     try {
+//       const response = await fetch("/api/inventory/return/user", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(itemReturnFormData),
+//       });
+
+//       if (response.ok) {
+//         toast.success("Form submitted successfully!", { position: "top-right", autoClose: 3000 });
+//         setItemReturnFormData({
+//           userId: "",
+//           userName: "",
+//           equipmentId: "",
+//           equipmentName: "",
+//           condition: "",
+//           notes: "",
+//         });
+//       } else {
+//         const errorData = await response.json();
+//         toast.error(`Error: ${errorData.message}`, { position: "top-right", autoClose: 3000 });
+//       }
+//     } catch (error) {
+//       console.error("Error submitting the form:", error);
+//       toast.error("Failed to submit the form.", { position: "top-right", autoClose: 3000 });
+//     }
+//   };
+
+//   return (
+//     <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
+//       <Breadcrumb pageName="ITEM RETURN FORM" />
+//       <div className="flex flex-col gap-9">
+//         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+//           <form onSubmit={handleSubmit}>
+//             <div className="grid grid-cols-1 gap-6 p-6.5 sm:grid-cols-2">
+//               {[ // Map through fields for reuse
+//                 { name: "userId", label: "उपयोगकर्ता पहचान" }, // Hindi label for "User ID"
+//                 { name: "userName", label: "उपयोगकर्ता नाम" }, // Hindi label for "User Name"
+//                 { name: "equipmentId", label: "उपकरण पहचान" }, // Hindi label for "Equipment ID"
+//                 { name: "equipmentName", label: "उपकरण नाम" }, // Hindi label for "Equipment Name"
+//                 { name: "condition", label: "स्थिति" }, // Hindi label for "Condition"
+//                 { name: "notes", label: "टिप्पणियाँ" }, // Hindi label for "Notes"
+//               ].map(({ name, label }) => (
+//                 <div key={name}>
+//                   <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+//                     {label} <span className="text-meta-1">*</span>
+//                   </label>
+//                   <div className="flex items-center">
+//                     <input
+//                       type={name === "notes" ? "textarea" : "text"}
+//                       name={name}
+//                       value={itemReturnFormData[name as keyof ItemReturnFormData]}
+//                       onChange={handleChange}
+//                       required
+//                       className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
+//                     />
+//                     {isSpeechRecognitionSupported && (
+//                       <>
+//                         {/* <button
+//                           type="button"
+//                           onClick={() => readLabelContent(label, "en")}
+//                           className="ml-3 rounded bg-secondary p-2 text-white"
+//                         >
+//                           🔊 EN
+//                         </button> */}
+//                         <button
+//                           type="button"
+//                           onClick={() => readLabelContent(label, "hi")}
+//                           className="ml-3 rounded bg-secondary p-2 text-white"
+//                         >
+//                           🔊 HIN
+//                         </button>
+//                         <button
+//                           type="button"
+//                           onClick={() => startSpeechRecognition(name)}
+//                           className={`ml-3 rounded bg-primary p-2 text-white ${
+//                             listeningField === name ? "animate-pulse" : ""
+//                           }`}
+//                         >
+//                           🎤
+//                         </button>
+//                       </>
+//                     )}
+//                   </div>
+//                 </div>
+//               ))}
+
+//               <div className="col-span-full flex justify-end">
+//                 <button
+//                   type="submit"
+//                   className="rounded bg-primary p-3 font-medium text-white hover:bg-opacity-90"
+//                 >
+//                   Submit Return
+//                 </button>
+//               </div>
+//             </div>
+//           </form>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ItemReturnForm;
+// "use client";
+
+// import { useState, useEffect } from "react";
+// import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+// import { toast } from "react-toastify";
+
+// // Declare SpeechRecognition globally
+// declare global {
+//   interface Window {
+//     webkitSpeechRecognition: any;
+//   }
+// }
+
+// // Define the shape of the form data
+// interface ItemReturnFormData {
+//   userId: string;
+//   userName: string;
+//   equipmentId: string;
+//   equipmentName: string;
+//   condition: string;
+//   notes: string;
+// }
+
+// const ItemReturnForm = () => {
+//   // State to manage form data
+//   const [itemReturnFormData, setItemReturnFormData] = useState<ItemReturnFormData>({
+//     userId: "",
+//     userName: "",
+//     equipmentId: "",
+//     equipmentName: "",
+//     condition: "",
+//     notes: "",
+//   });
+
+//   // State to track currently active field for speech input
+//   const [listeningField, setListeningField] = useState<string | null>(null);
+
+//   // State to check browser support for speech recognition
+//   const [isSpeechRecognitionSupported, setIsSpeechRecognitionSupported] = useState(false);
+
+//   useEffect(() => {
+//     // Check if the browser supports SpeechRecognition
+//     if (typeof window !== "undefined" && "webkitSpeechRecognition" in window) {
+//       setIsSpeechRecognitionSupported(true);
+//     } else {
+//       setIsSpeechRecognitionSupported(false);
+//     }
+//   }, []);
+
+//   // Start speech recognition for a specific field
+//   const startSpeechRecognition = (field: string) => {
+//     if (!isSpeechRecognitionSupported) {
+//       toast.error("Speech recognition not supported in this browser.", {
+//         position: "top-right",
+//         autoClose: 3000,
+//       });
+//       return;
+//     }
+
+//     const recognition = new window.webkitSpeechRecognition();
+//     recognition.lang = "en-US";
+//     recognition.interimResults = false;
+
+//     recognition.onstart = () => {
+//       setListeningField(field);
+//       toast.info("Listening...", { position: "top-right", autoClose: 2000 });
+//     };
+
+//     recognition.onresult = (event: any) => {
+//       const spokenText = event.results[0][0].transcript;
+//       setItemReturnFormData((prev) => ({
+//         ...prev,
+//         [field]: spokenText,
+//       }));
+//       toast.success(`Captured: ${spokenText}`, { position: "top-right", autoClose: 3000 });
+//     };
+
+//     recognition.onerror = (event: any) => {
+//       console.error("Speech recognition error:", event.error);
+//       toast.error("Error during speech recognition.", { position: "top-right", autoClose: 3000 });
+//     };
+
+//     recognition.onend = () => {
+//       setListeningField(null);
+//     };
+
+//     recognition.start();
+//   };
+
+//   // Read label content aloud in the specified language
+//   const readLabelContent = (label: string, lang: "en" | "hi") => {
+//     const utterance = new SpeechSynthesisUtterance();
+
+//     // Set the language based on the lang parameter
+//     if (lang === "hi") {
+//       utterance.lang = "hi-IN";
+//       utterance.text = label; // Ensure Hindi text is passed correctly
+//     } else {
+//       utterance.lang = "en-US";
+//       utterance.text = label;
+//     }
+
+//     speechSynthesis.speak(utterance);
+
+//     toast.info(`Reading label: ${label}`, { position: "top-right", autoClose: 3000 });
+//   };
+
+//   // Handle form field changes
+//   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+//     const { name, value } = e.target;
+//     setItemReturnFormData((prev) => ({
+//       ...prev,
+//       [name]: value,
+//     }));
+//   };
+
+//   // Handle form submission
+//   const handleSubmit = async (e: React.FormEvent) => {
+//     e.preventDefault();
+
+//     try {
+//       const response = await fetch("/api/inventory/return/user", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(itemReturnFormData),
+//       });
+
+//       if (response.ok) {
+//         toast.success("Form submitted successfully!", { position: "top-right", autoClose: 3000 });
+//         setItemReturnFormData({
+//           userId: "",
+//           userName: "",
+//           equipmentId: "",
+//           equipmentName: "",
+//           condition: "",
+//           notes: "",
+//         });
+//       } else {
+//         const errorData = await response.json();
+//         toast.error(`Error: ${errorData.message}`, { position: "top-right", autoClose: 3000 });
+//       }
+//     } catch (error) {
+//       console.error("Error submitting the form:", error);
+//       toast.error("Failed to submit the form.", { position: "top-right", autoClose: 3000 });
+//     }
+//   };
+
+//   return (
+//     <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
+//       <Breadcrumb pageName="ITEM RETURN FORM" />
+//       <div className="flex flex-col gap-9">
+//         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+//           <form onSubmit={handleSubmit}>
+//             <div className="grid grid-cols-1 gap-6 p-6.5 sm:grid-cols-2">
+//               {[
+//                 { name: "userId", label: "User Id" },
+//                 { name: "userName", label: "User Name" },
+//                 { name: "equipmentId", label: "Equipment Id" }, // Updated label
+//                 { name: "equipmentName", label: "Equipment Name" },
+//                 { name: "condition", label: "Condition" },
+//                 { name: "notes", label: "Notes" },
+//               ].map(({ name, label }) => (
+//                 <div key={name}>
+//                   <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+//                     {label} <span className="text-meta-1">*</span>
+//                   </label>
+//                   <div className="flex items-center">
+//                     <input
+//                       type={name === "notes" ? "textarea" : "text"}
+//                       name={name}
+//                       value={itemReturnFormData[name as keyof ItemReturnFormData]}
+//                       onChange={handleChange}
+//                       required
+//                       className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
+//                     />
+//                     {isSpeechRecognitionSupported && (
+//                       <>
+//                         <button
+//                           type="button"
+//                           onClick={() => readLabelContent(label, "hi")}
+//                           className="ml-3 rounded bg-secondary p-2 text-white"
+//                         >
+//                           🔊 HIN
+//                         </button>
+//                         <button
+//                           type="button"
+//                           onClick={() => startSpeechRecognition(name)}
+//                           className={`ml-3 rounded bg-primary p-2 text-white ${
+//                             listeningField === name ? "animate-pulse" : ""
+//                           }`}
+//                         >
+//                           🎤
+//                         </button>
+//                       </>
+//                     )}
+//                   </div>
+//                 </div>
+//               ))}
+
+//               <div className="col-span-full flex justify-end">
+//                 <button
+//                   type="submit"
+//                   className="rounded bg-primary p-3 font-medium text-white hover:bg-opacity-90"
+//                 >
+//                   Submit Return
+//                 </button>
+//               </div>
+//             </div>
+//           </form>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ItemReturnForm;
+
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { toast } from "react-toastify";
 
-// Define the structure of return form data
+// Declare SpeechRecognition globally
+declare global {
+  interface Window {
+    webkitSpeechRecognition: any;
+  }
+}
+
+// Define the shape of the form data
 interface ItemReturnFormData {
-  returnId: string;
   userId: string;
   userName: string;
   equipmentId: string;
   equipmentName: string;
-  returnDate: string;
   condition: string;
-  returnLocation: string | null;
-  issueId: string | null;
-  reasonForReturn: string | null;
-  staffId: string | null;
-  returnConfirmed: boolean;
-  penalty: number | null;
-  notes: string | null;
-  returnMethod: string;
+  notes: string;
 }
 
 const ItemReturnForm = () => {
-  // State for the form
-  const [itemReturnFormData, setItemReturnFormData] =
-    useState<ItemReturnFormData>({
-      returnId: "",
-      userId: "",
-      userName: "", // Replace with dynamic user data if needed
-      equipmentId: "",
-      equipmentName: "",
-      returnDate: "",
-      condition: "", // Default condition
-      returnLocation: null,
-      issueId: null,
-      reasonForReturn: null,
-      staffId: null,
-      returnConfirmed: false,
-      penalty: null,
-      notes: null,
-      returnMethod: "", // Default method
-    });
+  // State to manage form data
+  const [itemReturnFormData, setItemReturnFormData] = useState<ItemReturnFormData>({
+    userId: "",
+    userName: "",
+    equipmentId: "",
+    equipmentName: "",
+    condition: "",
+    notes: "",
+  });
 
-  // Handle field changes
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >,
-  ) => {
+  // State to track currently active field for speech input
+  const [listeningField, setListeningField] = useState<string | null>(null);
+
+  // State to check browser support for speech recognition
+  const [isSpeechRecognitionSupported, setIsSpeechRecognitionSupported] = useState(false);
+
+  useEffect(() => {
+    // Check if the browser supports SpeechRecognition
+    if (typeof window !== "undefined" && "webkitSpeechRecognition" in window) {
+      setIsSpeechRecognitionSupported(true);
+    } else {
+      setIsSpeechRecognitionSupported(false);
+    }
+  }, []);
+
+  // Start speech recognition for a specific field
+  const startSpeechRecognition = (field: string) => {
+    if (!isSpeechRecognitionSupported) {
+      toast.error("Speech recognition not supported in this browser.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    const recognition = new window.webkitSpeechRecognition();
+    recognition.lang = "en-US";
+    recognition.interimResults = false;
+
+    recognition.onstart = () => {
+      setListeningField(field);
+      toast.info("Listening...", { position: "top-right", autoClose: 2000 });
+    };
+
+    recognition.onresult = (event: any) => {
+      const spokenText = event.results[0][0].transcript;
+      setItemReturnFormData((prev) => ({
+        ...prev,
+        [field]: spokenText,
+      }));
+      toast.success(`Captured: ${spokenText}`, { position: "top-right", autoClose: 3000 });
+    };
+
+    recognition.onerror = (event: any) => {
+      console.error("Speech recognition error:", event.error);
+      toast.error("Error during speech recognition.", { position: "top-right", autoClose: 3000 });
+    };
+
+    recognition.onend = () => {
+      setListeningField(null);
+    };
+
+    recognition.start();
+  };
+
+  // Read label content aloud in the specified language
+  const readLabelContent = (label: string, lang: "en" | "hi") => {
+    const utterance = new SpeechSynthesisUtterance();
+
+    // Set the language based on the lang parameter
+    if (lang === "hi") {
+      utterance.lang = "hi-IN";
+      utterance.text = label; // Ensure Hindi text is passed correctly
+    } else {
+      utterance.lang = "en-US";
+      utterance.text = label;
+    }
+
+    speechSynthesis.speak(utterance);
+
+    toast.info(`Reading label: ${label}`, { position: "top-right", autoClose: 3000 });
+  };
+
+  // Handle form field changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-
     setItemReturnFormData((prev) => ({
       ...prev,
-      [name]: value, // Update the form state with the input value
+      [name]: value,
     }));
   };
 
-  // Submit the form and POST data to the backend
+  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -73,147 +789,77 @@ const ItemReturnForm = () => {
       });
 
       if (response.ok) {
-        // alert("Item return submitted successfully!");
-        toast.success("Item return submitted successfully!", {
-          position: "top-right",
-          autoClose: 3000,
-        });
-        // Reset form data after successful submission
+        toast.success("Form submitted successfully!", { position: "top-right", autoClose: 3000 });
         setItemReturnFormData({
-          returnId: "",
           userId: "",
-          userName: "", // Reset to default or fetched value
+          userName: "",
           equipmentId: "",
           equipmentName: "",
-          returnDate: "",
-          condition: "good",
-          returnLocation: null,
-          issueId: null,
-          reasonForReturn: null,
-          staffId: null,
-          returnConfirmed: false,
-          penalty: null,
-          notes: null,
-          returnMethod: "In-Person",
+          condition: "",
+          notes: "",
         });
       } else {
         const errorData = await response.json();
-        // alert(`Error: ${errorData.message}`);
-        toast.error(`Error: ${errorData.message}`, {
-          position: "top-right",
-          autoClose: 3000,
-        });
+        toast.error(`Error: ${errorData.message}`, { position: "top-right", autoClose: 3000 });
       }
     } catch (error) {
-      console.error("Error submitting item return form:", error);
-      // alert("Failed to submit the item return.");
-      toast.error("Error submitting item return form:", {
-        position: "top-right",
-        autoClose: 3000,
-      });
+      console.error("Error submitting the form:", error);
+      toast.error("Failed to submit the form.", { position: "top-right", autoClose: 3000 });
     }
   };
 
   return (
     <div className="mx-auto w-auto p-4 md:p-6 2xl:p-10">
       <Breadcrumb pageName="ITEM RETURN FORM" />
-
       <div className="flex flex-col gap-9">
         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 gap-6 p-6.5 sm:grid-cols-2">
-              {/* Form Fields */}
               {[
-                {
-                  name: "userId",
-                  label: "User ID",
-                  type: "text",
-                  required: true,
-                },
-                {
-                  name: "userName",
-                  label: "User Name",
-                  type: "text",
-                  required: true,
-                },
-                {
-                  name: "equipmentId",
-                  label: "Equipment ID",
-                  type: "text",
-                  required: true,
-                },
-                {
-                  name: "equipmentName",
-                  label: "Equipment Name",
-                  type: "text",
-                  required: true,
-                },
-
-                {
-                  name: "condition",
-                  label: "Condition",
-                  type: "dropdown",
-                  options: ["Good", "Damaged", "Lost"],
-                  required: true,
-                },
-
-                { name: "notes", label: "Additional Notes", type: "textarea" },
-              ].map(({ name, label, type, options = [], required }) => (
+                { name: "userId", label: "उपयोगकर्ता पहचान" }, // Hindi label for "User ID"
+                { name: "userName", label: "उपयोगकर्ता नाम" }, // Hindi label for "User Name"
+                { name: "equipmentId", label: "उपकरण पहचान" }, // Hindi label for "Equipment ID"
+                { name: "equipmentName", label: "उपकरण नाम" }, // Hindi label for "Equipment Name"
+                { name: "condition", label: "स्थिति" }, // Hindi label for "Condition"
+                { name: "notes", label: "टिप्पणियाँ" }, // Hindi label for "Notes"
+              ].map(({ name, label }) => (
                 <div key={name}>
                   <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                    {label} {required && <span className="text-meta-1">*</span>}
+                    {label} <span className="text-meta-1">*</span>
                   </label>
-                  {type === "textarea" ? (
-                    <textarea
-                      name={name}
-                      placeholder={`Enter ${label}`}
-                      value={
-                        itemReturnFormData[
-                          name as keyof ItemReturnFormData
-                        ] as string
-                      }
-                      onChange={handleChange}
-                      required={required}
-                      className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-                    />
-                  ) : type === "dropdown" ? (
-                    <select
-                      name={name}
-                      value={
-                        itemReturnFormData[
-                          name as keyof ItemReturnFormData
-                        ] as string
-                      }
-                      onChange={handleChange}
-                      required={required}
-                      className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-                    >
-                      <option value="">Select {label}</option>
-                      {options.map((option) => (
-                        <option key={option} value={option}>
-                          {option}
-                        </option>
-                      ))}
-                    </select>
-                  ) : (
+                  <div className="flex items-center">
                     <input
-                      type={type}
+                      type={name === "notes" ? "textarea" : "text"}
                       name={name}
-                      placeholder={`Enter ${label}`}
-                      value={
-                        itemReturnFormData[
-                          name as keyof ItemReturnFormData
-                        ] as string
-                      }
+                      value={itemReturnFormData[name as keyof ItemReturnFormData]}
                       onChange={handleChange}
-                      required={required}
+                      required
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                     />
-                  )}
+                    {isSpeechRecognitionSupported && (
+                      <>
+                        <button
+                          type="button"
+                          onClick={() => readLabelContent(label, "hi")}
+                          className="ml-3 rounded bg-secondary p-2 text-white"
+                        >
+                             🔊 हिंदी
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => startSpeechRecognition(name)}
+                          className={`ml-3 rounded bg-primary p-2 text-white ${
+                            listeningField === name ? "animate-pulse" : ""
+                          }`}
+                        >
+                          🎤
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </div>
               ))}
 
-              {/* Submit Button */}
               <div className="col-span-full flex justify-end">
                 <button
                   type="submit"

@@ -17,7 +17,7 @@ const categoryDrop = [
 
 const avail = [{ name: "AVAILABLE" }, { name: "UNAVAILABLE" }];
 
-interface Package {
+interface Package {  
   itemId: string;
   category: string;
   type: string;
