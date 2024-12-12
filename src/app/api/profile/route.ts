@@ -12,15 +12,15 @@ export async function GET(req: Request) {
     const userId = session?.user.id;
 
     const profileData = {
-        role: "Administrator",
-        govId: "123456789",
-        name: "John Doe",
-        email: "johndoe@example.com",
-        password: "********",
-        location: "New York, USA",
-        phone: "+1 234 567 890",
-        profileImage: "/images/user/user-06.png", // Default profile image
-        stars: 3, // Number of filled stars
+        role: "",
+        govId: "",
+        name: "",
+        email: "",
+        password: "",
+        location: "",
+        phone: "",
+        profileImage: "", // Default profile image
+        stars: 0, // Number of filled stars
       };
   
     const user = await prisma.user.findUnique({

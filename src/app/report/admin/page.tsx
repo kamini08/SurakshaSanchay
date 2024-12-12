@@ -51,74 +51,74 @@ const Reports: React.FC = () => {
   const [workingItems, setWorkingItems] = useState(0);
   const [adminData, setAdminData] = useState<AdminReportData>({
     summary: {
-      totalInventoryValue: 500000,
-      totalItems: 1500,
-      newProcurements: 45,
-      reorderStatus: 12,
-      complianceStatus: "95%",
+      totalInventoryValue: 0,
+      totalItems: 0,
+      newProcurements: 0,
+      reorderStatus: 0,
+      complianceStatus: "",
     },
     inventoryOverview: {
-      categories: ["Arms & Ammunition", "Vehicles", "Equipment", "Consumables"],
-      values: [120, 50, 65, 300],
+      categories: [],
+      values: [],
     },
     financialSummary: {
-      categories: ["Arms and Ammunition", "Vehicles", "Miscellaneous"],
-      values: [750000, 1000000, 100000],
+      categories: [],
+      values: [],
     },
     compliance: {
-      labels: ["Compliant", "Non-Compliant"],
-      values: [90, 10],
+      labels: [],
+      values: [],
     },
   });
 
   const [localReportData, setLocalReportData] = useState({
     metrics: [
-      { label: "Total Devices", value: 155 },
-      { label: "Working Devices", value: 120 },
-      { label: "Under Repair", value: 15 },
-      { label: "Out of Order", value: 5 },
+      { label: "", value: 0 },
+      { label: "", value: 0 },
+      { label: "", value: 0 },
+      { label: "", value: 0 },
     ],
     inventoryOverview: [
-      { category: "Desktops", count: 50 },
-      { category: "Smartphones", count: 40 },
-      { category: "Tablets", count: 10 },
+      { category: "", count: 0 },
+      { category: "", count: 0 },
+      { category: "", count: 0 },
     ],
     maintenanceStatus: {
-      working: 86,
-      underRepair: 11,
-      outOfOrder: 3,
+      working: 0,
+      underRepair: 0,
+      outOfOrder: 0,
     },
     inventoryReport: [
-      { itemId: 1, name: "Desktop", category: "Computers", currentStock: 50 },
-      { itemId: 2, name: "Smartphone", category: "Mobiles", currentStock: 40 },
-      { itemId: 3, name: "Tablet", category: "Tablets", currentStock: 10 },
+      { itemId: 0, name: "", category: "", currentStock: 0 },
+      { itemId: 0, name: "", category: "", currentStock: 0 },
+      { itemId: 0, name: "", category: "", currentStock: 0 },
     ],
     maintenanceReport: [
       {
-        itemId: 1,
-        name: "Desktop",
-        issue: "Hardware Failure",
-        startDate: "2024-11-20",
+        itemId: 0,
+        name: "",
+        issue: "",
+        startDate: "",
       },
       {
-        itemId: 2,
-        name: "Smartphone",
-        issue: "Screen Damage",
-        startDate: "2024-11-22",
+        itemId: 0,
+        name: "",
+        issue: "",
+        startDate: "",
       },
     ],
     discardedItems: [
       {
-        itemId: 1,
-        name: "Printer",
-        reason: "Outdated",
-        discardedDate: "2024-10-15",
+        itemId: 0,
+        name: "",
+        reason: "",
+        discardedDate: "",
       },
       {
-        itemId: 2,
-        name: "Monitor",
-        reason: "Damaged",
-        discardedDate: "2024-11-05",
+        itemId: 0,
+        name: "",
+        reason: "",
+        discardedDate: "",
       },
     ],
   });
@@ -152,6 +152,7 @@ const Reports: React.FC = () => {
           setTotalItems(result.totalItems || 0);
           setDamagedItems(result.damagedItems || 0);
           setWorkingItems(result.workingItems || 0);
+          console.log(result);
         } else if (user == "incharge") {
           const response = await fetch("/api/reports/localInventory", {
             method: "GET",
@@ -163,6 +164,7 @@ const Reports: React.FC = () => {
           setTotalItems(result.totalItems);
           setDamagedItems(result.damagedItems);
           setWorkingItems(result.workingItems);
+          console.log(localReportData);
         }
       } catch (err: any) {
         alert("Error fetching data: " + err.message);

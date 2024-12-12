@@ -27,26 +27,25 @@ interface ItemReturn {
 
 const defaultData: ItemReturn[] = [
   {
-    itemId: "ret12345",
+    itemId: "",
     isDamaged: false,
     isLost: false,
-    userId: "user001",
-    name: "John Doe",
-    equipmentId: "equip98765",
-    equipmentName: "Laptop",
-    returnDate: "2024-11-17T12:00:00Z",
-    condition: "Good",
-    returnLocation: "Office 101",
-    issueId: "iss12345",
-    reasonForReturn: "End of loan period",
-    staffId: "staff001",
+    userId: "",
+    name: "",
+    equipmentId: "",
+    equipmentName: "",
+    returnDate: "",
+    condition: "",
+    returnLocation: null,
+    issueId: null,
+    reasonForReturn: null,
+    staffId: null,
     returnConfirmed: false,
-    penalty: 0,
+    penalty: null,
     notes: null,
-    returnMethod: "In Person",
-    returnStatus: "Pending",
+    returnMethod: "",
+    returnStatus: "",
   },
-  // Additional item return data can be added here
 ];
 
 const ItemReturnTable = () => {

@@ -87,7 +87,7 @@ const AddInventory = () => {
     categoryDetails: [],
     type: "",
     description: "",
-    quantity: 1,
+    quantity: 0,
     location: "",
     condition: "",
     acquisitionDate: "",
@@ -289,9 +289,9 @@ const AddInventory = () => {
           {errors.connectivity && <span className="text-red-500 text-sm">{errors.connectivity}</span>}
         </div>
 
-        <button type="submit" className="rounded bg-blue-500 px-4 py-2 text-white">
+        {/*<button type="submit" className="rounded bg-blue-500 px-4 py-2 text-white">
           Submit
-        </button>
+        </button>*/}
       </div>
     </form>
           </div>
@@ -1569,14 +1569,18 @@ const AddInventory = () => {
                 <label className="mb-3 block text-sm font-medium text-black dark:text-white">
                   Maintenance Schedule
                 </label>
-                <input
-                  type="text"
-                  name="maintenanceSchedule"
-                  placeholder="Enter Maintenance Schedule"
-                  value={itemData.maintenanceSchedule}
-                  onChange={handleInventoryChange}
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
-                />
+                <select
+  name="maintenanceSchedule"
+  value={itemData.maintenanceSchedule}
+  onChange={handleInventoryChange}
+  className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
+>
+  <option value="" disabled>Select Maintenance Schedule</option>
+  <option value="monthly">Monthly</option>
+  <option value="half-yearly">Half Yearly</option>
+  <option value="yearly">Yearly</option>
+</select>
+
               </div>
 
               {/* Maintenance Charge */}

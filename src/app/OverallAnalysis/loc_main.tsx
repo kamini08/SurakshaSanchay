@@ -11,16 +11,16 @@ import {
   Legend,
 } from "chart.js";
 
-// Register Chart.js components
+// Register the components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 interface DataEntry {
-  Category: string;
+  Location: string;
   Average_Maintenance_Charge: number;
-  Price: number;
+  Price: number; // Assuming Price is also part of the data
 }
 
-const MaintenancePriceRatioChart: React.FC = () => {
+const LocationWiseChart: React.FC = () => {
   const [chartData, setChartData] = useState<any>(null);
 
   useEffect(() => {
@@ -32,37 +32,27 @@ const MaintenancePriceRatioChart: React.FC = () => {
         }
         const data: DataEntry[] = await response.json();
 
-        // Calculate maintenance price ratio per category
-        const categoryRatios: Record<
-          string,
-          { totalMaintenance: number; totalPrice: number; count: number }
-        > = {};
+        // Calculate maintenance-to-price ratio per location
+        const locationRatios: Record<string, { totalMaintenance: number; totalPrice: number; count: number }> = {};
         data.forEach((item) => {
-          if (!categoryRatios[item.Category]) {
-            categoryRatios[item.Category] = { totalMaintenance: 0, totalPrice: 0, count: 0 };
+          if (!locationRatios[item.Location]) {
+            locationRatios[item.Location] = { totalMaintenance: 0, totalPrice: 0, count: 0 };
           }
-          categoryRatios[item.Category].totalMaintenance += item.Average_Maintenance_Charge;
-          categoryRatios[item.Category].totalPrice += item.Price;
-          categoryRatios[item.Category].count += 1;
+          locationRatios[item.Location].totalMaintenance += item.Average_Maintenance_Charge;
+          locationRatios[item.Location].totalPrice += item.Price;
+          locationRatios[item.Location].count += 1;
         });
 
-        const ratioData = Object.keys(categoryRatios).map((category) => {
-          const { totalMaintenance, totalPrice, count } = categoryRatios[category];
-          const averageMaintenance = totalMaintenance / count;
-          const averagePrice = totalPrice / count;
-          const ratio = averagePrice !== 0 ? averageMaintenance / averagePrice : 0; // Avoid division by zero
-
-          return {
-            category,
-            ratio,
-          };
-        });
+        const ratioData = Object.keys(locationRatios).map((location) => ({
+          location,
+          ratio: locationRatios[location].totalMaintenance / locationRatios[location].totalPrice,
+        }));
 
         setChartData({
-          labels: ratioData.map((entry) => entry.category),
+          labels: ratioData.map((entry) => entry.location),
           datasets: [
             {
-              label: "Maintenance Price Ratio",
+              label: "Maintenance to Price Ratio",
               data: ratioData.map((entry) => entry.ratio),
               backgroundColor: "rgba(75, 192, 192, 0.6)",
               borderColor: "rgba(75, 192, 192, 1)",
@@ -82,16 +72,16 @@ const MaintenancePriceRatioChart: React.FC = () => {
     responsive: true,
     scales: {
       x: {
-        title: {
-          display: true,
-          text: "Category",
-        },
-      },
-      y: {
         beginAtZero: true,
         title: {
           display: true,
-          text: "Maintenance Price Ratio",
+          text: "Maintenance to Price Ratio",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Location",
         },
       },
     },
@@ -99,7 +89,7 @@ const MaintenancePriceRatioChart: React.FC = () => {
 
   return (
     <div>
-      <h1>Category-wise Maintenance Price Ratio</h1>
+      <h1>Location-wise Maintenance to Price Ratio</h1>
       {chartData ? (
         <Bar data={chartData} options={options} />
       ) : (
@@ -109,4 +99,4 @@ const MaintenancePriceRatioChart: React.FC = () => {
   );
 };
 
-export default MaintenancePriceRatioChart;
+export default LocationWiseChart;
