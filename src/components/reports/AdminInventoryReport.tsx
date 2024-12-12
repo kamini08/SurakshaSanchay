@@ -35,6 +35,10 @@ interface AdminReportData {
     labels: string[];
     values: number[];
   };
+  financialSummary: {
+    labels: string[];
+    values: number[];
+  }
 }
 
 const AdminInventoryReport: React.FC<AdminReportData> = ({
@@ -60,6 +64,7 @@ const AdminInventoryReport: React.FC<AdminReportData> = ({
       ]),
     ];
     const csvContent = headers.map((row) => row.join(",")).join("\n");
+    console.log(inventoryOverview);
     const blob = new Blob([csvContent], { type: "text/csv" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);

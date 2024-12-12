@@ -29,7 +29,7 @@ export async function GET(req: Request) {
     });
     const oneMonthsAgo = new Date();
     oneMonthsAgo.setMonth(oneMonthsAgo.getMonth() - 2);
-    const newProcurements = await prisma.inventoryItem.findMany({
+    const newProcurements = await prisma.inventoryItem.count({
       where: {
         acquisitionDate: {
           gte: oneMonthsAgo,
@@ -55,6 +55,31 @@ export async function GET(req: Request) {
     const CostValues = groupedData.map((group) =>
       group._sum.price ? group._sum.price : 0, //
     );
+    const workingItems = await prisma.inventoryItem.count({
+      where: {
+        AND: [
+          {
+            condition: "good",
+          },
+          {
+            issuedTo: null,
+          }
+        ],
+      },
+    })
+
+    const damagedItems = await prisma.inventoryItem.count({
+      where: {
+        AND: [
+          {
+            condition: "damaged",
+          },
+          {
+            issuedTo: null,
+          }
+        ],
+      },
+    })
 
     const totalValue = await prisma.inventoryItem.count({
       where: {
@@ -86,7 +111,9 @@ export async function GET(req: Request) {
       },
     };
 
-    return NextResponse.json(report, { status: 201 });
+    console.log(report);
+
+    return NextResponse.json({...report, totalItems, workingItems, damagedItems}, { status: 201 });
   } catch (error) {
     console.error("Error creating request:", error);
     return NextResponse.json(
