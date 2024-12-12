@@ -103,7 +103,7 @@ const StackedBarChart: React.FC = () => {
 
   return (
     <div>
-      <h1>Location-wise Count of Items by Category</h1>
+      <h1 className="text-lg md:text-xl font-bold mb-4">Location-wise Count of Items by Category</h1>
       {chartData ? (
         <Bar data={chartData} options={options} />
       ) : (
