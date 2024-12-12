@@ -99,7 +99,7 @@ const MaintenancePriceRatioChart: React.FC = () => {
 
   return (
     <div>
-      <h1>Category-wise Maintenance Price Ratio</h1>
+      <h1 className="text-lg md:text-xl font-bold mb-4">Category-wise Maintenance Price Ratio</h1>
       {chartData ? (
         <Bar data={chartData} options={options} />
       ) : (

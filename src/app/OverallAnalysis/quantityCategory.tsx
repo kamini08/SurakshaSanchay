@@ -1,3 +1,4 @@
+
 'use client'
 import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
@@ -36,6 +37,10 @@ const ChartPage: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await fetch("/data.json");
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
 
         const text = await response.text();
         console.log("Raw Response:", text); // Debug log
