@@ -425,6 +425,50 @@ const menuGroups = [
           { label: "Register User/Inventory Incharge", route: "/register" },
         ],
       },
+     
+      {
+        id:"asset-tracking",
+        icon: (
+          <svg
+            className="fill-current"
+            width="18"
+            height="19"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              x="4"
+              y="9"
+              width="16"
+              height="14"
+              rx="2"
+              ry="2"
+              fill="none"
+              stroke="white"
+            ></rect>
+
+            <path
+              d="M7 12l3 3l7-7"
+              fill="none"
+              stroke="white"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+
+            <circle cx="12" cy="5" r="2.5" fill="none" stroke="white"></circle>
+            <path
+              d="M12 1v1m0 8v1m4-4h1M9 6H8"
+              fill="none"
+              stroke="white"
+              stroke-width="2"
+            ></path>
+          </svg>
+        ),
+        label: "Star Officer",
+        route: "/adminPages/leaderboard",
+      },
     ],
   },
 ];
