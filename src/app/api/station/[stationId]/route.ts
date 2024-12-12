@@ -40,6 +40,7 @@ export async function GET(req: Request) {
           officeSupply: true,
         },
       });
+      // console.log("jvuuv", inventoryData);
 
       // Check if inventoryData is null or empty
       if (!inventoryData || inventoryData.length === 0) {

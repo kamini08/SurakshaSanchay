@@ -224,12 +224,15 @@ const menuGroups = [
           </svg>
         ),
         label: "Request for Maintenance",
-        route: "/userPages/userMaintenanceForm",
-        // children: [
-        //   { label: "New Item Request", route: "/forms/newItemRequest" },
-        //   { label: "Maintenance Request", route: "/forms/maintenanceForm" },
-        //   { label: "Discard Item Request", route: "/forms/discardForm" },
-        // ],
+        route: "#",
+
+        children: [
+          {
+            label: "Request Using Form",
+            route: "/userPages/userMaintenanceForm",
+          },
+          { label: "Request Using Qr", route: "/adminPages/qrMaintenance" },
+        ],
       },
       // {
       //   icon: (
