@@ -144,7 +144,7 @@ git push origin feature/your-feature-name
 
 6. Open a pull request to the main repository.
 
-For more details visit [contrubuting.md](https://github.com/BhoomiAgrawal12/SurakshaSanchay/contributing.md)
+For more details visit [contrubuting.md](https://github.com/BhoomiAgrawal12/SurakshaSanchay/blob/main/contributing.md)
 
 License:
 
