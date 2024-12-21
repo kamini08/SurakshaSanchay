@@ -74,7 +74,7 @@ SurakshaSanchay is a comprehensive hardware inventory management system designed
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone https://github.com/BhoomiAgrawal12/SurakshaSanchay
+   git clone https://github.com/kamini08/SurakshaSanchay
 
 ### Navigate to the project directory:
 cd SurakshaSanchay
@@ -144,8 +144,8 @@ git push origin feature/your-feature-name
 
 6. Open a pull request to the main repository.
 
-For more details visit [contrubuting.md](https://github.com/BhoomiAgrawal12/SurakshaSanchay/blob/main/contributing.md)
+For more details visit [contrubuting.md](https://github.com/kamini08/SurakshaSanchay/blob/main/contributing.md)
 
 License:
 
-The project is licensed under the [MIT License](https://github.com/BhoomiAgrawal12/SurakshaSanchay/blob/main/LICENSE).
+The project is licensed under the [MIT License](https://github.com/kamini08/SurakshaSanchay/blob/main/LICENSE).
