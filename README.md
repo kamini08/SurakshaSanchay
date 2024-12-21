@@ -1,8 +1,5 @@
 # SurakshaSanchay: Police Hardware Inventory Management System
 
-## Repository URL
-
----
 
 ## Project Overview
 SurakshaSanchay is a comprehensive hardware inventory management system designed to address the challenges faced by police departments in managing technological assets. This project aims to ensure that all technological assets, such as computers, communication devices, servers, and other equipment, are readily available, well-maintained, and up-to-date.
@@ -147,5 +144,8 @@ git push origin feature/your-feature-name
 
 6. Open a pull request to the main repository.
 
-License
-The project is licensed under the MIT License.  
+For more details visit [contrubuting.md](https://github.com/BhoomiAgrawal12/SurakshaSanchay/blob/main/contributing.md)
+
+License:
+
+The project is licensed under the [MIT License](https://github.com/BhoomiAgrawal12/SurakshaSanchay/blob/main/LICENSE).
