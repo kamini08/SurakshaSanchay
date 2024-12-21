@@ -10,7 +10,7 @@ Thank you for considering contributing to the SurakshaSanchay project! This proj
 2. **Clone Your Fork**
    - Clone your forked repository to your local machine:
      ```bash
-     git clone https://github.com/BhoomiAgrawal12/SurakshaSanchay.git
+     git clone https://github.com/<username>/SurakshaSanchay.git
      cd SurakshaSanchay
      npm install
      ```
