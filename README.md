@@ -146,5 +146,6 @@ git push origin feature/your-feature-name
 
 For more details visit [contrubuting.md](https://github.com/BhoomiAgrawal12/SurakshaSanchay/contributing.md)
 
-###License
+License:
+
 The project is licensed under the MIT License.  
