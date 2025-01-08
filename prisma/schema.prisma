@@ -50,8 +50,6 @@ model User {
 
   IssuanceRequest IssuanceRequest[]
 
-  Penalty Penalty[]
-
   ReturnRequest ReturnRequest[]
 }
 
@@ -429,13 +427,13 @@ enum PenaltyReason {
 model Penalty {
   id                   String        @id @default(cuid())
   userId               String
-  user                 User          @relation(fields: [userId], references: [govId])
   reason               PenaltyReason
   amount               Int
   numberOfStarsReduced Int
   description          String
   inchargeId           String
   date                 DateTime @default(now())
+
 }
 
 model Award {

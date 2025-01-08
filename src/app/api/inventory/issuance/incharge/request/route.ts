@@ -1,10 +1,26 @@
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+import { auth } from "../../../../../../../auth";
 
 const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
+    const session = await auth();
+    const govIds = session?.user.govId;
+    const loc = session?.user.location;
+    if (!loc) {
+      return NextResponse.json(
+        { message: "No location provided!" },
+        { status: 401 },
+      );
+    }
+    if (!govIds) {
+      return NextResponse.json(
+        { message: "No govId provided!" },
+        { status: 401 },
+      );
+    }
     const body = await req.json(); // Parse request body
     const {
       userId,
@@ -21,7 +37,7 @@ export async function POST(req: Request) {
     } = body;
 
     const user = await prisma.user.findUnique({
-      where: { govId: userId },
+      where: { govId: govIds },
     });
 
     const admin = await prisma.user.findFirst({
@@ -50,7 +66,7 @@ export async function POST(req: Request) {
     }
     const request = await prisma.issuanceRequest.create({
       data: {
-        userId,
+        userId: govIds,
         name: item,
         category: category.toString().toUpperCase().replaceAll(" ", "_"),
         inchargeId: admin?.govId,

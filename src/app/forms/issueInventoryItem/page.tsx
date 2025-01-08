@@ -241,7 +241,7 @@ const IssueItemTable = () => {
     if (item.availableQuantity >= item.quantityRequested) {
       updatedData[index].status = "Issued"; // Mark as issued
       updatedData[index].availableQuantity -= item.quantityRequested; // Decrease available quantity
-      setIssueData(updatedData);
+     
       const response = await fetch(
         "/api/inventory/issuance/incharge/approve/",
         {
@@ -249,11 +249,11 @@ const IssueItemTable = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ ...updatedData, isApproved: false }),
+          body: JSON.stringify({ ...issueData, isApproved: true }),
         },
       );
       if (!response.ok) {
-        toast.error("Failed to reject the request.", {
+        toast.success("Failed to accept the request.", {
           position: "top-right",
           autoClose: 3000,
         });
@@ -273,7 +273,23 @@ const IssueItemTable = () => {
     const rejectedItem = updatedData[index];
 
     updatedData.splice(index, 1); // Remove the rejected request
-    setIssueData({ ...updatedData });
+    const response = await fetch(
+      "/api/inventory/issuance/incharge/approve/",
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...issueData, isApproved: false }),
+      },
+    );
+    if (!response.ok) {
+      toast.error("Failed to reject the request.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      return;
+    }
     setNotification(
       `Request ${rejectedItem.requestId} has been rejected and removed.`,
     );

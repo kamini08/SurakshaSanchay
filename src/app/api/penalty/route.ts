@@ -10,6 +10,7 @@ export async function POST(req: Request) {
     const { isPenalty, ...data } = body;
     const { userId } = data;
 
+
     const user = await prisma.user.findUnique({
       where: { govId: userId },
     });
@@ -19,12 +20,13 @@ export async function POST(req: Request) {
     }
 
     if (isPenalty) {
+      console.log(data);
       const penalty = await prisma.penalty.create({
         data: {
-          user,
           ...data,
         },
       });
+      
       const numberOfStars = penalty.numberOfStarsReduced;
       const newStars = user?.stars ? user?.stars : 5 - numberOfStars;
       await prisma.user.update({

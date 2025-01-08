@@ -141,11 +141,12 @@ const PenaltyForm: React.FC = () => {
 
       {/* Penalty Reason */}
       <div className="mb-4">
-        <label htmlFor="penaltyReason" className="mb-2 block">
+        <label htmlFor="reason" className="mb-2 block">
           Penalty Reason
         </label>
         <select
-          id="penaltyReason"
+          id="reason"
+          
           className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
           value={penalty.reason}
           onChange={handleChange}
@@ -159,11 +160,11 @@ const PenaltyForm: React.FC = () => {
 
       {/* Penalty Amount */}
       <div className="mb-4">
-        <label htmlFor="penaltyAmount" className="mb-2 block">
+        <label htmlFor="amount" className="mb-2 block">
           Penalty Amount
         </label>
         <input
-          id="penaltyAmount"
+          id="amount"
           type="number"
           className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
           placeholder="Enter Penalty Amount"
@@ -174,11 +175,11 @@ const PenaltyForm: React.FC = () => {
 
       {/* Stars Reduced */}
       <div className="mb-4">
-        <label htmlFor="starsReduced" className="mb-2 block">
+        <label htmlFor="numberOfStarsReduced" className="mb-2 block">
           Number of Stars Reduced
         </label>
         <input
-          id="starsReduced"
+          id="numberOfStarsReduced"
           type="number"
           className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
           placeholder="Enter Stars Reduced"
@@ -189,11 +190,11 @@ const PenaltyForm: React.FC = () => {
 
       {/* Description */}
       <div className="mb-4">
-        <label htmlFor="penaltyDescription" className="mb-2 block">
+        <label htmlFor="description" className="mb-2 block">
           Description
         </label>
         <textarea
-          id="penaltyDescription"
+          id="description"
           className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
           placeholder="Enter Description"
           value={penalty.description}
