@@ -1,20 +1,24 @@
 import { sendingEmail } from "@/lib/mail";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+import { auth } from "../../../../../../../auth";
 
 const prisma = new PrismaClient();
 
 export async function PUT(req: Request) {
   try {
+    const session = await auth();
+    const currentId = session?.user.id || "";
     const body = await req.json(); // Parse request body
+    console.log(body);
     const {
-      userId,
       category,
       name,
       inchargeId,
       requestId,
-      isApproved,
       discardReason,
+      isApproved,
+      userId,
     } = body;
 
     const user = await prisma.user.findUnique({
@@ -37,31 +41,30 @@ export async function PUT(req: Request) {
             user: true,
           },
         });
-        const item = await prisma.inventoryItem.findFirst({
-          where: {
-            AND: [
-              { type: name },
-              {
-                userId: null,
-              },
-              {
-                issuedTo: user?.govId,
-              },
-              {
-                location: user.location,
-              },
-            ],
-          },
-        });
-        const updateItem = await prisma.inventoryItem.update({
-          where: {
-            itemId: item?.itemId,
-          },
-          data: {
-            status: "UNAVAILABLE",
-            userId,
-          },
-        });
+        const items = await prisma.inventoryItem.findMany({
+                take: request.quantity,
+                where: {
+                  AND: [
+                    { type: request.name },
+                    {
+                      userId: null,
+                    },
+                    {
+                      issuedTo: null,
+                    },
+                  ],
+                },
+              });
+
+              items.map(async (item) => {
+                await prisma.inventoryItem.update({
+                  where: { itemId: item.itemId },
+                  data: {
+                    issuedTo: userId,
+                  },
+                });
+              });
+        
         const bhoomi = await prisma.notification.create({
           data: {
             userId: request.userId || "",
@@ -87,18 +90,22 @@ export async function PUT(req: Request) {
       const request = await prisma.issuanceRequest.update({
         where: { id: requestId },
         data: { status: "REJECTED", discardReason },
-        include: {
-          user: true,
-        },
       });
 
       const bhoomi = await prisma.notification.create({
         data: {
-          userId: request.userId || "",
-          inchargeId: request.inchargeId || "",
-          message: `Issuance request created by ${request.user?.name} having govId ${userId}. `,
+          userId,
+          inchargeId: currentId,
+          message: `Issuance request rejected by ${user.name} having govId ${userId}. `,
         },
       });
+      // const bhoomi = await prisma.notification.create({
+      //   data: {
+      //     userId: request.userId || "",
+      //     inchargeId: request.inchargeId || "",
+      //     message: `Issuance request created by ${request.user?.name} having govId ${userId}. `,
+      //   },
+      // });
       const incharge = await prisma.user.findUnique({
         where: { id: inchargeId },
       });

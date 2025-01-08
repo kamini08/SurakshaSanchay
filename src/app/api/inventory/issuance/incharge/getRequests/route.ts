@@ -29,7 +29,6 @@ export async function GET(req: Request) {
         user: true,
       },
     });
-    console.log(requests);
 
     for (let i = 0; i < requests.length; i++) {
       const available = await prisma.inventoryItem.count({

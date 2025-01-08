@@ -177,11 +177,11 @@ const RequestMaintenanceManagement = () => {
 
       if (!response.ok) {
         const errorResponse = await response.json();
-        throw new Error(errorResponse.message || `Failed to update status`);
         toast.error("Failed to update status", {
           position: "top-right",
           autoClose: 3000,
         });
+        
       }
 
       const updatedRequest = await response.json();
