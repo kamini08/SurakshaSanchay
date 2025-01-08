@@ -188,22 +188,22 @@ const ViewInventoryIndividual = () => {
 
       
 
-      const imageData = file.split(",")[1];
-      // Upload to AWS S3
-      const params: any = {
-        Bucket: process.env.S3_BUCKET_NAME,
-        Key: `transfer-details.pdf`, // Unique file name
-        Body: Buffer.from(imageData),
-        ContentType: "image/png",
-      };
+      // const imageData = file.split(",")[1];
+      // // Upload to AWS S3
+      // const params: any = {
+      //   Bucket: process.env.S3_BUCKET_NAME,
+      //   Key: `transfer-details.pdf`, // Unique file name
+      //   Body: Buffer.from(imageData),
+      //   ContentType: "image/png",
+      // };
     
     try {
 
-      const data = await s3.upload(params).promise();
+      // const data = await s3.upload(params).promise();
      
-      console.log(`File uploaded successfully. ${data.Location}`);
+      // console.log(`File uploaded successfully. ${data.Location}`);
       
-      const imageUrl = data.Location;
+      // const imageUrl = data.Location;
   
      
   
